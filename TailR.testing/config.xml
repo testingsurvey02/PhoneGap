@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='utf-8'?>
-<widget id="com.stavyah.tailorrani" 
+<widget id="com.testing.learningApp" 
 version="1.0.1"
 versionCode = "1" 
 xmlns="http://www.w3.org/ns/widgets" 
@@ -9,8 +9,8 @@ xmlns:cdv="http://cordova.apache.org/ns/1.0">
     <description>
         An application for learning PhoneGap.
     </description>
-    <author email="mangesh@stavyah.com" href="http://www.stavyah.com">
-        Stavyah Technologies LLP
+    <author email="testingsurvey02@gmail.com" href="#">
+        testingsurvey
     </author>
     
     <content src="index.html" />
