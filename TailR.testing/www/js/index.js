@@ -83,7 +83,7 @@ $( document ).on( "mobileinit", function() {
 });
 
 var connectionType;
-var appName='Tailor Rani';
+var appName='PhoneGap001';
 
 var rightPanelObj = '<div id="menu-wrapper">'+
 							'<div class="menu-title">'+
