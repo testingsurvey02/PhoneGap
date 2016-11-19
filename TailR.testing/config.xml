@@ -7,7 +7,7 @@ xmlns:gap   = "http://phonegap.com/ns/1.0"
 xmlns:cdv="http://cordova.apache.org/ns/1.0">
     <name>PhoneGap001</name>
     <description>
-        An application for TailorRani Web App for Tailors.
+        An application for learning PhoneGap.
     </description>
     <author email="mangesh@stavyah.com" href="http://www.stavyah.com">
         Stavyah Technologies LLP
