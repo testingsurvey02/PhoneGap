@@ -1719,6 +1719,6 @@ function insertMeasurementsDetails(tx) {
 	function mainGalleryFun(object){
 		var cat_id = $(object).data('cat_id');
 		$('.galleriesClass').hide();
-		$(".gallcatid"+cat_id+'0').show();
+		$(".gallcatid"+cat_id).show();
 	}
 	
