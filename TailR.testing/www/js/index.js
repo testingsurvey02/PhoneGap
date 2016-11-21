@@ -895,23 +895,14 @@ function insertProductDetails(tx) {
 		var server_prod_id = value['id'];
 		var name = value['name'];
 		var description = value['description'];
-		var attribute_details = value['attributes'];
-		//var attributeObj = {};
-		//attributeObj['attributeArr'] = attribute_details;
-		var attributeJson = JSON.stringify(attribute_details);
+		var attributeJson = JSON.stringify(value['attributes']);
 		var prod_status = value['status'];
 		var measurement_typeid = value['measurement_typeid'];
 		var update_timestamp = '';
-		
-		var category = value['category'];
-		//var categoryObj = {};
-		//categoryObj['categoryArr'] = category;
-		var categoryJson = JSON.stringify(category);
-		
-		var gallery = value['gallary'];
+		var categoryJson = JSON.stringify(value['category']);
 		//var galleryObj = {};
 		//galleryObj['galleryArr'] = gallery;
-		var galleryJson = JSON.stringify(gallery);
+		var galleryJson = JSON.stringify(value['gallary']);
 		//alert(server_prod_id +' name ' +name+ ' description ' +description + 'prod_status  '+prod_status);
 		//alert(attributeJson +' measurement_typeid ' +measurement_typeid+ ' categoryJson ' +categoryJson + 'galleryJson  '+galleryJson);
 		
@@ -989,17 +980,14 @@ function insertAttributesDetails(tx) {
 		var identifier = value['identifier'];
 		var attr_status = value['status'];
 		var backend_name = value['backend_name'];
-		var option = value['option'];
 		//var image_url = value['image_url'];
-		var optionObj = {};
-		optionObj['optionArr'] = option;
-		var optionJson = JSON.stringify(optionObj);
+		var optionJson = JSON.stringify(value['option']);
 		var update_timestamp = '';
 		// id integer primary key autoincrement, server_attr_id integer, name text, identifier text, status integer, backend_name text, update_timestamp text, option text
 		//alert('optionJson '+optionJson+' value'+value);
 		tx.executeSql('INSERT INTO product_attributes(server_attr_id, name, identifier, status, backend_name, update_timestamp, option) VALUES (?,?,?,?,?,?,?)',
    	    			[server_attr_id, name,identifier, attr_status, backend_name, update_timestamp, optionJson], function(tx, res) {
-	   	         //alert("Attribute Data insertId: " + res.insertId + " -- res.rowsAffected 1"+res.rowsAffected);
+	   	         alert("Attribute Data insertId: " + res.insertId + " -- res.rowsAffected 1"+res.rowsAffected);
   	    });
 	});
 }
@@ -1067,21 +1055,17 @@ function insertMeasurementsDetails(tx) {
 	tx.executeSql('CREATE TABLE IF NOT EXISTS measurement_details (id integer primary key autoincrement, name text, server_measurement_id integer, status integer, update_timestamp timestamp, group text)');
 	
 	jQuery.each(measurementJsonData, function(index,value) {
-		// name, server_measurement_id, status, update_timestamp, group, measurement_type_id
 		
 		var server_measurement_id = value["id"];
 		var name = value["name"];
-		var group = value["group"];
 		var meas_status = value["status"];
 		var updateTimestamp = '';
-		//var measurementTypeId = value['measurement_type_id'];
-		var groupObj = {};
-		groupObj['groupArr'] = group;
-		var groupJson = JSON.stringify(groupObj);
+		var groupJson = JSON.stringify(value["group"]);
 		var update_timestamp = '';
+		alert('server_measurement_id '+server_measurement_id + name+ +groupJson);
 		tx.executeSql('INSERT INTO measurement_details(name, server_measurement_id, status, update_timestamp, group) VALUES (?,?,?,?,?)',
    	    			[name, server_measurement_id,meas_status, update_timestamp, groupJson], function(tx, res) {
-	   	         alert("Attribute Data insertId: " + res.insertId + " -- res.rowsAffected 1"+res.rowsAffected);
+	   	         alert("Measurement Data insertId: " + res.insertId + " -- res.rowsAffected 1"+res.rowsAffected);
   	    });
 	});
 }
@@ -1613,7 +1597,7 @@ function insertMeasurementsDetails(tx) {
 		var responseJson = data;
 		//db.transaction(insertMeasurementsDetails, errorCB, successCB);
 		measurementJsonData = responseJson["result"];
-		alert('measurementJsonData');
+		alert('measurementJsonData' + measurementJsonData + '1600');
 		//alert(attributeJsonData);
 		// FIXME CHECK JSON DATA
 		db.transaction(insertMeasurementsDetails, errorCBInsertMeasurementDetails, successCBInsertMeasurementDetails);
