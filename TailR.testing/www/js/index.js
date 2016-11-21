@@ -1315,6 +1315,8 @@ function errorCBMeasurementListDB() {
 	var productJsonData;
 	var measurementJsonData;
 	var measurementTypeId = 0;
+	var productImageData = '';
+	var attributeImageData = '';
 
 	function getCategoriesDataFromServer(){
 		var dataToSend = {};
@@ -1439,6 +1441,7 @@ function errorCBMeasurementListDB() {
 	function successCBServerProductFn(data){
 		var responseJson = $.parseJSON(JSON.stringify(data));
 		productJsonData = responseJson["result"];
+		productImageData = responseJson['image_url'];
 		//alert('productJsonData '+productJsonData);
 		//alert(productJsonData);
 		// FIXME CHECK JSON DATA
@@ -1470,6 +1473,7 @@ function errorCBMeasurementListDB() {
 	function successCallbackAttributesFn(data){
 		var responseJson = $.parseJSON(JSON.stringify(data));
 		attributeJsonData = responseJson["result"];
+		attributeImageData = responseJson['image_url'];
 		//alert(attributeJsonData);
 		// FIXME CHECK JSON DATA
 		db.transaction(insertAttributesDetails, errorCBInsertAttributeDetails, successCBInsertAttributeDetails);
@@ -1498,6 +1502,7 @@ function errorCBMeasurementListDB() {
 				alert('Inside Gallery');
 				var gallery_id = valueObj['id'];
 				var image = valueObj["image"];
+				var prodImage = productImageData + '/'+image;
 				var image1 = 'img/product'+index+'.jpg';
 				//var imageTag = '<img class="imageAppendAttrMea" src="'+image1+'"  alt="Saree" style="width:304px;height:500px;"/>';
 				//attrMeasPageGallery += imageTag;
@@ -1510,7 +1515,7 @@ function errorCBMeasurementListDB() {
 					//}
 					var galleryImage = '<div class="col-xs-12 col-sm-6 col-md-4 col-lg-4 galleriesClass gallcatid'+server_cat_id+'" data-gall_id="'+gallery_id+'" data-cat_id="'+server_cat_id+'" '+
 							'data-prod_id="'+server_prod_id+'" data-pro_index="'+index+'" data-lid="'+local_db_id+'" onclick="goToAttributeDiv(this)">'+
-							'<img src="'+image1+'"  alt="Saree" style="width:304px;height:500px;"/>'+prod_name+'</div>';
+							'<img src="'+prodImage+'"  alt="Saree" style="width:304px;height:500px;"/>'+prod_name+'</div>';
 							//alert('galleryImage -- '+galleryImage);
 					mainPageGallery += galleryImage;
 					
@@ -1558,11 +1563,13 @@ function errorCBMeasurementListDB() {
 			jQuery.each(galleryObj, function(indexGal, valueGal){
 				alert('goToAttributePage galleryObj Inside Forloop');
 				var galId = valueGal['id'];
+				var image = valueGal['image'];
 				if(galId == gallCurrId){
 					measurementTypeId = jsonObj['measurement_typeid'];
 					$('.imageAppendAttrMea').remove();
 					var image1 = 'img/product'+index+'.jpg';
-					var imageTag = '<img class="imageAppendAttrMea" src="'+image1+'"  alt="Saree" style="width:304px;height:500px;"/>';
+					var prodImage = productImageData + '/'+image;
+					var imageTag = '<img class="imageAppendAttrMea" src="'+prodImage+'"  alt="Saree" style="width:304px;height:500px;"/>';
 					$('.attributePageLocation').append(imageTag);
 					$('.measurementPageLocation').append(imageTag);
 				}
@@ -1624,8 +1631,9 @@ function errorCBMeasurementListDB() {
 					jQuery.each(optionObj, function(index2,value2) {
 						var optionName = value2['name'];
 						var optionImg = value2['image'];
+						var optionImages = attributeImageData + '/'+optionImg;
 						optionImg = 'img/attr'+index2+'.png';
-						var tempOptDiv = '<div class="col-xs-6 col-sm-4 col-md-4 col-lg-4 optMenu-bar" data-cat_id="'+catId+'" data-prod_id="'+prodId+'" data-attrid="'+server_attr_id+'" data-lid="'+attrId+'"><div class="box"><img src="'+optionImg+'" alt="Saree" style="width:200px;height:200px;">'+optionName+'</div></div>';
+						var tempOptDiv = '<div class="col-xs-6 col-sm-4 col-md-4 col-lg-4 optMenu-bar" data-cat_id="'+catId+'" data-prod_id="'+prodId+'" data-attrid="'+server_attr_id+'" data-lid="'+attrId+'"><div class="box"><img src="'+optionImages+'" alt="Saree" style="width:200px;height:200px;">'+optionName+'</div></div>';
 						optionMainDiv += tempOptDiv;
 					});
 					 attributeDiv += tempAttrDiv;
