@@ -1513,8 +1513,128 @@ function insertMeasurementsDetails(tx) {
 		db.transaction(insertAttributesDetails, errorCBInsertAttributeDetails, successCBInsertAttributeDetails);
 	}
 	
-	function getAttrDataToAppend(prodAttrArray, attrArray, cat_Id, prod_Id){
-		appendAttrDataByArraysAndIds(prodAttrArray, attrArray, cat_Id, prod_Id);
+	function appendProdListDB(prodArrData) {
+		prodArrData = productDetailsArrSession;
+		var mainPageGallery = '';
+		var attrMeasPageGallery = '';
+		//alert('append Product Gallery');
+		jQuery.each(prodArrData, function(index,value) {
+			var jsonObj=value;
+			var local_db_id=jsonObj["id"];
+			var server_prod_id=jsonObj["server_prod_id"];
+			var prod_name=jsonObj["prod_name"];
+			var prod_description=jsonObj["prod_description"];
+			var galleryObj = jQuery.parseJSON(jsonObj.gallery);
+			var categoryObj = jQuery.parseJSON(jsonObj.categoryData);
+			
+			jQuery.each(galleryObj , function(indexObj,valueObj) {
+				var gallery_id = valueObj['id'];
+				var image = valueObj["image"];
+				var image1 = 'img/product'+index+'.jpg';
+				//var imageTag = '<img class="imageAppendAttrMea" src="'+image1+'"  alt="Saree" style="width:304px;height:500px;"/>';
+				//attrMeasPageGallery += imageTag;
+				//var image2 = 'img/product/product2.jpg';
+				jQuery.each(categoryObj, function(indexCat, valueCat){
+					
+					var server_cat_id = valueCat['cat_id'];
+					//if(index == 0){
+						
+					//}
+					var galleryImage = '<div class="col-xs-12 col-sm-6 col-md-4 col-lg-4 galleriesClass gallcatid'+server_cat_id+'" data-gall_id="'+gallery_id+'" data-cat_id="'+server_cat_id+'" '+
+							'data-prod_id="'+server_prod_id+'" data-pro-index="'+index+'" data-lid="'+local_db_id+'" onclick="goToAttributeDiv(this)">'+
+							'<img src="'+image1+'"  alt="Saree" style="width:304px;height:500px;"/>'+prod_name+'</div>';
+							//alert('galleryImage -- '+galleryImage);
+					mainPageGallery += galleryImage;
+					
+				});
+				
+				//alert(' appendProdListDB  gallcatid'+server_cat_id+'');
+			});
+		});
+		//alert('mainPageGallery ' +mainPageGallery);
+		$("#mainPageId").find('.galleriesClass').remove();
+		//$('#prodArrData').val(prodArrData);
+		$("#mainPageId").find('.product-list').append(mainPageGallery);
+		$('#mainPageId .product-list').find('.galleriesClass').hide();
+		$('.imageAppendAttrMea').remove();
+		//$('.imageAppendSelMea').remove();
+		//$('.attributePageLocation').append(attrMeasPageGallery);
+		//$('.measurementPageLocation').append(attrMeasPageGallery);
+	}
+	
+	function goToAttributeDiv(currentData){
+		var gallCurrId = $(currentData).data('gall_id');
+		var pro_index = $(currentData).data('pro-index');
+		var productDataForAttr = productDetailsArrSession; 
+		/*
+		jsonObj.id = results.rows.item(i)['id'];
+		jsonObj.server_prod_id = results.rows.item(i)['server_prod_id'];
+		jsonObj.prod_name = results.rows.item(i)['name'];
+		jsonObj.prod_description = results.rows.item(i)['description'];
+		jsonObj.measurement_typeid = results.rows.item(i)['measurement_typeid'];
+		jsonObj.prod_status = results.rows.item(i)['status'];
+		jsonObj.attribute_details = results.rows.item(i)['attribute_details'];
+		jsonObj.gallery = results.rows.item(i)['gallery'];
+		jsonObj.server_cat_id = results.rows.item(i)['server_cat_id'];
+		jsonObj.image_url = results.rows.item(i)['image_url'];
+		*/
+		var selectMeasBarPageDiv = '';
+		var attrMeasPageGallery = '';
+		var attrIds = []; var prodAttrIds = [];
+		//alert('goToAttributePage');
+		//alert('productDataForAttr -- '+productDataForAttr);
+		jQuery.each(productDataForAttr, function(index,value) {
+			//alert('goToAttributePage Inside Forloop');
+			var jsonObj = value;
+			var local_db_id = jsonObj["id"];
+			var server_prod_id = jsonObj["server_prod_id"];
+			var prod_name = jsonObj["prod_name"];
+			var prod_description = jsonObj["prod_description"];
+			//var server_cat_id = jsonObj["server_cat_id"];
+			
+			var galleryObj = jQuery.parseJSON(jsonObj.gallery);
+			var categoryObj = jQuery.parseJSON(jsonObj.categoryData);
+			var attributeObj = jQuery.parseJSON(jsonObj.attribute_details);
+			
+			jQuery.each(galleryObj, function(indexGal, valueGal){
+				var galId = valueGal['id'];
+				if(galId == gallCurrId){
+					$('.imageAppendAttrMea').remove();
+					var image1 = 'img/product'+index+'.jpg';
+					var imageTag = '<img class="imageAppendAttrMea" src="'+image1+'"  alt="Saree" style="width:304px;height:500px;"/>';
+					$('.attributePageLocation').append(imageTag);
+					$('.measurementPageLocation').append(imageTag);
+				}
+			});
+			
+			var mainPageCatId = $(currentData).data('cat_id');
+			var mainPageProdId = $(currentData).data('prod_id');
+			
+			jQuery.each(categoryObj, function(indexCat, valueCat){
+				var server_cat_id = valueCat['cat_id'];
+				//alert(mainPageCatId + " "+ server_prod_id +" " +mainPageProdId + " " +server_cat_id);
+				if(mainPageCatId == server_cat_id && mainPageProdId == server_prod_id){
+					jQuery.each(attributeObj, function(indexObj,valueObj) {
+						//alert('goToAttributePage AttributeArr');
+						var paIds = valueObj['id'];
+						var attrId = valueObj['attr_id'];
+						prodAttrIds[indexObj] = paIds;
+						attrIds[indexObj] = attrId;
+					});
+					appendAttrDataByArraysAndIds(prodAttrIds, attrIds, server_cat_id, server_prod_id);
+				}
+			});
+			
+			//gotoAttributePage();	
+			
+			
+		});
+		/*$("#mainPageId").find('.product-list').append(mainPageGallery);
+		$('.attributePageLocation').remove();
+		$('.measurementPageLocation').remove();
+		$('.attributePageLocation').append(attrMeasPageGallery);
+		$('.measurementPageLocation').append(attrMeasPageGallery);*/
+		
 	}
 	
 	function appendAttrDataByArraysAndIds(prodAttrArr, attrArr, catId, prodId){
