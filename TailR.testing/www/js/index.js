@@ -916,6 +916,7 @@ function insertProductDetails(tx) {
 }
 
 function successCBProdListDB() {
+	alert(productDetailsArrSession);
 	appendProdListDB(productDetailsArrSession);
 }	
 
@@ -1517,7 +1518,7 @@ function insertMeasurementsDetails(tx) {
 		prodArrData = productDetailsArrSession;
 		var mainPageGallery = '';
 		var attrMeasPageGallery = '';
-		//alert('append Product Gallery');
+		alert('append Product Gallery');
 		jQuery.each(prodArrData, function(index,value) {
 			var jsonObj=value;
 			var local_db_id=jsonObj["id"];
