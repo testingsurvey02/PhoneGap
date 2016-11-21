@@ -954,15 +954,15 @@ function getProductsListFromLocal(){
 							var jsonObj={};
 							//server_prod_id, name, description, update_timestamp, measurement_typeid, status, attribute_details, gallery, category
 							//server_prod_id, name, description, update_timestamp, measurement_typeid, status, attribute_details, gallery, server_cat_prod_id, server_cat_id, image_url
-							jsonObj.id = results.rows.item(i)['id'];
-							jsonObj.server_prod_id = results.rows.item(i)['server_prod_id'];
-							jsonObj.prod_name = results.rows.item(i)['name'];
-							jsonObj.prod_description = results.rows.item(i)['description'];
-							jsonObj.measurement_typeid = results.rows.item(i)['measurement_typeid'];
-							jsonObj.prod_status = results.rows.item(i)['status'];
-							jsonObj.attribute_details = results.rows.item(i)['attribute_details'];
-							jsonObj.gallery = results.rows.item(i)['gallery'];
-							jsonObj.category = results.rows.item(i)['category'];
+							jsonObj['id'] = results.rows.item(i)['id'];
+							jsonObj['server_prod_id'] = results.rows.item(i)['server_prod_id'];
+							jsonObj['prod_name'] = results.rows.item(i)['name'];
+							jsonObj['prod_description'] = results.rows.item(i)['description'];
+							jsonObj['measurement_typeid'] = results.rows.item(i)['measurement_typeid'];
+							jsonObj['prod_status'] = results.rows.item(i)['status'];
+							jsonObj['attribute_details'] = results.rows.item(i)['attribute_details'];
+							jsonObj['gallery'] = results.rows.item(i)['gallery'];
+							jsonObj['category'] = results.rows.item(i)['category'];
 							productDetailsArrSession.push(jsonObj);
 							
 						}
@@ -1510,6 +1510,8 @@ function insertMeasurementsDetails(tx) {
 		prodArrData = productDetailsArrSession;
 		var mainPageGallery = '';
 		var attrMeasPageGallery = '';
+		
+		
 		alert('append Product Gallery : ' + prodArrData);
 		jQuery.each(prodArrData, function(index,value) {
 			var jsonObj=value;
@@ -1517,8 +1519,11 @@ function insertMeasurementsDetails(tx) {
 			var server_prod_id=jsonObj["server_prod_id"];
 			var prod_name=jsonObj["prod_name"];
 			var prod_description=jsonObj["prod_description"];
-			var galleryObj = jQuery.parseJSON(jsonObj.gallery);
-			var categoryObj = jQuery.parseJSON(jsonObj.category);
+			var galleryObj = jQuery.parseJSON(jsonObj['gallery']);
+			var categoryObj = jQuery.parseJSON(jsonObj['category']);
+			 
+			alert('galleryObj' + galleryObj);
+			alert('categoryObj' + categoryObj);
 			
 			jQuery.each(galleryObj , function(indexObj,valueObj) {
 				alert('Inside Gallery');
