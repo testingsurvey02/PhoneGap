@@ -1498,14 +1498,15 @@ function insertMeasurementsDetails(tx) {
 			jQuery.each(galleryObj , function(indexObj,valueObj) {
 				var gallery_id = valueObj['id'];
 				var image = valueObj["image"];
-				
+				var image1 = 'img/product'+index+'.jpg';
+				var imageTag = '<img class="imageAppendAttrMea" src="'+image1+'"  alt="Saree" style="width:304px;height:500px;"/>';
+				attrMeasPageGallery += imageTag;
 				//var image2 = 'img/product/product2.jpg';
 				jQuery.each(categoryObj, function(indexCat, valueCat){
-					var image1 = 'img/product'+index+'.jpg';
+					
 					var server_cat_id = valueCat['cat_id'];
 					//if(index == 0){
-						var imageTag = '<img class="imageAppendAttrMea" src="'+image1+'"  alt="Saree" style="width:304px;height:500px;"/>';
-						attrMeasPageGallery += imageTag;
+						
 					//}
 					var galleryImage = '<div class="col-xs-12 col-sm-6 col-md-4 col-lg-4 galleriesClass gallcatid'+server_cat_id+'" data-gall_id="'+gallery_id+'" data-cat_id="'+server_cat_id+'" '+
 							'data-prod_id="'+server_prod_id+'" data-lid="'+local_db_id+'" onclick="goToAttributeDiv(this)">'+
