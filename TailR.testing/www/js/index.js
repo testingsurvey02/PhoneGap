@@ -1052,7 +1052,7 @@ function getAttributeListFromLocal(){
 }
 function insertMeasurementsDetails(tx) {
 	
-	tx.executeSql('CREATE TABLE IF NOT EXISTS measurement_details (id integer primary key autoincrement, name text, server_measurement_id integer, status integer, update_timestamp timestamp, group text)');
+	tx.executeSql('CREATE TABLE IF NOT EXISTS measurement_details (id integer primary key autoincrement, name text, server_measurement_id integer, status integer, update_timestamp text, group text)');
 	
 	jQuery.each(measurementJsonData, function(index,value) {
 		
@@ -1060,16 +1060,15 @@ function insertMeasurementsDetails(tx) {
 		var name = value["name"];
 		var meas_status = value["status"];
 		var updateTimestamp = '';
-		alert('Group '+value["group"]);
 		var groupJson = '';
 		if(value["group"] != ''){
 			groupJson = JSON.stringify(value["group"]);
 		}
 		var update_timestamp = '';
-		alert('server_measurement_id '+server_measurement_id + name +' ' + groupJson);
+		//alert('server_measurement_id '+server_measurement_id + name +' ' + groupJson);
 		tx.executeSql('INSERT INTO measurement_details(name, server_measurement_id, status, update_timestamp, group) VALUES (?,?,?,?,?)',
    	    			[name, server_measurement_id,meas_status, update_timestamp, groupJson], function(tx, res) {
-	   	         alert("Measurement Data insertId: " + res.insertId + " -- res.rowsAffected 1"+res.rowsAffected);
+	   	         //alert("Measurement Data insertId: " + res.insertId + " -- res.rowsAffected 1"+res.rowsAffected);
   	    });
 	});
 }
@@ -1229,7 +1228,7 @@ function insertMeasurementsDetails(tx) {
 			window.localStorage["dbreadyflag"] = 1;
 			// checkProductInLocalDB();
 		}else{
-			alert('category Details  count 0');
+			//alert('category Details  count 0');
 			getCategoriesDataFromServer();
 		}
 	}
@@ -1237,10 +1236,10 @@ function insertMeasurementsDetails(tx) {
 	function checkProductInLocalDB(){
 		var len = getCountByTableName("product_details");
 		if(len > 0){
-			alert('Product Details ');
+			//alert('Product Details ');
 			//checkAttributeInLocalDB();
 		}else{
-			alert('Product Details count 0');
+			//alert('Product Details count 0');
 			//getProductDataFromServer();
 		}
 	}
@@ -1248,10 +1247,10 @@ function insertMeasurementsDetails(tx) {
 	function checkAttributeInLocalDB(){
 		var len = getCountByTableName("product_attributes");
 		if(len > 0){
-			alert('Attribute Details');
+			//alert('Attribute Details');
 			//checkMeasurementInLocalDB();
 		}else{
-			alert('Attribute Details count 0');
+			//alert('Attribute Details count 0');
 			//getAttributesDataFromServer();
 		}
 	}
@@ -1259,10 +1258,10 @@ function insertMeasurementsDetails(tx) {
 	function checkMeasurementInLocalDB(){
 		var len = getCountByTableName("measurement_details");
 		if(len > 0){
-			alert('Measurement Details');
+			//alert('Measurement Details');
 			//getCategoriesListFromLocal();
 		}else{
-			alert('Measurement Details  count 0');
+			//alert('Measurement Details  count 0');
 			//getMeasurementsDataFromServer();
 		}
 	}
@@ -1401,7 +1400,7 @@ function insertMeasurementsDetails(tx) {
 	function successCBServerProductFn(data){
 		var responseJson = $.parseJSON(JSON.stringify(data));
 		productJsonData = responseJson["result"];
-		alert('productJsonData '+productJsonData);
+		//alert('productJsonData '+productJsonData);
 		//alert(productJsonData);
 		// FIXME CHECK JSON DATA
 		db.transaction(insertProductDetails, errorCBInsertProductDetails, successCBInsertProductDetails);
@@ -1436,7 +1435,7 @@ function insertMeasurementsDetails(tx) {
 					var galleryImage = '<div class="col-xs-6 col-sm-4 col-md-4 col-lg-4 galleriesClass gallcatid'+server_cat_id+'" data-gall_id="'+gallery_id+'" data-cat_id="'+server_cat_id+'" '+
 							'data-prod_id="'+server_prod_id+'" data-lid="'+local_db_id+'" onclick="appendAttributeData(this)">'+
 							'<img src="'+image+'"  alt="Saree" style="width:304px;height:500px;"/>'+prod_name+'</div>';
-							alert('galleryImage -- '+galleryImage);
+							//alert('galleryImage -- '+galleryImage);
 					mainPageGallery += galleryImage;
 					attrMeasPageGallery += image;
 				});
@@ -1601,7 +1600,7 @@ function insertMeasurementsDetails(tx) {
 		var responseJson = data;
 		//db.transaction(insertMeasurementsDetails, errorCB, successCB);
 		measurementJsonData = responseJson["result"];
-		alert('measurementJsonData' + measurementJsonData + '1600');
+		//alert('measurementJsonData' + measurementJsonData + '1600');
 		//alert(attributeJsonData);
 		// FIXME CHECK JSON DATA
 		db.transaction(insertMeasurementsDetails, errorCBInsertMeasurementDetails, successCBInsertMeasurementDetails);
@@ -1618,7 +1617,7 @@ function insertMeasurementsDetails(tx) {
 		    
 	}	
 	function errorCBInsertMeasurementDetails(err) {
-		alert("errorCBInsertAttributeDetails");
+		console.log("errorCBInsertMeasurementDetails");
 	}
 	
 	function getMeasurementsJson(){
