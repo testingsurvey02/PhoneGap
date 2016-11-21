@@ -1406,74 +1406,58 @@ function insertMeasurementsDetails(tx) {
 		db.transaction(insertProductDetails, errorCBInsertProductDetails, successCBInsertProductDetails);
 	}
 	
-	function appendProdListDB(prodArrData) {
-		var mainPageGallery = '';
-		var attrMeasPageGallery = '';
-		
-		jQuery.each(prodArrData, function(index,value) {
-			var jsonObj=value;
-			var local_db_id=jsonObj["id"];
-			var server_prod_id=jsonObj["server_prod_id"];
-			var prod_name=jsonObj["prod_name"];
-			var prod_description=jsonObj["prod_description"];
-			var prodcat_id = jsonObj["prodcat_id"];
-			var server_cat_id=jsonObj["server_cat_id"];
-			var gallery=jsonObj["gallery"];
-			var category=jsonObj["category"];
-			//alert('appendProdListDB');
-			//alert('server_prod_id '+server_prod_id+' prod_name '+server_cat_id);
-			//alert(gallery);
-			var galleryObj = jQuery.parseJSON(gallery);
-			var categoryObj = jQuery.parseJSON(category);
-			jQuery.each(galleryObj, function(indexObj,valueObj) {
-				var gallery_id = valueObj['id'];
-				var image = valueObj["image"];
-				image = 'img/custom/img1.jpg';
-				jQuery.each(categoryObj, function(indexcat,valueCat) {
-					var server_cat_id = valueCat['cat_id'];
-					var imageTag = '<img class="imageAppendAttrMeaCust" src="'+image+'"  alt="Saree" style="width:304px;height:500px;"/>';
-					var galleryImage = '<div class="col-xs-6 col-sm-4 col-md-4 col-lg-4 galleriesClass gallcatid'+server_cat_id+'" data-gall_id="'+gallery_id+'" data-cat_id="'+server_cat_id+'" '+
-							'data-prod_id="'+server_prod_id+'" data-lid="'+local_db_id+'" onclick="appendAttributeData(this)">'+
-							'<img src="'+image+'"  alt="Saree" style="width:304px;height:500px;"/>'+prod_name+'</div>';
-							//alert('galleryImage -- '+galleryImage);
-					mainPageGallery += galleryImage;
-					attrMeasPageGallery += image;
-				});
-				//alert(' appendProdListDB  gallcatid'+server_cat_id+'');
-			});
-		});
-		//alert('mainPageGallery ' +mainPageGallery);
-		$("#mainPageId").find('.galleriesClass').remove();
-		$("#mainPageId").find('.product-list').append(mainPageGallery);
-		$('#mainPageId .product-list').find('.galleriesClass').hide();
-		$('.imageAppendAttrMeaCust').remove();
-		//$('.imageAppendSelMea').remove();
-		$('.attributePageLocation').append(attrMeasPageGallery);
-		$('.measurementPageLocation').append(attrMeasPageGallery);
-	}
-	
-	function appendAttributeData(currentData){
-		
+	function goToAttributeDiv(currentData){
+		var gallCurrId = $(currentData).data('gall_id');
+		var pro_index = $(currentData).data('pro-index');
 		var productDataForAttr = productDetailsArrSession; 
+		/*
+		jsonObj.id = results.rows.item(i)['id'];
+		jsonObj.server_prod_id = results.rows.item(i)['server_prod_id'];
+		jsonObj.prod_name = results.rows.item(i)['name'];
+		jsonObj.prod_description = results.rows.item(i)['description'];
+		jsonObj.measurement_typeid = results.rows.item(i)['measurement_typeid'];
+		jsonObj.prod_status = results.rows.item(i)['status'];
+		jsonObj.attribute_details = results.rows.item(i)['attribute_details'];
+		jsonObj.gallery = results.rows.item(i)['gallery'];
+		jsonObj.server_cat_id = results.rows.item(i)['server_cat_id'];
+		jsonObj.image_url = results.rows.item(i)['image_url'];
+		*/
 		var selectMeasBarPageDiv = '';
 		var attrMeasPageGallery = '';
 		var attrIds = []; var prodAttrIds = [];
+		//alert('goToAttributePage');
+		//alert('productDataForAttr -- '+productDataForAttr);
 		jQuery.each(productDataForAttr, function(index,value) {
+			//alert('goToAttributePage Inside Forloop');
 			var jsonObj = value;
 			var local_db_id = jsonObj["id"];
 			var server_prod_id = jsonObj["server_prod_id"];
 			var prod_name = jsonObj["prod_name"];
 			var prod_description = jsonObj["prod_description"];
-			var attribute_details = jsonObj["attribute_details"];
-			var attributeObj = jQuery.parseJSON(attribute_details);
-			var category = jsonObj["category"];
-			var categoryObj = jQuery.parseJSON(category);
+			//var server_cat_id = jsonObj["server_cat_id"];
+			
+			var galleryObj = jQuery.parseJSON(jsonObj.gallery);
+			var categoryObj = jQuery.parseJSON(jsonObj.categoryData);
+			var attributeObj = jQuery.parseJSON(jsonObj.attribute_details);
+			
+			jQuery.each(galleryObj, function(indexGal, valueGal){
+				var galId = valueGal['id'];
+				if(galId == gallCurrId){
+					$('.imageAppendAttrMea').remove();
+					var image1 = 'img/product'+index+'.jpg';
+					var imageTag = '<img class="imageAppendAttrMea" src="'+image1+'"  alt="Saree" style="width:304px;height:500px;"/>';
+					$('.attributePageLocation').append(imageTag);
+					$('.measurementPageLocation').append(imageTag);
+				}
+			});
+			
 			var mainPageCatId = $(currentData).data('cat_id');
 			var mainPageProdId = $(currentData).data('prod_id');
-			jQuery.each(categoryObj, function(indexCat,valueCat) {
+			
+			jQuery.each(categoryObj, function(indexCat, valueCat){
 				var server_cat_id = valueCat['cat_id'];
-				if(mainPageProdId == server_prod_id && mainPageCatId == server_cat_id){
-					measurementTypeId = value['measurement_typeid'];
+				//alert(mainPageCatId + " "+ server_prod_id +" " +mainPageProdId + " " +server_cat_id);
+				if(mainPageCatId == server_cat_id && mainPageProdId == server_prod_id){
 					jQuery.each(attributeObj, function(indexObj,valueObj) {
 						//alert('goToAttributePage AttributeArr');
 						var paIds = valueObj['id'];
@@ -1481,9 +1465,13 @@ function insertMeasurementsDetails(tx) {
 						prodAttrIds[indexObj] = paIds;
 						attrIds[indexObj] = attrId;
 					});
-					getAttrDataToAppend(prodAttrIds, attrIds, server_cat_id, server_prod_id);
+					appendAttrDataByArraysAndIds(prodAttrIds, attrIds, server_cat_id, server_prod_id);
 				}
 			});
+			
+			//gotoAttributePage();	
+			
+			
 		});
 		/*$("#mainPageId").find('.product-list').append(mainPageGallery);
 		$('.attributePageLocation').remove();
@@ -1534,8 +1522,6 @@ function insertMeasurementsDetails(tx) {
 		var optionMainDiv = '';
 		//alert('appendAttrDataByArraysAndIds --- ');
 		//alert('attrDetailsArrSession --- '+attrDetailsArrSession);
-		
-		var attrNameIndex0 = '';
 		jQuery.each(attrDetailsArrSession, function(index,value) {
 			var attrId = value['id'];
 			var server_attr_id = value['server_attr_id'];
@@ -1544,33 +1530,30 @@ function insertMeasurementsDetails(tx) {
 			var backend_name = value['backend_name'];
 			var option = value['option'];
 			var optionObj = jQuery.parseJSON(option);
-			if(index == 0){
-				attrNameIndex0 = attr_name;
-			}
+			//alert('optionObj -- '+optionObj);
 			jQuery.each(attrArr, function(index1,value1) {
 				if(value1 == attrId){
-					var tempAttrDiv = '';
-						tempAttrDiv = '<div class="col-xs-2 col-sm-2 col-md-2 col-lg-2 selMenu-bar indexAttr'+index1+'" data-attrIndex="indexAttr'+attr_name+'" onclick="attrMenu(this)" data-cat_id="'+catId+'" data-prod_id="'+prodId+'" data-attrid="'+server_attr_id+'" data-lid="'+attrId+'"><a href="#">'+attr_name+'</a></div>';
+					var tempAttrDiv = '<div class="col-xs-2 col-sm-2 col-md-2 col-lg-2 selMenu-bar" data-cat_id="'+catId+'" data-prod_id="'+prodId+'" data-attrid="'+server_attr_id+'" data-lid="'+attrId+'"><a href="#">'+attr_name+'</a></div>';
 					jQuery.each(optionObj['optionArr'], function(index2,value2) {
+						
 						var optionName = value2['name'];
 						var optionImg = value2['image'];
-						var optionId = value2['id'];
-						optionImg = 'img/custom/img1.jpg';
-						var tempOptDiv = '<div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 optMenu-bar optionAttr'+index1+'" onclick="selectOption(this);" data-cat_id="'+catId+'" data-prod_id="'+prodId+'" data-attrid="'+server_attr_id+'" data-lid="'+attrId+'"><div class="box"><img src="'+optionImg+'" alt="Saree" style="width:200px;height:200px;">'+optionName + ' ' +attr_name +'</div></div>';
+						optionImg = 'img/attr'+index2+'.png';
+						var tempOptDiv = '<div class="col-xs-6 col-sm-4 col-md-4 col-lg-4 optMenu-bar" data-cat_id="'+catId+'" data-prod_id="'+prodId+'" data-attrid="'+server_attr_id+'" data-lid="'+attrId+'"><div class="box"><img src="'+optionImg+'" alt="Saree" style="width:200px;height:200px;">'+optionName+'</div></div>';
 						optionMainDiv += tempOptDiv;
 					});
 					 attributeDiv += tempAttrDiv;
 				}
 			});
-			attributeDiv = '<div class="row indexAttr'+attr_name+'">' + attributeDiv + '</div>'
+			
 		});
 		$('.selMenu-bar').remove();
 		$('.selection-menu').append(attributeDiv);
-		
+		$('.optMenu-bar').remove();
 		$('.attr-option-div').append(optionMainDiv);
-		$('.optMenu-bar').hide();
-		$('.optionAttr'+attrNameIndex0).show();
-		gotoAttributePageDiv();
+		
+		gotoAttributePage();
+		
 	}
 
 	var measurementsData;
