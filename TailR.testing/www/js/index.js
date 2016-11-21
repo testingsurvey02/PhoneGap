@@ -947,9 +947,11 @@ function getProductsListFromLocal(){
 	db.transaction(	function (tx){
 			tx.executeSql('select * from product_details ',[],function(tx,results){
 					var len = results.rows.length;
+					alert('Product Length '+len);
 					if(len>0){
 						for (var i = 0; i < len; i++) {
 							var jsonObj={};
+							//server_prod_id, name, description, update_timestamp, measurement_typeid, status, attribute_details, gallery, category
 							//server_prod_id, name, description, update_timestamp, measurement_typeid, status, attribute_details, gallery, server_cat_prod_id, server_cat_id, image_url
 							jsonObj.id = results.rows.item(i)['id'];
 							jsonObj.server_prod_id = results.rows.item(i)['server_prod_id'];
