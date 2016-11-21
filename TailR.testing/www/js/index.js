@@ -911,7 +911,7 @@ function insertProductDetails(tx) {
 		
 		//id integer primary key autoincrement, server_prod_id integer, name text, description text, update_timestamp text, measurement_typeid integer, status integer, attribute_details text, gallery text, category text
 		
-		tx.executeSql('INSERT INTO product_details (server_prod_id, name, description, update_timestamp, measurement_typeid, status, attribute_details, gallery, category) VALUES (?,?,?,?,?,?,?,?,?)',
+		tx.executeSql('INSERT INTO product_details (server_prod_id, name, description, update_timestamp, measurement_typeid, status, attribute_details, gallery, category_data) VALUES (?,?,?,?,?,?,?,?,?)',
    	    			[server_prod_id, name, description, update_timestamp, measurement_typeid, prod_status, attributeJson, galleryJson, categoryJson], function(tx, res) {
 	   	         alert("PD insertId: " + res.insertId );
   	    });
@@ -961,7 +961,7 @@ function getProductsListFromLocal(){
 							jsonObj.prod_status = results.rows.item(i)['status'];
 							jsonObj.attribute_details = results.rows.item(i)['attribute_details'];
 							jsonObj.gallery = results.rows.item(i)['gallery'];
-							jsonObj.category = results.rows.item(i)['category'];
+							jsonObj.category = results.rows.item(i)['category_data'];
 							productDetailsArrSession.push(jsonObj);
 							
 						}
