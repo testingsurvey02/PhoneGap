@@ -1529,6 +1529,7 @@ function insertMeasurementsDetails(tx) {
 			var categoryObj = jQuery.parseJSON(jsonObj.categoryData);
 			
 			jQuery.each(galleryObj , function(indexObj,valueObj) {
+				alert('Inside Gallery');
 				var gallery_id = valueObj['id'];
 				var image = valueObj["image"];
 				var image1 = 'img/product'+index+'.jpg';
@@ -1536,7 +1537,7 @@ function insertMeasurementsDetails(tx) {
 				//attrMeasPageGallery += imageTag;
 				//var image2 = 'img/product/product2.jpg';
 				jQuery.each(categoryObj, function(indexCat, valueCat){
-					
+					alert('Inside Category');
 					var server_cat_id = valueCat['cat_id'];
 					//if(index == 0){
 						
@@ -1555,6 +1556,7 @@ function insertMeasurementsDetails(tx) {
 		//alert('mainPageGallery ' +mainPageGallery);
 		$("#mainPageId").find('.galleriesClass').remove();
 		//$('#prodArrData').val(prodArrData);
+		alert('Appended Successfully');
 		$("#mainPageId").find('.product-list').append(mainPageGallery);
 		$('#mainPageId .product-list').find('.galleriesClass').hide();
 		$('.imageAppendAttrMea').remove();
