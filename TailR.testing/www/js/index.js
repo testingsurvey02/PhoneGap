@@ -1567,6 +1567,7 @@ function insertMeasurementsDetails(tx) {
 			jQuery.each(galleryObj, function(indexGal, valueGal){
 				var galId = valueGal['id'];
 				if(galId == gallCurrId){
+					$('.imageAppendAttrMea').remove();
 					var image1 = 'img/product'+index+'.jpg';
 					var imageTag = '<img class="imageAppendAttrMea" src="'+image1+'"  alt="Saree" style="width:304px;height:500px;"/>';
 					$('.attributePageLocation').append(imageTag);
