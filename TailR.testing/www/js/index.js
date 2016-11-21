@@ -944,6 +944,7 @@ function errorCBInsertProductDetails(err) {
 }
 
 function getProductsListFromLocal(){
+	alert('getProductsListFromLocal');
 	db.transaction(	function (tx){
 			tx.executeSql('select * from product_details ',[],function(tx,results){
 					var len = results.rows.length;
@@ -1520,7 +1521,7 @@ function insertMeasurementsDetails(tx) {
 		prodArrData = productDetailsArrSession;
 		var mainPageGallery = '';
 		var attrMeasPageGallery = '';
-		alert('append Product Gallery');
+		alert('append Product Gallery : ' + prodArrData);
 		jQuery.each(prodArrData, function(index,value) {
 			var jsonObj=value;
 			var local_db_id=jsonObj["id"];
