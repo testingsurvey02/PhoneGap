@@ -1414,18 +1414,7 @@ function insertMeasurementsDetails(tx) {
 		var gallCurrId = $(currentData).data('gall_id');
 		var pro_index = $(currentData).data('pro-index');
 		var productDataForAttr = productDetailsArrSession; 
-		/*
-		jsonObj.id = results.rows.item(i)['id'];
-		jsonObj.server_prod_id = results.rows.item(i)['server_prod_id'];
-		jsonObj.prod_name = results.rows.item(i)['name'];
-		jsonObj.prod_description = results.rows.item(i)['description'];
-		jsonObj.measurement_typeid = results.rows.item(i)['measurement_typeid'];
-		jsonObj.prod_status = results.rows.item(i)['status'];
-		jsonObj.attribute_details = results.rows.item(i)['attribute_details'];
-		jsonObj.gallery = results.rows.item(i)['gallery'];
-		jsonObj.server_cat_id = results.rows.item(i)['server_cat_id'];
-		jsonObj.image_url = results.rows.item(i)['image_url'];
-		*/
+
 		var selectMeasBarPageDiv = '';
 		var attrMeasPageGallery = '';
 		var attrIds = []; var prodAttrIds = [];
@@ -1441,7 +1430,7 @@ function insertMeasurementsDetails(tx) {
 			//var server_cat_id = jsonObj["server_cat_id"];
 			
 			var galleryObj = jQuery.parseJSON(jsonObj.gallery);
-			var categoryObj = jQuery.parseJSON(jsonObj.categoryData);
+			var categoryObj = jQuery.parseJSON(jsonObj.category);
 			var attributeObj = jQuery.parseJSON(jsonObj.attribute_details);
 			
 			jQuery.each(galleryObj, function(indexGal, valueGal){
@@ -1529,7 +1518,7 @@ function insertMeasurementsDetails(tx) {
 			var prod_name=jsonObj["prod_name"];
 			var prod_description=jsonObj["prod_description"];
 			var galleryObj = jQuery.parseJSON(jsonObj.gallery);
-			var categoryObj = jQuery.parseJSON(jsonObj.categoryData);
+			var categoryObj = jQuery.parseJSON(jsonObj.category);
 			
 			jQuery.each(galleryObj , function(indexObj,valueObj) {
 				alert('Inside Gallery');
@@ -1599,7 +1588,7 @@ function insertMeasurementsDetails(tx) {
 			//var server_cat_id = jsonObj["server_cat_id"];
 			
 			var galleryObj = jQuery.parseJSON(jsonObj.gallery);
-			var categoryObj = jQuery.parseJSON(jsonObj.categoryData);
+			var categoryObj = jQuery.parseJSON(jsonObj.category);
 			var attributeObj = jQuery.parseJSON(jsonObj.attribute_details);
 			
 			jQuery.each(galleryObj, function(indexGal, valueGal){
