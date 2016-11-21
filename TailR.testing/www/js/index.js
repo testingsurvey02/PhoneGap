@@ -1052,7 +1052,7 @@ function getAttributeListFromLocal(){
 }
 function insertMeasurementsDetails(tx) {
 	
-	tx.executeSql('CREATE TABLE IF NOT EXISTS measurement_details (id integer primary key autoincrement, name text, server_measurement_id integer, status integer, update_timestamp text, group text)');
+	tx.executeSql('CREATE TABLE IF NOT EXISTS measurement_details (id integer primary key autoincrement, name text, server_measurement_id integer, status integer, update_timestamp text, group_data text)');
 	
 	jQuery.each(measurementJsonData, function(index,value) {
 		
@@ -1066,7 +1066,7 @@ function insertMeasurementsDetails(tx) {
 		}
 		var update_timestamp = '';
 		alert('server_measurement_id '+server_measurement_id + name +' ' + groupJson);
-		tx.executeSql('INSERT INTO measurement_details(name, server_measurement_id, status, update_timestamp, group) VALUES (?,?,?,?,?)',
+		tx.executeSql('INSERT INTO measurement_details(name, server_measurement_id, status, update_timestamp, group_data) VALUES (?,?,?,?,?)',
    	    			[name, server_measurement_id,meas_status, update_timestamp, groupJson], function(tx, res) {
 	   	         alert("Measurement Data insertId: " + res.insertId + " -- res.rowsAffected 1"+res.rowsAffected);
   	    });
@@ -1720,7 +1720,7 @@ function insertMeasurementsDetails(tx) {
 		    
 	}	
 	function errorCBInsertMeasurementDetails(err) {
-		console.log("errorCBInsertMeasurementDetails");
+		alert("errorCBInsertMeasurementDetails");
 	}
 	
 	function getMeasurementsJson(){
