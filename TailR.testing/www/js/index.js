@@ -918,7 +918,7 @@ function insertProductDetails(tx) {
 }
 
 function successCBProdListDB() {
-	alert(productDetailsArrSession);
+	console.log(productDetailsArrSession);
 	appendProdListDB(productDetailsArrSession);
 }	
 
@@ -946,11 +946,11 @@ function errorCBInsertProductDetails(err) {
 }
 
 function getProductsListFromLocal(){
-	alert('getProductsListFromLocal');
+	console.log('getProductsListFromLocal');
 	db.transaction(	function (tx){
 			tx.executeSql('select * from product_details ',[],function(tx,results){
 					var len = results.rows.length;
-					alert('Product Length '+len);
+					console.log('Product Length '+len);
 					if(len>0){
 						for (var i = 0; i < len; i++) {
 							var jsonObj={};
@@ -1485,7 +1485,7 @@ function errorCBMeasurementListDB() {
 		var attrMeasPageGallery = '';
 		
 		
-		alert('append Product Gallery : ' + prodArrData);
+		console.log('append Product Gallery : ' + prodArrData);
 		jQuery.each(prodArrData, function(index,value) {
 			var jsonObj=value;
 			var local_db_id=jsonObj["id"];
@@ -1495,11 +1495,11 @@ function errorCBMeasurementListDB() {
 			var galleryObj = jQuery.parseJSON(jsonObj['gallery']);
 			var categoryObj = jQuery.parseJSON(jsonObj['category']);
 			 
-			alert('galleryObj' + galleryObj);
-			alert('categoryObj' + categoryObj);
+			console.log('galleryObj' + galleryObj);
+			console.log('categoryObj' + categoryObj);
 			
 			jQuery.each(galleryObj , function(indexObj,valueObj) {
-				alert('Inside Gallery');
+				console.log('Inside Gallery');
 				var gallery_id = valueObj['id'];
 				var image = valueObj["image"];
 				var prodImage = productImageData + '/'+image;
@@ -1508,7 +1508,7 @@ function errorCBMeasurementListDB() {
 				//attrMeasPageGallery += imageTag;
 				//var image2 = 'img/product/product2.jpg';
 				jQuery.each(categoryObj, function(indexCat, valueCat){
-					alert('Inside Category');
+					console.log('Inside Category');
 					var server_cat_id = valueCat['cat_id'];
 					//if(index == 0){
 						
@@ -1527,7 +1527,7 @@ function errorCBMeasurementListDB() {
 		//alert('mainPageGallery ' +mainPageGallery);
 		$("#mainPageId").find('.galleriesClass').remove();
 		//$('#prodArrData').val(prodArrData);
-		alert('Appended Successfully');
+		console.log('Appended Successfully');
 		$("#mainPageId").find('.product-list').append(mainPageGallery);
 		$('#mainPageId .product-list').find('.galleriesClass').hide();
 		$('.imageAppendAttrMea').remove();
@@ -1540,7 +1540,7 @@ function errorCBMeasurementListDB() {
 		var gallCurrId = $(currentData).data('gall_id');
 		var pro_index = $(currentData).data('pro_index');
 		var productDataForAttr = productDetailsArrSession; 
-		alert('gallCurrId : '+gallCurrId + ' pro_index : ' +pro_index);
+		console.log('gallCurrId : '+gallCurrId + ' pro_index : ' +pro_index);
 		var selectMeasBarPageDiv = '';
 		var attrMeasPageGallery = '';
 		var attrIds = []; var prodAttrIds = [];
@@ -1548,7 +1548,7 @@ function errorCBMeasurementListDB() {
 		//alert('productDataForAttr -- '+productDataForAttr);
 		jQuery.each(productDataForAttr, function(index,value) {
 			
-			alert('goToAttributePage productDataForAttr Inside Forloop');
+			console.log('goToAttributePage productDataForAttr Inside Forloop');
 			var jsonObj = value;
 			var local_db_id = jsonObj["id"];
 			var server_prod_id = jsonObj["server_prod_id"];
@@ -1561,7 +1561,7 @@ function errorCBMeasurementListDB() {
 			var attributeObj = jQuery.parseJSON(jsonObj.attribute_details);
 			
 			jQuery.each(galleryObj, function(indexGal, valueGal){
-				alert('goToAttributePage galleryObj Inside Forloop');
+				console.log('goToAttributePage galleryObj Inside Forloop');
 				var galId = valueGal['id'];
 				var image = valueGal['image'];
 				if(galId == gallCurrId){
@@ -1579,12 +1579,12 @@ function errorCBMeasurementListDB() {
 			var mainPageProdId = $(currentData).data('prod_id');
 			
 			jQuery.each(categoryObj, function(indexCat, valueCat){
-				alert('goToAttributePage categoryObj Inside Forloop');
+				console.log('goToAttributePage categoryObj Inside Forloop');
 				var server_cat_id = valueCat['cat_id'];
 				//alert(mainPageCatId + " "+ server_prod_id +" " +mainPageProdId + " " +server_cat_id);
 				if(mainPageCatId == server_cat_id && mainPageProdId == server_prod_id){
 					jQuery.each(attributeObj, function(indexObj,valueObj) {
-						alert('goToAttributePage attributeObj Inside Forloop');
+						console.log('goToAttributePage attributeObj Inside Forloop');
 						//alert('goToAttributePage AttributeArr');
 						var paIds = valueObj['id'];
 						var attrId = valueObj['attr_id'];
@@ -1608,13 +1608,13 @@ function errorCBMeasurementListDB() {
 	}
 	
 	function appendAttrDataByArraysAndIds(prodAttrArr, attrArr, catId, prodId){
-		alert('appendAttrDataByArraysAndIds');
+		console.log('appendAttrDataByArraysAndIds');
 		var attributeDiv = '';
 		var optionMainDiv = '';
 		//alert('appendAttrDataByArraysAndIds --- ');
 		//alert('attrDetailsArrSession --- '+attrDetailsArrSession);
 		jQuery.each(attrDetailsArrSession, function(index,value) {
-			alert('appendAttrDataByArraysAndIds attrDetailsArrSession');
+			console.log('appendAttrDataByArraysAndIds attrDetailsArrSession');
 			var attrId = value['id'];
 			var server_attr_id = value['server_attr_id'];
 			var attr_name = value['attr_name'];
@@ -1624,9 +1624,9 @@ function errorCBMeasurementListDB() {
 			var optionObj = jQuery.parseJSON(option);
 			//alert('optionObj -- '+optionObj);
 			jQuery.each(attrArr, function(index1,value1) {
-				alert(attrArr);
+				console.log(attrArr);
 				if(value1 == attrId){
-					alert(value1+'value1 == attrId'+value1);
+					console.log(value1+'value1 == attrId'+value1);
 					var tempAttrDiv = '<div class="col-xs-2 col-sm-2 col-md-2 col-lg-2 selMenu-bar" data-cat_id="'+catId+'" data-prod_id="'+prodId+'" data-attrid="'+server_attr_id+'" data-lid="'+attrId+'"><a href="#">'+attr_name+'</a></div>';
 					jQuery.each(optionObj, function(index2,value2) {
 						var optionName = value2['name'];
@@ -1697,7 +1697,7 @@ function errorCBMeasurementListDB() {
 		    
 	}	
 	function errorCBInsertMeasurementDetails(err) {
-		alert("errorCBInsertMeasurementDetails");
+		console.log("errorCBInsertMeasurementDetails");
 	}
 	
 	function appendMeasurementDataInDiv(measurementArrData){
