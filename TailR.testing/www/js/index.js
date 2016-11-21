@@ -1429,7 +1429,7 @@ function insertMeasurementsDetails(tx) {
 			jQuery.each(galleryObj, function(indexObj,valueObj) {
 				var gallery_id = valueObj['id'];
 				var image = valueObj["image"];
-				image = 'img/custom/img1.jpg';
+				image = 'img/product/product'+index+'.jpg';
 				jQuery.each(categoryObj, function(indexcat,valueCat) {
 					var server_cat_id = valueCat['cat_id'];
 					var imageTag = '<img class="imageAppendAttrMeaCust" src="'+image+'"  alt="Saree" style="width:304px;height:500px;"/>';
@@ -1556,7 +1556,7 @@ function insertMeasurementsDetails(tx) {
 						var optionName = value2['name'];
 						var optionImg = value2['image'];
 						var optionId = value2['id'];
-						optionImg = 'img/custom/img1.jpg';
+						optionImg = 'img/attribute/attr'+index2+'.png';
 						var tempOptDiv = '<div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 optMenu-bar optionAttr'+index1+'" onclick="selectOption(this);" data-cat_id="'+catId+'" data-prod_id="'+prodId+'" data-attrid="'+server_attr_id+'" data-lid="'+attrId+'"><div class="box"><img src="'+optionImg+'" alt="Saree" style="width:200px;height:200px;">'+optionName + ' ' +attr_name +'</div></div>';
 						optionMainDiv += tempOptDiv;
 					});
