@@ -1060,6 +1060,7 @@ function insertMeasurementsDetails(tx) {
 		var name = value["name"];
 		var meas_status = value["status"];
 		var updateTimestamp = '';
+		alert('Group '+value["group"]);
 		var groupJson = JSON.stringify(value["group"]);
 		var update_timestamp = '';
 		alert('server_measurement_id '+server_measurement_id + name+ +groupJson);
