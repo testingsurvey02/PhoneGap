@@ -990,7 +990,7 @@ function insertAttributesDetails(tx) {
 		//alert('optionJson '+optionJson+' value'+value);
 		tx.executeSql('INSERT INTO product_attributes(server_attr_id, name, identifier, status, backend_name, update_timestamp, option) VALUES (?,?,?,?,?,?,?)',
    	    			[server_attr_id, name,identifier, attr_status, backend_name, update_timestamp, optionJson], function(tx, res) {
-	   	         alert("Attribute Data insertId: " + res.insertId + " -- res.rowsAffected 1"+res.rowsAffected);
+	   	         //alert("Attribute Data insertId: " + res.insertId + " -- res.rowsAffected 1"+res.rowsAffected);
   	    });
 	});
 }
@@ -1068,10 +1068,10 @@ function insertMeasurementsDetails(tx) {
 			groupJson = JSON.stringify(value["group"]);
 		}
 		var update_timestamp = '';
-		alert('server_measurement_id '+server_measurement_id + name +' ' + groupJson);
+		//alert('server_measurement_id '+server_measurement_id + name +' ' + groupJson);
 		tx.executeSql('INSERT INTO measurement_details(name, server_measurement_id, status, update_timestamp, group_data) VALUES (?,?,?,?,?)',
    	    			[name, server_measurement_id,meas_status, update_timestamp, groupJson], function(tx, res) {
-	   	         alert("Measurement Data insertId: " + res.insertId + " -- res.rowsAffected 1"+res.rowsAffected);
+	   	         //alert("Measurement Data insertId: " + res.insertId + " -- res.rowsAffected 1"+res.rowsAffected);
   	    });
 	});
 }
