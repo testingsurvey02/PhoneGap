@@ -725,6 +725,8 @@ var catArrSession=[];
 var subCatArrSession=[];
 var productDetailsArrSession = [];
 var attrDetailsArrSession = [];
+var measurementArrSession = [];
+var measurementTypeId = '';
 
 /* ************* Database Code Starts   -------------------------  */
 // Open Database
@@ -1077,7 +1079,40 @@ function insertMeasurementsDetails(tx) {
 	});
 }
 
+function getMeasumentListFromLocal(){
+	db.transaction(	function (tx){
+		var len = 0;
+			tx.executeSql('select * from measurement_details ',[],function(tx,results){
+					len = results.rows.length;
+					//alert('length '+len);
+					if(len>0){
+						for (var i = 0; i < len; i++) {
+							var jsonObj={};
+							//id, server_attr_id, name, identifier, status, backend_name, update_timestamp, option
+							jsonObj['id'] = results.rows.item(i)['id'];
+							jsonObj['server_measurement_id'] = results.rows.item(i)['server_measurement_id'];
+							jsonObj['measurement_name'] = results.rows.item(i)['name'];
+							jsonObj['status'] = results.rows.item(i)['status'];
+							jsonObj['group_data'] = results.rows.item(i)['group_data'];
+							//jsonObj.image_url = results.rows.item(i)['image_url'];
+							measurementArrSession.push(jsonObj);
+							//alert('Local : '+attrDetailsArrSession);
+							
+						}
+					}
+				}, errorCB
+			);
+		},errorCBMeasurementListDB,successCBMeasurementListDB
+	);
+}
 
+function successCBMeasurementListDB() {
+	//console.log('successCBMeasurementListDB.');
+}	
+
+function errorCBMeasurementListDB() {
+	//console.log("errorCBMeasurementListDB");
+}
 
 
 /* ************* Database Code Ends   -------------------------  */
@@ -1524,6 +1559,7 @@ function insertMeasurementsDetails(tx) {
 				alert('goToAttributePage galleryObj Inside Forloop');
 				var galId = valueGal['id'];
 				if(galId == gallCurrId){
+					measurementTypeId = jsonObj['measurement_typeid'];
 					$('.imageAppendAttrMea').remove();
 					var image1 = 'img/product'+index+'.jpg';
 					var imageTag = '<img class="imageAppendAttrMea" src="'+image1+'"  alt="Saree" style="width:304px;height:500px;"/>';
@@ -1583,7 +1619,7 @@ function insertMeasurementsDetails(tx) {
 			jQuery.each(attrArr, function(index1,value1) {
 				if(value1 == attrId){
 					var tempAttrDiv = '<div class="col-xs-2 col-sm-2 col-md-2 col-lg-2 selMenu-bar" data-cat_id="'+catId+'" data-prod_id="'+prodId+'" data-attrid="'+server_attr_id+'" data-lid="'+attrId+'"><a href="#">'+attr_name+'</a></div>';
-					jQuery.each(optionObj['optionArr'], function(index2,value2) {
+					jQuery.each(optionObj, function(index2,value2) {
 						
 						var optionName = value2['name'];
 						var optionImg = value2['image'];
@@ -1594,14 +1630,17 @@ function insertMeasurementsDetails(tx) {
 					 attributeDiv += tempAttrDiv;
 				}
 			});
-			
 		});
+		attributeDiv += '<div class="col-xs-2 col-sm-2 col-md-2 col-lg-2 selMenu-bar"><a href="#" onclick="showMeasurementDiv()">'+Measurement+'</a></div>';
 		$('.selMenu-bar').remove();
 		$('.selection-menu').append(attributeDiv);
 		$('.optMenu-bar').remove();
 		$('.attr-option-div').append(optionMainDiv);
 		
 		gotoAttributePageDiv();
+		
+		getMeasumentListFromLocal();
+		appendMeasurementDataInDiv(measurementArrSession);
 		
 	}
 
@@ -1652,10 +1691,36 @@ function insertMeasurementsDetails(tx) {
 		alert("errorCBInsertMeasurementDetails");
 	}
 	
-	function getMeasurementsJson(){
-		mData={};	
-		mData.secret_key="4TPD6PI91";
-		getDataByAction("getHolidays", JSON.stringify(mData), commonPageSuccessCallback, commonErrorCallback);
+	function appendMeasurementDataInDiv(measurementArrData){
+		// measurementTypeId
+		
+		jsonObj['id'] = results.rows.item(i)['id'];
+		jsonObj['server_measurement_id'] = results.rows.item(i)['server_measurement_id'];
+		jsonObj['measurement_name'] = results.rows.item(i)['name'];
+		jsonObj['status'] = results.rows.item(i)['status'];
+		jsonObj['group_data'] = results.rows.item(i)['group_data'];
+		var appendMeasurementData = '';
+		jQuery.each(measurementArrData, function(index,value) {
+			var groupJsonData = jQuery.parseJSON(value['group_data']);
+			jQuery.each(groupJsonData, function(groupIndex,groupValue) {
+				var groupMeasurementTypeId = groupValue['measurement_type_id'];
+				if(groupMeasurementTypeId == measurementTypeId){
+					var groupName = groupValue['name'];
+					var measurementGroupData = groupValue['measurements'];
+					var groupLabelName = '<h3>' + groupName + '</h3>';
+					appendMeasurementData += groupLabelName;
+					jQuery.each(measurementGroupData, function(measurementsIndex,measurementsValue) {
+						var measNameForField  = measurementsValue['name'];
+						var measPriKeyForField = measurementsValue['id'];
+						var fieldsDiv = '<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6"> <div class="box start-xs start-sm start-md start-lg"> '+
+								' '+measNameForField+' <input type="text" data-meas_pkid="'+measPriKeyForField+'" id="'+measNameForField+'_id" '+
+								'name="'+measNameForField+'_id"/> </div>	</div>';
+						appendMeasurementData += fieldsDiv;
+					});
+				}
+			});
+		});
+		$('.measurement-InputFields').append(appendMeasurementData);
 	}
 	
 /*  ------------------- Module-wise Methods/Function Code Starts ------------------  */	
@@ -1681,7 +1746,4 @@ function insertMeasurementsDetails(tx) {
 		$('.'+attrFindObj).show();
 	}
 	
-	function getAndShowMeasurementDetails(){
-		
-	}
 	
