@@ -1079,7 +1079,7 @@ function insertMeasurementsDetails(tx) {
 		groupObj['groupArr'] = group;
 		var groupJson = JSON.stringify(groupObj);
 		var update_timestamp = '';
-		tx.executeSql('INSERT INTO measurement_details(name, server_measurement_id, status, update_timestamp, group) VALUES (?,?,?,?,?,?)',
+		tx.executeSql('INSERT INTO measurement_details(name, server_measurement_id, status, update_timestamp, group) VALUES (?,?,?,?,?)',
    	    			[name, server_measurement_id,meas_status, update_timestamp, groupJson], function(tx, res) {
 	   	         alert("Attribute Data insertId: " + res.insertId + " -- res.rowsAffected 1"+res.rowsAffected);
   	    });
