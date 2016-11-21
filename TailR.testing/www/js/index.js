@@ -1617,10 +1617,11 @@ function errorCBMeasurementListDB() {
 			var optionObj = jQuery.parseJSON(option);
 			//alert('optionObj -- '+optionObj);
 			jQuery.each(attrArr, function(index1,value1) {
+				alert(attrArr);
 				if(value1 == attrId){
+					alert(value1+'value1 == attrId'+value1);
 					var tempAttrDiv = '<div class="col-xs-2 col-sm-2 col-md-2 col-lg-2 selMenu-bar" data-cat_id="'+catId+'" data-prod_id="'+prodId+'" data-attrid="'+server_attr_id+'" data-lid="'+attrId+'"><a href="#">'+attr_name+'</a></div>';
 					jQuery.each(optionObj, function(index2,value2) {
-						
 						var optionName = value2['name'];
 						var optionImg = value2['image'];
 						optionImg = 'img/attr'+index2+'.png';
@@ -1631,10 +1632,10 @@ function errorCBMeasurementListDB() {
 				}
 			});
 		});
-		attributeDiv += '<div class="col-xs-2 col-sm-2 col-md-2 col-lg-2 selMenu-bar"><a href="#" onclick="showMeasurementDiv()">'+Measurement+'</a></div>';
+		//tributeDiv += '<div class="col-xs-2 col-sm-2 col-md-2 col-lg-2 selMenu-bar"><a href="#" onclick="showMeasurementDiv()">'+Measurement+'</a></div>';
 		$('.selMenu-bar').remove();
-		$('.selection-menu').append(attributeDiv);
 		$('.optMenu-bar').remove();
+		$('.selection-menu').append(attributeDiv);
 		$('.attr-option-div').append(optionMainDiv);
 		
 		gotoAttributePageDiv();
