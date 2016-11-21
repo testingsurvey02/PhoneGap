@@ -1061,9 +1061,12 @@ function insertMeasurementsDetails(tx) {
 		var meas_status = value["status"];
 		var updateTimestamp = '';
 		alert('Group '+value["group"]);
-		var groupJson = JSON.stringify(value["group"]);
+		var groupJson = '';
+		if(value["group"] != ''){
+			groupJson = JSON.stringify(value["group"]);
+		}
 		var update_timestamp = '';
-		alert('server_measurement_id '+server_measurement_id + name+ +groupJson);
+		alert('server_measurement_id '+server_measurement_id + name +' ' + groupJson);
 		tx.executeSql('INSERT INTO measurement_details(name, server_measurement_id, status, update_timestamp, group) VALUES (?,?,?,?,?)',
    	    			[name, server_measurement_id,meas_status, update_timestamp, groupJson], function(tx, res) {
 	   	         alert("Measurement Data insertId: " + res.insertId + " -- res.rowsAffected 1"+res.rowsAffected);
