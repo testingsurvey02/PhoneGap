@@ -799,7 +799,7 @@ function insertCategories(arrData) {
 			}
 			tx.executeSql('INSERT INTO category(server_cat_id, parent_id, name, update_timestamp, description, catImage, catStatus, children) VALUES (?,?,?,?,?,?,?,?)',
 						[server_cat_id, parent_id, name, update_timestamp,description, catImage, catStatus, childExist], function(tx, res) {
-				alert(server_cat_id, name, childExist);
+				//alert(server_cat_id, name, childExist);
 			});
 			
 			if(childExist == '1'){
@@ -813,7 +813,7 @@ function insertCategories(arrData) {
 			
 					tx.executeSql('INSERT INTO category(server_cat_id, parent_id, name, update_timestamp, description, catImage, catStatus, children) VALUES (?,?,?,?,?,?,?,?)',
 							[server_cat_id_child, parent_id_child, name_child, update_timestamp,description_child, catImage_child, catStatus_child, childrenArrString], function(tx, res) {
-						alert(server_cat_id_child, parent_id_child, name_child);
+						//alert(server_cat_id_child, parent_id_child, name_child);
 					});	
 				});
 			}
@@ -910,7 +910,7 @@ function insertProductDetails(tx) {
 		
 		tx.executeSql('INSERT INTO product_details (server_prod_id, name, description, update_timestamp, measurement_typeid, status, attribute_details, gallery, category) VALUES (?,?,?,?,?,?,?,?,?)',
    	    			[server_prod_id, name, description, update_timestamp, measurement_typeid, prod_status, attributeJson, galleryJson, categoryJson], function(tx, res) {
-	   	         alert("PD insertId: " + res.insertId );
+	   	        // alert("PD insertId: " + res.insertId );
   	    });
 	});
 }
@@ -1065,10 +1065,10 @@ function insertMeasurementsDetails(tx) {
 			groupJson = JSON.stringify(value["group"]);
 		}
 		var update_timestamp = '';
-		//alert('server_measurement_id '+server_measurement_id + name +' ' + groupJson);
+		alert('server_measurement_id '+server_measurement_id + name +' ' + groupJson);
 		tx.executeSql('INSERT INTO measurement_details(name, server_measurement_id, status, update_timestamp, group) VALUES (?,?,?,?,?)',
    	    			[name, server_measurement_id,meas_status, update_timestamp, groupJson], function(tx, res) {
-	   	         //alert("Measurement Data insertId: " + res.insertId + " -- res.rowsAffected 1"+res.rowsAffected);
+	   	         alert("Measurement Data insertId: " + res.insertId + " -- res.rowsAffected 1"+res.rowsAffected);
   	    });
 	});
 }
