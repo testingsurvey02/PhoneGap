@@ -1509,7 +1509,7 @@ function insertMeasurementsDetails(tx) {
 						
 					//}
 					var galleryImage = '<div class="col-xs-12 col-sm-6 col-md-4 col-lg-4 galleriesClass gallcatid'+server_cat_id+'" data-gall_id="'+gallery_id+'" data-cat_id="'+server_cat_id+'" '+
-							'data-prod_id="'+server_prod_id+'" data-lid="'+local_db_id+'" onclick="goToAttributeDiv(this)">'+
+							'data-prod_id="'+server_prod_id+'" data-pro-index="'+index+'" data-lid="'+local_db_id+'" onclick="goToAttributeDiv(this)">'+
 							'<img src="'+image1+'"  alt="Saree" style="width:304px;height:500px;"/>'+prod_name+'</div>';
 							//alert('galleryImage -- '+galleryImage);
 					mainPageGallery += galleryImage;
@@ -1526,12 +1526,13 @@ function insertMeasurementsDetails(tx) {
 		$('#mainPageId .product-list').find('.galleriesClass').hide();
 		$('.imageAppendAttrMea').remove();
 		//$('.imageAppendSelMea').remove();
-		$('.attributePageLocation').append(attrMeasPageGallery);
-		$('.measurementPageLocation').append(attrMeasPageGallery);
+		//$('.attributePageLocation').append(attrMeasPageGallery);
+		//$('.measurementPageLocation').append(attrMeasPageGallery);
 	}
 	
 	function goToAttributeDiv(currentData){
-		
+		var gallCurrId = $(currentData).data('gall_id');
+		var pro_index = $(currentData).data('pro-index');
 		var productDataForAttr = productDetailsArrSession; 
 		/*
 		jsonObj.id = results.rows.item(i)['id'];
@@ -1563,6 +1564,16 @@ function insertMeasurementsDetails(tx) {
 			var categoryObj = jQuery.parseJSON(jsonObj.categoryData);
 			var attributeObj = jQuery.parseJSON(jsonObj.attribute_details);
 			
+			jQuery.each(galleryObj, function(indexGal, valueGal){
+				var galId = valueGal['id'];
+				if(galId == gallCurrId){
+					var image1 = 'img/product'+index+'.jpg';
+					var imageTag = '<img class="imageAppendAttrMea" src="'+image1+'"  alt="Saree" style="width:304px;height:500px;"/>';
+					$('.attributePageLocation').append(imageTag);
+					$('.measurementPageLocation').append(imageTag);
+				}
+			});
+			
 			var mainPageCatId = $(currentData).data('cat_id');
 			var mainPageProdId = $(currentData).data('prod_id');
 			
@@ -1577,7 +1588,7 @@ function insertMeasurementsDetails(tx) {
 						prodAttrIds[indexObj] = paIds;
 						attrIds[indexObj] = attrId;
 					});
-					getAttrDataFromServer(prodAttrIds, attrIds, server_cat_id, server_prod_id);
+					appendAttrDataByArraysAndIds(prodAttrIds, attrIds, server_cat_id, server_prod_id);
 				}
 			});
 			
@@ -1623,10 +1634,6 @@ function insertMeasurementsDetails(tx) {
 		//alert(attributeJsonData);
 		// FIXME CHECK JSON DATA
 		db.transaction(insertAttributesDetails, errorCBInsertAttributeDetails, successCBInsertAttributeDetails);
-	}
-	
-	function getAttrDataFromServer(prodAttrArray, attrArray, cat_Id, prod_Id){
-		appendAttrDataByArraysAndIds(prodAttrArray, attrArray, cat_Id, prod_Id);
 	}
 	
 	function appendAttrDataByArraysAndIds(prodAttrArr, attrArr, catId, prodId){
