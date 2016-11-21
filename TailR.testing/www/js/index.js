@@ -1360,8 +1360,8 @@ function insertMeasurementsDetails(tx) {
 		});
 		
 		categoryDiv+='</div>';
-		$('#main-menu').remove();
-		$('#sub-menu').remove();
+		$('.main-menu').remove();
+		$('.sub-menu').remove();
 		$( categoryDiv ).insertBefore( "#mainPageId .hrBarCatClass" );
 		$( subCategoryDiv ).insertBefore( "#mainPageId .hrBarCatClass" );
 		$('#mainPageId').find('.sub-menu').hide();
