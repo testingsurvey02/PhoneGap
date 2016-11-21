@@ -1064,7 +1064,7 @@ function getAttributeListFromLocal(){
 }
 function insertMeasurementsDetails(tx) {
 	
-	tx.executeSql('CREATE TABLE IF NOT EXISTS measurement_details (id integer primary key autoincrement, name text, server_measurement_id integer, status integer, update_timestamp timestamp, group text, measurement_type_id integer)');
+	tx.executeSql('CREATE TABLE IF NOT EXISTS measurement_details (id integer primary key autoincrement, name text, server_measurement_id integer, status integer, update_timestamp timestamp, group text)');
 	
 	jQuery.each(measurementJsonData, function(index,value) {
 		// name, server_measurement_id, status, update_timestamp, group, measurement_type_id
@@ -1074,14 +1074,14 @@ function insertMeasurementsDetails(tx) {
 		var group = value["group"];
 		var meas_status = value["status"];
 		var updateTimestamp = '';
-		var measurementTypeId = value['measurement_type_id'];
+		//var measurementTypeId = value['measurement_type_id'];
 		var groupObj = {};
 		groupObj['groupArr'] = group;
 		var groupJson = JSON.stringify(groupObj);
 		var update_timestamp = '';
-		tx.executeSql('INSERT INTO measurement_details(name, server_measurement_id, status, update_timestamp, group, measurement_type_id) VALUES (?,?,?,?,?,?)',
-   	    			[name, server_measurement_id,meas_status, update_timestamp, groupJson, measurementTypeId], function(tx, res) {
-	   	         //alert("Attribute Data insertId: " + res.insertId + " -- res.rowsAffected 1"+res.rowsAffected);
+		tx.executeSql('INSERT INTO measurement_details(name, server_measurement_id, status, update_timestamp, group) VALUES (?,?,?,?,?,?)',
+   	    			[name, server_measurement_id,meas_status, update_timestamp, groupJson], function(tx, res) {
+	   	         alert("Attribute Data insertId: " + res.insertId + " -- res.rowsAffected 1"+res.rowsAffected);
   	    });
 	});
 }
@@ -1630,7 +1630,7 @@ function insertMeasurementsDetails(tx) {
 		    
 	}	
 	function errorCBInsertMeasurementDetails(err) {
-		//alert("errorCBInsertAttributeDetails");
+		alert("errorCBInsertAttributeDetails");
 	}
 	
 	function getMeasurementsJson(){
