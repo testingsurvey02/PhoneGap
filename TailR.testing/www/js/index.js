@@ -1,5 +1,6 @@
-
-/*	// Local System Find JsonFormat 
+/*
+	 * 
+	// Local System Find JsonFormat 
 	$(function() {
 		getAttributesDataJson();
 		getMeasurementDataJson();
@@ -60,8 +61,8 @@
 				success: successCBMeasurementsFn,
 				error: commonErrorCallback
 			});
-	}
-*/
+	}*/
+
 
 $( document ).on( "mobileinit", function() {
     // Make your jQuery Mobile framework configuration changes here!
@@ -275,7 +276,7 @@ var app = {
 		// LOAD DATA FROM SERVER
 		// UPDATE TO SERVER
 		// UPDATE DATA FROM SERVER
-		window.localStorage["dbreadyflag"] = 0;
+		
 		loadDataFromServer();
     },
 };
@@ -428,24 +429,6 @@ function logout() {
 function gotoHome(){
 	$.mobile.changePage('#home-page','slide');
 }
-
-function gotoAttributePageDiv(){
-	$.mobile.changePage('#selection-page','slide');
-}
-
-function gotoMeasurementPageDiv(){
-	$.mobile.changePage('#measurement-page','slide');
-}
-
-function gotoCustomerPageDiv(){
-	
-	$.mobile.changePage('#customer-confirmation-page','slide');
-}
-
-function gotoOrderPageDiv(){
-	$.mobile.changePage('#order-report-page','slide');
-}
-
 
 function showExitDialog() {
     navigator.notification.confirm(
@@ -742,7 +725,7 @@ function initializeDB(tx) {
 	
 	tx.executeSql('CREATE TABLE IF NOT EXISTS product_details (id integer primary key autoincrement, server_prod_id integer, name text, description text, update_timestamp text, measurement_typeid integer, status integer, attribute_details text, gallery text, category_data text)');
 	tx.executeSql('CREATE TABLE IF NOT EXISTS product_attributes (id integer primary key autoincrement, server_attr_id integer, name text, identifier text, status integer, backend_name text, update_timestamp text, option text)');
-	tx.executeSql('CREATE TABLE IF NOT EXISTS measurement_details (id integer primary key autoincrement, name text, server_measurement_id integer, status integer, update_timestamp timestamp, group text, measurement_type_id integer)');
+	//tx.executeSql('CREATE TABLE IF NOT EXISTS measurement_details (id integer primary key autoincrement, api_id integer, status integer,name text, update_timestamp timestamp, group text)');
 	
 	//tx.executeSql('CREATE TABLE IF NOT EXISTS customer_details (id integer primary key autoincrement, api_id integer, parent_id integer,name text, update_timestamp timestamp)');
 	//tx.executeSql('CREATE TABLE IF NOT EXISTS order_details (id integer primary key autoincrement, api_id integer, parent_id integer,name text, update_timestamp timestamp)');
@@ -775,59 +758,149 @@ function errorCB(err) {
 // Customer Details
 // Orders Details
 
-function insertCategories(arrData) {
+function insertTailorDetails(tx) {
+	var tailorDetailsCreateSql ='CREATE TABLE IF NOT EXISTS tailor_details (id integer primary key autoincrement, api_id integer, first_name text, '+
+	'middle_name text, last_name text, business_title text, address1 text, address2 text, email text, contact1 text, contact2 text, secret_key text, '+
+	' city text, status integer, pincode integer, state_id integer, country_id integer, state_name text, country_name text, state_short_name text, '+
+	'country_short_name text, update_timestamp timestamp, description text )';
 	
-	//db.transaction(insertCategories, errorCBInsertCategories, successCBInsertCategories);
+	tx.executeSql(tailorDetailsCreateSql,[], function (tx, results) {
+   	    var first_name = tailorDetailsData.first_name;
+		var api_id = tailorDetailsData.id;
+		var middle_name = tailorDetailsData.middle_name;
+		var last_name = tailorDetailsData.last_name;
+		var business_title = tailorDetailsData.business_title;
+		var address1 = tailorDetailsData.address1;
+		var address2 = tailorDetailsData.address2;
+		var email = tailorDetailsData.email;
+		var contact1 = tailorDetailsData.contact1;
+		var contact2 = tailorDetailsData.contact2;
+        var secret_key = tailorDetailsData.secret_key;
+		var status = tailorDetailsData.status;
+		var city = tailorDetailsData.city;
+		var pincode = tailorDetailsData.pincode;
+		var state_id = tailorDetailsData.state_id;
+		var country_id = tailorDetailsData.country_id;
+		var state_name = tailorDetailsData.state_name;
+		var country_name = tailorDetailsData.country_name;
+		
+		/*
+		tx.executeSql('INSERT INTO tailor_details(api_id, first_name, middle_name, last_name, business_title, address1, address2, email, contact1, contact2'+
+		',secret_key, city, status , pincode, state_id, country_id, country_name, state_name, state_short_name, country_short_name, description) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)',
+   	    			[api_id, first_name, middle_name, last_name, business_title, address1, address2, email, contact1, contact2+
+		,secret_key, city, status , pincode, state_id, country_id, country_name, state_name, state_short_name, country_short_name, description], function(tx, res) {
+	   	         //alert("insertId: " + res.insertId + " -- res.rowsAffected 1"+res.rowsAffected);
+  	    });
+		 */
+    });
+}
+
+/*function insertCategories(tx) {
 	
-	db.transaction(function(tx) {
-		jQuery.each(arrData, function(index,value) {
-			var server_cat_id = value['id'];
-			var name = value.name;
-			var parent_id = value.parent_id;
-			var description = value.description;
-			var catImage = value["image"];
-			var catStatus = value["status"];
-			var update_timestamp='';
-			var childrenArrString = '';
-			var childrenArr = value.children;    
-			var childExist = '0';
-			if(childrenArr != ''){
-				childExist = '1';
-			}
-			tx.executeSql('INSERT INTO category(server_cat_id, parent_id, name, update_timestamp, description, catImage, catStatus, children) VALUES (?,?,?,?,?,?,?,?)',
-						[server_cat_id, parent_id, name, update_timestamp,description, catImage, catStatus, childExist], function(tx, res) {
-				alert(server_cat_id, name, childExist);
-			});
-			
-			if(childExist == '1'){
-				jQuery.each(childrenArr, function(index1,value1) { 
-					var server_cat_id_child = value1['id'];
-					var name_child = value1.name;
-					var parent_id_child = value1.parent_id;
-					var description_child = value1.description;
-					var catImage_child = value1["image"];
-					var catStatus_child = value1["status"];
-			
-					tx.executeSql('INSERT INTO category(server_cat_id, parent_id, name, update_timestamp, description, catImage, catStatus, children) VALUES (?,?,?,?,?,?,?,?)',
-							[server_cat_id_child, parent_id_child, name_child, update_timestamp,description_child, catImage_child, catStatus_child, childrenArrString], function(tx, res) {
-						alert(server_cat_id_child, parent_id_child, name_child);
-					});	
-				});
-			}
-		});
-	},errorCBInsertCategories, successCBInsertCategories);
+	
+	db.transaction(	function (tx){
+		tx.executeSql('select * from category where parent_id is null',[],function(tx,results){
+				var len = results.rows.length;
+				alert("category length-- " + len);
+				if(len>0){
+					
+				}
+			}, errorCB
+		);
+	},errorCBCatListDB,successCBCatListDB);
+	
+	
+	
+	jQuery.each(categoriesJsonData, function(index,value) {
+		
+		var server_cat_id = value['id'];
+		var name = value.name;
+		var parent_id = value.parent_id;
+		var description = value.description;
+		var catImage = value["image"];
+		var catStatus = value["status"];
+		var update_timestamp=dateTimestamp();
+		
+		tx.executeSql('INSERT INTO category(server_cat_id, parent_id, name, update_timestamp, description, catImage, catStatus, children) VALUES (?,?,?,?,?,?,?,?)',
+	    			[server_cat_id, parent_id, name, update_timestamp,description, catImage, catStatus, childrenArrString], function(tx, res) {
+   	         alert("insertId: " + res.insertId + " -- res.rowsAffected"+res.rowsAffected);
+		
+   	    var childrenArr = value.children;     
+   	    jQuery.each(childrenArr, function(index1,value1) { 
+   	    	
+   	    	var server_cat_id_child = value1['id'];
+   			var name_child = value1.name;
+   			var parent_id_child = value1.parent_id;
+   			var description_child = value1.description;
+   			var catImage_child = value1["image"];
+   			var catStatus_child = value1["status"];
+   	    	
+   	    	tx.executeSql('INSERT INTO category(server_cat_id, parent_id, name, update_timestamp, description, catImage, catStatus, children) VALUES (?,?,?,?,?,?,?,?)',
+	    			[server_cat_id_child, parent_id_child, name_child, update_timestamp,description_child, catImage_child, catStatus_child, childrenArrString], function(tx, res) {
+   	         alert("insertId: " + res.insertId + " -- res.rowsAffected"+res.rowsAffected);
+		}};
+		
+	});
+}*/
+
+function insertCategories(tx) {
+	db.transaction(	function (tx){
+		var len = 0;
+		
+		tx.executeSql('select * from category',[],function(tx,results){
+				len = results.rows.length;
+		},errorCBCatLocalDB,successCBCatLocalDB);
+		
+		
+				if(len == 0 || len == undefined){
+					jQuery.each(categoriesJsonData, function(index,value) {
+						var server_cat_id = value['id'];
+						var name = value.name;
+						var parent_id = value.parent_id;
+						var description = value.description;
+						var catImage = value["image"];
+						var catStatus = value["status"];
+						var update_timestamp='';
+						var childrenArrString = '';
+						var childrenArr = value.children;    
+						var childExist = '0';
+						if(childrenArr != ''){
+							childExist = '1';
+						}
+						tx.executeSql('INSERT INTO category(server_cat_id, parent_id, name, update_timestamp, description, catImage, catStatus, children) VALUES (?,?,?,?,?,?,?,?)',
+									[server_cat_id, parent_id, name, update_timestamp,description, catImage, catStatus, childExist], function(tx, res) {
+							//alert(server_cat_id, name, childExist);
+						});
+						
+						if(childExist == '1'){
+							jQuery.each(childrenArr, function(index1,value1) { 
+								var server_cat_id_child = value1['id'];
+								var name_child = value1.name;
+								var parent_id_child = value1.parent_id;
+								var description_child = value1.description;
+								var catImage_child = value1["image"];
+								var catStatus_child = value1["status"];
+						
+								tx.executeSql('INSERT INTO category(server_cat_id, parent_id, name, update_timestamp, description, catImage, catStatus, children) VALUES (?,?,?,?,?,?,?,?)',
+										[server_cat_id_child, parent_id_child, name_child, update_timestamp,description_child, catImage_child, catStatus_child, childrenArrString], function(tx, res) {
+									//alert(server_cat_id_child, parent_id_child, name_child);
+								});	
+							});
+						}
+					});
+				}
+			}, errorCBCatLocalDB,successCBCatLocalDB
+		);
 }
 
 function successCBInsertCategories() {
 	console.log("successCBInsertCategories");
-	//getCategoriesListFromLocal();
-	//checkProductInLocalDB();
-	getProductDataFromServer();
+	
+	console.log('Populated database OK');
+	    getCategoriesListFromLocal();
 }	
-
 function errorCBInsertCategories(err) {
 	console.log("errorCBInsertCategories");
-	document.write("errorCBInsertCategories" + err);
 }
 
 function getCategoriesListFromLocal(){
@@ -837,10 +910,12 @@ function getCategoriesListFromLocal(){
 					if(len>0){
 						for (var i = 0; i < len; i++) {
 							var jsonObj={};
+							// server_cat_id, parent_id, name, update_timestamp, description, catImage, catStatus, children
 							jsonObj.id=results.rows.item(i)['id'];
 							jsonObj.server_cat_id=results.rows.item(i)['server_cat_id'];
 							jsonObj.parent_id=results.rows.item(i)['parent_id'];
 							jsonObj.name=results.rows.item(i)['name'];
+							//jsonObj.status=results.rows.item(i)['status'];
 							jsonObj.description=results.rows.item(i)['description'];
 							jsonObj.children=results.rows.item(i)['children'];
 							
@@ -885,40 +960,40 @@ function errorCBSubCatListDB() {
 }
 
 function insertProductDetails(tx) {
-	jQuery.each(productJsonData, function(index,value) {
-		var server_prod_id = value['id'];
-		var name = value['name'];
-		var description = value['description'];
-		var attribute_details = value['attributes'];
-		//var attributeObj = {};
-		//attributeObj['attributeArr'] = attribute_details;
-		var attributeJson = JSON.stringify(attribute_details);
-		var prod_status = value['status'];
-		var measurement_typeid = value['measurement_typeid'];
-		var update_timestamp = '';
-		
-		var category = value['category'];
-		//var categoryObj = {};
-		//categoryObj['categoryArr'] = category;
-		var categoryJson = JSON.stringify(category);
-		
-		var gallery = value['gallary'];
-		//var galleryObj = {};
-		//galleryObj['galleryArr'] = gallery;
-		var galleryJson = JSON.stringify(gallery);
-		//alert(server_prod_id +' name ' +name+ ' description ' +description + 'prod_status  '+prod_status);
-		//alert(attributeJson +' measurement_typeid ' +measurement_typeid+ ' categoryJson ' +categoryJson + 'galleryJson  '+galleryJson);
-		
-		//id integer primary key autoincrement, server_prod_id integer, name text, description text, update_timestamp text, measurement_typeid integer, status integer, attribute_details text, gallery text, category text
-		
-		tx.executeSql('INSERT INTO product_details (server_prod_id, name, description, update_timestamp, measurement_typeid, status, attribute_details, gallery, category_data) VALUES (?,?,?,?,?,?,?,?,?)',
-   	    			[server_prod_id, name, description, update_timestamp, measurement_typeid, prod_status, attributeJson, galleryJson, categoryJson], function(tx, res) {
-	   	         alert("PD insertId: " + res.insertId );
-  	    });
-	});
+	db.transaction(	function (tx){
+		tx.executeSql('select * from product_details',[],function(tx,results){
+			var len = results.rows.length;
+			if(len == 0){
+				jQuery.each(productJsonData, function(index,value) {
+					//alert('product Data value : '+value);
+					var server_prod_id = value['id'];
+					var name = value['name'];
+					var description = value['description'];
+					var attribute_details = value['attributes'];
+					var attributeJson = JSON.stringify(attribute_details);
+					var prod_status = value['status'];
+					var measurement_typeid = value['measurement_typeid'];
+					var category = value['category'];
+					var server_cat_id=''; var prodCatId = '';
+					
+					var gallery = value['gallary'];
+					var update_timestamp = '';
+					var galleryJson = JSON.stringify(gallery);
+					var categoryJson = JSON.stringify(category);
+					//alert('server_prod_id '+server_prod_id+' name '+name +' attribute_details '+attribute_details+' measurement_typeid '+measurement_typeid);
+					//alert('category '+category+' server_cat_id '+server_cat_id +' prodCatId '+prodCatId);
+					tx.executeSql('INSERT INTO product_details(server_prod_id, name, description, update_timestamp, measurement_typeid, status, attribute_details, gallery, category_data) VALUES (?,?,?,?,?,?,?,?,?)',
+			   	    			[server_prod_id, name, description, update_timestamp, measurement_typeid, prod_status, attributeJson, galleryJson, categoryJson], function(tx, res) {
+				   	        // alert("Product Details insertId: " + res.insertId + " -- res.rowsAffected 1"+res.rowsAffected);
+			  	    });
+				});
+			}
+		}, errorCB);
+	},errorCBProdLocalDB,successCBProdLocalDB);	
 }
 
 function successCBProdListDB() {
+	//alert(productDetailsArrSession);
 	appendProdListDB(productDetailsArrSession);
 }	
 
@@ -936,11 +1011,10 @@ function errorCBProdLocalDB() {
 
 function successCBInsertProductDetails() {
 	console.log("successCBInsertProductDetails");
+	
 	 console.log('Populated database OK');
-	// checkAttributeInLocalDB();
-	 getAttributesDataFromServer();
-}
-
+	    getProductsListFromLocal();
+}	
 function errorCBInsertProductDetails(err) {
 	console.log("errorCBInsertProductDetails");
 }
@@ -961,7 +1035,11 @@ function getProductsListFromLocal(){
 							jsonObj.prod_status = results.rows.item(i)['status'];
 							jsonObj.attribute_details = results.rows.item(i)['attribute_details'];
 							jsonObj.gallery = results.rows.item(i)['gallery'];
-							jsonObj.category = results.rows.item(i)['category_data'];
+							//jsonObj.server_cat_id = results.rows.item(i)['server_cat_id'];
+							//jsonObj.image_url = results.rows.item(i)['image_url'];
+							//jsonObj.prodcat_id = results.rows.item(i)['prodcat_id'];
+							jsonObj.categoryData = results.rows.item(i)['category_data'];
+							//alert('getProductsListFromLocal()');
 							productDetailsArrSession.push(jsonObj);
 							
 						}
@@ -973,26 +1051,35 @@ function getProductsListFromLocal(){
 }
 
 function insertAttributesDetails(tx) {
-	jQuery.each(attributeJsonData, function(index,value) {
-		//id, server_attr_id, name, identifier, status, backend_name, update_timestamp, option
-		var server_attr_id = value['id'];
-		var name = value['name'];
-		var identifier = value['identifier'];
-		var attr_status = value['status'];
-		var backend_name = value['backend_name'];
-		var option = value['option'];
-		//var image_url = value['image_url'];
-		var optionObj = {};
-		optionObj['optionArr'] = option;
-		var optionJson = JSON.stringify(optionObj);
-		var update_timestamp = '';
-		// id integer primary key autoincrement, server_attr_id integer, name text, identifier text, status integer, backend_name text, update_timestamp text, option text
-		//alert('optionJson '+optionJson+' value'+value);
-		tx.executeSql('INSERT INTO product_attributes(server_attr_id, name, identifier, status, backend_name, update_timestamp, option) VALUES (?,?,?,?,?,?,?)',
-   	    			[server_attr_id, name,identifier, attr_status, backend_name, update_timestamp, optionJson], function(tx, res) {
-	   	         //alert("Attribute Data insertId: " + res.insertId + " -- res.rowsAffected 1"+res.rowsAffected);
-  	    });
-	});
+	db.transaction(	function (tx){
+		var len = 0;
+		tx.executeSql('select * from product_attributes',[],function(tx,results){
+			len = results.rows.length;
+			//alert('insert Attri '+ len);
+			if(len == 0){
+				jQuery.each(attributeJsonData, function(index,value) {
+					//id, server_attr_id, name, identifier, status, backend_name, update_timestamp, option
+					var server_attr_id = value['id'];
+					var name = value['name'];
+					var identifier = value['identifier'];
+					var attr_status = value['status'];
+					var backend_name = value['backend_name'];
+					var option = value['option'];
+					//var image_url = value['image_url'];
+					var optionObj = {};
+					optionObj['optionArr'] = option;
+					var optionJson = JSON.stringify(optionObj);
+					var update_timestamp = '';
+					// id integer primary key autoincrement, server_attr_id integer, name text, identifier text, status integer, backend_name text, update_timestamp text, option text
+					//alert('optionJson '+optionJson+' value'+value);
+					tx.executeSql('INSERT INTO product_attributes(server_attr_id, name, identifier, status, backend_name, update_timestamp, option) VALUES (?,?,?,?,?,?,?)',
+			   	    			[server_attr_id, name,identifier, attr_status, backend_name, update_timestamp, optionJson], function(tx, res) {
+				   	         //alert("Attribute Data insertId: " + res.insertId + " -- res.rowsAffected 1"+res.rowsAffected);
+			  	    });
+				});
+			}
+		}, errorCB);
+	},errorCBAttrLocalDB, successCBAttrLocalDB);	
 }
 
 function successCBAttrListDB() {
@@ -1005,12 +1092,10 @@ function errorCBAttrListDB() {
 }
 
 function successCBInsertAttributeDetails() {
-	//alert("successCBInsertAttributeDetails");
+	//alert("successCBInsertProductDetails");
 	
 	 console.log('Populated database OK');
-	 //checkMeasurementInLocalDB();
-	 getMeasurementsDataFromServer();
-	    
+	    getAttributeListFromLocal();
 }	
 function errorCBInsertAttributeDetails(err) {
 	//alert("errorCBInsertAttributeDetails");
@@ -1054,24 +1139,20 @@ function getAttributeListFromLocal(){
 	);
 }
 function insertMeasurementsDetails(tx) {
-	jQuery.each(measurementJsonData, function(index,value) {
-		// name, server_measurement_id, status, update_timestamp, group, measurement_type_id
-		
-		var server_measurement_id = value["id"];
-		var name = value["name"];
-		var group = value["group"];
-		var meas_status = value["status"];
-		var updateTimestamp = '';
-		var measurementTypeId = value['measurement_type_id'];
-		var groupObj = {};
-		groupObj['groupArr'] = group;
-		var groupJson = JSON.stringify(groupObj);
-		var update_timestamp = '';
-		tx.executeSql('INSERT INTO measurement_details(name, server_measurement_id, status, update_timestamp, group, measurement_type_id) VALUES (?,?,?,?,?,?)',
-   	    			[name, server_measurement_id,meas_status, update_timestamp, groupJson, measurementTypeId], function(tx, res) {
-	   	         //alert("Attribute Data insertId: " + res.insertId + " -- res.rowsAffected 1"+res.rowsAffected);
+	var measurementsCreateSql ='CREATE TABLE IF NOT EXISTS measurement_details (id integer primary key autoincrement, api_id integer, '+
+			'status integer,name text, update_timestamp timestamp, group text)';
+	
+	tx.executeSql(measurementsCreateSql,[], function (tx, results) {
+		var api_id = measurementsData["id"];
+		var name = measurementsData["name"];
+		var group = measurementsData["group"];
+		var status = measurementsData["status"];
+
+		tx.executeSql('INSERT INTO measurement_details(api_id, name, status, group) VALUES (?,?,?,?)',
+   	    			[api_id, name, status, group], function(tx, res) {
+	   	         //alert("api_id: " + res.api_id + " -- res.rowsAffected: "+res.rowsAffected);
   	    });
-	});
+    });
 }
 
 
@@ -1211,73 +1292,59 @@ function insertMeasurementsDetails(tx) {
 
 /*  ------------------- Module-wise Methods/Function Code Starts ------------------  */	
 
-	function getCountByTableName(tablename){
-	    var x;
-	    db.readTransaction(function (t) {
-	        t.executeSql('SELECT COUNT(*) AS c FROM ' + tablename, [], function (t, r) {
-	            alert(r.rows[0].c + "rows")
-	            x= r.rows[0].c;
-	        });
-	    });
-	    return x;
-	}
-	
-	function checkCategoryInLocalDB(){
-		len = 0;
-		len = getCountByTableName("category");
-		if(len > 0){
-			window.localStorage["dbreadyflag"] = 1;
-			// checkProductInLocalDB();
-		}else{
-			alert('category Details  count 0');
-			getCategoriesDataFromServer();
-		}
-	}
-	
-	function checkProductInLocalDB(){
-		var len = getCountByTableName("product_details");
-		if(len > 0){
-			alert('Product Details ');
-			//checkAttributeInLocalDB();
-		}else{
-			alert('Product Details count 0');
-			//getProductDataFromServer();
-		}
-	}
-	
-	function checkAttributeInLocalDB(){
-		var len = getCountByTableName("product_attributes");
-		if(len > 0){
-			alert('Attribute Details');
-			//checkMeasurementInLocalDB();
-		}else{
-			alert('Attribute Details count 0');
-			//getAttributesDataFromServer();
-		}
-	}
-	
-	function checkMeasurementInLocalDB(){
-		var len = getCountByTableName("measurement_details");
-		if(len > 0){
-			alert('Measurement Details');
-			//getCategoriesListFromLocal();
-		}else{
-			alert('Measurement Details  count 0');
-			//getMeasurementsDataFromServer();
-		}
-	}
-	
 	function loadDataFromServer(){
-		checkCategoryInLocalDB();
+		getCategoriesDataFromServer();
+		//getProductDataFromServer();
+		/*
+		alert('Attribute');
+		getAttributesDataFromServer();
+		*/
+				
 	}
 	
 	var tailorDetailsData;
 	var categoriesJsonData;
 	var attributeJsonData;
 	var productJsonData;
-	var measurementJsonData;
-	var measurementTypeId = 0;
 
+	function getTailorDataFromServer(){
+		var len = 0;
+		db.transaction(	function (tx){
+			tx.executeSql('select * from category',[],function(tx,results){
+					len = results.rows.length;
+			},errorCBCatLocalDB,successCBCatLocalDB);
+		});
+		if(len == 0){
+			var dataToSend = {};
+			dataToSend["secret_key"] = "4TPD6PI91";
+			var appurltemps="http://tailorraniapp.stavyah.com/api/tailors/tailorinfoJson"
+			connectionType=checkConnection();
+			if(connectionType=="Unknown connection" || connectionType=="No network connection"){
+				navigator.notification.alert(appRequiresWiFi,alertConfirm,appName,'Ok');
+			}
+			else if(connectionType=="WiFi connection" || connectionType=="Cell 4G connection" || connectionType=="Cell 3G connection" || connectionType=="Cell 2G connection"){
+				$.ajax({
+					type : ajaxCallType,
+					url: url,
+					data : dataToSend,
+					success: successCBTailorDetailsFn,
+					error: commonErrorCallback
+				});
+			}
+			else{
+				navigator.notification.alert(appRequiresWiFi,alertConfirm,appName,'Ok');
+			}
+		}
+	}
+
+	function successCBTailorDetailsFn(data){
+		tailorDetailsData = data;
+		// DB Tras
+	}
+	
+	// getTailorDataFromLocal
+	
+	
 	function getCategoriesDataFromServer(){
 		var dataToSend = {};
 		dataToSend["secret_key"] = "4TPD6PI91";
@@ -1305,8 +1372,7 @@ function insertMeasurementsDetails(tx) {
 		categoriesJsonData = responseJson["result"];
 		//appendCatListDB(categoriesJsonData);
 		// FIXME CHECK JSON DATA
-		insertCategories(categoriesJsonData);
-		
+		db.transaction(insertCategories, errorCBInsertCategories, successCBInsertCategories);
 	}
 	
 	function appendCatListDB(catArrData, subCatArrData) {
@@ -1368,8 +1434,8 @@ function insertMeasurementsDetails(tx) {
 		$('#mainPageId').find('.sub-menu').hide();
 		//alert('Data Appended Successfully.');
 		
-		getProductsListFromLocal();
-		getAttributeListFromLocal();
+		getProductDataFromServer();
+		getAttributesDataFromServer();
 		//$('#mainPageId').append(categoryDiv);
 		//$('#mainPageId').append(subCategoryDiv);
 		//$('#mainPageId .childCatList').hide();
@@ -1377,104 +1443,132 @@ function insertMeasurementsDetails(tx) {
 	
 	// Remaining
 	function getProductDataFromServer(){
-		var dataToSend = {};
-		dataToSend["secret_key"] = "4TPD6PI91";
-		var apiCallUrl="http://tailorraniapp.stavyah.com/api/products/productsJson"
-		connectionType=checkConnection();
-		if(connectionType=="Unknown connection" || connectionType=="No network connection"){
-			navigator.notification.alert(appRequiresWiFi,alertConfirm,appName,'Ok');
-		}
-		else if(connectionType=="WiFi connection" || connectionType=="Cell 4G connection" || connectionType=="Cell 3G connection" || connectionType=="Cell 2G connection"){
-			$.ajax({
-				type : ajaxCallPost,
-				url: apiCallUrl,
-				data : dataToSend,
-				success: successCBServerProductFn,
-				error: commonErrorCallback
-			});
-		}
-		else{
-			navigator.notification.alert(appRequiresWiFi,alertConfirm,appName,'Ok');
+		var len = 0;
+		db.transaction(	function (tx){
+			tx.executeSql('select * from product_details',[],function(tx,results){
+					len = results.rows.length;
+			},errorCBProdLocalDB,successCBProdLocalDB);
+		});
+		//alert('len product data from server' +len);
+		if(len == 0){
+			var dataToSend = {};
+			dataToSend["secret_key"] = "4TPD6PI91";
+			var apiCallUrl="http://tailorraniapp.stavyah.com/api/products/productsJson"
+			connectionType=checkConnection();
+			if(connectionType=="Unknown connection" || connectionType=="No network connection"){
+				navigator.notification.alert(appRequiresWiFi,alertConfirm,appName,'Ok');
+			}
+			else if(connectionType=="WiFi connection" || connectionType=="Cell 4G connection" || connectionType=="Cell 3G connection" || connectionType=="Cell 2G connection"){
+				$.ajax({
+					type : ajaxCallPost,
+					url: apiCallUrl,
+					data : dataToSend,
+					success: successCBServerProductFn,
+					error: commonErrorCallback
+				});
+			}
+			else{
+				navigator.notification.alert(appRequiresWiFi,alertConfirm,appName,'Ok');
+			}
 		}
 	}
 
 	function successCBServerProductFn(data){
 		var responseJson = $.parseJSON(JSON.stringify(data));
 		productJsonData = responseJson["result"];
-		alert('productJsonData '+productJsonData);
 		//alert(productJsonData);
 		// FIXME CHECK JSON DATA
 		db.transaction(insertProductDetails, errorCBInsertProductDetails, successCBInsertProductDetails);
 	}
 	
 	function appendProdListDB(prodArrData) {
+		prodArrData = productDetailsArrSession;
 		var mainPageGallery = '';
 		var attrMeasPageGallery = '';
-		
+		//alert('append Product Gallery');
 		jQuery.each(prodArrData, function(index,value) {
 			var jsonObj=value;
 			var local_db_id=jsonObj["id"];
 			var server_prod_id=jsonObj["server_prod_id"];
 			var prod_name=jsonObj["prod_name"];
 			var prod_description=jsonObj["prod_description"];
-			var prodcat_id = jsonObj["prodcat_id"];
-			var server_cat_id=jsonObj["server_cat_id"];
-			var gallery=jsonObj["gallery"];
-			var category=jsonObj["category"];
-			//alert('appendProdListDB');
-			//alert('server_prod_id '+server_prod_id+' prod_name '+server_cat_id);
-			//alert(gallery);
-			var galleryObj = jQuery.parseJSON(gallery);
-			var categoryObj = jQuery.parseJSON(category);
-			jQuery.each(galleryObj, function(indexObj,valueObj) {
+			var galleryObj = jQuery.parseJSON(jsonObj.gallery);
+			var categoryObj = jQuery.parseJSON(jsonObj.categoryData);
+			
+			jQuery.each(galleryObj , function(indexObj,valueObj) {
 				var gallery_id = valueObj['id'];
 				var image = valueObj["image"];
-				image = 'img/product/product'+index+'.jpg';
-				jQuery.each(categoryObj, function(indexcat,valueCat) {
+				
+				//var image2 = 'img/product/product2.jpg';
+				jQuery.each(categoryObj, function(indexCat, valueCat){
+					var image1 = 'img/product'+index+'.jpg';
 					var server_cat_id = valueCat['cat_id'];
-					var imageTag = '<img class="imageAppendAttrMeaCust" src="'+image+'"  alt="Saree" style="width:304px;height:500px;"/>';
-					var galleryImage = '<div class="col-xs-6 col-sm-4 col-md-4 col-lg-4 galleriesClass gallcatid'+server_cat_id+'" data-gall_id="'+gallery_id+'" data-cat_id="'+server_cat_id+'" '+
-							'data-prod_id="'+server_prod_id+'" data-lid="'+local_db_id+'" onclick="appendAttributeData(this)">'+
-							'<img src="'+image+'"  alt="Saree" style="width:304px;height:500px;"/>'+prod_name+'</div>';
-							alert('galleryImage -- '+galleryImage);
+					if(index == 0){
+						var imageTag = '<img class="imageAppendAttrMea" src="'+image1+'"  alt="Saree" style="width:304px;height:500px;"/>';
+						attrMeasPageGallery += imageTag;
+					}
+					var galleryImage = '<div class="col-xs-12 col-sm-6 col-md-4 col-lg-4 galleriesClass gallcatid'+server_cat_id+indexObj+'" data-gall_id="'+gallery_id+'" data-cat_id="'+server_cat_id+'" '+
+							'data-prod_id="'+server_prod_id+'" data-lid="'+local_db_id+'" onclick="goToAttributeDiv(this)">'+
+							'<img src="'+image1+'"  alt="Saree" style="width:304px;height:500px;"/>'+prod_name+'</div>';
+							//alert('galleryImage -- '+galleryImage);
 					mainPageGallery += galleryImage;
-					attrMeasPageGallery += image;
+					
 				});
+				
 				//alert(' appendProdListDB  gallcatid'+server_cat_id+'');
 			});
 		});
 		//alert('mainPageGallery ' +mainPageGallery);
 		$("#mainPageId").find('.galleriesClass').remove();
+		//$('#prodArrData').val(prodArrData);
 		$("#mainPageId").find('.product-list').append(mainPageGallery);
 		$('#mainPageId .product-list').find('.galleriesClass').hide();
-		$('.imageAppendAttrMeaCust').remove();
+		$('.imageAppendAttrMea').remove();
 		//$('.imageAppendSelMea').remove();
 		$('.attributePageLocation').append(attrMeasPageGallery);
 		$('.measurementPageLocation').append(attrMeasPageGallery);
 	}
 	
-	function appendAttributeData(currentData){
+	function goToAttributeDiv(currentData){
 		
 		var productDataForAttr = productDetailsArrSession; 
+		/*
+		jsonObj.id = results.rows.item(i)['id'];
+		jsonObj.server_prod_id = results.rows.item(i)['server_prod_id'];
+		jsonObj.prod_name = results.rows.item(i)['name'];
+		jsonObj.prod_description = results.rows.item(i)['description'];
+		jsonObj.measurement_typeid = results.rows.item(i)['measurement_typeid'];
+		jsonObj.prod_status = results.rows.item(i)['status'];
+		jsonObj.attribute_details = results.rows.item(i)['attribute_details'];
+		jsonObj.gallery = results.rows.item(i)['gallery'];
+		jsonObj.server_cat_id = results.rows.item(i)['server_cat_id'];
+		jsonObj.image_url = results.rows.item(i)['image_url'];
+		*/
 		var selectMeasBarPageDiv = '';
 		var attrMeasPageGallery = '';
 		var attrIds = []; var prodAttrIds = [];
+		//alert('goToAttributePage');
+		//alert('productDataForAttr -- '+productDataForAttr);
 		jQuery.each(productDataForAttr, function(index,value) {
+			//alert('goToAttributePage Inside Forloop');
 			var jsonObj = value;
 			var local_db_id = jsonObj["id"];
 			var server_prod_id = jsonObj["server_prod_id"];
 			var prod_name = jsonObj["prod_name"];
 			var prod_description = jsonObj["prod_description"];
-			var attribute_details = jsonObj["attribute_details"];
-			var attributeObj = jQuery.parseJSON(attribute_details);
-			var category = jsonObj["category"];
-			var categoryObj = jQuery.parseJSON(category);
+			//var server_cat_id = jsonObj["server_cat_id"];
+			
+			var galleryObj = jQuery.parseJSON(jsonObj.gallery);
+			var categoryObj = jQuery.parseJSON(jsonObj.categoryData);
+			var attributeObj = jQuery.parseJSON(jsonObj.attribute_details);
+			
 			var mainPageCatId = $(currentData).data('cat_id');
 			var mainPageProdId = $(currentData).data('prod_id');
-			jQuery.each(categoryObj, function(indexCat,valueCat) {
+			
+			jQuery.each(categoryObj, function(indexCat, valueCat){
 				var server_cat_id = valueCat['cat_id'];
-				if(mainPageProdId == server_prod_id && mainPageCatId == server_cat_id){
-					measurementTypeId = value['measurement_typeid'];
+				//alert(mainPageCatId + " "+ server_prod_id +" " +mainPageProdId + " " +server_cat_id);
+				if(mainPageCatId == server_cat_id && mainPageProdId == server_prod_id){
 					jQuery.each(attributeObj, function(indexObj,valueObj) {
 						//alert('goToAttributePage AttributeArr');
 						var paIds = valueObj['id'];
@@ -1482,9 +1576,13 @@ function insertMeasurementsDetails(tx) {
 						prodAttrIds[indexObj] = paIds;
 						attrIds[indexObj] = attrId;
 					});
-					getAttrDataToAppend(prodAttrIds, attrIds, server_cat_id, server_prod_id);
+					getAttrDataFromServer(prodAttrIds, attrIds, server_cat_id, server_prod_id);
 				}
 			});
+			
+			//gotoAttributePage();	
+			
+			
 		});
 		/*$("#mainPageId").find('.product-list').append(mainPageGallery);
 		$('.attributePageLocation').remove();
@@ -1526,7 +1624,7 @@ function insertMeasurementsDetails(tx) {
 		db.transaction(insertAttributesDetails, errorCBInsertAttributeDetails, successCBInsertAttributeDetails);
 	}
 	
-	function getAttrDataToAppend(prodAttrArray, attrArray, cat_Id, prod_Id){
+	function getAttrDataFromServer(prodAttrArray, attrArray, cat_Id, prod_Id){
 		appendAttrDataByArraysAndIds(prodAttrArray, attrArray, cat_Id, prod_Id);
 	}
 	
@@ -1535,8 +1633,6 @@ function insertMeasurementsDetails(tx) {
 		var optionMainDiv = '';
 		//alert('appendAttrDataByArraysAndIds --- ');
 		//alert('attrDetailsArrSession --- '+attrDetailsArrSession);
-		
-		var attrNameIndex0 = '';
 		jQuery.each(attrDetailsArrSession, function(index,value) {
 			var attrId = value['id'];
 			var server_attr_id = value['server_attr_id'];
@@ -1545,35 +1641,36 @@ function insertMeasurementsDetails(tx) {
 			var backend_name = value['backend_name'];
 			var option = value['option'];
 			var optionObj = jQuery.parseJSON(option);
-			if(index == 0){
-				attrNameIndex0 = attr_name;
-			}
+			//alert('optionObj -- '+optionObj);
 			jQuery.each(attrArr, function(index1,value1) {
 				if(value1 == attrId){
-					var tempAttrDiv = '';
-						tempAttrDiv = '<div class="col-xs-2 col-sm-2 col-md-2 col-lg-2 selMenu-bar indexAttr'+index1+'" data-attrIndex="indexAttr'+attr_name+'" onclick="attrMenu(this)" data-cat_id="'+catId+'" data-prod_id="'+prodId+'" data-attrid="'+server_attr_id+'" data-lid="'+attrId+'"><a href="#">'+attr_name+'</a></div>';
+					var tempAttrDiv = '<div class="col-xs-2 col-sm-2 col-md-2 col-lg-2 selMenu-bar" data-cat_id="'+catId+'" data-prod_id="'+prodId+'" data-attrid="'+server_attr_id+'" data-lid="'+attrId+'"><a href="#">'+attr_name+'</a></div>';
 					jQuery.each(optionObj['optionArr'], function(index2,value2) {
+						
 						var optionName = value2['name'];
 						var optionImg = value2['image'];
-						var optionId = value2['id'];
-						optionImg = 'img/attribute/attr'+index2+'.png';
-						var tempOptDiv = '<div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 optMenu-bar optionAttr'+index1+'" onclick="selectOption(this);" data-cat_id="'+catId+'" data-prod_id="'+prodId+'" data-attrid="'+server_attr_id+'" data-lid="'+attrId+'"><div class="box"><img src="'+optionImg+'" alt="Saree" style="width:200px;height:200px;">'+optionName + ' ' +attr_name +'</div></div>';
+						optionImg = 'img/attr'+index2+'.png';
+						var tempOptDiv = '<div class="col-xs-6 col-sm-4 col-md-4 col-lg-4 optMenu-bar" data-cat_id="'+catId+'" data-prod_id="'+prodId+'" data-attrid="'+server_attr_id+'" data-lid="'+attrId+'"><div class="box"><img src="'+optionImg+'" alt="Saree" style="width:200px;height:200px;">'+optionName+'</div></div>';
 						optionMainDiv += tempOptDiv;
 					});
 					 attributeDiv += tempAttrDiv;
 				}
 			});
-			attributeDiv = '<div class="row indexAttr'+attr_name+'">' + attributeDiv + '</div>'
+			
 		});
 		$('.selMenu-bar').remove();
 		$('.selection-menu').append(attributeDiv);
-		
+		$('.optMenu-bar').remove();
 		$('.attr-option-div').append(optionMainDiv);
-		$('.optMenu-bar').hide();
-		$('.optionAttr'+attrNameIndex0).show();
-		gotoAttributePageDiv();
+		
+		gotoAttributePage();
+		
 	}
 
+	function gotoAttributePage(){
+		$.mobile.changePage('#selection-page','slide');
+	}
+	
 	var measurementsData;
 	function getMeasurementsDataFromServer(){
 		var dataToSend = {};
@@ -1598,27 +1695,8 @@ function insertMeasurementsDetails(tx) {
 	}
 
 	function successCBMeasurementsFn(data){
-		var responseJson = data;
+		measurementsData = data;
 		//db.transaction(insertMeasurementsDetails, errorCB, successCB);
-		measurementJsonData = responseJson["result"];
-		alert('measurementJsonData');
-		//alert(attributeJsonData);
-		// FIXME CHECK JSON DATA
-		db.transaction(insertMeasurementsDetails, errorCBInsertMeasurementDetails, successCBInsertMeasurementDetails);
-		//, errorCBInsertAttributeDetails, successCBInsertAttributeDetails
-	}
-	
-	function successCBInsertMeasurementDetails() {
-		//alert("successCBInsertMeasurementDetails");
-		
-		 console.log('Populated database OK');
-		 
-		 getCategoriesListFromLocal();
-		 //checkAttributeInLocalDB();
-		    
-	}	
-	function errorCBInsertMeasurementDetails(err) {
-		//alert("errorCBInsertAttributeDetails");
 	}
 	
 	function getMeasurementsJson(){
@@ -1641,16 +1719,6 @@ function insertMeasurementsDetails(tx) {
 	function mainGalleryFun(object){
 		var cat_id = $(object).data('cat_id');
 		$('.galleriesClass').hide();
-		$(".gallcatid"+cat_id).show();
-	}
-	
-	function attrMenu(object){
-		var attrFindObj = $(object).data('attrIndex');
-		$('.optMenu-bar').hide();
-		$('.'+attrFindObj).show();
-	}
-	
-	function getAndShowMeasurementDetails(){
-		
+		$(".gallcatid"+cat_id+'0').show();
 	}
 	
