@@ -1515,7 +1515,7 @@ function errorCBMeasurementListDB() {
 						
 					//}
 					jQuery.each(attributeObj, function(indexAttr, valueAttr){
-						var attr_server_id = valueAttr['id'];
+						var attr_server_id = valueAttr['attr_id'];
 					var galleryImage = '<div class="col-xs-12 col-sm-6 col-md-4 col-lg-4 galleriesClass gallcatid'+server_cat_id+'" data-gall_id="'+gallery_id+'" data-cat_id="'+server_cat_id+'" '+
 							'data-prod_id="'+server_prod_id+'" data-pro_index="'+index+'" data-attrserid="'+attr_server_id+'" data-lid="'+local_db_id+'" onclick="goToAttributeDiv(this)">'+
 							'<img src="'+prodImage+'"  alt="Saree" style="width:304px;height:500px;"/>'+prod_name+'</div>';
