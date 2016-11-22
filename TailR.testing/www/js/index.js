@@ -1581,7 +1581,7 @@ function errorCBMeasurementListDB() {
 			jQuery.each(categoryObj, function(indexCat, valueCat){
 				console.log('goToAttributePage categoryObj Inside Forloop');
 				var server_cat_id = valueCat['cat_id'];
-				//alert(mainPageCatId + " "+ server_prod_id +" " +mainPageProdId + " " +server_cat_id);
+				alert(mainPageCatId + " "+ server_prod_id +" " +mainPageProdId + " " +server_cat_id);
 				if(mainPageCatId == server_cat_id && mainPageProdId == server_prod_id){
 					jQuery.each(attributeObj, function(indexObj,valueObj) {
 						console.log('goToAttributePage attributeObj Inside Forloop');
@@ -1625,8 +1625,9 @@ function errorCBMeasurementListDB() {
 			//alert('optionObj -- '+optionObj);
 			jQuery.each(attrArr, function(index1,value1) {
 				console.log(attrArr);
-				if(value1 == attrId){
-					console.log(value1+'value1 == attrId'+value1);
+				if(value1 == server_attr_id){
+					alert(value1+'value1 == attrId'+server_attr_id);
+					alert('attr_name '+attr_name);
 					var tempAttrDiv = '<div class="col-xs-2 col-sm-2 col-md-2 col-lg-2 selMenu-bar" data-cat_id="'+catId+'" data-prod_id="'+prodId+'" data-attrid="'+server_attr_id+'" data-lid="'+attrId+'"><a href="#">'+attr_name+'</a></div>';
 					jQuery.each(optionObj, function(index2,value2) {
 						var optionName = value2['name'];
