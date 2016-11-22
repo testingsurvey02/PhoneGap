@@ -1261,7 +1261,7 @@ function errorCBMeasurementListDB() {
 	}
 	
 	function checkCategoryInLocalDB(){
-		len = 0;
+		var len = 0;
 		len = getCountByTableName("category");
 		if(len > 0){
 			window.localStorage["dbreadyflag"] = 1;
