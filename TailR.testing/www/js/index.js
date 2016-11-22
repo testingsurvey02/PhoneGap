@@ -1592,6 +1592,7 @@ function errorCBMeasurementListDB() {
 						//alert('goToAttributePage AttributeArr');
 						var paIds = valueObj['id'];
 						var attrId = valueObj['attr_id'];
+						alert(attrServCurrId+ 'attrServCurrId == attrId'+attrId);
 						if(attrServCurrId == attrId){
 							prodAttrIds[indexObj] = paIds;
 							attrIds[indexObj] = attrId;
