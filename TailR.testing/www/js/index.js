@@ -1,10 +1,16 @@
-
-/*	// Local System Find JsonFormat 
+var catArrSessionData='[{"id":1,"server_cat_id":1,"parent_id":"","name":"Men","description":"","image":"","sort_order":"1","status":"1"}]';
+var subCatArrSessionData='[{"id":2,"server_cat_id":1,"parent_id":"1","name":"SHIRT","description":"description02","image":"","sort_order":"1","status":"1"},{"id":3,"server_cat_id":1,"parent_id":"1","name":"PANT","description":"description03","image":"","sort_order":"2","status":"1"}]';
+var productDetailsArrSessionData = '[{"id":1,"server_prod_id":1, "prod_name":"SHIRT - FULL SLEEVE","prod_description":"Fabric: Cotton Linen Blend\r\nSlim Fit, Full Sleeve\r\nCollar Type: Regular\r\nPattern: Checkered\r\nSet of 1","measurement_typeid":"1","prod_status":"1","attribute_details":[{"id":59,"pdt_id":"1","attr_id":"2","created_at":"2016-11-21 06:02:58","updated_at":"2016-11-21 06:02:58"}],"category":[{"id":40,"pdt_id":"1","cat_id":"1","created_at":"2016-11-21 06:02:58","updated_at":"2016-11-21 06:02:58"}],"gallery":[{"id":9,"pdt_id":"1","image":"product_5_582ea8c053c3b.jpg","created_at":"2016-11-18 07:07:44","updated_at":"2016-11-18 07:07:44"}]}]';
+var attrDetailsArrSessionData = '[{"id":1,"server_attr_id":1,"attr_name":"Attribute 2-shirt cuffs","identifier":"sss","attr_status":"1","backend_name":"Backend shirt cuffs","option":[{"id":3,"attr_id":"1","name":"a2-option1 cuffs1","image":"attribute_1_583285971f775.png","status":"1","sort_order":"0","created_at":"2016-11-02 19:40:34","updated_at":"2016-11-21 05:26:47"},{"id":7,"attr_id":"1", "name":"a2-option2 cuffs2", "image":"attribute_1_583285971fd42.png", "status":"1", "sort_order":"0", "created_at":"2016-11-17 07:48:14", "updated_at":"2016-11-21 05:26:47"},{"id":9, "attr_id":"1","name":"a2-option3 cuffs3","image":"attribute_1_58328597200e6.png","status":"1","sort_order":"0","created_at":"2016-11-21 05:26:47","updated_at":"2016-11-21 05:26:47"},{"id":10,"attr_id":"1","name":"a2-option4 cuffs4","image":"attribute_1_5832859720444.png","status":"1","sort_order":"0","created_at":"2016-11-21 05:26:47","updated_at":"2016-11-21 05:26:47"}]}]';
+var measurementArrSessionData = '[{"id":1,"server_measurement_id":1,"measurement_name":"Mens","status":"1", "group_data":[{"id":1,"name":"Shirts","status":"1","measurement_type_id":"1","created_at":"2016-11-02 23:28:53","updated_at":"2016-11-03 00:00:31","measurements":[{"id":1,"name":"Shirt collar1","status":"1","measurement_group_id":"1","created_at":"2016-11-02 23:28:53","updated_at":"2016-11-03 00:00:31"},{"id":2,"name":"shirt neck2","status":"1","measurement_group_id":"1","created_at":"2016-11-02 23:28:53","updated_at":"2016-11-03 00:00:31"}]},{"id":3,"name":"tee shirt","status":"1","measurement_type_id":"1","created_at":"2016-11-03 00:22:40","updated_at":"2016-11-03 00:22:40","measurements":[{"id":7,"name":"round neck","status":"1","measurement_group_id":"3","created_at":"2016-11-03 00:22:40","updated_at":"2016-11-03 00:22:40"},{"id":8,"name":"with collar","status":"1","measurement_group_id":"3","created_at":"2016-11-03 00:22:40","updated_at":"2016-11-03 00:22:40"}]},{"id":4,"name":"shorts","status":"1","measurement_type_id":"1","created_at":"2016-11-08 18:32:49","updated_at":"2016-11-08 18:32:49","measurements":[{"id":9,"name":"elbow length","status":"1","measurement_group_id":"4","created_at":"2016-11-08 18:32:49","updated_at":"2016-11-17 07:50:56"},{"id":16,"name":"back","status":"1","measurement_group_id":"4","created_at":"2016-11-17 07:50:56","updated_at":"2016-11-17 07:50:56"},{"id":17,"name":"front","status":"1","measurement_group_id":"4","created_at":"2016-11-17 07:50:56","updated_at":"2016-11-17 07:50:56"}]}]}]';
+	// Local System Find JsonFormat 
+var test = 1;
 	$(function() {
-		getAttributesDataJson();
-		getMeasurementDataJson();
-		getProductDataJson();
-		getCategoriesDataJson();
+		//alert(catArrSession);
+		if(test == 1){
+			appendCatListDB(catArrSessionData, subCatArrSessionData);
+			appendProdListDB(productDetailsArrSessionData);
+		}
 	});
 	
 	
@@ -61,7 +67,7 @@
 				error: commonErrorCallback
 			});
 	}
-*/
+
 
 $( document ).on( "mobileinit", function() {
     // Make your jQuery Mobile framework configuration changes here!
@@ -723,9 +729,9 @@ function calculateDateTimeDiff(old_date,new_date) {
 // Variables Declarations
 var catArrSession=[];
 var subCatArrSession=[];
-var productDetailsArrSession = [];
-var attrDetailsArrSession = [];
-var measurementArrSession = [];
+var productDetailsArrSession=[];
+var attrDetailsArrSession =[];
+var measurementArrSession =[];
 var measurementTypeId = '';
 
 /* ************* Database Code Starts   -------------------------  */
@@ -854,8 +860,6 @@ function getCategoriesListFromLocal(){
 							}else{
 								catArrSession.push(jsonObj);
 							}
-							
-							
 						}
 					}
 				}, errorCB
@@ -1346,15 +1350,18 @@ function errorCBMeasurementListDB() {
 		//appendCatListDB(categoriesJsonData);
 		// FIXME CHECK JSON DATA
 		insertCategories(categoriesJsonData);
-		
 	}
 	
 	function appendCatListDB(catArrData, subCatArrData) {
 		var categoryDiv = '<div class="row main-menu" >';
 		var subCategoryDiv = "";
-		
+		console.log('appendCatListDB');
+		//alert('catArrData   ' + catArrData);
+		//var catArrDataTemp = jQuery.parseJSON(JSON.stringify(catArrData));
+		// var catArrDataTemp = $.parseJSON(catArrData); Test = 1
 		jQuery.each(catArrData, function(index,value) {
 			//alert('catArrData '+value);
+			//console.log('Inside for loop');
 			var jsonObj=value;
 			var primaryCKeyId=jsonObj["id"];
 			var server_cat_id=jsonObj["server_cat_id"];
@@ -1372,6 +1379,9 @@ function errorCBMeasurementListDB() {
 			if(children != 0){
 				var subCategoryTempDiv="";
 				var isExist = false;
+				//var catArrDataSubTemp = $.parseJSON(subCatArrData);
+				// var catArrDataTemp = $.parseJSON(subCatArrData); Test = 1
+				//jQuery.each(catArrDataSubTemp, function(indexObj,valueObj) {
 				jQuery.each(subCatArrData, function(indexObj,valueObj) {
 					var childJsonObj = valueObj;
 					var child_parent_id = childJsonObj["parent_id"];
@@ -1410,6 +1420,7 @@ function errorCBMeasurementListDB() {
 		
 		getProductsListFromLocal();
 		getAttributeListFromLocal();
+		//appendProdListDB(productDetailsArrSession); Test = 1
 		//$('#mainPageId').append(categoryDiv);
 		//$('#mainPageId').append(subCategoryDiv);
 		//$('#mainPageId .childCatList').hide();
@@ -1486,12 +1497,19 @@ function errorCBMeasurementListDB() {
 		
 		
 		console.log('append Product Gallery : ' + prodArrData);
+		//json.loads(s.replace('\r\n', ''))
+		//var prodArrDataTemp = $.parseJSON(prodArrData.replace("\n","\\n"));
+		//var prodArrDataTemp = $.parseJSON(prodArrData.replace('\r\n', ''));
+		//var prodArrDataTemp = $.parseJSON(prodArrData); Test = 1;
 		jQuery.each(prodArrData, function(index,value) {
 			var jsonObj=value;
 			var local_db_id=jsonObj["id"];
 			var server_prod_id=jsonObj["server_prod_id"];
 			var prod_name=jsonObj["prod_name"];
 			var prod_description=jsonObj["prod_description"];
+			//console.log('prod_description   '+prod_description);
+			//var galleryObj = $.parseJSON(JSON.stringify(jsonObj['gallery'])); Test = 1;
+			//var categoryObj = $.parseJSON(JSON.stringify(jsonObj['category'])); Test = 1;
 			var galleryObj = jQuery.parseJSON(jsonObj['gallery']);
 			var categoryObj = jQuery.parseJSON(jsonObj['category']);
 			 
@@ -1546,6 +1564,7 @@ function errorCBMeasurementListDB() {
 		var attrIds = []; var prodAttrIds = [];
 		//alert('goToAttributePage');
 		//alert('productDataForAttr -- '+productDataForAttr);
+		//productDataForAttr = $.parseJSON(productDataForAttr);
 		jQuery.each(productDataForAttr, function(index,value) {
 			
 			console.log('goToAttributePage productDataForAttr Inside Forloop');
@@ -1556,6 +1575,9 @@ function errorCBMeasurementListDB() {
 			var prod_description = jsonObj["prod_description"];
 			//var server_cat_id = jsonObj["server_cat_id"];
 			
+			//var galleryObj = jQuery.parseJSON(JSON.stringify(jsonObj.gallery)); Test = 1
+			//var categoryObj = jQuery.parseJSON(JSON.stringify(jsonObj.category)); Test = 1
+			//var attributeObj = jQuery.parseJSON(JSON.stringify(jsonObj.attribute_details)); Test = 1
 			var galleryObj = jQuery.parseJSON(jsonObj.gallery);
 			var categoryObj = jQuery.parseJSON(jsonObj.category);
 			var attributeObj = jQuery.parseJSON(jsonObj.attribute_details);
@@ -1613,6 +1635,8 @@ function errorCBMeasurementListDB() {
 		var optionMainDiv = '';
 		//alert('appendAttrDataByArraysAndIds --- ');
 		//alert('attrDetailsArrSession --- '+attrDetailsArrSession);
+		//var attrDataObj = attrDetailsArrSession; Test = 1
+	//	attrDataObj = $.parseJSON(attrDataObj);
 		jQuery.each(attrDetailsArrSession, function(index,value) {
 			console.log('appendAttrDataByArraysAndIds attrDetailsArrSession');
 			var attrId = value['id'];
@@ -1621,6 +1645,7 @@ function errorCBMeasurementListDB() {
 			var identifier = value['identifier'];
 			var backend_name = value['backend_name'];
 			var option = value['option'];
+			//var optionObj = jQuery.parseJSON(JSON.stringify(option)); Test = 1
 			var optionObj = jQuery.parseJSON(option);
 			//alert('optionObj -- '+optionObj);
 			jQuery.each(attrArr, function(index1,value1) {
