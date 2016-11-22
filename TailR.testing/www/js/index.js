@@ -1494,6 +1494,7 @@ function errorCBMeasurementListDB() {
 			var prod_description=jsonObj["prod_description"];
 			var galleryObj = jQuery.parseJSON(jsonObj['gallery']);
 			var categoryObj = jQuery.parseJSON(jsonObj['category']);
+			var attributeObj = jQuery.parseJSON(jsonObj['attribute_details']); 
 			 
 			console.log('galleryObj' + galleryObj);
 			console.log('categoryObj' + categoryObj);
@@ -1513,12 +1514,14 @@ function errorCBMeasurementListDB() {
 					//if(index == 0){
 						
 					//}
+					jQuery.each(attributeObj, function(indexAttr, valueAttr){
+						var attr_server_id = valueAttr['id'];
 					var galleryImage = '<div class="col-xs-12 col-sm-6 col-md-4 col-lg-4 galleriesClass gallcatid'+server_cat_id+'" data-gall_id="'+gallery_id+'" data-cat_id="'+server_cat_id+'" '+
-							'data-prod_id="'+server_prod_id+'" data-pro_index="'+index+'" data-lid="'+local_db_id+'" onclick="goToAttributeDiv(this)">'+
+							'data-prod_id="'+server_prod_id+'" data-pro_index="'+index+'" data-attrserid="'+attr_server_id+'" data-lid="'+local_db_id+'" onclick="goToAttributeDiv(this)">'+
 							'<img src="'+prodImage+'"  alt="Saree" style="width:304px;height:500px;"/>'+prod_name+'</div>';
 							//alert('galleryImage -- '+galleryImage);
 					mainPageGallery += galleryImage;
-					
+					});
 				});
 				
 				//alert(' appendProdListDB  gallcatid'+server_cat_id+'');
@@ -1539,6 +1542,7 @@ function errorCBMeasurementListDB() {
 	function goToAttributeDiv(currentData){
 		var gallCurrId = $(currentData).data('gall_id');
 		var pro_index = $(currentData).data('pro_index');
+		var attrServCurrId = $(currentData).data('attrserid');
 		var productDataForAttr = productDetailsArrSession; 
 		console.log('gallCurrId : '+gallCurrId + ' pro_index : ' +pro_index);
 		var selectMeasBarPageDiv = '';
@@ -1588,8 +1592,10 @@ function errorCBMeasurementListDB() {
 						//alert('goToAttributePage AttributeArr');
 						var paIds = valueObj['id'];
 						var attrId = valueObj['attr_id'];
-						prodAttrIds[indexObj] = paIds;
-						attrIds[indexObj] = attrId;
+						if(attrServCurrId == attrId){
+							prodAttrIds[indexObj] = paIds;
+							attrIds[indexObj] = attrId;
+						}
 					});
 					appendAttrDataByArraysAndIds(prodAttrIds, attrIds, server_cat_id, server_prod_id);
 				}
