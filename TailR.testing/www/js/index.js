@@ -841,6 +841,8 @@ function getCategoriesListFromLocal(){
 			tx.executeSql('select * from category',[],function(tx,results){
 					var len = results.rows.length;
 					if(len>0){
+						catArrSession=[];
+						subCatArrSession=[];
 						for (var i = 0; i < len; i++) {
 							var jsonObj={};
 							jsonObj.id=results.rows.item(i)['id'];
@@ -945,6 +947,7 @@ function getProductsListFromLocal(){
 			tx.executeSql('select * from product_details ',[],function(tx,results){
 					var len = results.rows.length;
 					console.log('Product Length '+len);
+					productDetailsArrSession = [];
 					if(len>0){
 						for (var i = 0; i < len; i++) {
 							var jsonObj={};
@@ -1016,6 +1019,7 @@ function getAttributeListFromLocal(){
 			tx.executeSql('select * from product_attributes ',[],function(tx,results){
 					len = results.rows.length;
 					if(len>0){
+						attrDetailsArrSession = [];
 						for (var i = 0; i < len; i++) {
 							var jsonObj={};
 							jsonObj.id = results.rows.item(i)['id'];
@@ -1061,6 +1065,7 @@ function getMeasumentListFromLocal(){
 			tx.executeSql('select * from measurement_details ',[],function(tx,results){
 					len = results.rows.length;
 					if(len>0){
+						measurementArrSession = [];
 						for (var i = 0; i < len; i++) {
 							var jsonObj={};
 							jsonObj['id'] = results.rows.item(i)['id'];
