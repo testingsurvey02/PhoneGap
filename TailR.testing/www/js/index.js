@@ -1064,7 +1064,6 @@ function getMeasumentListFromLocal(){
 		var len = 0;
 			tx.executeSql('select * from measurement_details ',[],function(tx,results){
 					len = results.rows.length;
-					alert('len :'+len);
 					if(len>0){
 						measurementArrSession = [];
 						for (var i = 0; i < len; i++) {
@@ -1085,7 +1084,7 @@ function getMeasumentListFromLocal(){
 
 function successCBMeasurementListDB() {
 	//console.log('successCBMeasurementListDB.');
-	alert('Test '+measurementArrSession);
+	console.log('Test '+measurementArrSession);
 	appendMeasurementDataInDiv(measurementArrSession);
 }	
 
@@ -1596,10 +1595,12 @@ function errorCBMeasurementListDB() {
 		//jsonObj['measurement_name'] = results.rows.item(i)['name'];
 		//jsonObj['status'] = results.rows.item(i)['status'];
 		//jsonObj['group_data'] = results.rows.item(i)['group_data'];
-		console.log(measurementArrSession);
+		console.log('measurementArrSession '+measurementArrSession);
 		var appendMeasurementData = '';
 		jQuery.each(measurementArrData, function(index,value) {
+			console.log('value["group_data"] '+value['group_data']);
 			var groupJsonData = jQuery.parseJSON(value['group_data']);
+			console.log('groupJsonData '+groupJsonData);
 			jQuery.each(groupJsonData, function(groupIndex,groupValue) {
 				var groupMeasurementTypeId = groupValue['measurement_type_id'];
 				if(groupMeasurementTypeId == measurementTypeId){
@@ -1618,7 +1619,7 @@ function errorCBMeasurementListDB() {
 				}
 			});
 		});
-		alert(appendMeasurementData);
+		console.log(appendMeasurementData);
 		$('#measurementPageId').find('.measurement-InputFields').append(appendMeasurementData);
 	}
 	
