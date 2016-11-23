@@ -1610,10 +1610,10 @@ function errorCBMeasurementListDB() {
 					var measurementGroupData = groupValue['measurements'];
 					var groupLabelName = '<h3>' + groupName + '</h3>';
 					appendMeasurementData += groupLabelName;
-					var measurementGroupJsonData = jQuery.parseJSON(measurementGroupData);
-					console.log('measurementGroupJsonData ' +measurementGroupJsonData);
-					jQuery.each(measurementGroupJsonData, function(measurementsIndex,measurementsValue) {
-						console.log('measurementGroupJsonData Inside '+measurementsValue);
+					//var measurementGroupJsonData = jQuery.parseJSON(measurementGroupData);
+					console.log('measurementGroupData  ' +measurementGroupData);
+					jQuery.each(measurementGroupData, function(measurementsIndex,measurementsValue) {
+						console.log('measurementGroupData Inside '+measurementsValue);
 						var measNameForField  = measurementsValue['name'];
 						var measPriKeyForField = measurementsValue['id'];
 						var fieldsDiv = '<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6"> <div class="box start-xs start-sm start-md start-lg"> '+
