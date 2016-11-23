@@ -1420,25 +1420,28 @@ function errorCBMeasurementListDB() {
 			 
 			console.log('galleryObj' + galleryObj);
 			console.log('categoryObj' + categoryObj);
-			
-			jQuery.each(galleryObj , function(indexObj,valueObj) {
-				console.log('Inside Gallery');
-				var gallery_id = valueObj['id'];
-				var image = valueObj["image"];
-				var prodImage = productImageData + '/'+image;
-				var image1 = 'img/product'+index+'.jpg';
-				//initToCheckTheFile(image, productImageData);
-				jQuery.each(categoryObj, function(indexCat, valueCat){
-					console.log('Inside Category');
-					var server_cat_id = valueCat['cat_id'];
-					var galleryImage = '<div class="col-xs-12 col-sm-6 col-md-4 col-lg-4 galleriesClass gallcatid'+server_cat_id+'" data-gall_id="'+gallery_id+'" data-cat_id="'+server_cat_id+'" '+
-							'data-prod_id="'+server_prod_id+'" data-pro_index="'+index+'" data-lid="'+local_db_id+'" onclick="goToAttributeDiv(this)">'+
-							'<img src="'+prodImage+'"  alt="Saree" style="width:304px;height:500px;"/>'+prod_name+'</div>';
-					mainPageGallery += galleryImage;
-					
+			if(jsonObj['gallery'] != ''){
+				jQuery.each(galleryObj , function(indexObj,valueObj) {
+					console.log('Inside Gallery');
+					var gallery_id = valueObj['id'];
+					var image = valueObj["image"];
+					var prodImage = productImageData + '/'+image;
+					var image1 = 'img/product'+index+'.jpg';
+					//initToCheckTheFile(image, productImageData);
+					if(jsonObj['category'] != ''){
+						jQuery.each(categoryObj, function(indexCat, valueCat){
+							console.log('Inside Category');
+							var server_cat_id = valueCat['cat_id'];
+							var galleryImage = '<div class="col-xs-12 col-sm-6 col-md-4 col-lg-4 galleriesClass gallcatid'+server_cat_id+'" data-gall_id="'+gallery_id+'" data-cat_id="'+server_cat_id+'" '+
+									'data-prod_id="'+server_prod_id+'" data-pro_index="'+index+'" data-lid="'+local_db_id+'" onclick="goToAttributeDiv(this)">'+
+									'<img src="'+prodImage+'"  alt="Saree" style="width:304px;height:500px;"/>'+prod_name+'</div>';
+							mainPageGallery += galleryImage;
+							
+						});
+					}
 				});
-				
-			});
+			}
+			
 		});
 		$("#mainPageId").find('.galleriesClass').remove();
 		console.log('Appended Successfully');
@@ -1467,42 +1470,43 @@ function errorCBMeasurementListDB() {
 			var galleryObj = jQuery.parseJSON(jsonObj.gallery);
 			var categoryObj = jQuery.parseJSON(jsonObj.category);
 			var attributeObj = jQuery.parseJSON(jsonObj.attribute_details);
-			
-			jQuery.each(galleryObj, function(indexGal, valueGal){
-				console.log('goToAttributePage galleryObj Inside Forloop');
-				var galId = valueGal['id'];
-				var image = valueGal['image'];
-				if(galId == gallCurrId){
-					measurementTypeId = jsonObj['measurement_typeid'];
-					console.log('measurementTypeId ------------- '+measurementTypeId)
-					$('.imageAppendAttrMea').remove();
-					var image1 = 'img/product'+index+'.jpg';
-					var prodImage = productImageData + '/'+image;
-					//initToCheckTheFile(image, productImageData);
-					var imageTag = '<img class="imageAppendAttrMea" src="'+prodImage+'"  alt="Saree" style="width:304px;height:500px;"/>';
-					$('.attributePageLocation').append(imageTag);
-					$('.measurementPageLocation').append(imageTag);
-				}
-			});
+			if(jsonObj.gallery != ''){
+				jQuery.each(galleryObj, function(indexGal, valueGal){
+					console.log('goToAttributePage galleryObj Inside Forloop');
+					var galId = valueGal['id'];
+					var image = valueGal['image'];
+					if(galId == gallCurrId){
+						measurementTypeId = jsonObj['measurement_typeid'];
+						console.log('measurementTypeId ------------- '+measurementTypeId)
+						$('.imageAppendAttrMea').remove();
+						var image1 = 'img/product'+index+'.jpg';
+						var prodImage = productImageData + '/'+image;
+						//initToCheckTheFile(image, productImageData);
+						var imageTag = '<img class="imageAppendAttrMea" src="'+prodImage+'"  alt="Saree" style="width:304px;height:500px;"/>';
+						$('.attributePageLocation').append(imageTag);
+						$('.measurementPageLocation').append(imageTag);
+					}
+				});
+			}
 			
 			var mainPageCatId = $(currentData).data('cat_id');
 			var mainPageProdId = $(currentData).data('prod_id');
-			
-			jQuery.each(categoryObj, function(indexCat, valueCat){
-				console.log('goToAttributePage categoryObj Inside Forloop');
-				var server_cat_id = valueCat['cat_id'];
-				if(mainPageCatId == server_cat_id && mainPageProdId == server_prod_id){
-					jQuery.each(attributeObj, function(indexObj,valueObj) {
-						console.log('goToAttributePage attributeObj Inside Forloop');
-						var paIds = valueObj['id'];
-						var attrId = valueObj['attr_id'];
-						prodAttrIds[indexObj] = paIds;
-						attrIds[indexObj] = attrId;
-					});
-					appendAttrDataByArraysAndIds(prodAttrIds, attrIds, server_cat_id, server_prod_id);
-				}
-			});
-			
+			if(jsonObj.category != ''){
+				jQuery.each(categoryObj, function(indexCat, valueCat){
+					console.log('goToAttributePage categoryObj Inside Forloop');
+					var server_cat_id = valueCat['cat_id'];
+					if(mainPageCatId == server_cat_id && mainPageProdId == server_prod_id){
+						jQuery.each(attributeObj, function(indexObj,valueObj) {
+							console.log('goToAttributePage attributeObj Inside Forloop');
+							var paIds = valueObj['id'];
+							var attrId = valueObj['attr_id'];
+							prodAttrIds[indexObj] = paIds;
+							attrIds[indexObj] = attrId;
+						});
+						appendAttrDataByArraysAndIds(prodAttrIds, attrIds, server_cat_id, server_prod_id);
+					}
+				});
+			}
 		});
 		
 	}
@@ -1519,24 +1523,26 @@ function errorCBMeasurementListDB() {
 			var identifier = value['identifier'];
 			var backend_name = value['backend_name'];
 			var option = value['option'];
-			var optionObj = jQuery.parseJSON(option);
-			jQuery.each(attrArr, function(index1,value1) {
-				console.log(attrArr);
-				if(value1 == server_attr_id){
-					console.log(value1+'value1 == server_attr_id'+server_attr_id);
-					var tempAttrDiv = '<div class="col-xs-2 col-sm-2 col-md-2 col-lg-2 selMenu-bar" data-cat_id="'+catId+'" data-prod_id="'+prodId+'" data-attrid="'+server_attr_id+'" data-lid="'+attrId+'"><a href="#">'+attr_name+'</a></div>';
-					jQuery.each(optionObj, function(index2,value2) {
-						var optionName = value2['name'];
-						var optionImg = value2['image'];
-						var optionImages = attributeImageData + '/'+optionImg;
-						optionImg = 'img/attr'+index2+'.png';
-						//initToCheckTheFile(optionImg, attributeImageData);
-						var tempOptDiv = '<div class="col-xs-6 col-sm-4 col-md-4 col-lg-4 optMenu-bar" data-cat_id="'+catId+'" data-prod_id="'+prodId+'" data-attrid="'+server_attr_id+'" data-lid="'+attrId+'"><div class="box"><img src="'+optionImages+'" alt="Saree" style="width:200px;height:200px;">'+optionName+'</div></div>';
-						optionMainDiv += tempOptDiv;
-					});
-					 attributeDiv += tempAttrDiv;
-				}
-			});
+			if(value['option'] != ''){
+				var optionObj = jQuery.parseJSON(option);
+				jQuery.each(attrArr, function(index1,value1) {
+					console.log(attrArr);
+					if(value1 == server_attr_id){
+						console.log(value1+'value1 == server_attr_id'+server_attr_id);
+						var tempAttrDiv = '<div class="col-xs-2 col-sm-2 col-md-2 col-lg-2 selMenu-bar" data-cat_id="'+catId+'" data-prod_id="'+prodId+'" data-attrid="'+server_attr_id+'" data-lid="'+attrId+'"><a href="#">'+attr_name+'</a></div>';
+						jQuery.each(optionObj, function(index2,value2) {
+							var optionName = value2['name'];
+							var optionImg = value2['image'];
+							var optionImages = attributeImageData + '/'+optionImg;
+							optionImg = 'img/attr'+index2+'.png';
+							//initToCheckTheFile(optionImg, attributeImageData);
+							var tempOptDiv = '<div class="col-xs-6 col-sm-4 col-md-4 col-lg-4 optMenu-bar" data-cat_id="'+catId+'" data-prod_id="'+prodId+'" data-attrid="'+server_attr_id+'" data-lid="'+attrId+'"><div class="box"><img src="'+optionImages+'" alt="Saree" style="width:200px;height:200px;">'+optionName+'</div></div>';
+							optionMainDiv += tempOptDiv;
+						});
+						 attributeDiv += tempAttrDiv;
+					}
+				});
+			}
 		});
 		$('.selMenu-bar').remove();
 		$('.optMenu-bar').remove();
@@ -1602,7 +1608,6 @@ function errorCBMeasurementListDB() {
 			console.log('value["group_data"] '+value['group_data']);
 			//if(value.hasOwnProperty('group_data')){
 				if(value['group_data'] != ''){
-					alert("value['group_data'] != '' " +value['group_data']);
 					var groupJsonData = jQuery.parseJSON(value['group_data']);
 					console.log('groupJsonData '+groupJsonData);
 					jQuery.each(groupJsonData, function(groupIndex,groupValue) {
@@ -1610,30 +1615,34 @@ function errorCBMeasurementListDB() {
 						console.log('groupMeasurementTypeId '+groupMeasurementTypeId +' measurementTypeId '+measurementTypeId);
 						if(groupMeasurementTypeId == measurementTypeId){
 							var groupName = groupValue['name'];
-							var measurementGroupData = groupValue['measurements'];
-							var groupLabelName = '<h3>' + groupName + '</h3>';
-							appendMeasurementData += groupLabelName;
-							//var measurementGroupJsonData = jQuery.parseJSON(measurementGroupData);
-							console.log('measurementGroupData  ' +measurementGroupData);
-							jQuery.each(measurementGroupData, function(measurementsIndex,measurementsValue) {
-								console.log('measurementGroupData Inside '+measurementsValue);
-								var measNameForField  = measurementsValue['name'];
-								var measPriKeyForField = measurementsValue['id'];
-								console.log('measNameForField ' + measNameForField);
-								console.log('measPriKeyForField ' + measPriKeyForField);
-								var fieldsDiv = '<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6 measure-inputField"> <div class="box start-xs start-sm start-md start-lg"> '
-									+measNameForField+' <input type="text" data-meas_pkid="'+measPriKeyForField+'" id="measField'+measPriKeyForField+'"'+'name="measField'+measPriKeyForField+'"> </div></div>';
-								console.log('fieldsDiv '+fieldsDiv);
-								appendMeasurementData += fieldsDiv;
-								console.log('appendMeasurementData ' +appendMeasurementData);
-							});
+							if(groupValue['measurements'] != ''){
+								var measurementGroupData = groupValue['measurements'];
+								var groupLabelName = '<hr class="measureHr"/><h3 class="h3Measure">' + groupName + '</h3>';
+								appendMeasurementData += groupLabelName;
+								//var measurementGroupJsonData = jQuery.parseJSON(measurementGroupData);
+								console.log('measurementGroupData  ' +measurementGroupData);
+								jQuery.each(measurementGroupData, function(measurementsIndex,measurementsValue) {
+									console.log('measurementGroupData Inside '+measurementsValue);
+									var measNameForField  = measurementsValue['name'];
+									var measPriKeyForField = measurementsValue['id'];
+									console.log('measNameForField ' + measNameForField);
+									console.log('measPriKeyForField ' + measPriKeyForField);
+									var fieldsDiv = '<div class="col-xs-12 col-sm-6 col-md-6 col-lg-6 measure-inputField"> <div class="box start-xs start-sm start-md start-lg"> '
+										+measNameForField+' <input type="text" data-meas_pkid="'+measPriKeyForField+'" id="measField'+measPriKeyForField+'"'+'name="measField'+measPriKeyForField+'"> </div></div>';
+									console.log('fieldsDiv '+fieldsDiv);
+									appendMeasurementData += fieldsDiv;
+									console.log('appendMeasurementData ' +appendMeasurementData);
+								});
+							}
 						}
 					});
 				}
 				
 			//}
 		});
-		alert('Final : '+appendMeasurementData);
+		$('#measurementPageId').find('.measure-inputField').remove();
+		$('#measurementPageId').find('.h3Measure').remove();
+		$('#measurementPageId').find('.measureHr').remove();
 		$('#measurementPageId').find('.measurement-InputFields').append(appendMeasurementData);
 	}
 	
@@ -1662,6 +1671,27 @@ function errorCBMeasurementListDB() {
 	
 	function showMeasurementDiv(){
 		gotoMeasurementPageDiv();
+	}
+	
+	function dataTypeCheckJSON(someobj) {
+		var dataType="";
+		try {
+			if (typeof someobj != 'string'){
+				if(a.constructor.name === 'Array'){
+					dataType="Array";
+				}
+				else if(a.constructor.name === 'Object'){
+					dataType="Object";
+				}
+			}else if (typeof someobj == 'string'){
+				dataType="string";
+			}else{
+				dataType="other";
+			}
+		} catch (e) {
+			dataType="other";
+		}
+		return dataType;
 	}
 	
 	/*function initToCheckTheFile(fileName, assetURL) {
