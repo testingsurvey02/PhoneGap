@@ -1616,10 +1616,12 @@ function errorCBMeasurementListDB() {
 						console.log('measurementGroupData Inside '+measurementsValue);
 						var measNameForField  = measurementsValue['name'];
 						var measPriKeyForField = measurementsValue['id'];
-						var fieldsDiv = '<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6"> <div class="box start-xs start-sm start-md start-lg"> '+
-								' '+measNameForField+' <input type="text" data-meas_pkid="'+measPriKeyForField+'" id="'+measNameForField+'_id" '+
-								'name="'+measNameForField+'_id"/> </div>	</div>';
+						console.log('measNameForField ' + measNameForField);
+						console.log('measPriKeyForField ' + measPriKeyForField);
+						var fieldsDiv = '<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6 measure-inputField"> <div class="box start-xs start-sm start-md start-lg"> '+measNameForField+' <input type="text" data-meas_pkid="'+measPriKeyForField+'" id="'+measNameForField+'_id"'+'name="'+measNameForField+'_id"> </div></div>';
+						console.log('fieldsDiv '+fieldsDiv);
 						appendMeasurementData += fieldsDiv;
+						console.log(appendMeasurementData);
 					});
 				}
 			});
