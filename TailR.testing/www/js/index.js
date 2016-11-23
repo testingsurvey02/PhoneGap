@@ -1619,8 +1619,7 @@ function errorCBMeasurementListDB() {
 						console.log('measNameForField ' + measNameForField);
 						console.log('measPriKeyForField ' + measPriKeyForField);
 						var fieldsDiv = '<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6 measure-inputField"> <div class="box start-xs start-sm start-md start-lg"> '
-							+measNameForField+' <input type="text" data-meas_pkid="'+measPriKeyForField+'" id="measField'+measPriKeyForField+'"'+'name="'
-							measField'+measPriKeyForField+'"> </div></div>';
+							+measNameForField+' <input type="text" data-meas_pkid="'+measPriKeyForField+'" id="measField'+measPriKeyForField+'"'+'name="measField'+measPriKeyForField+'"> </div></div>';
 						console.log('fieldsDiv '+fieldsDiv);
 						appendMeasurementData += fieldsDiv;
 						console.log('appendMeasurementData ' +appendMeasurementData);
