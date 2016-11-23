@@ -1540,10 +1540,10 @@ function errorCBMeasurementListDB() {
 		$( attributeDiv ).insertBefore( ".selection-menu .measurementAttr" );
 		//$('.selection-menu').append(attributeDiv);
 		$('.attr-option-div').append(optionMainDiv);
-		
+		getMeasumentListFromLocal();
 		gotoAttributePageDiv();
 		
-		getMeasumentListFromLocal();
+		
 		appendMeasurementDataInDiv(measurementArrSession);
 		
 	}
@@ -1595,6 +1595,7 @@ function errorCBMeasurementListDB() {
 		//jsonObj['measurement_name'] = results.rows.item(i)['name'];
 		//jsonObj['status'] = results.rows.item(i)['status'];
 		//jsonObj['group_data'] = results.rows.item(i)['group_data'];
+		console.log(measurementArrSession);
 		var appendMeasurementData = '';
 		jQuery.each(measurementArrData, function(index,value) {
 			var groupJsonData = jQuery.parseJSON(value['group_data']);
