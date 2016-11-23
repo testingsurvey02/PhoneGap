@@ -1064,6 +1064,7 @@ function getMeasumentListFromLocal(){
 		var len = 0;
 			tx.executeSql('select * from measurement_details ',[],function(tx,results){
 					len = results.rows.length;
+					alert('len :'+len);
 					if(len>0){
 						measurementArrSession = [];
 						for (var i = 0; i < len; i++) {
@@ -1084,6 +1085,7 @@ function getMeasumentListFromLocal(){
 
 function successCBMeasurementListDB() {
 	//console.log('successCBMeasurementListDB.');
+	alert('Test '+measurementArrSession);
 	appendMeasurementDataInDiv(measurementArrSession);
 }	
 
