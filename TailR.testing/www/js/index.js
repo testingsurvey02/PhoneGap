@@ -1603,6 +1603,7 @@ function errorCBMeasurementListDB() {
 			console.log('groupJsonData '+groupJsonData);
 			jQuery.each(groupJsonData, function(groupIndex,groupValue) {
 				var groupMeasurementTypeId = groupValue['measurement_type_id'];
+				console.log('groupMeasurementTypeId '+groupMeasurementTypeId +' measurementTypeId '+measurementTypeId);
 				if(groupMeasurementTypeId == measurementTypeId){
 					var groupName = groupValue['name'];
 					var measurementGroupData = groupValue['measurements'];
