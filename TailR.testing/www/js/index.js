@@ -1623,12 +1623,12 @@ function errorCBMeasurementListDB() {
 							measField'+measPriKeyForField+'"> </div></div>';
 						console.log('fieldsDiv '+fieldsDiv);
 						appendMeasurementData += fieldsDiv;
-						console.log(appendMeasurementData);
+						console.log('appendMeasurementData ' +appendMeasurementData);
 					});
 				}
 			});
 		});
-		console.log(appendMeasurementData);
+		console.log('Final : '+appendMeasurementData);
 		$('#measurementPageId').find('.measurement-InputFields').append(appendMeasurementData);
 	}
 	
