@@ -1600,36 +1600,40 @@ function errorCBMeasurementListDB() {
 		var appendMeasurementData = '';
 		jQuery.each(measurementArrData, function(index,value) {
 			console.log('value["group_data"] '+value['group_data']);
-			if(value.hasOwnProperty('group_data')){
-				var groupJsonData = jQuery.parseJSON(value['group_data']);
-				console.log('groupJsonData '+groupJsonData);
-				jQuery.each(groupJsonData, function(groupIndex,groupValue) {
-					var groupMeasurementTypeId = groupValue['measurement_type_id'];
-					console.log('groupMeasurementTypeId '+groupMeasurementTypeId +' measurementTypeId '+measurementTypeId);
-					if(groupMeasurementTypeId == measurementTypeId){
-						var groupName = groupValue['name'];
-						var measurementGroupData = groupValue['measurements'];
-						var groupLabelName = '<h3>' + groupName + '</h3>';
-						appendMeasurementData += groupLabelName;
-						//var measurementGroupJsonData = jQuery.parseJSON(measurementGroupData);
-						console.log('measurementGroupData  ' +measurementGroupData);
-						jQuery.each(measurementGroupData, function(measurementsIndex,measurementsValue) {
-							console.log('measurementGroupData Inside '+measurementsValue);
-							var measNameForField  = measurementsValue['name'];
-							var measPriKeyForField = measurementsValue['id'];
-							console.log('measNameForField ' + measNameForField);
-							console.log('measPriKeyForField ' + measPriKeyForField);
-							var fieldsDiv = '<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6 measure-inputField"> <div class="box start-xs start-sm start-md start-lg"> '
-								+measNameForField+' <input type="text" data-meas_pkid="'+measPriKeyForField+'" id="measField'+measPriKeyForField+'"'+'name="measField'+measPriKeyForField+'"> </div></div>';
-							console.log('fieldsDiv '+fieldsDiv);
-							appendMeasurementData += fieldsDiv;
-							console.log('appendMeasurementData ' +appendMeasurementData);
-						});
-					}
-				});
-			}
+			//if(value.hasOwnProperty('group_data')){
+				if(value['group_data'] != ''){
+					alert("value['group_data'] != '' " +value['group_data']);
+					var groupJsonData = jQuery.parseJSON(value['group_data']);
+					console.log('groupJsonData '+groupJsonData);
+					jQuery.each(groupJsonData, function(groupIndex,groupValue) {
+						var groupMeasurementTypeId = groupValue['measurement_type_id'];
+						console.log('groupMeasurementTypeId '+groupMeasurementTypeId +' measurementTypeId '+measurementTypeId);
+						if(groupMeasurementTypeId == measurementTypeId){
+							var groupName = groupValue['name'];
+							var measurementGroupData = groupValue['measurements'];
+							var groupLabelName = '<h3>' + groupName + '</h3>';
+							appendMeasurementData += groupLabelName;
+							//var measurementGroupJsonData = jQuery.parseJSON(measurementGroupData);
+							console.log('measurementGroupData  ' +measurementGroupData);
+							jQuery.each(measurementGroupData, function(measurementsIndex,measurementsValue) {
+								console.log('measurementGroupData Inside '+measurementsValue);
+								var measNameForField  = measurementsValue['name'];
+								var measPriKeyForField = measurementsValue['id'];
+								console.log('measNameForField ' + measNameForField);
+								console.log('measPriKeyForField ' + measPriKeyForField);
+								var fieldsDiv = '<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6 measure-inputField"> <div class="box start-xs start-sm start-md start-lg"> '
+									+measNameForField+' <input type="text" data-meas_pkid="'+measPriKeyForField+'" id="measField'+measPriKeyForField+'"'+'name="measField'+measPriKeyForField+'"> </div></div>';
+								console.log('fieldsDiv '+fieldsDiv);
+								appendMeasurementData += fieldsDiv;
+								console.log('appendMeasurementData ' +appendMeasurementData);
+							});
+						}
+					});
+				}
+				
+			//}
 		});
-		console.log('Final : '+appendMeasurementData);
+		alert('Final : '+appendMeasurementData);
 		$('#measurementPageId').find('.measurement-InputFields').append(appendMeasurementData);
 	}
 	
