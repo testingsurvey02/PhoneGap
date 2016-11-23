@@ -828,6 +828,7 @@ function successCBInsertCategories() {
 	console.log("successCBInsertCategories");
 	//getCategoriesListFromLocal();
 	//checkProductInLocalDB();
+	alert('Records inserted successfully Category');
 	getProductDataFromServer();
 }	
 
@@ -932,6 +933,7 @@ function errorCBProdLocalDB() {
 function successCBInsertProductDetails() {
 	console.log("successCBInsertProductDetails");
 	 console.log('Populated database OK');
+	 alert('Records inserted successfully Product');
 	 getAttributesDataFromServer();
 }
 
@@ -995,6 +997,7 @@ function errorCBAttrListDB() {
 
 function successCBInsertAttributeDetails() {
 	//console.log("successCBInsertAttributeDetails");
+	alert('Records inserted successfully Attribute');
 	 getMeasurementsDataFromServer();
 	    
 }	
@@ -1324,6 +1327,7 @@ function errorCBMeasurementListDB() {
 		});
 		
 		categoryDiv+='</div>';
+		alert('Appended Successfully Category');
 		$('.main-menu').remove();
 		$('.sub-menu').remove();
 		$( categoryDiv ).insertBefore( "#mainPageId .hrBarCatClass" );
@@ -1433,6 +1437,7 @@ function errorCBMeasurementListDB() {
 				
 			});
 		});
+		alert('Appended Successfully Products');
 		$("#mainPageId").find('.galleriesClass').remove();
 		console.log('Appended Successfully');
 		$("#mainPageId").find('.product-list').append(mainPageGallery);
@@ -1537,7 +1542,7 @@ function errorCBMeasurementListDB() {
 		$('.attr-option-div').append(optionMainDiv);
 		
 		gotoAttributePageDiv();
-		
+		alert('Appended Successfully Attribute');
 		getMeasumentListFromLocal();
 		appendMeasurementDataInDiv(measurementArrSession);
 		
@@ -1576,7 +1581,7 @@ function errorCBMeasurementListDB() {
 	function successCBInsertMeasurementDetails() {
 		
 		 console.log('Populated database OK');
-		 
+		 alert('Records inserted successfully Measurement');
 		 getCategoriesListFromLocal();
 		    
 	}	
@@ -1612,6 +1617,7 @@ function errorCBMeasurementListDB() {
 			});
 		});
 		$('.measurement-InputFields').append(appendMeasurementData);
+		alert('Appended Successfully Measurement');
 	}
 	
 /*  ------------------- Module-wise Methods/Function Code Starts ------------------  */	
