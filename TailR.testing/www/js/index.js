@@ -1,10 +1,16 @@
-/*
+var catArrSessionData='[{"id":1,"server_cat_id":1,"parent_id":"","name":"Men","description":"","image":"","sort_order":"1","status":"1"}]';
+var subCatArrSessionData='[{"id":2,"server_cat_id":1,"parent_id":"1","name":"SHIRT","description":"description02","image":"","sort_order":"1","status":"1"},{"id":3,"server_cat_id":1,"parent_id":"1","name":"PANT","description":"description03","image":"","sort_order":"2","status":"1"}]';
+var productDetailsArrSessionData = '[{"id":1,"server_prod_id":1, "prod_name":"SHIRT - FULL SLEEVE","prod_description":"Fabric: Cotton Linen Blend\r\nSlim Fit, Full Sleeve\r\nCollar Type: Regular\r\nPattern: Checkered\r\nSet of 1","measurement_typeid":"1","prod_status":"1","attribute_details":[{"id":59,"pdt_id":"1","attr_id":"2","created_at":"2016-11-21 06:02:58","updated_at":"2016-11-21 06:02:58"}],"category":[{"id":40,"pdt_id":"1","cat_id":"1","created_at":"2016-11-21 06:02:58","updated_at":"2016-11-21 06:02:58"}],"gallery":[{"id":9,"pdt_id":"1","image":"product_5_582ea8c053c3b.jpg","created_at":"2016-11-18 07:07:44","updated_at":"2016-11-18 07:07:44"}]}]';
+var attrDetailsArrSessionData = '[{"id":1,"server_attr_id":1,"attr_name":"Attribute 2-shirt cuffs","identifier":"sss","attr_status":"1","backend_name":"Backend shirt cuffs","option":[{"id":3,"attr_id":"1","name":"a2-option1 cuffs1","image":"attribute_1_583285971f775.png","status":"1","sort_order":"0","created_at":"2016-11-02 19:40:34","updated_at":"2016-11-21 05:26:47"},{"id":7,"attr_id":"1", "name":"a2-option2 cuffs2", "image":"attribute_1_583285971fd42.png", "status":"1", "sort_order":"0", "created_at":"2016-11-17 07:48:14", "updated_at":"2016-11-21 05:26:47"},{"id":9, "attr_id":"1","name":"a2-option3 cuffs3","image":"attribute_1_58328597200e6.png","status":"1","sort_order":"0","created_at":"2016-11-21 05:26:47","updated_at":"2016-11-21 05:26:47"},{"id":10,"attr_id":"1","name":"a2-option4 cuffs4","image":"attribute_1_5832859720444.png","status":"1","sort_order":"0","created_at":"2016-11-21 05:26:47","updated_at":"2016-11-21 05:26:47"}]}]';
+var measurementArrSessionData = '[{"id":1,"server_measurement_id":1,"measurement_name":"Mens","status":"1", "group_data":[{"id":1,"name":"Shirts","status":"1","measurement_type_id":"1","created_at":"2016-11-02 23:28:53","updated_at":"2016-11-03 00:00:31","measurements":[{"id":1,"name":"Shirt collar1","status":"1","measurement_group_id":"1","created_at":"2016-11-02 23:28:53","updated_at":"2016-11-03 00:00:31"},{"id":2,"name":"shirt neck2","status":"1","measurement_group_id":"1","created_at":"2016-11-02 23:28:53","updated_at":"2016-11-03 00:00:31"}]},{"id":3,"name":"tee shirt","status":"1","measurement_type_id":"1","created_at":"2016-11-03 00:22:40","updated_at":"2016-11-03 00:22:40","measurements":[{"id":7,"name":"round neck","status":"1","measurement_group_id":"3","created_at":"2016-11-03 00:22:40","updated_at":"2016-11-03 00:22:40"},{"id":8,"name":"with collar","status":"1","measurement_group_id":"3","created_at":"2016-11-03 00:22:40","updated_at":"2016-11-03 00:22:40"}]},{"id":4,"name":"shorts","status":"1","measurement_type_id":"1","created_at":"2016-11-08 18:32:49","updated_at":"2016-11-08 18:32:49","measurements":[{"id":9,"name":"elbow length","status":"1","measurement_group_id":"4","created_at":"2016-11-08 18:32:49","updated_at":"2016-11-17 07:50:56"},{"id":16,"name":"back","status":"1","measurement_group_id":"4","created_at":"2016-11-17 07:50:56","updated_at":"2016-11-17 07:50:56"},{"id":17,"name":"front","status":"1","measurement_group_id":"4","created_at":"2016-11-17 07:50:56","updated_at":"2016-11-17 07:50:56"}]}]}]';
 	// Local System Find JsonFormat 
+var test = 1;
 	$(function() {
-		getAttributesDataJson();
-		getMeasurementDataJson();
-		getProductDataJson();
-		getCategoriesDataJson();
+		//alert(catArrSession);
+		if(test == 1){
+			appendCatListDB(catArrSessionData, subCatArrSessionData);
+			appendProdListDB(productDetailsArrSessionData);
+		}
 	});
 	
 	
@@ -62,7 +68,7 @@
 			});
 	}
 
-*/
+
 $( document ).on( "mobileinit", function() {
     // Make your jQuery Mobile framework configuration changes here!
 	 $.support.cors = true;
@@ -207,6 +213,11 @@ function panelsInitialization(initLeftPanelFlag, initRightPanelFlag, roleId){
 
 $(document).on("pageinit", function () {
     
+    /* Click Function 
+	$('.mb-student-links li a').click(function(){
+		return false;
+	});
+	*/
 });
 
 //var appUrl='http://192.168.1.11:8080/TailorRani/appEntries.php';
@@ -718,16 +729,10 @@ function calculateDateTimeDiff(old_date,new_date) {
 // Variables Declarations
 var catArrSession=[];
 var subCatArrSession=[];
-var productDetailsArrSession = [];
-var attrDetailsArrSession = [];
-var measurementArrSession = [];
+var productDetailsArrSession=[];
+var attrDetailsArrSession =[];
+var measurementArrSession =[];
 var measurementTypeId = '';
-
-//The directory to store data
-var store;
-
-//Used for status updates
-var $status;
 
 /* ************* Database Code Starts   -------------------------  */
 // Open Database
@@ -828,7 +833,6 @@ function successCBInsertCategories() {
 	console.log("successCBInsertCategories");
 	//getCategoriesListFromLocal();
 	//checkProductInLocalDB();
-	alert('Records inserted successfully Category');
 	getProductDataFromServer();
 }	
 
@@ -856,8 +860,6 @@ function getCategoriesListFromLocal(){
 							}else{
 								catArrSession.push(jsonObj);
 							}
-							
-							
 						}
 					}
 				}, errorCB
@@ -904,7 +906,13 @@ function insertProductDetails(tx) {
 		var measurement_typeid = value['measurement_typeid'];
 		var update_timestamp = '';
 		var categoryJson = JSON.stringify(value['category']);
+		//var galleryObj = {};
+		//galleryObj['galleryArr'] = gallery;
 		var galleryJson = JSON.stringify(value['gallary']);
+		//alert(server_prod_id +' name ' +name+ ' description ' +description + 'prod_status  '+prod_status);
+		//alert(attributeJson +' measurement_typeid ' +measurement_typeid+ ' categoryJson ' +categoryJson + 'galleryJson  '+galleryJson);
+		
+		//id integer primary key autoincrement, server_prod_id integer, name text, description text, update_timestamp text, measurement_typeid integer, status integer, attribute_details text, gallery text, category text
 		
 		tx.executeSql('INSERT INTO product_details (server_prod_id, name, description, update_timestamp, measurement_typeid, status, attribute_details, gallery, category) VALUES (?,?,?,?,?,?,?,?,?)',
    	    			[server_prod_id, name, description, update_timestamp, measurement_typeid, prod_status, attributeJson, galleryJson, categoryJson], function(tx, res) {
@@ -933,7 +941,7 @@ function errorCBProdLocalDB() {
 function successCBInsertProductDetails() {
 	console.log("successCBInsertProductDetails");
 	 console.log('Populated database OK');
-	 alert('Records inserted successfully Product');
+	// checkAttributeInLocalDB();
 	 getAttributesDataFromServer();
 }
 
@@ -950,6 +958,8 @@ function getProductsListFromLocal(){
 					if(len>0){
 						for (var i = 0; i < len; i++) {
 							var jsonObj={};
+							//server_prod_id, name, description, update_timestamp, measurement_typeid, status, attribute_details, gallery, category
+							//server_prod_id, name, description, update_timestamp, measurement_typeid, status, attribute_details, gallery, server_cat_prod_id, server_cat_id, image_url
 							jsonObj['id'] = results.rows.item(i)['id'];
 							jsonObj['server_prod_id'] = results.rows.item(i)['server_prod_id'];
 							jsonObj['prod_name'] = results.rows.item(i)['name'];
@@ -960,6 +970,7 @@ function getProductsListFromLocal(){
 							jsonObj['gallery'] = results.rows.item(i)['gallery'];
 							jsonObj['category'] = results.rows.item(i)['category'];
 							productDetailsArrSession.push(jsonObj);
+							
 						}
 					}
 				}, errorCB
@@ -973,13 +984,17 @@ function insertAttributesDetails(tx) {
 	tx.executeSql('CREATE TABLE IF NOT EXISTS product_attributes (id integer primary key autoincrement, server_attr_id integer, name text, identifier text, status integer, backend_name text, update_timestamp text, option text)');
 	
 	jQuery.each(attributeJsonData, function(index,value) {
+		//id, server_attr_id, name, identifier, status, backend_name, update_timestamp, option
 		var server_attr_id = value['id'];
 		var name = value['name'];
 		var identifier = value['identifier'];
 		var attr_status = value['status'];
 		var backend_name = value['backend_name'];
+		//var image_url = value['image_url'];
 		var optionJson = JSON.stringify(value['option']);
 		var update_timestamp = '';
+		// id integer primary key autoincrement, server_attr_id integer, name text, identifier text, status integer, backend_name text, update_timestamp text, option text
+		//alert('optionJson '+optionJson+' value'+value);
 		tx.executeSql('INSERT INTO product_attributes(server_attr_id, name, identifier, status, backend_name, update_timestamp, option) VALUES (?,?,?,?,?,?,?)',
    	    			[server_attr_id, name,identifier, attr_status, backend_name, update_timestamp, optionJson], function(tx, res) {
 	   	         //alert("Attribute Data insertId: " + res.insertId + " -- res.rowsAffected 1"+res.rowsAffected);
@@ -988,25 +1003,28 @@ function insertAttributesDetails(tx) {
 }
 
 function successCBAttrListDB() {
-	//console.log('Product Attribute successfully inserted.');
+	//alert('Product Attribute successfully inserted.');
+	//appendAttrListDB(attrDetailsArrSession);
 }	
 
 function errorCBAttrListDB() {
-	console.log("errorCBProdListDB");
+	//alert("errorCBProdListDB");
 }
 
 function successCBInsertAttributeDetails() {
-	//console.log("successCBInsertAttributeDetails");
-	alert('Records inserted successfully Attribute');
+	//alert("successCBInsertAttributeDetails");
+	
+	 console.log('Populated database OK');
+	 //checkMeasurementInLocalDB();
 	 getMeasurementsDataFromServer();
 	    
 }	
 function errorCBInsertAttributeDetails(err) {
-	console.log("errorCBInsertAttributeDetails");
+	//alert("errorCBInsertAttributeDetails");
 }
 
 function successCBAttrLocalDB() {
-//	console.log("successCBAttrLocalDB");
+	console.log("successCBAttrLocalDB");
 }	
 
 function errorCBAttrLocalDB() {
@@ -1018,9 +1036,11 @@ function getAttributeListFromLocal(){
 		var len = 0;
 			tx.executeSql('select * from product_attributes ',[],function(tx,results){
 					len = results.rows.length;
+					//alert('length '+len);
 					if(len>0){
 						for (var i = 0; i < len; i++) {
 							var jsonObj={};
+							//id, server_attr_id, name, identifier, status, backend_name, update_timestamp, option
 							jsonObj.id = results.rows.item(i)['id'];
 							jsonObj.server_attr_id = results.rows.item(i)['server_attr_id'];
 							jsonObj.attr_name = results.rows.item(i)['name'];
@@ -1028,7 +1048,11 @@ function getAttributeListFromLocal(){
 							jsonObj.attr_status = results.rows.item(i)['status'];
 							jsonObj.backend_name = results.rows.item(i)['backend_name'];
 							jsonObj.option = results.rows.item(i)['option'];
+							//jsonObj.image_url = results.rows.item(i)['image_url'];
+							
 							attrDetailsArrSession.push(jsonObj);
+							//alert('Local : '+attrDetailsArrSession);
+							
 						}
 					}
 				}, errorCB
@@ -1051,6 +1075,7 @@ function insertMeasurementsDetails(tx) {
 			groupJson = JSON.stringify(value["group"]);
 		}
 		var update_timestamp = '';
+		//alert('server_measurement_id '+server_measurement_id + name +' ' + groupJson);
 		tx.executeSql('INSERT INTO measurement_details(name, server_measurement_id, status, update_timestamp, group_data) VALUES (?,?,?,?,?)',
    	    			[name, server_measurement_id,meas_status, update_timestamp, groupJson], function(tx, res) {
 	   	         //alert("Measurement Data insertId: " + res.insertId + " -- res.rowsAffected 1"+res.rowsAffected);
@@ -1063,15 +1088,20 @@ function getMeasumentListFromLocal(){
 		var len = 0;
 			tx.executeSql('select * from measurement_details ',[],function(tx,results){
 					len = results.rows.length;
+					//alert('length '+len);
 					if(len>0){
 						for (var i = 0; i < len; i++) {
 							var jsonObj={};
+							//id, server_attr_id, name, identifier, status, backend_name, update_timestamp, option
 							jsonObj['id'] = results.rows.item(i)['id'];
 							jsonObj['server_measurement_id'] = results.rows.item(i)['server_measurement_id'];
 							jsonObj['measurement_name'] = results.rows.item(i)['name'];
 							jsonObj['status'] = results.rows.item(i)['status'];
 							jsonObj['group_data'] = results.rows.item(i)['group_data'];
+							//jsonObj.image_url = results.rows.item(i)['image_url'];
 							measurementArrSession.push(jsonObj);
+							//alert('Local : '+attrDetailsArrSession);
+							
 						}
 					}
 				}, errorCB
@@ -1085,7 +1115,7 @@ function successCBMeasurementListDB() {
 }	
 
 function errorCBMeasurementListDB() {
-	console.log("errorCBMeasurementListDB");
+	//console.log("errorCBMeasurementListDB");
 }
 
 
@@ -1235,12 +1265,47 @@ function errorCBMeasurementListDB() {
 	}
 	
 	function checkCategoryInLocalDB(){
-		len = 0;
+		var len = 0;
 		len = getCountByTableName("category");
 		if(len > 0){
 			window.localStorage["dbreadyflag"] = 1;
+			// checkProductInLocalDB();
 		}else{
+			//alert('category Details  count 0');
 			getCategoriesDataFromServer();
+		}
+	}
+	
+	function checkProductInLocalDB(){
+		var len = getCountByTableName("product_details");
+		if(len > 0){
+			//alert('Product Details ');
+			//checkAttributeInLocalDB();
+		}else{
+			//alert('Product Details count 0');
+			//getProductDataFromServer();
+		}
+	}
+	
+	function checkAttributeInLocalDB(){
+		var len = getCountByTableName("product_attributes");
+		if(len > 0){
+			//alert('Attribute Details');
+			//checkMeasurementInLocalDB();
+		}else{
+			//alert('Attribute Details count 0');
+			//getAttributesDataFromServer();
+		}
+	}
+	
+	function checkMeasurementInLocalDB(){
+		var len = getCountByTableName("measurement_details");
+		if(len > 0){
+			//alert('Measurement Details');
+			//getCategoriesListFromLocal();
+		}else{
+			//alert('Measurement Details  count 0');
+			//getMeasurementsDataFromServer();
 		}
 	}
 	
@@ -1282,36 +1347,53 @@ function errorCBMeasurementListDB() {
 	function successCBServerCatFn(data){
 		var responseJson = $.parseJSON(JSON.stringify(data));
 		categoriesJsonData = responseJson["result"];
+		//appendCatListDB(categoriesJsonData);
 		// FIXME CHECK JSON DATA
 		insertCategories(categoriesJsonData);
-		
 	}
 	
 	function appendCatListDB(catArrData, subCatArrData) {
 		var categoryDiv = '<div class="row main-menu" >';
 		var subCategoryDiv = "";
-		
+		console.log('appendCatListDB');
+		//alert('catArrData   ' + catArrData);
+		//var catArrDataTemp = jQuery.parseJSON(JSON.stringify(catArrData));
+		// var catArrDataTemp = $.parseJSON(catArrData); Test = 1
 		jQuery.each(catArrData, function(index,value) {
+			//alert('catArrData '+value);
+			//console.log('Inside for loop');
 			var jsonObj=value;
 			var primaryCKeyId=jsonObj["id"];
 			var server_cat_id=jsonObj["server_cat_id"];
+			//var parent_id=jsonObj["parent_id"];
 			var name=jsonObj["name"];
 			var children=jsonObj["children"];
 			var uniqueId = name+'_'+server_cat_id;
+			//alert(primaryCKeyId + ' '+server_cat_id+' '+ name+' '+children +' '+ uniqueId);
 			categoryDiv+='<div class="col-xs-4 col-sm-4 col-md-4 col-lg-4" data-submenuid="'+uniqueId
 					+'" data-cat_id="'+server_cat_id+'" data-lid="'+primaryCKeyId
 					+'" onclick="menuCategoryOne(this);"> <a href="#">'+name+'</a> </div>';
+			//var childJsonObject = $.parseJSON(children);
+			//subCategoryDiv += getSubCatListByLocalDB(parent_id, name, api_id, subCatArrData);
+			//alert('categoryDiv: ' +categoryDiv);
 			if(children != 0){
 				var subCategoryTempDiv="";
 				var isExist = false;
+				//var catArrDataSubTemp = $.parseJSON(subCatArrData);
+				// var catArrDataTemp = $.parseJSON(subCatArrData); Test = 1
+				//jQuery.each(catArrDataSubTemp, function(indexObj,valueObj) {
 				jQuery.each(subCatArrData, function(indexObj,valueObj) {
 					var childJsonObj = valueObj;
 					var child_parent_id = childJsonObj["parent_id"];
 					var primarySCKeyId = childJsonObj["id"];
 					var server_cat_child_id = childJsonObj["server_cat_id"];
+					//var child_description = childJsonObj["description"];
 					var child_name = childJsonObj['name'];
+					//alert('server_cat_id '+ server_cat_id+ ' child_parent_id' + child_parent_id);
 					if(parseInt(server_cat_id) == parseInt(child_parent_id)){
 						isExist = true;
+						//subCategoryTempDiv += '<div class="row sub-menu '+name+'_'+api_id+'" id="'+name+'_'+api_id+'" style="display:none;">';
+						
 						subCategoryTempDiv += '<div class="col-xs-3 col-sm-3 col-md-3 col-lg-3" data-lid="'+primarySCKeyId+
 							'" data-parcat_id="'+child_parent_id+'" data-cat_id="'+server_cat_child_id+'" onclick="mainGalleryFun(this);"><a href="#">'+ child_name +'</a></div>';
 						//alert('subCategoryTempDiv: '+subCategoryTempDiv);
@@ -1319,23 +1401,29 @@ function errorCBMeasurementListDB() {
 				});
 				
 				if(isExist){
+					//alert(uniqueId);
 					var subCategoryDivFirst = '<div class="row sub-menu '+uniqueId+'" id="'+uniqueId+'">';
 					subCategoryTempDiv = subCategoryDivFirst + subCategoryTempDiv + '</div>';
 				}
 				subCategoryDiv += subCategoryTempDiv;
+				//alert(subCategoryDiv);
 			}
 		});
 		
 		categoryDiv+='</div>';
-		alert('Appended Successfully Category');
 		$('.main-menu').remove();
 		$('.sub-menu').remove();
 		$( categoryDiv ).insertBefore( "#mainPageId .hrBarCatClass" );
 		$( subCategoryDiv ).insertBefore( "#mainPageId .hrBarCatClass" );
 		$('#mainPageId').find('.sub-menu').hide();
+		//alert('Data Appended Successfully.');
 		
 		getProductsListFromLocal();
 		getAttributeListFromLocal();
+		//appendProdListDB(productDetailsArrSession); Test = 1
+		//$('#mainPageId').append(categoryDiv);
+		//$('#mainPageId').append(subCategoryDiv);
+		//$('#mainPageId .childCatList').hide();
 	}
 	
 	// Remaining
@@ -1365,6 +1453,8 @@ function errorCBMeasurementListDB() {
 		var responseJson = $.parseJSON(JSON.stringify(data));
 		productJsonData = responseJson["result"];
 		productImageData = responseJson['image_url'];
+		//alert('productJsonData '+productJsonData);
+		//alert(productJsonData);
 		// FIXME CHECK JSON DATA
 		db.transaction(insertProductDetails, errorCBInsertProductDetails, successCBInsertProductDetails);
 	}
@@ -1395,6 +1485,7 @@ function errorCBMeasurementListDB() {
 		var responseJson = $.parseJSON(JSON.stringify(data));
 		attributeJsonData = responseJson["result"];
 		attributeImageData = responseJson['image_url'];
+		//alert(attributeJsonData);
 		// FIXME CHECK JSON DATA
 		db.transaction(insertAttributesDetails, errorCBInsertAttributeDetails, successCBInsertAttributeDetails);
 	}
@@ -1406,12 +1497,19 @@ function errorCBMeasurementListDB() {
 		
 		
 		console.log('append Product Gallery : ' + prodArrData);
+		//json.loads(s.replace('\r\n', ''))
+		//var prodArrDataTemp = $.parseJSON(prodArrData.replace("\n","\\n"));
+		//var prodArrDataTemp = $.parseJSON(prodArrData.replace('\r\n', ''));
+		//var prodArrDataTemp = $.parseJSON(prodArrData); Test = 1;
 		jQuery.each(prodArrData, function(index,value) {
 			var jsonObj=value;
 			var local_db_id=jsonObj["id"];
 			var server_prod_id=jsonObj["server_prod_id"];
 			var prod_name=jsonObj["prod_name"];
 			var prod_description=jsonObj["prod_description"];
+			//console.log('prod_description   '+prod_description);
+			//var galleryObj = $.parseJSON(JSON.stringify(jsonObj['gallery'])); Test = 1;
+			//var categoryObj = $.parseJSON(JSON.stringify(jsonObj['category'])); Test = 1;
 			var galleryObj = jQuery.parseJSON(jsonObj['gallery']);
 			var categoryObj = jQuery.parseJSON(jsonObj['category']);
 			 
@@ -1424,25 +1522,36 @@ function errorCBMeasurementListDB() {
 				var image = valueObj["image"];
 				var prodImage = productImageData + '/'+image;
 				var image1 = 'img/product'+index+'.jpg';
-				initToCheckTheFile(image, productImageData);
+				//var imageTag = '<img class="imageAppendAttrMea" src="'+image1+'"  alt="Saree" style="width:304px;height:500px;"/>';
+				//attrMeasPageGallery += imageTag;
+				//var image2 = 'img/product/product2.jpg';
 				jQuery.each(categoryObj, function(indexCat, valueCat){
 					console.log('Inside Category');
 					var server_cat_id = valueCat['cat_id'];
+					//if(index == 0){
+						
+					//}
 					var galleryImage = '<div class="col-xs-12 col-sm-6 col-md-4 col-lg-4 galleriesClass gallcatid'+server_cat_id+'" data-gall_id="'+gallery_id+'" data-cat_id="'+server_cat_id+'" '+
 							'data-prod_id="'+server_prod_id+'" data-pro_index="'+index+'" data-lid="'+local_db_id+'" onclick="goToAttributeDiv(this)">'+
 							'<img src="'+prodImage+'"  alt="Saree" style="width:304px;height:500px;"/>'+prod_name+'</div>';
+							//alert('galleryImage -- '+galleryImage);
 					mainPageGallery += galleryImage;
 					
 				});
 				
+				//alert(' appendProdListDB  gallcatid'+server_cat_id+'');
 			});
 		});
-		alert('Appended Successfully Products');
+		//alert('mainPageGallery ' +mainPageGallery);
 		$("#mainPageId").find('.galleriesClass').remove();
+		//$('#prodArrData').val(prodArrData);
 		console.log('Appended Successfully');
 		$("#mainPageId").find('.product-list').append(mainPageGallery);
 		$('#mainPageId .product-list').find('.galleriesClass').hide();
 		$('.imageAppendAttrMea').remove();
+		//$('.imageAppendSelMea').remove();
+		//$('.attributePageLocation').append(attrMeasPageGallery);
+		//$('.measurementPageLocation').append(attrMeasPageGallery);
 	}
 
 	function goToAttributeDiv(currentData){
@@ -1453,6 +1562,9 @@ function errorCBMeasurementListDB() {
 		var selectMeasBarPageDiv = '';
 		var attrMeasPageGallery = '';
 		var attrIds = []; var prodAttrIds = [];
+		//alert('goToAttributePage');
+		//alert('productDataForAttr -- '+productDataForAttr);
+		//productDataForAttr = $.parseJSON(productDataForAttr);
 		jQuery.each(productDataForAttr, function(index,value) {
 			
 			console.log('goToAttributePage productDataForAttr Inside Forloop');
@@ -1461,7 +1573,11 @@ function errorCBMeasurementListDB() {
 			var server_prod_id = jsonObj["server_prod_id"];
 			var prod_name = jsonObj["prod_name"];
 			var prod_description = jsonObj["prod_description"];
+			//var server_cat_id = jsonObj["server_cat_id"];
 			
+			//var galleryObj = jQuery.parseJSON(JSON.stringify(jsonObj.gallery)); Test = 1
+			//var categoryObj = jQuery.parseJSON(JSON.stringify(jsonObj.category)); Test = 1
+			//var attributeObj = jQuery.parseJSON(JSON.stringify(jsonObj.attribute_details)); Test = 1
 			var galleryObj = jQuery.parseJSON(jsonObj.gallery);
 			var categoryObj = jQuery.parseJSON(jsonObj.category);
 			var attributeObj = jQuery.parseJSON(jsonObj.attribute_details);
@@ -1475,7 +1591,6 @@ function errorCBMeasurementListDB() {
 					$('.imageAppendAttrMea').remove();
 					var image1 = 'img/product'+index+'.jpg';
 					var prodImage = productImageData + '/'+image;
-					initToCheckTheFile(image, productImageData);
 					var imageTag = '<img class="imageAppendAttrMea" src="'+prodImage+'"  alt="Saree" style="width:304px;height:500px;"/>';
 					$('.attributePageLocation').append(imageTag);
 					$('.measurementPageLocation').append(imageTag);
@@ -1488,9 +1603,11 @@ function errorCBMeasurementListDB() {
 			jQuery.each(categoryObj, function(indexCat, valueCat){
 				console.log('goToAttributePage categoryObj Inside Forloop');
 				var server_cat_id = valueCat['cat_id'];
+				//alert(mainPageCatId + " "+ server_prod_id +" " +mainPageProdId + " " +server_cat_id);
 				if(mainPageCatId == server_cat_id && mainPageProdId == server_prod_id){
 					jQuery.each(attributeObj, function(indexObj,valueObj) {
 						console.log('goToAttributePage attributeObj Inside Forloop');
+						//alert('goToAttributePage AttributeArr');
 						var paIds = valueObj['id'];
 						var attrId = valueObj['attr_id'];
 						prodAttrIds[indexObj] = paIds;
@@ -1500,7 +1617,15 @@ function errorCBMeasurementListDB() {
 				}
 			});
 			
+			//gotoAttributePage();	
+			
+			
 		});
+		/*$("#mainPageId").find('.product-list').append(mainPageGallery);
+		$('.attributePageLocation').remove();
+		$('.measurementPageLocation').remove();
+		$('.attributePageLocation').append(attrMeasPageGallery);
+		$('.measurementPageLocation').append(attrMeasPageGallery);*/
 		
 	}
 	
@@ -1508,6 +1633,10 @@ function errorCBMeasurementListDB() {
 		console.log('appendAttrDataByArraysAndIds');
 		var attributeDiv = '';
 		var optionMainDiv = '';
+		//alert('appendAttrDataByArraysAndIds --- ');
+		//alert('attrDetailsArrSession --- '+attrDetailsArrSession);
+		//var attrDataObj = attrDetailsArrSession; Test = 1
+	//	attrDataObj = $.parseJSON(attrDataObj);
 		jQuery.each(attrDetailsArrSession, function(index,value) {
 			console.log('appendAttrDataByArraysAndIds attrDetailsArrSession');
 			var attrId = value['id'];
@@ -1516,18 +1645,20 @@ function errorCBMeasurementListDB() {
 			var identifier = value['identifier'];
 			var backend_name = value['backend_name'];
 			var option = value['option'];
+			//var optionObj = jQuery.parseJSON(JSON.stringify(option)); Test = 1
 			var optionObj = jQuery.parseJSON(option);
+			//alert('optionObj -- '+optionObj);
 			jQuery.each(attrArr, function(index1,value1) {
 				console.log(attrArr);
 				if(value1 == server_attr_id){
-					console.log(value1+'value1 == server_attr_id'+server_attr_id);
+					console.log(value1+'value1 == attrId'+server_attr_id);
+					console.log('attr_name '+attr_name);
 					var tempAttrDiv = '<div class="col-xs-2 col-sm-2 col-md-2 col-lg-2 selMenu-bar" data-cat_id="'+catId+'" data-prod_id="'+prodId+'" data-attrid="'+server_attr_id+'" data-lid="'+attrId+'"><a href="#">'+attr_name+'</a></div>';
 					jQuery.each(optionObj, function(index2,value2) {
 						var optionName = value2['name'];
 						var optionImg = value2['image'];
 						var optionImages = attributeImageData + '/'+optionImg;
 						optionImg = 'img/attr'+index2+'.png';
-						initToCheckTheFile(optionImg, attributeImageData);
 						var tempOptDiv = '<div class="col-xs-6 col-sm-4 col-md-4 col-lg-4 optMenu-bar" data-cat_id="'+catId+'" data-prod_id="'+prodId+'" data-attrid="'+server_attr_id+'" data-lid="'+attrId+'"><div class="box"><img src="'+optionImages+'" alt="Saree" style="width:200px;height:200px;">'+optionName+'</div></div>';
 						optionMainDiv += tempOptDiv;
 					});
@@ -1535,14 +1666,14 @@ function errorCBMeasurementListDB() {
 				}
 			});
 		});
+		//tributeDiv += '<div class="col-xs-2 col-sm-2 col-md-2 col-lg-2 selMenu-bar"><a href="#" onclick="showMeasurementDiv()">'+Measurement+'</a></div>';
 		$('.selMenu-bar').remove();
 		$('.optMenu-bar').remove();
-		$( attributeDiv ).insertBefore( ".selection-menu .measurementAttr" );
-		//$('.selection-menu').append(attributeDiv);
+		$('.selection-menu').append(attributeDiv);
 		$('.attr-option-div').append(optionMainDiv);
 		
 		gotoAttributePageDiv();
-		alert('Appended Successfully Attribute');
+		
 		getMeasumentListFromLocal();
 		appendMeasurementDataInDiv(measurementArrSession);
 		
@@ -1573,16 +1704,22 @@ function errorCBMeasurementListDB() {
 
 	function successCBMeasurementsFn(data){
 		var responseJson = data;
+		//db.transaction(insertMeasurementsDetails, errorCB, successCB);
 		measurementJsonData = responseJson["result"];
+		//alert('measurementJsonData' + measurementJsonData + '1600');
+		//alert(attributeJsonData);
 		// FIXME CHECK JSON DATA
 		db.transaction(insertMeasurementsDetails, errorCBInsertMeasurementDetails, successCBInsertMeasurementDetails);
+		//, errorCBInsertAttributeDetails, successCBInsertAttributeDetails
 	}
 	
 	function successCBInsertMeasurementDetails() {
+		//alert("successCBInsertMeasurementDetails");
 		
 		 console.log('Populated database OK');
-		 alert('Records inserted successfully Measurement');
+		 
 		 getCategoriesListFromLocal();
+		 //checkAttributeInLocalDB();
 		    
 	}	
 	function errorCBInsertMeasurementDetails(err) {
@@ -1590,6 +1727,8 @@ function errorCBMeasurementListDB() {
 	}
 	
 	function appendMeasurementDataInDiv(measurementArrData){
+		// measurementTypeId
+		
 		jsonObj['id'] = results.rows.item(i)['id'];
 		jsonObj['server_measurement_id'] = results.rows.item(i)['server_measurement_id'];
 		jsonObj['measurement_name'] = results.rows.item(i)['name'];
@@ -1617,7 +1756,6 @@ function errorCBMeasurementListDB() {
 			});
 		});
 		$('.measurement-InputFields').append(appendMeasurementData);
-		alert('Appended Successfully Measurement');
 	}
 	
 /*  ------------------- Module-wise Methods/Function Code Starts ------------------  */	
@@ -1643,54 +1781,4 @@ function errorCBMeasurementListDB() {
 		$('.'+attrFindObj).show();
 	}
 	
-	function showMeasurementDiv(){
-		gotoMeasurementPageDiv();
-	}
 	
-	function initToCheckTheFile(fileName, assetURL) {
-	    
-	    $status = document.querySelector("#status");
-
-	    $status.innerHTML = "Checking for data file.";
-
-	    store = cordova.file.dataDirectory;
-	    alert('store location : '+ store + 'ApplicationDirectory : '+cordova.file.applicationDirectory);
-	    
-	    //Check for the file. 
-	    window.resolveLocalFileSystemURL(store + fileName, appStart, downloadAsset(fileName, assetURL));
-
-	}
-	
-	function downloadAsset(fileName, assetURL) {
-	    var fileTransfer = new FileTransfer();
-	    console.log("About to start transfer");
-	    fileTransfer.download(assetURL, store + fileName, 
-	        function(entry) {
-	            console.log("Success!");
-	            alert('File successfully Saved in local system.');
-	            appStart();
-	        }, 
-	        function(err) {
-	            console.log("Error");
-	            console.dir(err);
-	            alert('File Error .'+ err);
-	            alert('File Error .'+ err.code);
-	            alert('File Error .'+ err.message);
-	        });
-	}
-	
-	function appStart() {
-	    $status.innerHTML = "App ready!";
-	}
-	
-	function gotFS(fileSystem) {
-	    alert("got filesystem");
-	    // save the file system for later access
-	    alert(fileSystem.root.fullPath);
-	    window.rootFS = fileSystem.root;
-	}
-
-	document.addEventListener('deviceready', function() {                
-	    window.requestFileSystem  = window.requestFileSystem || window.webkitRequestFileSystem;
-	    window.requestFileSystem(LocalFileSystem.PERSISTENT, 0, gotFS, fail);
-	}, false);
