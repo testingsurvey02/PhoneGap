@@ -1590,11 +1590,11 @@ function errorCBMeasurementListDB() {
 	}
 	
 	function appendMeasurementDataInDiv(measurementArrData){
-		jsonObj['id'] = results.rows.item(i)['id'];
-		jsonObj['server_measurement_id'] = results.rows.item(i)['server_measurement_id'];
-		jsonObj['measurement_name'] = results.rows.item(i)['name'];
-		jsonObj['status'] = results.rows.item(i)['status'];
-		jsonObj['group_data'] = results.rows.item(i)['group_data'];
+		//jsonObj['id'] = results.rows.item(i)['id'];
+		//jsonObj['server_measurement_id'] = results.rows.item(i)['server_measurement_id'];
+		//jsonObj['measurement_name'] = results.rows.item(i)['name'];
+		//jsonObj['status'] = results.rows.item(i)['status'];
+		//jsonObj['group_data'] = results.rows.item(i)['group_data'];
 		var appendMeasurementData = '';
 		jQuery.each(measurementArrData, function(index,value) {
 			var groupJsonData = jQuery.parseJSON(value['group_data']);
@@ -1616,7 +1616,8 @@ function errorCBMeasurementListDB() {
 				}
 			});
 		});
-		$('.measurement-InputFields').append(appendMeasurementData);
+		alert(appendMeasurementData);
+		$('#measurementPageId').find('.measurement-InputFields').append(appendMeasurementData);
 	}
 	
 /*  ------------------- Module-wise Methods/Function Code Starts ------------------  */	
