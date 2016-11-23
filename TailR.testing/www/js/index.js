@@ -1042,6 +1042,7 @@ function insertMeasurementsDetails(tx) {
 	tx.executeSql('CREATE TABLE IF NOT EXISTS measurement_details (id integer primary key autoincrement, name text, server_measurement_id integer, status integer, update_timestamp text, group_data text)');
 	
 	jQuery.each(measurementJsonData, function(index,value) {
+		
 		var server_measurement_id = value["id"];
 		var name = value["name"];
 		var meas_status = value["status"];
@@ -1053,7 +1054,7 @@ function insertMeasurementsDetails(tx) {
 		var update_timestamp = '';
 		tx.executeSql('INSERT INTO measurement_details(name, server_measurement_id, status, update_timestamp, group_data) VALUES (?,?,?,?,?)',
    	    			[name, server_measurement_id,meas_status, update_timestamp, groupJson], function(tx, res) {
-	   	         alert("Measurement Data insertId: " + res.insertId + " -- res.rowsAffected 1"+res.rowsAffected);
+	   	         //alert("Measurement Data insertId: " + res.insertId + " -- res.rowsAffected 1"+res.rowsAffected);
   	    });
 	});
 }
@@ -1066,13 +1067,13 @@ function getMeasumentListFromLocal(){
 					if(len>0){
 						measurementArrSession = [];
 						for (var i = 0; i < len; i++) {
-							var jsonObj={};
-							jsonObj['id'] = results.rows.item(i)['id'];
-							jsonObj['server_measurement_id'] = results.rows.item(i)['server_measurement_id'];
-							jsonObj['measurement_name'] = results.rows.item(i)['name'];
-							jsonObj['status'] = results.rows.item(i)['status'];
-							jsonObj['group_data'] = results.rows.item(i)['group_data'];
-							measurementArrSession.push(jsonObj);
+							var jsonMeasurementObj={};
+							jsonMeasurementObj['id'] = results.rows.item(i)['id'];
+							jsonMeasurementObj['server_measurement_id'] = results.rows.item(i)['server_measurement_id'];
+							jsonMeasurementObj['measurement_name'] = results.rows.item(i)['name'];
+							jsonMeasurementObj['status'] = results.rows.item(i)['status'];
+							jsonMeasurementObj['group_data'] = results.rows.item(i)['group_data'];
+							measurementArrSession.push(jsonMeasurementObj);
 						}
 					}
 				}, errorCB
@@ -1083,6 +1084,7 @@ function getMeasumentListFromLocal(){
 
 function successCBMeasurementListDB() {
 	//console.log('successCBMeasurementListDB.');
+	appendMeasurementDataInDiv(measurementArrSession);
 }	
 
 function errorCBMeasurementListDB() {
@@ -1542,8 +1544,6 @@ function errorCBMeasurementListDB() {
 		getMeasumentListFromLocal();
 		gotoAttributePageDiv();
 		
-		
-		appendMeasurementDataInDiv(measurementArrSession);
 		
 	}
 
