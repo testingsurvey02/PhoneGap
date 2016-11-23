@@ -1474,6 +1474,7 @@ function errorCBMeasurementListDB() {
 				var image = valueGal['image'];
 				if(galId == gallCurrId){
 					measurementTypeId = jsonObj['measurement_typeid'];
+					console.log('measurementTypeId ------------- '+measurementTypeId)
 					$('.imageAppendAttrMea').remove();
 					var image1 = 'img/product'+index+'.jpg';
 					var prodImage = productImageData + '/'+image;
