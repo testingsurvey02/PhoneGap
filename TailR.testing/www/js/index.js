@@ -1,3 +1,8 @@
+$(function() {
+	if(testingInBrowser){
+		loadDataFromServer();
+	}
+});
 /*
 	// Local System Find JsonFormat 
 	$(function() {
@@ -83,6 +88,7 @@ $( document ).on( "mobileinit", function() {
 
 var connectionType;
 var appName='Tailor Rani';
+var testingInBrowser=false;
 
 var rightPanelObj = '<div id="menu-wrapper">'+
 							'<div class="menu-title">'+
@@ -825,18 +831,25 @@ function insertCategories(arrData) {
 }
 
 function successCBInsertCategories() {
-	console.log("successCBInsertCategories");
-	//getCategoriesListFromLocal();
-	//checkProductInLocalDB();
 	getProductDataFromServer();
 }	
 
 function errorCBInsertCategories(err) {
 	console.log("errorCBInsertCategories");
-	document.write("errorCBInsertCategories" + err);
 }
 
 function getCategoriesListFromLocal(){
+	if(testingInBrowser){
+		var catArrSessionData='[{"id":1,"server_cat_id":1,"parent_id":"","name":"Men","description":"","image":"","sort_order":"1","status":"1"}]';
+		catArrSession=jQuery.parseJSON(catArrSessionData);
+		
+		var subCatArrSessionData='[{"id":2,"server_cat_id":1,"parent_id":"1","name":"SHIRT","description":"description02","image":"","sort_order":"1","status":"1"},{"id":3,"server_cat_id":1,"parent_id":"1","name":"PANT","description":"description03","image":"","sort_order":"2","status":"1"}]';
+		subCatArrSession=jQuery.parseJSON(subCatArrSessionData);
+		
+		appendCatListDB(catArrSession, subCatArrSession);
+		return;
+	}
+	
 	db.transaction(	function (tx){
 			tx.executeSql('select * from category',[],function(tx,results){
 					var len = results.rows.length;
@@ -884,7 +897,6 @@ function errorCBCatLocalDB() {
 }
 
 function successCBSubCatListDB() {
-	
 	appendSubCatListDB(subCatArrSession);
 }	
 
@@ -915,7 +927,6 @@ function insertProductDetails(tx) {
 }
 
 function successCBProdListDB() {
-	console.log(productDetailsArrSession);
 	appendProdListDB(productDetailsArrSession);
 }	
 
@@ -932,8 +943,6 @@ function errorCBProdLocalDB() {
 }
 
 function successCBInsertProductDetails() {
-	console.log("successCBInsertProductDetails");
-	 console.log('Populated database OK');
 	 getAttributesDataFromServer();
 }
 
@@ -942,11 +951,19 @@ function errorCBInsertProductDetails(err) {
 }
 
 function getProductsListFromLocal(){
-	console.log('getProductsListFromLocal');
+	
+	if(testingInBrowser){
+		var productDetailsArrSessionData = '[{"id":1,"server_prod_id":1, "prod_name":"SHIRT - FULL SLEEVE","prod_description":"Fabric: Cotton Linen Blend\r\nSlim Fit, Full Sleeve\r\nCollar Type: Regular\r\nPattern: Checkered\r\nSet of 1","measurement_typeid":"1","prod_status":"1","attribute_details":[{"id":59,"pdt_id":"1","attr_id":"2","created_at":"2016-11-21 06:02:58","updated_at":"2016-11-21 06:02:58"}],"category":[{"id":40,"pdt_id":"1","cat_id":"1","created_at":"2016-11-21 06:02:58","updated_at":"2016-11-21 06:02:58"}],"gallery":[{"id":9,"pdt_id":"1","image":"product_5_582ea8c053c3b.jpg","created_at":"2016-11-18 07:07:44","updated_at":"2016-11-18 07:07:44"}]}]';
+		//productDetailsArrSessionData = productDetailsArrSessionData.replace("\r", "\\r")
+		productDetailsArrSession=jQuery.parseJSON(productDetailsArrSessionData);
+
+		appendProdListDB(productDetailsArrSession);
+		return;
+	}
+	
 	db.transaction(	function (tx){
 			tx.executeSql('select * from product_details ',[],function(tx,results){
 					var len = results.rows.length;
-					console.log('Product Length '+len);
 					productDetailsArrSession = [];
 					if(len>0){
 						for (var i = 0; i < len; i++) {
@@ -989,7 +1006,6 @@ function insertAttributesDetails(tx) {
 }
 
 function successCBAttrListDB() {
-	//console.log('Product Attribute successfully inserted.');
 }	
 
 function errorCBAttrListDB() {
@@ -997,7 +1013,6 @@ function errorCBAttrListDB() {
 }
 
 function successCBInsertAttributeDetails() {
-	//console.log("successCBInsertAttributeDetails");
 	 getMeasurementsDataFromServer();
 	    
 }	
@@ -1006,7 +1021,6 @@ function errorCBInsertAttributeDetails(err) {
 }
 
 function successCBAttrLocalDB() {
-//	console.log("successCBAttrLocalDB");
 }	
 
 function errorCBAttrLocalDB() {
@@ -1014,6 +1028,12 @@ function errorCBAttrLocalDB() {
 }
 
 function getAttributeListFromLocal(){
+	if(testingInBrowser){
+		var attrDetailsArrSessionData = '[{"id":1,"server_attr_id":1,"attr_name":"Attribute 2-shirt cuffs","identifier":"sss","attr_status":"1","backend_name":"Backend shirt cuffs","option":[{"id":3,"attr_id":"1","name":"a2-option1 cuffs1","image":"attribute_1_583285971f775.png","status":"1","sort_order":"0","created_at":"2016-11-02 19:40:34","updated_at":"2016-11-21 05:26:47"},{"id":7,"attr_id":"1", "name":"a2-option2 cuffs2", "image":"attribute_1_583285971fd42.png", "status":"1", "sort_order":"0", "created_at":"2016-11-17 07:48:14", "updated_at":"2016-11-21 05:26:47"},{"id":9, "attr_id":"1","name":"a2-option3 cuffs3","image":"attribute_1_58328597200e6.png","status":"1","sort_order":"0","created_at":"2016-11-21 05:26:47","updated_at":"2016-11-21 05:26:47"},{"id":10,"attr_id":"1","name":"a2-option4 cuffs4","image":"attribute_1_5832859720444.png","status":"1","sort_order":"0","created_at":"2016-11-21 05:26:47","updated_at":"2016-11-21 05:26:47"}]}]';
+		attrDetailsArrSession=jQuery.parseJSON(attrDetailsArrSessionData);
+		return;
+	}
+	
 	db.transaction(	function (tx){
 		var len = 0;
 			tx.executeSql('select * from product_attributes ',[],function(tx,results){
@@ -1060,6 +1080,13 @@ function insertMeasurementsDetails(tx) {
 }
 
 function getMeasumentListFromLocal(){
+	if(testingInBrowser){
+		var measurementArrSessionData = '[{"id":1,"server_measurement_id":1,"measurement_name":"Mens","status":"1", "group_data":[{"id":1,"name":"Shirts","status":"1","measurement_type_id":"1","created_at":"2016-11-02 23:28:53","updated_at":"2016-11-03 00:00:31","measurements":[{"id":1,"name":"Shirt collar1","status":"1","measurement_group_id":"1","created_at":"2016-11-02 23:28:53","updated_at":"2016-11-03 00:00:31"},{"id":2,"name":"shirt neck2","status":"1","measurement_group_id":"1","created_at":"2016-11-02 23:28:53","updated_at":"2016-11-03 00:00:31"}]},{"id":3,"name":"tee shirt","status":"1","measurement_type_id":"1","created_at":"2016-11-03 00:22:40","updated_at":"2016-11-03 00:22:40","measurements":[{"id":7,"name":"round neck","status":"1","measurement_group_id":"3","created_at":"2016-11-03 00:22:40","updated_at":"2016-11-03 00:22:40"},{"id":8,"name":"with collar","status":"1","measurement_group_id":"3","created_at":"2016-11-03 00:22:40","updated_at":"2016-11-03 00:22:40"}]},{"id":4,"name":"shorts","status":"1","measurement_type_id":"1","created_at":"2016-11-08 18:32:49","updated_at":"2016-11-08 18:32:49","measurements":[{"id":9,"name":"elbow length","status":"1","measurement_group_id":"4","created_at":"2016-11-08 18:32:49","updated_at":"2016-11-17 07:50:56"},{"id":16,"name":"back","status":"1","measurement_group_id":"4","created_at":"2016-11-17 07:50:56","updated_at":"2016-11-17 07:50:56"},{"id":17,"name":"front","status":"1","measurement_group_id":"4","created_at":"2016-11-17 07:50:56","updated_at":"2016-11-17 07:50:56"}]}]}]';
+		measurementArrSession=jQuery.parseJSON(measurementArrSessionData);
+		appendMeasurementDataInDiv(measurementArrSession);
+		return;
+	}
+	
 	db.transaction(	function (tx){
 		var len = 0;
 			tx.executeSql('select * from measurement_details ',[],function(tx,results){
@@ -1083,8 +1110,6 @@ function getMeasumentListFromLocal(){
 }
 
 function successCBMeasurementListDB() {
-	//console.log('successCBMeasurementListDB.');
-	console.log('Test '+measurementArrSession);
 	appendMeasurementDataInDiv(measurementArrSession);
 }	
 
@@ -1249,6 +1274,11 @@ function errorCBMeasurementListDB() {
 	}
 	
 	function loadDataFromServer(){
+		if(testingInBrowser){
+			getCategoriesListFromLocal();
+			return;
+		}
+		
 		checkCategoryInLocalDB();
 	}
 	
@@ -1288,7 +1318,6 @@ function errorCBMeasurementListDB() {
 		categoriesJsonData = responseJson["result"];
 		// FIXME CHECK JSON DATA
 		insertCategories(categoriesJsonData);
-		
 	}
 	
 	function appendCatListDB(catArrData, subCatArrData) {
@@ -1406,23 +1435,25 @@ function errorCBMeasurementListDB() {
 		prodArrData = productDetailsArrSession;
 		var mainPageGallery = '';
 		var attrMeasPageGallery = '';
-		
-		
-		console.log('append Product Gallery : ' + prodArrData);
 		jQuery.each(prodArrData, function(index,value) {
 			var jsonObj=value;
 			var local_db_id=jsonObj["id"];
 			var server_prod_id=jsonObj["server_prod_id"];
 			var prod_name=jsonObj["prod_name"];
 			var prod_description=jsonObj["prod_description"];
-			var galleryObj = jQuery.parseJSON(jsonObj['gallery']);
-			var categoryObj = jQuery.parseJSON(jsonObj['category']);
+			var galleryObj = '';
+			var categoryObj = '';
+			if(testingInBrowser){
+				alert('Hid');
+				galleryObj = jQuery.parseJSON(JSON.stringify(jsonObj['gallery']));
+				categoryObj = jQuery.parseJSON(JSON.stringify(jsonObj['category']));
+			}else{
+				galleryObj = jQuery.parseJSON(jsonObj['gallery']);
+				categoryObj = jQuery.parseJSON(jsonObj['category']);
+			}
 			 
-			console.log('galleryObj' + galleryObj);
-			console.log('categoryObj' + categoryObj);
 			if(jsonObj['gallery'] != ''){
 				jQuery.each(galleryObj , function(indexObj,valueObj) {
-					console.log('Inside Gallery');
 					var gallery_id = valueObj['id'];
 					var image = valueObj["image"];
 					var prodImage = productImageData + '/'+image;
@@ -1430,7 +1461,6 @@ function errorCBMeasurementListDB() {
 					//initToCheckTheFile(image, productImageData);
 					if(jsonObj['category'] != ''){
 						jQuery.each(categoryObj, function(indexCat, valueCat){
-							console.log('Inside Category');
 							var server_cat_id = valueCat['cat_id'];
 							var galleryImage = '<div class="col-xs-12 col-sm-6 col-md-4 col-lg-4 galleriesClass gallcatid'+server_cat_id+'" data-gall_id="'+gallery_id+'" data-cat_id="'+server_cat_id+'" '+
 									'data-prod_id="'+server_prod_id+'" data-pro_index="'+index+'" data-lid="'+local_db_id+'" onclick="goToAttributeDiv(this)">'+
@@ -1444,23 +1474,21 @@ function errorCBMeasurementListDB() {
 			
 		});
 		$("#mainPageId").find('.galleriesClass').remove();
-		console.log('Appended Successfully');
 		$("#mainPageId").find('.product-list').append(mainPageGallery);
 		$('#mainPageId .product-list').find('.galleriesClass').hide();
 		$('.imageAppendAttrMea').remove();
 	}
 
 	function goToAttributeDiv(currentData){
+		alert('Attrr');
 		var gallCurrId = $(currentData).data('gall_id');
 		var pro_index = $(currentData).data('pro_index');
 		var productDataForAttr = productDetailsArrSession; 
-		console.log('gallCurrId : '+gallCurrId + ' pro_index : ' +pro_index);
 		var selectMeasBarPageDiv = '';
 		var attrMeasPageGallery = '';
 		var attrIds = []; var prodAttrIds = [];
 		jQuery.each(productDataForAttr, function(index,value) {
 			
-			console.log('goToAttributePage productDataForAttr Inside Forloop');
 			var jsonObj = value;
 			var local_db_id = jsonObj["id"];
 			var server_prod_id = jsonObj["server_prod_id"];
@@ -1472,12 +1500,10 @@ function errorCBMeasurementListDB() {
 			var attributeObj = jQuery.parseJSON(jsonObj.attribute_details);
 			if(jsonObj.gallery != ''){
 				jQuery.each(galleryObj, function(indexGal, valueGal){
-					console.log('goToAttributePage galleryObj Inside Forloop');
 					var galId = valueGal['id'];
 					var image = valueGal['image'];
 					if(galId == gallCurrId){
 						measurementTypeId = jsonObj['measurement_typeid'];
-						console.log('measurementTypeId ------------- '+measurementTypeId)
 						$('.imageAppendAttrMea').remove();
 						var image1 = 'img/product'+index+'.jpg';
 						var prodImage = productImageData + '/'+image;
@@ -1493,11 +1519,9 @@ function errorCBMeasurementListDB() {
 			var mainPageProdId = $(currentData).data('prod_id');
 			if(jsonObj.category != ''){
 				jQuery.each(categoryObj, function(indexCat, valueCat){
-					console.log('goToAttributePage categoryObj Inside Forloop');
 					var server_cat_id = valueCat['cat_id'];
 					if(mainPageCatId == server_cat_id && mainPageProdId == server_prod_id){
 						jQuery.each(attributeObj, function(indexObj,valueObj) {
-							console.log('goToAttributePage attributeObj Inside Forloop');
 							var paIds = valueObj['id'];
 							var attrId = valueObj['attr_id'];
 							prodAttrIds[indexObj] = paIds;
@@ -1512,11 +1536,9 @@ function errorCBMeasurementListDB() {
 	}
 	
 	function appendAttrDataByArraysAndIds(prodAttrArr, attrArr, catId, prodId){
-		console.log('appendAttrDataByArraysAndIds');
 		var attributeDiv = '';
 		var optionMainDiv = '';
 		jQuery.each(attrDetailsArrSession, function(index,value) {
-			console.log('appendAttrDataByArraysAndIds attrDetailsArrSession');
 			var attrId = value['id'];
 			var server_attr_id = value['server_attr_id'];
 			var attr_name = value['attr_name'];
@@ -1526,9 +1548,7 @@ function errorCBMeasurementListDB() {
 			if(value['option'] != ''){
 				var optionObj = jQuery.parseJSON(option);
 				jQuery.each(attrArr, function(index1,value1) {
-					console.log(attrArr);
 					if(value1 == server_attr_id){
-						console.log(value1+'value1 == server_attr_id'+server_attr_id);
 						var tempAttrDiv = '<div class="col-xs-2 col-sm-2 col-md-2 col-lg-2 selMenu-bar" data-cat_id="'+catId+'" data-prod_id="'+prodId+'" data-attrid="'+server_attr_id+'" data-lid="'+attrId+'"><a href="#">'+attr_name+'</a></div>';
 						jQuery.each(optionObj, function(index2,value2) {
 							var optionName = value2['name'];
@@ -1586,64 +1606,49 @@ function errorCBMeasurementListDB() {
 	}
 	
 	function successCBInsertMeasurementDetails() {
-		
-		 console.log('Populated database OK');
-		 
 		 getCategoriesListFromLocal();
-		    
 	}	
 	function errorCBInsertMeasurementDetails(err) {
 		console.log("errorCBInsertMeasurementDetails");
 	}
 	
 	function appendMeasurementDataInDiv(measurementArrData){
-		//jsonObj['id'] = results.rows.item(i)['id'];
-		//jsonObj['server_measurement_id'] = results.rows.item(i)['server_measurement_id'];
-		//jsonObj['measurement_name'] = results.rows.item(i)['name'];
-		//jsonObj['status'] = results.rows.item(i)['status'];
-		//jsonObj['group_data'] = results.rows.item(i)['group_data'];
-		console.log('measurementArrSession '+measurementArrSession);
 		var appendMeasurementData = '';
 		jQuery.each(measurementArrData, function(index,value) {
-			console.log('value["group_data"] '+value['group_data']);
-			//if(value.hasOwnProperty('group_data')){
-				if(value['group_data'] != ''){
-					var groupJsonData = jQuery.parseJSON(value['group_data']);
-					console.log('groupJsonData '+groupJsonData);
-					jQuery.each(groupJsonData, function(groupIndex,groupValue) {
-						var groupMeasurementTypeId = groupValue['measurement_type_id'];
-						console.log('groupMeasurementTypeId '+groupMeasurementTypeId +' measurementTypeId '+measurementTypeId);
-						if(groupMeasurementTypeId == measurementTypeId){
-							var groupName = groupValue['name'];
-							if(groupValue['measurements'] != ''){
-								var measurementGroupData = groupValue['measurements'];
-								var groupLabelName = '<hr class="measureHr"/><h3 class="h3Measure">' + groupName + '</h3>';
-								appendMeasurementData += groupLabelName;
-								//var measurementGroupJsonData = jQuery.parseJSON(measurementGroupData);
-								console.log('measurementGroupData  ' +measurementGroupData);
-								jQuery.each(measurementGroupData, function(measurementsIndex,measurementsValue) {
-									console.log('measurementGroupData Inside '+measurementsValue);
-									var measNameForField  = measurementsValue['name'];
-									var measPriKeyForField = measurementsValue['id'];
-									console.log('measNameForField ' + measNameForField);
-									console.log('measPriKeyForField ' + measPriKeyForField);
-									var fieldsDiv = '<div class="col-xs-12 col-sm-6 col-md-6 col-lg-6 measure-inputField"> <div class="box start-xs start-sm start-md start-lg"> '
-										+measNameForField+' <input type="text" data-meas_pkid="'+measPriKeyForField+'" id="measField'+measPriKeyForField+'"'+'name="measField'+measPriKeyForField+'"> </div></div>';
-									console.log('fieldsDiv '+fieldsDiv);
-									appendMeasurementData += fieldsDiv;
-									console.log('appendMeasurementData ' +appendMeasurementData);
-								});
-							}
-						}
-					});
-				}
+			var groupJsonDataCheck = dataTypeCheckJSON(value['group_data']);
+			
+			alert("groupJsonDataCheck -- "+groupJsonDataCheck);
+			
+			if(value['group_data'] != '' && groupJsonDataCheck != 'other'){
 				
+				var groupJsonData = jQuery.parseJSON(value['group_data']);
+				jQuery.each(groupJsonData, function(groupIndex,groupValue) {
+					var groupMeasurementTypeId = groupValue['measurement_type_id'];
+					if(groupMeasurementTypeId == measurementTypeId){
+						var groupName = groupValue['name'];
+						if(groupValue['measurements'] != ''){
+							var measurementGroupData = groupValue['measurements'];
+							var groupLabelName = '<hr class="measureHr"/><h3 class="h3Measure">' + groupName + '</h3>';
+							appendMeasurementData += groupLabelName;
+							//var measurementGroupJsonData = jQuery.parseJSON(measurementGroupData);
+							jQuery.each(measurementGroupData, function(measurementsIndex,measurementsValue) {
+								var measNameForField  = measurementsValue['name'];
+								var measPriKeyForField = measurementsValue['id'];
+								var fieldsDiv = '<div class="col-xs-12 col-sm-6 col-md-6 col-lg-6 measure-inputField"> <div class="box start-xs start-sm start-md start-lg"> '
+									+measNameForField+' <input type="text" data-meas_pkid="'+measPriKeyForField+'" id="measField'+measPriKeyForField+'"'+'name="measField'+measPriKeyForField+'"> </div></div>';
+								appendMeasurementData += fieldsDiv;
+							});
+						}
+					}
+				});
+			}
 			//}
 		});
 		$('#measurementPageId').find('.measure-inputField').remove();
 		$('#measurementPageId').find('.h3Measure').remove();
 		$('#measurementPageId').find('.measureHr').remove();
-		$('#measurementPageId').find('.measurement-InputFields').append(appendMeasurementData);
+		$( appendMeasurementData ).insertBefore( "#measurementPageId .orderSubmitButton" );
+		//$('#measurementPageId').find('.measurement-InputFields').append(appendMeasurementData);
 	}
 	
 /*  ------------------- Module-wise Methods/Function Code Starts ------------------  */	
