@@ -1444,7 +1444,7 @@ function errorCBMeasurementListDB() {
 			var galleryObj = '';
 			var categoryObj = '';
 			if(testingInBrowser){
-				alert('Hid');
+				//alert('Hid');
 				galleryObj = jQuery.parseJSON(JSON.stringify(jsonObj['gallery']));
 				categoryObj = jQuery.parseJSON(JSON.stringify(jsonObj['category']));
 			}else{
@@ -1480,7 +1480,7 @@ function errorCBMeasurementListDB() {
 	}
 
 	function goToAttributeDiv(currentData){
-		alert('Attrr');
+		//alert('Attrr');
 		var gallCurrId = $(currentData).data('gall_id');
 		var pro_index = $(currentData).data('pro_index');
 		var productDataForAttr = productDetailsArrSession; 
@@ -1617,7 +1617,7 @@ function errorCBMeasurementListDB() {
 		jQuery.each(measurementArrData, function(index,value) {
 			var groupJsonDataCheck = dataTypeCheckJSON(value['group_data']);
 			
-			alert("groupJsonDataCheck -- "+groupJsonDataCheck);
+		//	alert("groupJsonDataCheck -- "+groupJsonDataCheck);
 			
 			if(value['group_data'] != '' && groupJsonDataCheck != 'other'){
 				
@@ -1628,7 +1628,7 @@ function errorCBMeasurementListDB() {
 						var groupName = groupValue['name'];
 						if(groupValue['measurements'] != ''){
 							var measurementGroupData = groupValue['measurements'];
-							var groupLabelName = '<hr class="measureHr"/><h3 class="h3Measure">' + groupName + '</h3>';
+							var groupLabelName = '<div class="col-xs-12 col-sm-6 col-md-6 col-lg-6 measureHr"><hr/></div><div class="col-xs-12 col-sm-6 col-md-6 col-lg-6 h3Measure"><h3>' + groupName + '</h3><div>';
 							appendMeasurementData += groupLabelName;
 							//var measurementGroupJsonData = jQuery.parseJSON(measurementGroupData);
 							jQuery.each(measurementGroupData, function(measurementsIndex,measurementsValue) {
