@@ -1628,7 +1628,7 @@ function errorCBMeasurementListDB() {
 						var groupName = groupValue['name'];
 						if(groupValue['measurements'] != ''){
 							var measurementGroupData = groupValue['measurements'];
-							var groupLabelName = '<div class="col-xs-12 col-sm-6 col-md-6 col-lg-6 measureHr"><hr/></div><div class="col-xs-12 col-sm-6 col-md-6 col-lg-6 h3Measure"><h3>' + groupName + '</h3><div>';
+							var groupLabelName = '<div class="col-xs-12 col-sm-6 col-md-6 col-lg-6 measureHr"><hr/></div><div class="col-xs-12 col-sm-6 col-md-6 col-lg-6 h3Measure"><h3>' + groupName + '</h3></div>';
 							appendMeasurementData += groupLabelName;
 							//var measurementGroupJsonData = jQuery.parseJSON(measurementGroupData);
 							jQuery.each(measurementGroupData, function(measurementsIndex,measurementsValue) {
