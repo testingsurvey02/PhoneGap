@@ -1,7 +1,5 @@
 $(function() {
-	if(testingInBrowser){
-		loadDataFromServer();
-	}
+	loadDataFromServer();
 });
 /*
 	// Local System Find JsonFormat 
@@ -88,7 +86,7 @@ $( document ).on( "mobileinit", function() {
 
 var connectionType;
 var appName='Tailor Rani';
-var testingInBrowser=false;
+var testingInBrowser=true;
 
 var rightPanelObj = '<div id="menu-wrapper">'+
 							'<div class="menu-title">'+
@@ -953,9 +951,22 @@ function errorCBInsertProductDetails(err) {
 function getProductsListFromLocal(){
 	
 	if(testingInBrowser){
-		var productDetailsArrSessionData = '[{"id":1,"server_prod_id":1, "prod_name":"SHIRT - FULL SLEEVE","prod_description":"Fabric: Cotton Linen Blend\r\nSlim Fit, Full Sleeve\r\nCollar Type: Regular\r\nPattern: Checkered\r\nSet of 1","measurement_typeid":"1","prod_status":"1","attribute_details":[{"id":59,"pdt_id":"1","attr_id":"2","created_at":"2016-11-21 06:02:58","updated_at":"2016-11-21 06:02:58"}],"category":[{"id":40,"pdt_id":"1","cat_id":"1","created_at":"2016-11-21 06:02:58","updated_at":"2016-11-21 06:02:58"}],"gallery":[{"id":9,"pdt_id":"1","image":"product_5_582ea8c053c3b.jpg","created_at":"2016-11-18 07:07:44","updated_at":"2016-11-18 07:07:44"}]}]';
-		//productDetailsArrSessionData = productDetailsArrSessionData.replace("\r", "\\r")
-		productDetailsArrSession=jQuery.parseJSON(productDetailsArrSessionData);
+		var productDetailsArrSessionData = '[{"id":1,"server_prod_id":1, "prod_name":"SHIRT - FULL SLEEVE","prod_description":"Fabric: Cotton Linen Blend Slim Fit, Full Sleeve Collar Type: Regular Pattern: Checkered Set of 1","measurement_typeid":"1","prod_status":"1","attribute_details":[{"id":59,"pdt_id":"1","attr_id":"2","created_at":"2016-11-21 06:02:58","updated_at":"2016-11-21 06:02:58"}],"category":[{"id":40,"pdt_id":"1","cat_id":"1","created_at":"2016-11-21 06:02:58","updated_at":"2016-11-21 06:02:58"}],"gallery":[{"id":9,"pdt_id":"1","image":"product_5_582ea8c053c3b.jpg","created_at":"2016-11-18 07:07:44","updated_at":"2016-11-18 07:07:44"}]}]';
+		
+		var myArr= new Array();
+		var myObject = new Object();
+		myObject.id = 1;
+		myObject.server_prod_id = 1;
+		myObject.prod_name = "SHIRT - FULL SLEEVE";
+		myObject.prod_description = "Fabric: Cotton Linen Blend Slim Fit, Full Sleeve Collar Type: Regular Pattern: Checkered Set of 1";
+		myObject.measurement_typeid = "1";
+		myObject.prod_status = "1";
+		myObject.attribute_details = '[{"id":59,"pdt_id":"1","attr_id":"1","created_at":"2016-11-21 06:02:58","updated_at":"2016-11-21 06:02:58"}, {"id":59,"pdt_id":"1","attr_id":"2","created_at":"2016-11-21 06:02:58","updated_at":"2016-11-21 06:02:58"}]';
+		myObject.category = '[{"id":40,"pdt_id":"1","cat_id":"1","created_at":"2016-11-21 06:02:58","updated_at":"2016-11-21 06:02:58"}]';
+		myObject.gallery = '[{"id":9,"pdt_id":"1","image":"product_5_582ea8c053c3b.jpg","created_at":"2016-11-18 07:07:44","updated_at":"2016-11-18 07:07:44"}]';
+			
+		myArr.push(myObject);
+		productDetailsArrSession=myArr;
 
 		appendProdListDB(productDetailsArrSession);
 		return;
@@ -1029,8 +1040,30 @@ function errorCBAttrLocalDB() {
 
 function getAttributeListFromLocal(){
 	if(testingInBrowser){
-		var attrDetailsArrSessionData = '[{"id":1,"server_attr_id":1,"attr_name":"Attribute 2-shirt cuffs","identifier":"sss","attr_status":"1","backend_name":"Backend shirt cuffs","option":[{"id":3,"attr_id":"1","name":"a2-option1 cuffs1","image":"attribute_1_583285971f775.png","status":"1","sort_order":"0","created_at":"2016-11-02 19:40:34","updated_at":"2016-11-21 05:26:47"},{"id":7,"attr_id":"1", "name":"a2-option2 cuffs2", "image":"attribute_1_583285971fd42.png", "status":"1", "sort_order":"0", "created_at":"2016-11-17 07:48:14", "updated_at":"2016-11-21 05:26:47"},{"id":9, "attr_id":"1","name":"a2-option3 cuffs3","image":"attribute_1_58328597200e6.png","status":"1","sort_order":"0","created_at":"2016-11-21 05:26:47","updated_at":"2016-11-21 05:26:47"},{"id":10,"attr_id":"1","name":"a2-option4 cuffs4","image":"attribute_1_5832859720444.png","status":"1","sort_order":"0","created_at":"2016-11-21 05:26:47","updated_at":"2016-11-21 05:26:47"}]}]';
-		attrDetailsArrSession=jQuery.parseJSON(attrDetailsArrSessionData);
+		var myArr= new Array();
+		var myObject = new Object();
+		myObject.id = 1;
+		myObject.server_attr_id = 1;
+		myObject.attr_name = "Attribute 1-shirt cuffs";
+		myObject.identifier = "sss1";
+		myObject.attr_status = "1";
+		myObject.backend_name = "Backend shirt cuffs";
+		myObject.option = '[{"id":3,"attr_id":"1","name":"a1-option1 cuffs1","image":"attribute_1_583285971f775.png","status":"1","sort_order":"0","created_at":"2016-11-02 19:40:34","updated_at":"2016-11-21 05:26:47"},{"id":7,"attr_id":"1","name":"a1-option2 cuffs2","image":"attribute_1_583285971fd42.png","status":"1","sort_order":"0","created_at":"2016-11-17 07:48:14","updated_at":"2016-11-21 05:26:47"},{"id":9,"attr_id":"1","name":"a1-option3 cuffs3","image":"attribute_1_58328597200e6.png","status":"1","sort_order":"0","created_at":"2016-11-21 05:26:47","updated_at":"2016-11-21 05:26:47"},{"id":10,"attr_id":"1","name":"a1-option4 cuffs4","image":"attribute_1_5832859720444.png","status":"1","sort_order":"0","created_at":"2016-11-21 05:26:47","updated_at":"2016-11-21 05:26:47"}]';
+		
+		myArr.push(myObject);
+		
+		var myObject = new Object();
+		myObject.id = 2;
+		myObject.server_attr_id = 2;
+		myObject.attr_name = "Attribute 2-shirt Pocket";
+		myObject.identifier = "sss2";
+		myObject.attr_status = "1";
+		myObject.backend_name = "shirt shirt Pocket";
+		myObject.option = '[{"id":3,"attr_id":"2","name":"a2-option1 cuffs1","image":"attribute_1_583285971f775.png","status":"1","sort_order":"0","created_at":"2016-11-02 19:40:34","updated_at":"2016-11-21 05:26:47"},{"id":7,"attr_id":"1","name":"a2-option2 cuffs2","image":"attribute_1_583285971fd42.png","status":"1","sort_order":"0","created_at":"2016-11-17 07:48:14","updated_at":"2016-11-21 05:26:47"},{"id":9,"attr_id":"1","name":"a2-option3 cuffs3","image":"attribute_1_58328597200e6.png","status":"1","sort_order":"0","created_at":"2016-11-21 05:26:47","updated_at":"2016-11-21 05:26:47"},{"id":10,"attr_id":"1","name":"a2-option4 cuffs4","image":"attribute_1_5832859720444.png","status":"1","sort_order":"0","created_at":"2016-11-21 05:26:47","updated_at":"2016-11-21 05:26:47"}]';
+		myArr.push(myObject);
+		
+		
+		attrDetailsArrSession=myArr;
 		return;
 	}
 	
@@ -1443,21 +1476,15 @@ function errorCBMeasurementListDB() {
 			var prod_description=jsonObj["prod_description"];
 			var galleryObj = '';
 			var categoryObj = '';
-			if(testingInBrowser){
-				//alert('Hid');
-				galleryObj = jQuery.parseJSON(JSON.stringify(jsonObj['gallery']));
-				categoryObj = jQuery.parseJSON(JSON.stringify(jsonObj['category']));
-			}else{
-				galleryObj = jQuery.parseJSON(jsonObj['gallery']);
-				categoryObj = jQuery.parseJSON(jsonObj['category']);
-			}
+			galleryObj = jQuery.parseJSON(jsonObj['gallery']);
+			categoryObj = jQuery.parseJSON(jsonObj['category']);
 			 
 			if(jsonObj['gallery'] != ''){
 				jQuery.each(galleryObj , function(indexObj,valueObj) {
 					var gallery_id = valueObj['id'];
 					var image = valueObj["image"];
-					var prodImage = productImageData + '/'+image;
-					var image1 = 'img/product'+index+'.jpg';
+					//var prodImage = productImageData + '/'+image;
+					var prodImage = 'img/product'+index+'.jpg';
 					//initToCheckTheFile(image, productImageData);
 					if(jsonObj['category'] != ''){
 						jQuery.each(categoryObj, function(indexCat, valueCat){
@@ -1494,7 +1521,6 @@ function errorCBMeasurementListDB() {
 			var server_prod_id = jsonObj["server_prod_id"];
 			var prod_name = jsonObj["prod_name"];
 			var prod_description = jsonObj["prod_description"];
-			
 			var galleryObj = jQuery.parseJSON(jsonObj.gallery);
 			var categoryObj = jQuery.parseJSON(jsonObj.category);
 			var attributeObj = jQuery.parseJSON(jsonObj.attribute_details);
@@ -1505,8 +1531,8 @@ function errorCBMeasurementListDB() {
 					if(galId == gallCurrId){
 						measurementTypeId = jsonObj['measurement_typeid'];
 						$('.imageAppendAttrMea').remove();
-						var image1 = 'img/product'+index+'.jpg';
-						var prodImage = productImageData + '/'+image;
+						var prodImage = 'img/product'+index+'.jpg';
+						//var prodImage = productImageData + '/'+image;
 						//initToCheckTheFile(image, productImageData);
 						var imageTag = '<img class="imageAppendAttrMea" src="'+prodImage+'"  alt="Saree" style="width:304px;height:500px;"/>';
 						$('.attributePageLocation').append(imageTag);
@@ -1527,6 +1553,7 @@ function errorCBMeasurementListDB() {
 							prodAttrIds[indexObj] = paIds;
 							attrIds[indexObj] = attrId;
 						});
+						
 						appendAttrDataByArraysAndIds(prodAttrIds, attrIds, server_cat_id, server_prod_id);
 					}
 				});
@@ -1556,7 +1583,7 @@ function errorCBMeasurementListDB() {
 							var optionImages = attributeImageData + '/'+optionImg;
 							optionImg = 'img/attr'+index2+'.png';
 							//initToCheckTheFile(optionImg, attributeImageData);
-							var tempOptDiv = '<div class="col-xs-6 col-sm-4 col-md-4 col-lg-4 optMenu-bar" data-cat_id="'+catId+'" data-prod_id="'+prodId+'" data-attrid="'+server_attr_id+'" data-lid="'+attrId+'"><div class="box"><img src="'+optionImages+'" alt="Saree" style="width:200px;height:200px;">'+optionName+'</div></div>';
+							var tempOptDiv = '<div class="col-xs-6 col-sm-4 col-md-4 col-lg-4 optMenu-bar" data-cat_id="'+catId+'" data-prod_id="'+prodId+'" data-attrid="'+server_attr_id+'" data-lid="'+attrId+'"><div class="box"><img src="'+optionImages+'" alt="option" style="width:200px;height:200px;">'+optionName+'</div></div>';
 							optionMainDiv += tempOptDiv;
 						});
 						 attributeDiv += tempAttrDiv;
@@ -1567,6 +1594,8 @@ function errorCBMeasurementListDB() {
 		$('.selMenu-bar').remove();
 		$('.optMenu-bar').remove();
 		$( attributeDiv ).insertBefore( ".selection-menu .measurementAttr" );
+		$( attributeDiv ).insertBefore( ".measurement-menu .measurementAttr" );
+		$( attributeDiv).insertBefore(".customerConfirmation-menu .measurementAttr")
 		//$('.selection-menu').append(attributeDiv);
 		$('.attr-option-div').append(optionMainDiv);
 		getMeasumentListFromLocal();
