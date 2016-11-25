@@ -1,1 +1,69 @@
+ul.topnav {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  background-color: #333;
+  width: 100%;
+}
 
+ul.topnav.sub-menu-ul {
+  background-color: #ff3c66;
+}
+
+ul.topnav li {float: left;}
+
+ul.topnav li a {
+  display: inline-block;
+  color: #f2f2f2;
+  text-align: center;
+  padding: 14px 16px;
+  text-decoration: none;
+  transition: 0.3s;
+  font-size: 16px;
+  font-weight: 500;
+}
+
+ul.topnav.sub-menu-ul li a {
+  color: #fff;
+}
+ul.topnav li a.active {background-color: #ff3c66;}
+ul.topnav.sub-menu-ul li a.active {background-color: #bf1943;}
+
+ul.topnav li a:hover{background-color: #555;}
+
+.measurements-group-heading-div{
+	border-bottom: 1px solid #cfcfcf;
+    border-top: 1px solid #fcfcfc;
+    font-size: 18px;
+    font-weight: bold;
+    margin-bottom: 10px;
+    padding: 5px;
+    text-align: left;
+}
+
+.measurement-input-fields-div{
+	background: #ebebeb;
+	padding: 10px;
+}
+.st-bg-baby-pink{color:#fff !important;background: #ff5f89 !important;}
+
+.selection-page-leftpane{border-right: 2px solid #cfcfcf;}
+.selection-page-rightpane{}
+
+.selection-page-rightpane .attr-option-div{margin: 0;}
+
+.selection-page-options-div{}
+.selection-page-options-div .attr-option-div{}
+.selection-page-options-div .attr-option-div .single-option{padding: 10px;}
+.selection-page-options-div .attr-option-div .single-option.active{border: 2px solid #ff5f89;}
+
+.product-selection-details-div p{margin: 5px 0;}
+
+
+table{
+	text-align: left;
+    width: 100%;
+}
+
+img.product-image{}

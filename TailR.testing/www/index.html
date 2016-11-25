@@ -30,9 +30,11 @@
 	src="libs/jQueryMobile/jquery.mobile-1.4.5.min.js"></script>
 <!-- 		<script src="libs/jqm-datebox-1.4.5.js"></script> -->
 <script type="text/javascript" src="js/index.js"></script>
+
 <script type="text/javascript">
 	app.initialize();
 </script>
+
 </head>
 
 <body>
@@ -69,17 +71,16 @@
 			</div>
 		</div>
 		 -->
-		 
 		
 		 
 		<!-- Home Page -->
-		 
 		<div id="home-page" data-role="page">
+			<!-- 
 			<div data-role="header" data-id="header" id="header"
 				data-position="fixed" class="ui-header app-header-section">
 				<h1>Home</h1>
 			</div>
-
+			 -->
 			<div class="st-background">
 				<div data-role="content">
 					
@@ -88,6 +89,28 @@
 					</div> -->
 					<div id="mainPageId" >
 						<!-- 
+						<div class="row main-menu main-menu-div" id="main-menu-div" >
+							<ul class="topnav main-menu-ul" id="main-menu-ul">
+								<li><a href="#">Men's Fashion</a></li>
+								<li><a href="#" class="active">Women's Fashion</a></li>
+								<li><a href="#">Kid's Fashion</a></li>
+							</ul>
+						</div>
+						
+						<div class="row sub-menu sub-menu-div" id="sub-menu-div">
+							<ul class="topnav sub-menu-ul" id="sub-menu-ul">
+								<li><a class="active" href="#home">Kurta & Kurtis</a></li>
+								<li><a href="#">Lehanga</a></li>
+								<li><a href="#">Churidar</a></li>
+								<li><a href="#">Saree</a></li>
+								<li><a href="#">Blouse</a></li>
+								<li><a href="#">Frock</a></li>
+								<li><a href="#">Skirt</a></li>
+								<li><a href="#">Dresses & Tunics</a></li>
+								
+							</ul>
+						</div>
+						
 						<div class="row main-menu" >
 							<div class="col-xs-4 col-sm-4 col-md-4 col-lg-4" data-submenuid="mensFashion" id="mens" onclick="menuClickTop(this);">
 								<a href="#">Men's Fashion</a>
@@ -104,62 +127,11 @@
 							<div class="col-xs-3 col-sm-3 col-md-3 col-lg-3"> 
 								Formal Shirts
 							</div>
-							<div class="col-xs-3 col-sm-3 col-md-3 col-lg-3"> 
-								Formal Pants
-							</div>
-							<div class="col-xs-3 col-sm-3 col-md-3 col-lg-3"> 
-								Geans Pants
-							</div>
-							<div class="col-xs-3 col-sm-3 col-md-3 col-lg-3"> 
-								Polo T-shirts
-							</div>
-							<div class="col-xs-3 col-sm-3 col-md-3 col-lg-3"> 
-								Sweats Shirts
-							</div>
-						</div>
-						<div class="row sub-menu womensFashion" id="womensFashion" style="display:none;">
-									<div class="col-xs-3 col-sm-3 col-md-3 col-lg-3"> 
-										Kurta & Kurtis
-									</div>
-									<div class="col-xs-3 col-sm-3 col-md-3 col-lg-3"> 
-										Lehanga
-									</div>
-									<div class="col-xs-3 col-sm-3 col-md-3 col-lg-3"> 
-										Gowns
-									</div>
-									<div class="col-xs-3 col-sm-3 col-md-3 col-lg-3"> 
-										Saree Blouse
-									</div>
-									<div class="col-xs-3 col-sm-3 col-md-3 col-lg-3"> 
-										Frocks
-									</div>
-									<div class="col-xs-3 col-sm-3 col-md-3 col-lg-3"> 
-										Skirts
-									</div>
-									<div class="col-xs-3 col-sm-3 col-md-3 col-lg-3"> 
-										Dresses and Tunics
-									</div>
-
-						</div>
-						<div class="row sub-menu kidsFashion" id="kidsFashion" style="display:none;">
-									<div class="col-xs-3 col-sm-3 col-md-3 col-lg-3"> 
-										Formal Shirts
-									</div>
-									<div class="col-xs-3 col-sm-3 col-md-3 col-lg-3"> 
-										Formal Pants
-									</div>
-									<div class="col-xs-3 col-sm-3 col-md-3 col-lg-3"> 
-										Geans Pants
-									</div>
-									<div class="col-xs-3 col-sm-3 col-md-3 col-lg-3"> 
-										Polo T-shirts
-									</div>
-									<div class="col-xs-3 col-sm-3 col-md-3 col-lg-3"> 
-										Sweats Shirts
-									</div>
 						</div>
 						-->
+						
 						<div class="row hrBarCatClass">		<hr></div>
+						
 						<div class="row product-list">		
 								<!-- <div class="col-xs-6 col-sm-4 col-md-4 col-lg-4">
 									<img src="img/custom/img1.jpg" alt="Saree" style="width:304px;height:500px;">
@@ -181,61 +153,43 @@
 		<!-- Selection Page -->
 		
 		<div id="selection-page" data-role="page">
+			<!-- 
 			<div data-role="header" data-id="header" id="header"
 				data-position="fixed" class="ui-header app-header-section">
 				<h1>Selection Page</h1>
 			</div>
+			 -->
 
 			<div class="st-background">
 				<div data-role="content">
 					<div id="selectionPageId" >
+						<input type="hidden" id="prodHtmlName" name="prodHtmlName"/>
+						<input type="hidden" id="categoryHtmlId" name="categoryHtmlId"/>
+						<input type="hidden" id="prodHtmlId" name="prodHtmlId"/>
+						<input type="hidden" id="newOrderId" name="newOrderId"/>
 						
-						<div class="row selection-menu" >
-							<!-- <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2" data-submenuid="menuSelPg" id="menuIconSelPg">
-								<a href="#">Menu</a>
-							</div>
-							<div class="col-xs-2 col-sm-2 col-md-2 col-lg-2" data-submenuid="frontSelPg" id="frontSelPg">
-								<a href="#">Front</a>
-							</div>
-							<div class="col-xs-2 col-sm-2 col-md-2 col-lg-2" data-submenuid="backSelPg" id="backSelPg">
-								<a href="#">Back</a>
-							</div>
-							<div class="col-xs-2 col-sm-2 col-md-2 col-lg-2" data-submenuid="sleevesSelPg" id="sleevesSelPg">
-								<a href="#">Sleeves</a>
-							</div>
-							<div class="col-xs-2 col-sm-2 col-md-2 col-lg-2" data-submenuid="openingSelPg" id="openingSelPg">
-								<a href="#">Opening</a>
-							</div>
-							<div class="col-xs-2 col-sm-2 col-md-2 col-lg-2" data-submenuid="cuttingSelPg" id="cuttingSelPg">
-								<a href="#">Cutting</a>
-							</div>
-							<div class="col-xs-2 col-sm-2 col-md-2 col-lg-2" data-submenuid="liningSelPg" id="liningSelPg">
-								<a href="#">Lining</a>
-							</div>
-							<div class="col-xs-2 col-sm-2 col-md-2 col-lg-2" data-submenuid="bottomSelPg" id="bottomSelPg">
-								<a href="#">Bottom</a>
-							</div> -->
-							<div class="col-xs-2 col-sm-2 col-md-2 col-lg-2 measurementAttr" data-submenuid="measurementSelPg" id="measurementSelPg">
-								<a href="#" onclick="showMeasurementDiv()">Measurement</a>
-							</div>
+						<div class="row selection-menu selection-menu-div" id="selection-menu-div">
+							
+							<ul class="topnav selection-menu-ul" id="main-menu-ul">
+								<li class="measurementDivShow" data-submenuid="measurementSelPg" id="measurementSelPg">
+									<a href="#" onclick="showMeasurementDiv()">Measurement</a>
+								</li>
+							</ul>
 						</div>
-						<div class="row">		<hr></div>
+						
+						<div class="row"><hr></div>
 						
 						<div class="row center-xs end-sm start-lg">
-							<div class="col-xs-12 col-sm-6 col-md-4 col-lg-4">
-								<div class="box attributePageLocation">
+							<div class="col-xs-12 col-sm-5 col-md-4 col-lg-4 selection-page-leftpane">
+								<div class="box product-selection-details-div">
 									<!-- <img class="imageAppendSelMea" src="img/custom/img1.jpg" alt="Saree" style="width:304px;height:500px;"> -->
 								</div>
 							</div>
 							
-							<div class="col-xs-12 col-sm-6 col-md-4 col-lg-4">
+							<div class="col-xs-12 col-sm-7 col-md-8 col-lg-8 selection-page-rightpane selection-page-options-div">
 								<div class="box">
-									<div class="row attr-option-div">
-										<!-- <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
-											<div class="box">
-												<img src="img/custom/img1.jpg" alt="Saree" style="width:200px;height:200px;">
-											</div>
-										</div>
+									<div class="row attr-option-div" >
+										<!-- 
 										<div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
 											<div class="box">
 												<img src="img/custom/img1.jpg" alt="Saree" style="width:200px;height:200px;">
@@ -261,36 +215,7 @@
 												<img src="img/custom/img1.jpg" alt="Saree" style="width:200px;height:200px;">
 											</div>
 										</div>
-										<div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
-											<div class="box">
-												<img src="img/custom/img1.jpg" alt="Saree" style="width:200px;height:200px;">
-											</div>
-										</div>
-										<div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
-											<div class="box">
-												<img src="img/custom/img1.jpg" alt="Saree" style="width:200px;height:200px;">
-											</div>
-										</div>
-										<div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
-											<div class="box">
-												<img src="img/custom/img1.jpg" alt="Saree" style="width:200px;height:200px;">
-											</div>
-										</div>
-										<div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
-											<div class="box">
-												<img src="img/custom/img1.jpg" alt="Saree" style="width:200px;height:200px;">
-											</div>
-										</div>
-										<div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
-											<div class="box">
-												<img src="img/custom/img1.jpg" alt="Saree" style="width:200px;height:200px;">
-											</div>
-										</div>
-										<div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
-											<div class="box">
-												<img src="img/custom/img1.jpg" alt="Saree" style="width:200px;height:200px;">
-											</div>
-										</div> -->
+										-->
 									</div>
 								</div>
 							</div>
@@ -304,60 +229,39 @@
 		<!-- Measurement Page -->
 		
 		<div id="measurement-page" data-role="page">
+			<!-- 
 			<div data-role="header" data-id="header" id="header"
 				data-position="fixed" class="ui-header app-header-section">
 				<h1>Measurement Page</h1>
 			</div>
-
+			 -->	
 			<div class="st-background">
 				<div data-role="content">
 					<div id="measurementPageId" >
 						
-						<div class="row measurement-menu" >
-							<!-- <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2" data-submenuid="menuSelPg" id="menuIconSelPg">
-								<a href="#"></a>
-							</div>
-							<div class="col-xs-2 col-sm-2 col-md-2 col-lg-2" data-submenuid="frontSelPg" id="frontSelPg">
-								<a href="#">Front</a>
-							</div>
-							<div class="col-xs-2 col-sm-2 col-md-2 col-lg-2" data-submenuid="backSelPg" id="backSelPg">
-								<a href="#">Back</a>
-							</div>
-							<div class="col-xs-2 col-sm-2 col-md-2 col-lg-2" data-submenuid="sleevesSelPg" id="sleevesSelPg">
-								<a href="#">Sleeves</a>
-							</div>
-							<div class="col-xs-2 col-sm-2 col-md-2 col-lg-2" data-submenuid="openingSelPg" id="openingSelPg">
-								<a href="#">Opening</a>
-							</div>
-							<div class="col-xs-2 col-sm-2 col-md-2 col-lg-2" data-submenuid="cuttingSelPg" id="cuttingSelPg">
-								<a href="#">Cutting</a>
-							</div>
-							<div class="col-xs-2 col-sm-2 col-md-2 col-lg-2" data-submenuid="liningSelPg" id="liningSelPg">
-								<a href="#">Lining</a>
-							</div>
-							<div class="col-xs-2 col-sm-2 col-md-2 col-lg-2" data-submenuid="bottomSelPg" id="bottomSelPg">
-								<a href="#">Bottom</a>
-							</div>
-							<div class="col-xs-2 col-sm-2 col-md-2 col-lg-2" data-submenuid="measurementSelPg" id="measurementSelPg">
-								<a href="#">Measurement</a>
-							</div> -->
-							<div class="col-xs-2 col-sm-2 col-md-2 col-lg-2 measurementAttr" data-submenuid="measurementSelPg" id="measurementSelPg">
-								<a href="#" onclick="showMeasurementDiv()">Measurement</a>
-							</div>
+						<div class="row measurement-menu selection-menu selection-menu-div" id="selection-menu-div">
+							<ul class="topnav selection-menu-ul" id="main-menu-ul">
+								<li class="measurementDivShow" data-submenuid="measurementSelPg" id="measurementSelPg">
+									<a href="#" onclick="showMeasurementDiv()">Measurement</a>
+								</li>
+							</ul>
+							
 						</div>
 						<div class="row">		<hr></div>
 						
 						<div class="row center-xs end-sm start-lg">
-							<div class="col-xs-12 col-sm-6 col-md-4 col-lg-4">
-								<div class="box measurementPageLocation">
+							<div class="col-xs-12 col-sm-5 col-md-4 col-lg-4 selection-page-leftpane">
+								<div class="box product-selection-details-div">
 									<!-- <img src="img/custom/img1.jpg" alt="Saree" style="width:304px;height:500px;"> -->
 								</div>
 							</div>
 							
 							
-							<div class="col-xs-12 col-sm-6 col-md-8 col-lg-8">
+							<div class="col-xs-12 col-sm-7 col-md-8 col-lg-8 selection-page-rightpane">
 								<div class="box">
-									<div class="row measurement-InputFields">
+									<form id="measurementForm">
+										<div class="row measurement-InputFields measurement-input-fields-div">
+										
 										<!-- <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
 											<div class="box start-xs start-sm start-md start-lg">
 												Shoulder <input type="text" id="shoulder" name="shoulder"/> 
@@ -375,41 +279,6 @@
 										</div>
 										<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
 											<div class="box start-xs start-sm start-md start-lg">
-												Sleeve Length <input type="text" id="sleeveLength" name="sleeveLength"/> 
-											</div>
-										</div>
-										<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
-											<div class="box start-xs start-sm start-md start-lg">
-												Sleeve Round <input type="text" id="sleeveRound" name="sleeveRound"/> 
-											</div>
-										</div>
-										<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
-											<div class="box start-xs start-sm start-md start-lg">
-												Around Arm Hole <input type="text" id="aroundArmHole" name="aroundArmHole"/> 
-											</div>
-										</div>
-										<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
-											<div class="box start-xs start-sm start-md start-lg">
-												Front Neck Depth <input type="text" id="frontNeckDepth" name="frontNeckDepth"/> 
-											</div>
-										</div>
-										<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
-											<div class="box start-xs start-sm start-md start-lg">
-												Back Neck Depth <input type="text" id="backNeckDepth" name="backNeckDepth"/> 
-											</div>
-										</div>
-										<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
-											<div class="box start-xs start-sm start-md start-lg">
-												Blouse Length <input type="text" id="blouseLength" name="blouseLength"/> 
-											</div>
-										</div>
-										<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
-											<div class="box start-xs start-sm start-md start-lg">
-												Hip <input type="text" id="hip" name="hip"/> 
-											</div>
-										</div>
-										<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
-											<div class="box start-xs start-sm start-md start-lg">
 												Lehenga Length <input type="text" id="lehengaLength" name="lehengaLength"/> 
 											</div>
 										</div>
@@ -419,10 +288,11 @@
 											</div>
 										</div> -->
 										
-										<div class="control-group orderSubmitButton" align="center">
-											<button type="button" name="bookOrder" id="bookOrder" class="btn btn-primary"> Book Order </button>
+											<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 orderSubmitButton" align="center">
+												<button type="button" name="bookOrder" id="bookOrder" onclick="orderTakeMeastFn()" class="btn btn-primary st-bg-baby-pink"> Book Order </button>
+											</div>
 										</div>
-									</div>
+									</form>
 								</div>
 							</div>
 						</div>
@@ -435,70 +305,49 @@
 		<!-- Customer Confirmation Page -->
 		
 		<div id="customer-confirmation-page" data-role="page">
+			<!-- 
 			<div data-role="header" data-id="header" id="header"
 				data-position="fixed" class="ui-header app-header-section">
 				<h1>Customer Confirmation Page</h1>
 			</div>
-
+			 -->
 			<div class="st-background">
 				<div data-role="content">
 					<div id="customerConfirmationPageId" >
 						
-						<div class="row customerConfirmation-menu" >
-							<!-- <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2" data-submenuid="menuSelPg" id="menuIconSelPg">
-								<a href="#">Menu</a>
-							</div>
-							<div class="col-xs-2 col-sm-2 col-md-2 col-lg-2" data-submenuid="frontSelPg" id="frontSelPg">
-								<a href="#">Front</a>
-							</div>
-							<div class="col-xs-2 col-sm-2 col-md-2 col-lg-2" data-submenuid="backSelPg" id="backSelPg">
-								<a href="#">Back</a>
-							</div>
-							<div class="col-xs-2 col-sm-2 col-md-2 col-lg-2" data-submenuid="sleevesSelPg" id="sleevesSelPg">
-								<a href="#">Sleeves</a>
-							</div>
-							<div class="col-xs-2 col-sm-2 col-md-2 col-lg-2" data-submenuid="openingSelPg" id="openingSelPg">
-								<a href="#">Opening</a>
-							</div>
-							<div class="col-xs-2 col-sm-2 col-md-2 col-lg-2" data-submenuid="cuttingSelPg" id="cuttingSelPg">
-								<a href="#">Cutting</a>
-							</div>
-							<div class="col-xs-2 col-sm-2 col-md-2 col-lg-2" data-submenuid="liningSelPg" id="liningSelPg">
-								<a href="#">Lining</a>
-							</div>
-							<div class="col-xs-2 col-sm-2 col-md-2 col-lg-2" data-submenuid="bottomSelPg" id="bottomSelPg">
-								<a href="#">Bottom</a>
-							</div>
-							<div class="col-xs-2 col-sm-2 col-md-2 col-lg-2" data-submenuid="measurementSelPg" id="measurementSelPg">
-								<a href="#">Measurement</a>
-							</div> -->
-							<div class="control-group orderSubmitButton" align="center">
-								<button type="button" name="bookOrder" id="bookOrder" class="btn btn-primary"> Book Order </button>
-							</div>
+						<div class="row customerConfirmation-menu selection-menu selection-menu-div" id="selection-menu-div">
+						
+							<ul class="topnav selection-menu-ul" id="main-menu-ul">
+								<li class="measurementDivShow" data-submenuid="measurementSelPg" id="measurementSelPg">
+									<a href="#" onclick="showMeasurementDiv()">Measurement</a>
+								</li>
+							</ul>
 						</div>
+						
 						<div class="row">		<hr></div>
 						
 						<div class="row center-xs end-sm start-lg">
-							<div class="col-xs-12 col-sm-6 col-md-4 col-lg-4">
-								<div class="box">
-									<img src="img/custom/img1.jpg" alt="Saree" style="width:304px;height:500px;">
+							<div class="col-xs-12 col-sm-5 col-md-4 col-lg-4 selection-page-leftpane">
+								<div class="box product-selection-details-div">
+									<!-- <img src="img/custom/img1.jpg" alt="Saree" style="width:304px;height:500px;"> -->
 								</div>
 							</div>
 							
-							<div class="col-xs-12 col-sm-6 col-md-8 col-lg-8">
+							<div class="col-xs-12 col-sm-7 col-md-8 col-lg-8 selection-page-rightpane measurement-input-fields-div">
 								<div class="box">
-									<div class="row">
-										<div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
-											<div class="box start-xs start-sm start-md start-lg customerNameField">
-												Customer Name <input type="text" id="customerName" name="customerName"/> 
+									<input type="hidden" id="customerIdInput" name="customerIdInput"/>
+									<div class="row customerFieldsToAppendSelected">
+										<div class="col-xs-12 col-sm-6 col-md-6 col-lg-6 customerNameField">
+											<div class="box start-xs start-sm start-md start-lg">
+												Customer Name <input type="text" id="customerNameInput" name="customerNameInput" class="form-control"/> 
 											</div>
 										</div>
-										<div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
-											<div class="box start-xs start-sm start-md start-lg customerPriceField">
-												Price <input type="text" id="price" name="price"/> 
+										<div class="col-xs-12 col-sm-6 col-md-6 col-lg-6 customerPriceField" >
+											<div class="box start-xs start-sm start-md start-lg">
+												Price <input type="text" id="priceInput" name="priceInput" class="form-control"/> 
 											</div>
 										</div>
-										<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+										<!-- <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
 											<div class="box start-xs start-sm start-md start-lg">
 												<img src="img/custom/img1.jpg" alt="Saree" style="width:200px;height:200px;">
 											</div>
@@ -547,13 +396,15 @@
 											<div class="box start-xs start-sm start-md start-lg">
 												<img src="img/custom/img1.jpg" alt="Saree" style="width:200px;height:200px;">
 											</div>
-										</div>
+										</div> -->
 									</div>
+										
+									
 									<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
 										<div class="box">
-											<table class="table table-hover table-striped table-bordered" border="1" >
-												<tbody>
-													<tr>
+											<table class="table table-hover table-striped table-bordered" border="1" style="width:100%">
+												<tbody class="appendMeasuOrderList">
+													<!-- <tr>
 														<td> Shoulder </td>
 														<td>  12.34 </td>
 														<td> Around Bust </td>
@@ -576,10 +427,13 @@
 														<td>  12.34 </td>
 														<td> Back Neck Depth </td>
 														<td>  12.34 </td>
-													</tr>
+													</tr> -->
 												</tbody>
 											</table>
 										</div>
+									</div>
+									<div class="form-control" style="width: 10%;">
+										<button type="button" name="takeCustomerDetails" id="takeCustomerDetails" onclick="takeCustomerDetailsFn()" class="btn btn-primary"> Submit </button>
 									</div>
 								</div>
 							</div>
@@ -593,11 +447,12 @@
 		<!-- Order Report Page -->
 		
 		<div id="order-report-page" data-role="page">
+			<!-- 
 			<div data-role="header" data-id="header" id="header"
 				data-position="fixed" class="ui-header app-header-section">
 				<h1>Order Report Page</h1>
 			</div>
-
+			 -->
 			<div class="st-background">
 				<div data-role="content">
 					<div id="orderReportPageId" >
@@ -684,10 +539,12 @@
 		
 		
 		<div id="notification-page" data-role="page">
+			<!-- 
 			<div data-role="header" data-id="header" id="header"
 				data-position="fixed" class="ui-header app-header-section">
 				<h1>Notifications</h1>
 			</div>
+			 -->
 			<div data-role="content" class="more_content">
 				<div class="common-page-tab-heading bottom-border">Notifications</div>
 				<div class="page_content">
@@ -697,11 +554,12 @@
 		</div>
 
 		<div id="common-list-page" data-role="page">
+			<!-- 
 			<div data-role="header" data-id="header" id="header"
 				data-position="fixed" class="ui-header app-header-section">
 				<h1 class="common-page-heading"></h1>
 			</div>
-
+ 			-->
 			<div data-role="content">
 				<div id="dynamicDataMain" class="dynamic-data-main">
 					<div class="dynamic-data-heading bottom-border"></div>
@@ -714,11 +572,13 @@
 		</div>
 
 		<div id="data-entry" data-role="page">
+			<!-- 
 			<div data-role="header" data-id="header" id="header"
 				data-position="fixed" class="ui-header app-header-section">
 				<h1>Data Entry</h1>
 			</div>
-
+			 -->
+			
 			<div data-role="content" id="addLogTimeContent">
 				<div>
 					<form id="dataEntryForm">
