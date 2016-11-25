@@ -726,6 +726,8 @@ var productDetailsArrSession = [];
 var attrDetailsArrSession = [];
 var measurementArrSession = [];
 var measurementTypeId = '';
+var orderArrSession = [];
+var customerArrSession = [];
 
 //The directory to store data
 var store;
@@ -747,9 +749,9 @@ function initializeDB(tx) {
 	
 	//tx.executeSql('CREATE TABLE IF NOT EXISTS product_details (id integer primary key autoincrement, server_prod_id integer, name text, description text, update_timestamp text, measurement_typeid integer, status integer, attribute_details text, gallery text, category text)');
 	//tx.executeSql('CREATE TABLE IF NOT EXISTS product_attributes (id integer primary key autoincrement, server_attr_id integer, name text, identifier text, status integer, backend_name text, update_timestamp text, option text)');
-//	tx.executeSql('CREATE TABLE IF NOT EXISTS measurement_details (id integer primary key autoincrement, name text, server_measurement_id integer, status integer, update_timestamp timestamp, group text, measurement_type_id integer)');
+//	tx.executeSql('CREATE TABLE IF NOT EXISTS measurement_details (id integer primary key autoincrement, name text, server_measurement_id integer, status integer, update_timestamp text, group text, measurement_type_id integer)');
 	
-	//tx.executeSql('CREATE TABLE IF NOT EXISTS customer_details (id integer primary key autoincrement,name text, price text, update_timestamp timestamp, order_id integer)');
+	//tx.executeSql('CREATE TABLE IF NOT EXISTS customer_details (id integer primary key autoincrement,name text, price text, update_timestamp text)');
 	//tx.executeSql('CREATE TABLE IF NOT EXISTS order_details(id integer primary key autoincrement, server_cat_id integer, server_prod_id integer, order_data text,update_timestamp text, server_prod_name text, customer_id integer)');
 	
 }
@@ -1240,16 +1242,19 @@ function insertOrderDetails( arrObject ){
 	if(newOrderId == '' || newOrderId == undefined){
 		db.transaction(function(tx) {
 			
-			tx.executeSql('CREATE TABLE IF NOT EXISTS order_details(id integer primary key autoincrement, server_cat_id integer, server_prod_id integer, order_data text,update_timestamp text, server_prod_name text,customer_id integer)');
+			tx.executeSql('CREATE TABLE IF NOT EXISTS order_details(id integer primary key autoincrement, server_cat_id integer, server_prod_id integer, order_data text,update_timestamp text, server_prod_name text,customer_id integer, optionSelectedDetails text, status_of_order text)');
 			
 				var server_cat_id = categoryHtmlId;
 				var server_prod_id = productHTMLId;
 				var order_data = arrObject;
 				var update_timestamp='';
 				var server_prod_name = prodHtmlName;
+				var optionIdsWithArrays = selectedOptionMain;
+				var customer_id = '';
+				var status_of_order = '';
 
-				tx.executeSql('INSERT INTO order_details(server_cat_id, server_prod_id, order_data, update_timestamp, server_prod_name) VALUES (?,?,?,?,?)',
-							[server_cat_id, server_prod_id, order_data, update_timestamp,server_prod_name], function(tx, res) {
+				tx.executeSql('INSERT INTO order_details(server_cat_id, server_prod_id, order_data, update_timestamp, server_prod_name, customer_id, optionSelectedDetails, status_of_order) VALUES (?,?,?,?,?,?,?)',
+							[server_cat_id, server_prod_id, order_data, update_timestamp,server_prod_name, customer_id, selectedOptionMain, status_of_order], function(tx, res) {
 					//alert("Order Data insertId: " + res.insertId + " -- res.rowsAffected 1"+res.rowsAffected);
 					$('#newOrderId').val(res.insertId);
 				});
@@ -1271,24 +1276,121 @@ function customerAndOrderDetailFn(){
 	insertOrderDetails(orderTakenDetails);
 }
 
+function getOrderListFromLocalDB(){
+	if(testingInBrowser){
+		//var measurementArrSessionData = '[{"id":1,"server_measurement_id":1,"measurement_name":"Mens","status":"1", "group_data":[{"id":1,"name":"Shirts","status":"1","measurement_type_id":"1","created_at":"2016-11-02 23:28:53","updated_at":"2016-11-03 00:00:31","measurements":[{"id":1,"name":"Shirt collar1","status":"1","measurement_group_id":"1","created_at":"2016-11-02 23:28:53","updated_at":"2016-11-03 00:00:31"},{"id":2,"name":"shirt neck2","status":"1","measurement_group_id":"1","created_at":"2016-11-02 23:28:53","updated_at":"2016-11-03 00:00:31"}]},{"id":3,"name":"tee shirt","status":"1","measurement_type_id":"1","created_at":"2016-11-03 00:22:40","updated_at":"2016-11-03 00:22:40","measurements":[{"id":7,"name":"round neck","status":"1","measurement_group_id":"3","created_at":"2016-11-03 00:22:40","updated_at":"2016-11-03 00:22:40"},{"id":8,"name":"with collar","status":"1","measurement_group_id":"3","created_at":"2016-11-03 00:22:40","updated_at":"2016-11-03 00:22:40"}]},{"id":4,"name":"shorts","status":"1","measurement_type_id":"1","created_at":"2016-11-08 18:32:49","updated_at":"2016-11-08 18:32:49","measurements":[{"id":9,"name":"elbow length","status":"1","measurement_group_id":"4","created_at":"2016-11-08 18:32:49","updated_at":"2016-11-17 07:50:56"},{"id":16,"name":"back","status":"1","measurement_group_id":"4","created_at":"2016-11-17 07:50:56","updated_at":"2016-11-17 07:50:56"},{"id":17,"name":"front","status":"1","measurement_group_id":"4","created_at":"2016-11-17 07:50:56","updated_at":"2016-11-17 07:50:56"}]}]}]';
+		//measurementArrSession=jQuery.parseJSON(measurementArrSessionData);
+		
+		var myArr= new Array();
+		var myObject = new Object();
+		myObject.id = 1;
+		myObject.server_cat_id = 1;
+		myObject.server_prod_id = 2;
+		// childObject.measPKId = measPKId;		childObject.measName = measName;		childObject.inputValue = inputValue;
+		myObject.order_data = '[{"measPKId":18, "measName":"RoundNeck", "inputValue":"25"},{"measPKId":19, "measName":"VShape", "inputValue":"30"},{"measPKId":20, "measName":"Chest", "inputValue":"45"},{"measPKId":21, "measName":"Arms", "inputValue":"20"}]';
+		myObject.server_prod_name = 'Shirt';
+		myObject.update_timestamp = '12-11-2016 13:15:15';
+		myObject.status_of_order = 'Completed';
+		myObject.customer_id = 1;
+		myArr.push(myObject);
+		
+		var myObject = new Object();
+		myObject.id = 1;
+		myObject.server_cat_id = 1;
+		myObject.server_prod_id = 3;
+		// childObject.measPKId = measPKId;		childObject.measName = measName;		childObject.inputValue = inputValue;
+		myObject.order_data = '[{"measPKId":18, "measName":"RoundNeck", "inputValue":"25"},{"measPKId":19, "measName":"VShape", "inputValue":"30"},{"measPKId":20, "measName":"Chest", "inputValue":"45"},{"measPKId":21, "measName":"Arms", "inputValue":"20"}]';
+		myObject.server_prod_name = 'T-Shirt';
+		myObject.update_timestamp = '12-11-2016 13:15:15';
+		myObject.status_of_order = 'InProgress';
+			myObject.customer_id = 1;
+		myArr.push(myObject);
+		
+		var myObject = new Object();
+		myObject.id = 1;
+		myObject.server_cat_id = 1;
+		myObject.server_prod_id = 3;
+		// childObject.measPKId = measPKId;		childObject.measName = measName;		childObject.inputValue = inputValue;
+		myObject.order_data = '[{"measPKId":18, "measName":"RoundNeck", "inputValue":"25"},{"measPKId":19, "measName":"VShape", "inputValue":"30"},{"measPKId":20, "measName":"Chest", "inputValue":"45"},{"measPKId":21, "measName":"Arms", "inputValue":"20"}]';
+		myObject.server_prod_name = 'Pant';
+		myObject.update_timestamp = '12-11-2016 13:15:15';
+		myObject.status_of_order = '';
+		myObject.customer_id = 2;
+		myArr.push(myObject);
+		
+		var myObject = new Object();
+		myObject.id = 1;
+		myObject.server_cat_id = 1;
+		myObject.server_prod_id = 2;
+		// childObject.measPKId = measPKId;		childObject.measName = measName;		childObject.inputValue = inputValue;
+		myObject.order_data = '[{"measPKId":18, "measName":"RoundNeck", "inputValue":"25"},{"measPKId":19, "measName":"VShape", "inputValue":"30"},{"measPKId":20, "measName":"Chest", "inputValue":"45"},{"measPKId":21, "measName":"Arms", "inputValue":"20"}]';
+		myObject.server_prod_name = 'Chaddi';
+		myObject.update_timestamp = '12-11-2016 13:15:15';
+		myObject.status_of_order = '';
+		myObject.customer_id = 2;
+		myArr.push(myObject);
+		
+		
+		orderArrSession=myArr;
+		console.log('orderArrSession ' +orderArrSession);
+		getCustomerListFromLocalDB();
+		return;
+	}
+	
+	db.transaction(	function (tx){
+		var len = 0;
+		//server_cat_id, server_prod_id, order_data, update_timestamp, server_prod_name, customer_id, optionSelectedDetails, status_of_order
+			tx.executeSql('select * from order_details ',[],function(tx,results){
+					len = results.rows.length;
+					if(len>0){
+						orderArrSession = [];
+						for (var i = 0; i < len; i++) {
+							var jsonOrderDataObj={};
+							jsonOrderDataObj['id'] = results.rows.item(i)['id'];
+							jsonOrderDataObj['server_cat_id'] = results.rows.item(i)['server_cat_id'];
+							jsonOrderDataObj['server_prod_id'] = results.rows.item(i)['server_prod_id'];
+							jsonOrderDataObj['order_data'] = results.rows.item(i)['order_data'];
+							jsonOrderDataObj['update_timestamp'] = results.rows.item(i)['update_timestamp'];
+							jsonOrderDataObj['server_prod_name'] = results.rows.item(i)['server_prod_name'];
+							jsonOrderDataObj['customer_id'] = results.rows.item(i)['customer_id'];
+							jsonOrderDataObj['optionSelectedDetails'] = results.rows.item(i)['optionSelectedDetails'];
+							jsonOrderDataObj['status_of_order'] = results.rows.item(i)['status_of_order'];
+							orderArrSession.push(jsonOrderDataObj);
+						}
+					}
+				}, errorCB
+			);
+		},errorCBOrderListDB,successCBOrderListDB
+	);
+
+}
+
+function successCBOrderListDB() {
+	getCustomerListFromLocalDB();
+}	
+
+function errorCBOrderListDB() {
+	console.log("errorCBOrderListDB");
+}
+
 function takeCustomerDetailsFn(){
+	if(testingInBrowser){
+		getOrderListFromLocalDB();
+		return;
+	}
 	var customerName = $('#customerNameInput').val();
 	var priceInput = $('#priceInput').val();
-	var orderId = $('#newOrderId').val();
+	//var orderId = $('#newOrderId').val();
 	var customerIdInput = $('#customerIdInput').val();
 	if(customerIdInput == '' || customerIdInput == undefined){
 		db.transaction(function(tx) {
 			
-			tx.executeSql('CREATE TABLE IF NOT EXISTS customer_details (id integer primary key autoincrement,name text, price text, update_timestamp timestamp, order_id integer)');
+			tx.executeSql('CREATE TABLE IF NOT EXISTS customer_details (id integer primary key autoincrement,name text, price text, update_timestamp text)');
 			
-				var server_cat_id = categoryHtmlId;
-				var server_prod_id = productHTMLId;
-				var order_data = arrObject;
 				var update_timestamp='';
-				var server_prod_name = prodHtmlName;
 				
-				tx.executeSql('INSERT INTO customer_details(name, price, update_timestamp, order_id) VALUES (?,?,?,?)',
-							[customerName, priceInput, update_timestamp,orderId], function(tx, res) {
+				tx.executeSql('INSERT INTO customer_details(name, price, update_timestamp) VALUES (?,?,?)',
+							[customerName, priceInput, update_timestamp], function(tx, res) {
 					alert("Customer Details insertId: " + res.insertId + " -- res.rowsAffected 1"+res.rowsAffected);
 				});
 			
@@ -1297,11 +1399,69 @@ function takeCustomerDetailsFn(){
 }
 
 function successCBInsertCustomerDetails() {
-	gotoOrderPageDiv();
+	getOrderListFromLocalDB();
+	//gotoOrderPageDiv();
 }	
 
 function errorCBInsertCustomerDetails(err) {
 	console.log("errorCBInsertCustomerDetails");
+}
+
+function getCustomerListFromLocalDB(){
+	if(testingInBrowser){
+		//var measurementArrSessionData = '[{"id":1,"server_measurement_id":1,"measurement_name":"Mens","status":"1", "group_data":[{"id":1,"name":"Shirts","status":"1","measurement_type_id":"1","created_at":"2016-11-02 23:28:53","updated_at":"2016-11-03 00:00:31","measurements":[{"id":1,"name":"Shirt collar1","status":"1","measurement_group_id":"1","created_at":"2016-11-02 23:28:53","updated_at":"2016-11-03 00:00:31"},{"id":2,"name":"shirt neck2","status":"1","measurement_group_id":"1","created_at":"2016-11-02 23:28:53","updated_at":"2016-11-03 00:00:31"}]},{"id":3,"name":"tee shirt","status":"1","measurement_type_id":"1","created_at":"2016-11-03 00:22:40","updated_at":"2016-11-03 00:22:40","measurements":[{"id":7,"name":"round neck","status":"1","measurement_group_id":"3","created_at":"2016-11-03 00:22:40","updated_at":"2016-11-03 00:22:40"},{"id":8,"name":"with collar","status":"1","measurement_group_id":"3","created_at":"2016-11-03 00:22:40","updated_at":"2016-11-03 00:22:40"}]},{"id":4,"name":"shorts","status":"1","measurement_type_id":"1","created_at":"2016-11-08 18:32:49","updated_at":"2016-11-08 18:32:49","measurements":[{"id":9,"name":"elbow length","status":"1","measurement_group_id":"4","created_at":"2016-11-08 18:32:49","updated_at":"2016-11-17 07:50:56"},{"id":16,"name":"back","status":"1","measurement_group_id":"4","created_at":"2016-11-17 07:50:56","updated_at":"2016-11-17 07:50:56"},{"id":17,"name":"front","status":"1","measurement_group_id":"4","created_at":"2016-11-17 07:50:56","updated_at":"2016-11-17 07:50:56"}]}]}]';
+		//measurementArrSession=jQuery.parseJSON(measurementArrSessionData);
+		
+		var myArr= new Array();
+		var myObject1 = new Object();
+		myObject1.id = 1;
+		myObject1.name = 'KRISHNA';
+		myObject1.price = 150;
+		myObject1.update_timestamp = '';
+		myArr.push(myObject1);
+		
+		var myObject2 = new Object();
+		myObject2.id = 2;
+		myObject2.name = 'Ramesh';
+		myObject2.price = 180;
+		myObject2.update_timestamp = '12-11-2016 13:15:15';
+		myArr.push(myObject2);
+				
+		customerArrSession=myArr;
+		console.log('customerArrSession '+customerArrSession);
+		appendOrderAndCustomerDetails(orderArrSession, customerArrSession);
+		return;
+	}
+	
+	db.transaction(	function (tx){
+		var len = 0;
+		//name, price, update_timestamp
+			tx.executeSql('select * from customer_details ',[],function(tx,results){
+					len = results.rows.length;
+					if(len>0){
+						customerArrSession = [];
+						for (var i = 0; i < len; i++) {
+							var jsonCustomerDataObj={};
+							jsonCustomerDataObj['id'] = results.rows.item(i)['id'];
+							jsonCustomerDataObj['name'] = results.rows.item(i)['name'];
+							jsonCustomerDataObj['price'] = results.rows.item(i)['price'];
+							jsonCustomerDataObj['update_timestamp'] = results.rows.item(i)['update_timestamp'];
+							customerArrSession.push(jsonCustomerDataObj);
+						}
+					}
+				}, errorCB
+			);
+		},errorCBOrderListDB,successCBOrderListDB
+	);
+
+}
+
+function successCBOrderListDB() {
+	appendOrderAndCustomerDetails(orderArrSession, customerArrSession);
+}	
+
+function errorCBOrderListDB() {
+	console.log("errorCBOrderListDB");
 }
 
 
@@ -1508,9 +1668,6 @@ function errorCBInsertCustomerDetails(err) {
 	}
 	
 	function appendCatListDB(catArrData, subCatArrData) {
-		$("#mainPageId").find('.main-menu').remove();
-		$("#mainPageId").find('.sub-menu').remove();
-		
 		var categoryDiv = '<div class="row main-menu main-menu-div" id="main-menu-div" ><ul class="topnav main-menu-ul" id="main-menu-ul">';
 		var subCategoryDiv = "";
 		$('#newOrderId').val('');
@@ -1550,6 +1707,8 @@ function errorCBInsertCustomerDetails(err) {
 		});
 		
 		categoryDiv+='</ul></div>';
+		$("#mainPageId").find('.main-menu').remove();
+		$("#mainPageId").find('.sub-menu').remove();
 		$( categoryDiv ).insertBefore( "#mainPageId .hrBarCatClass" );
 		$( subCategoryDiv ).insertBefore( "#mainPageId .hrBarCatClass" );
 		$('#mainPageId').find('.sub-menu').hide();
@@ -1784,18 +1943,36 @@ function errorCBInsertCustomerDetails(err) {
 		gotoAttributePageDiv();
 	}
 	
+	var optionArrayToSave = [];
+	var attributeArrayToSave = [];
 	function selectedOptionFn(thisData){
-		$('.selection-page-options-div .attr-option-div .single-option').removeClass('active');
+		var attrId = $(thisData).data('attrid');
+		$('.selection-page-options-div .attr-option-div .attrOpt'+attrId).removeClass('active');
 		$(thisData).addClass("active");
 		
 		var optId = $(thisData).data('opt_id');
-		var attrId = $(thisData).data('attrid');
+		
+		var indexOfAttr = jQuery.inArray(attrId, attributeArrayToSave );
+		if(indexOfAttr >= 0){
+			var tempAttrArray = [];
+			var tempOptionArray = [];
+			for(var i = 0 ;i <=attributeArrayToSave.length; i++){
+				if(attrId != attributeArrayToSave[i]){
+					tempAttrArray.push(attributeArrayToSave[i]);
+					tempOptionArray.push(optionArrayToSave[i]);
+				}
+			}
+			optionArrayToSave = tempOptionArray;
+			attributeArrayToSave = tempAttrArray;
+		}
 		//if ($( "#customerConfirmationPageId .customerFieldsToAppendSelected .attrOpt"+attrId ).length > 0 ){
 	       // alert('Found with Length '+$( ".div_opt_id"+optId ).length);
 	        $('.customerFieldsToAppendSelected .attrOpt'+attrId).remove();
 	    //}else{
 	    	$( ".div_opt_id"+optId ).clone().appendTo( "#customerConfirmationPageId .customerFieldsToAppendSelected" );
 	   // }
+	    	optionArrayToSave.push(optId);
+	    	attributeArrayToSave.push(attrId);
 		$("#customerConfirmationPageId .customerFieldsToAppendSelected .optMenu-bar").show();
 	}
 
@@ -1907,7 +2084,7 @@ function errorCBInsertCustomerDetails(err) {
 		});
 		
 		
-		$('.optMenu-bar').hide();
+		$('.selection-page-options-div .attr-option-div .optMenu-bar').hide();
 		$('.attrOpt'+attrTempId).show();
 		gotoAttributePageDiv();
 	}
@@ -1957,10 +2134,22 @@ function errorCBInsertCustomerDetails(err) {
 	}
 	
 	var orderTakenDetails = new Array();
+	var selectedOptionMain = new Array();
 	function orderTakeMeastFn(){
-		
 		 var lengthOfOrder = $( "#measurementPageId .measure-inputField" ).length;
-		//alert(lengthOfOrder);
+		if(optionArrayToSave.length > 0 && attributeArrayToSave.length > 0){
+			var arrObject= new Array();
+			for(var i = 0; i< optionArrayToSave.length; i++){
+				var childObject = new Object();
+				var optionId = optionArrayToSave[i];
+				var attrId = attributeArrayToSave[i];
+				childObject.optionId = optionId;
+				childObject.attrId = attrId;
+				arrObject.push(childObject);
+			}
+			selectedOptionMain = arrObject;
+		}
+		 
 		if(lengthOfOrder > 0){
 			var arrObject= new Array();
 			for(var i = 0; i<lengthOfOrder; i++){
@@ -1976,7 +2165,7 @@ function errorCBInsertCustomerDetails(err) {
 			orderTakenDetails = arrObject;
 		}
 		//insertOrderDetails(arrObject);
-		appendOrderMeasurementDetails(arrObject);
+		appendOrderMeasurementDetails(orderTakenDetails);
 		gotoCustomerPageDiv();
 	}
 	
@@ -2002,6 +2191,47 @@ function errorCBInsertCustomerDetails(err) {
 			tableMainRow += tableChildRowEnd;
 		}
 		$('.appendMeasuOrderList').append(tableMainRow);
+	}
+	
+	function appendOrderAndCustomerDetails(orderArrData, customerArrData){
+		$('#orderReportPageId').find('table tbody').empty();
+		var tableRowMain = '';
+		if(orderArrData != ''){
+			jQuery.each(orderArrData, function(index,value) {
+				var order_id = value['id'];
+				var server_cat_id = value['server_cat_id'];
+				var server_prod_id = value['server_prod_id'];
+				var order_data = value['order_data'];
+				var server_prod_name = value['server_prod_name'];
+				var update_timestamp = value['update_timestamp'];
+				var status_of_order = value['status_of_order'];
+				var customer_id = value['customer_id'];
+				
+				var tableRow = '';
+				tableRow += '<tr><td>'+order_id+'</td>';
+				var customerExist = false;
+				jQuery.each(customerArrData, function(indexObj,valueObj) {
+					if(parseInt(customer_id) == parseInt(valueObj['id'])){
+						var customerName = valueObj['name'];
+						tableRow += '<td>'+customerName+'</td>';
+						customerExist = true;
+					}
+				});
+				if(!customerExist){
+					tableRow += '<td> &nbsp;</td>';
+				}
+				tableRow += '<td> '+server_prod_name+' </td>';
+				tableRow += '<td> '+update_timestamp+' </td>';
+				tableRow += '<td> '+status_of_order+' </td>';
+				tableRow += '<td> Edit </td></tr>';
+				tableRowMain += tableRow;
+			});
+			
+		}else{
+			tableRowMain += '<tr><td>No data found.</td></tr>'
+		}
+		$('#orderReportPageId').find('table tbody').append(tableRowMain);
+		gotoOrderPageDiv();
 	}
 	
 	
