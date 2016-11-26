@@ -1753,6 +1753,7 @@ function errorCBCustomerListDB(err) {
 		if(len > 0){
 			window.localStorage["dbreadyflag"] = 1;
 		}else{
+			alert('Tailor Details');
 			getTailorDetailsDataFromServer();
 		}
 	}
