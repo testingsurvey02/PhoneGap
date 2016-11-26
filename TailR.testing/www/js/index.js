@@ -1,71 +1,10 @@
+// For Testing in Browser
+/*
 $(function() {
 	loadDataFromServer();
 });
-/*
-	// Local System Find JsonFormat 
-	$(function() {
-		getAttributesDataJson();
-		getMeasurementDataJson();
-		getProductDataJson();
-		getCategoriesDataJson();
-	});
-	
-	
-	
-	function getMeasurementDataJson()
-	{
-		var dataToSend = {};
-		dataToSend["secret_key"] = "4TPD6PI91";
-		var appurltemps="http://tailorraniapp.stavyah.com/api/measurements/measurementsJson"
-			$.ajax({
-				type : 'POST',
-				url: appurltemps,
-				data : dataToSend,
-				success: successCBMeasurementsFn,
-				error: commonErrorCallback
-			});
-	}
-	
-	function getProductDataJson(){
-		var dataToSend = {};
-		dataToSend["secret_key"] = "4TPD6PI91";
-		var appurltemps="http://tailorraniapp.stavyah.com/api/products/productsJson"
-			$.ajax({
-				type : 'POST',
-				url: appurltemps,
-				data : dataToSend,
-				success: successCBMeasurementsFn,
-				error: commonErrorCallback
-			});
-	}
-	
-	function getCategoriesDataJson(){
-		var dataToSend = {};
-		dataToSend["secret_key"] = "4TPD6PI91";
-		var apiCallUrl="http://tailorraniapp.stavyah.com/api/categories/categoriesJson"
-			$.ajax({
-				type : 'POST',
-				url: apiCallUrl,
-				data : dataToSend,
-				success: successCBMeasurementsFn,
-				error: commonErrorCallback
-			});
-	}
-	
-	function getAttributesDataJson(){
-		var dataToSend = {};
-		dataToSend["secret_key"] = "4TPD6PI91";
-		var appurltemps="http://tailorraniapp.stavyah.com/api/attributes/attributesJson"
-			$.ajax({
-				type : 'POST',
-				url: appurltemps,
-				data : dataToSend,
-				success: successCBMeasurementsFn,
-				error: commonErrorCallback
-			});
-	}
-
 */
+
 $( document ).on( "mobileinit", function() {
     // Make your jQuery Mobile framework configuration changes here!
 	 $.support.cors = true;
@@ -86,7 +25,7 @@ $( document ).on( "mobileinit", function() {
 
 var connectionType;
 var appName='Tailor Rani';
-var testingInBrowser=false;
+var testingInBrowser=false;// For Testing
 
 var rightPanelObj = '<div id="menu-wrapper">'+
 							'<div class="menu-title">'+
@@ -383,8 +322,8 @@ function onBackKeyDown() {
 
 function checkConnection() {
 	
-	connectionType="WiFi connection";//For Testing
-	return connectionType;
+	//connectionType="WiFi connection";//For Testing
+	//return connectionType;
 	
     var networkState = navigator.connection.type;
     var states = {};
@@ -891,7 +830,12 @@ function getTailorDetailsFromLocal(){
 }
 
 function successCBTailorDetailsListDB() {
-	getCategoriesDataFromServer();
+	if(connectionType=="Unknown connection" || connectionType=="No network connection"){
+		checkCategoryInLocalDB();
+	}
+	else if(connectionType=="WiFi connection" || connectionType=="Cell 4G connection" || connectionType=="Cell 3G connection" || connectionType=="Cell 2G connection"){
+		getCategoriesDataFromServer();
+	}
 }	
 
 function errorCBTailorDetailsListDB(err) {
@@ -990,8 +934,6 @@ function getCategoriesListFromLocal(){
 							}else{
 								catArrSession.push(jsonObj);
 							}
-							
-							
 						}
 					}
 				}, errorCB
@@ -1073,8 +1015,6 @@ function errorCBInsertProductDetails(err) {
 
 var appendCount=1;
 function getProductsListFromLocal(){
-	
-	
 	if(testingInBrowser){
 		if(appendCount==1){
 			appendCount=2;
@@ -1189,6 +1129,7 @@ function insertAttributesDetails(tx) {
 }
 
 function successCBAttrListDB() {
+	
 }	
 
 function errorCBAttrListDB(err) {
@@ -1743,11 +1684,12 @@ function errorCBCustomerListDB(err) {
 /*  ------------------- Module-wise Methods/Function Code Starts ------------------  */	
 	var countOfCat = 0;
 	function getCountByTableName(tablename){
-	    //var x;
+	    var x;
 	    db.readTransaction(function (tx) {
 	        tx.executeSql('SELECT COUNT(*) AS c FROM ' + tablename, [], function (tx, r) {
 	            alert(r.rows[0].c + "rows")
 	            countOfCat= r.rows[0].c;
+	            x= r.rows[0].c;
 	        },errorCountFn);
 	    },errorReadCountFn, successReadCountFn);
 	    return x;
@@ -1758,8 +1700,8 @@ function errorCBCustomerListDB(err) {
 	}
 	
 	function successReadCountFn(){
+		console.log("countOfCat-- " + countOfCat);
 		if(countOfCat > 0){
-			getTailorDetailsDataFromServer();
 		}
 	}
 	
@@ -1767,13 +1709,29 @@ function errorCBCustomerListDB(err) {
 		alert('errorCountFn : '+err.code);
 	}
 	
-	function checkCategoryInLocalDB(){
+	function checkTailorDetailsInLocalDB(){
 		var len = 0;
-		len = getCountByTableName("category");
+		console.log(getCountByTableName("tailor_details"));
+		len = getCountByTableName("tailor_details");
+		
 		if(len > 0){
 			window.localStorage["dbreadyflag"] = 1;
+			getTailorDetailsFromLocal();
 		}else{
-			
+			getTailorDetailsDataFromServer();
+		}
+	}
+	
+	function checkCategoryInLocalDB(){
+		var len = 0;
+		console.log(getCountByTableName("category"));
+		len = getCountByTableName("category");
+		
+		if(len > 0){
+			window.localStorage["dbreadyflag"] = 1;
+			getCategoriesListFromLocal();
+		}else{
+			getCategoriesDataFromServer();
 		}
 	}
 	
@@ -1782,9 +1740,7 @@ function errorCBCustomerListDB(err) {
 			getTailorDetailsFromLocal();
 			return;
 		}
-		
-		checkCategoryInLocalDB();
-		//checkTailorDetailsInLocalDB();
+		checkTailorDetailsInLocalDB();
 	}
 	
 	var tailorDetailsJsonData;
@@ -1874,7 +1830,7 @@ function errorCBCustomerListDB(err) {
 		$('#mainPageId').find('.sub-menu').hide();
 		
 		getProductsListFromLocal();
-		getAttributeListFromLocal();
+		//getAttributeListFromLocal();
 	}
 	
 	// Remaining
@@ -1982,6 +1938,8 @@ function errorCBCustomerListDB(err) {
 		$("#mainPageId").find('.product-list').append(mainPageGallery);
 		$('#mainPageId .product-list').find('.galleriesClass').hide();
 		//$('.product-selection-details-div').empty();
+		
+		getAttributeListFromLocal();
 	}
 
 	function goToAttributeDiv(currentData){
@@ -2180,8 +2138,7 @@ function errorCBCustomerListDB(err) {
 	}
 	
 	function successCBInsertMeasurementDetails() {
-		getCategoriesListFromLocal();
-		
+		//getCategoriesListFromLocal();
 	}	
 	function errorCBInsertMeasurementDetails(err) {
 		console.log("errorCBInsertMeasurementDetails");

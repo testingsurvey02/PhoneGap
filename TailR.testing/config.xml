@@ -1,16 +1,16 @@
 <?xml version='1.0' encoding='utf-8'?>
 <widget id="com.testing.learningApp" 
-version="1.0.1"
-versionCode = "1" 
+version="1.0.2"
+versionCode = "2" 
 xmlns="http://www.w3.org/ns/widgets" 
 xmlns:gap   = "http://phonegap.com/ns/1.0" 
 xmlns:cdv="http://cordova.apache.org/ns/1.0">
-    <name>PhoneGap001</name>
+    <name>Tailor Rani Test</name>
     <description>
-                An application for learning PhoneGap.
+        An application for TailorRani Web App for Tailors.
     </description>
-    <author email="testingsurvey02@gmail.com" href="#">
-        testingsurvey
+    <author email="mangesh@stavyah.com" href="http://www.stavyah.com">
+        Stavyah Technologies LLP
     </author>
     
     <content src="index.html" />
