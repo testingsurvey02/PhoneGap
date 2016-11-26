@@ -863,6 +863,7 @@ function getTailorDetailsFromLocal(){
 			tx.executeSql('select * from tailor_details where secret_key="4TPD6PI91" ',[],function(tx,results){
 					len = results.rows.length;
 					if(len>0){
+						alert();
 						tailorDetailsSession = {};
 						for (var i = 0; i < len; i++) {
 							var tailorDetailsObj={};
@@ -1758,21 +1759,17 @@ function errorCBCustomerListDB(err) {
 	    var x;
 	    db.readTransaction(function (t) {
 	        t.executeSql('select count(*) as c from ' + tablename, [], function (t, r) {
-	            alert(r.rows[0].c + "rows");
+	            alert(r.rows[0].c + "rows")
 	            x= r.rows[0].c;
 	        });
 	    });
+	    alert('getCountByTableName  '+x);
 	    return x;
 	}
 	
 	function checkTailorDetailsInLocalDB(){
 		var len = 0;
-		db.transaction(	function (tx){
-				tx.executeSql('select * from tailor_details where secret_key="4TPD6PI91" ',[],function(tx,results){
-						len = results.rows.length;
-						alert('len   ------ '+len);
-				});
-		});
+		len = getCountByTableName("tailor_details");
 		alert('len '+len);
 		if(len > 0){
 			window.localStorage["dbreadyflag"] = 1;
