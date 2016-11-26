@@ -2224,7 +2224,7 @@ function errorCBCustomerListDB(err) {
 	var measurementsData;
 	function getTailorDetailsDataFromServer(){
 		var dataToSend = {};
-		dataToSend["secret_key"] = tailorDetailsSession.secret_key;
+		dataToSend["secret_key"] = '4TPD6PI91';
 		var apiCallUrl="http://tailorraniapp.stavyah.com/api/tailors/tailorinfoJson"
 		connectionType=checkConnection();
 		if(connectionType=="Unknown connection" || connectionType=="No network connection"){
