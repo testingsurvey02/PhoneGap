@@ -1744,8 +1744,8 @@ function errorCBCustomerListDB(err) {
 
 	function getCountByTableName(tablename){
 	    var x;
-	    db.readTransaction(function (t) {
-	        t.executeSql('SELECT COUNT(*) AS c FROM ' + tablename, [], function (t, r) {
+	    db.readTransaction(function (tx) {
+	        tx.executeSql('SELECT COUNT(*) AS c FROM ' + tablename, [], function (tx, r) {
 	            alert(r.rows[0].c + "rows")
 	            x= r.rows[0].c;
 	        });
@@ -1754,8 +1754,15 @@ function errorCBCustomerListDB(err) {
 	}
 	
 	function checkCategoryInLocalDB(){
-		len = 0;
-		len = getCountByTableName("category");
+		var len = 0;
+		/*len = getCountByTableName("category");*/
+		db.transaction(	function (tx){
+			tx.executeSql('select * from tailor_details" ',[],function(tx,results){
+				len = results.rows.length;
+				alert('results.rows.length +'+results.rows.length);
+			});
+			alert('checkCategoryInLocalDB '+len);
+		});
 		if(len > 0){
 			window.localStorage["dbreadyflag"] = 1;
 		}else{
