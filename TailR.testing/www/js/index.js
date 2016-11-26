@@ -1741,21 +1741,26 @@ function errorCBCustomerListDB(err) {
 
 
 /*  ------------------- Module-wise Methods/Function Code Starts ------------------  */	
-
+	var countOfCat = 0;
 	function getCountByTableName(tablename){
-	    var x;
+	    //var x;
 	    db.readTransaction(function (tx) {
 	        tx.executeSql('SELECT COUNT(*) AS c FROM ' + tablename, [], function (tx, r) {
 	            alert(r.rows[0].c + "rows")
-	            x= r.rows[0].c;
-	            return x;
+	            countOfCat= r.rows[0].c;
 	        },errorCountFn);
-	    },errorReadCountFn);
+	    },errorReadCountFn, successReadCountFn);
 	    return x;
 	}
 	
 	function errorReadCountFn(err){
 		alert('errorReadCountFn : '+err.code);
+	}
+	
+	function successReadCountFn(){
+		if(countOfCat > 0){
+			getTailorDetailsDataFromServer();
+		}
 	}
 	
 	function errorCountFn(err){
@@ -1764,18 +1769,11 @@ function errorCBCustomerListDB(err) {
 	
 	function checkCategoryInLocalDB(){
 		var len = 0;
-		/*len = getCountByTableName("category");*/
-		db.transaction(	function (tx){
-			tx.executeSql('select * from category" ',[],function(tx,results){
-				len = results.rows.length;
-				alert('results.rows.length +'+results.rows.length);
-			},errorCountFn);
-			alert('checkCategoryInLocalDB '+len);
-		},errorReadCountFn);
+		len = getCountByTableName("category");
 		if(len > 0){
 			window.localStorage["dbreadyflag"] = 1;
 		}else{
-			getTailorDetailsDataFromServer();
+			
 		}
 	}
 	
