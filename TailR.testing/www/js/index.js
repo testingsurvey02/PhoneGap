@@ -86,7 +86,7 @@ $( document ).on( "mobileinit", function() {
 
 var connectionType;
 var appName='Tailor Rani';
-var testingInBrowser=false;
+var testingInBrowser=true;
 
 var rightPanelObj = '<div id="menu-wrapper">'+
 							'<div class="menu-title">'+
@@ -241,11 +241,10 @@ var app = {
     },
     // Phonegap is now ready...
     onDeviceReady: function() {
-    	// Kishore Commented
-    	/*
+    	
     	window.requestFileSystem  = window.requestFileSystem || window.webkitRequestFileSystem; // Kishore Added
         window.requestFileSystem(LocalFileSystem.PERSISTENT, 0, gotFS, fail); // Kishore Added
-    	*/
+    	
         document.addEventListener("backbutton", onBackKeyDown, false);
         
         if(window.localStorage["gcmregistrationId"] === undefined ) {
@@ -411,7 +410,6 @@ function checkPreAuth() {
 		}
 	}
 	else{
-		alert('appRequiresWiFi 414');
 		navigator.notification.alert(appRequiresWiFi, exitAppForcefully, appName,'Ok');
 	}
 }
@@ -532,12 +530,10 @@ function handleLogin() {
 		var loginData={};
 		if(connectionType=="Unknown connection" || connectionType=="No network connection"){
 			if(window.localStorage["user_logged_in"] ==1) {
-				alert('appRequiresWiFi 535');
 				navigator.notification.alert(appRequiresWiFi,alertConfirm,appName,'Ok');
 				//$.mobile.changePage('#home-page',{ transition: "slideup"});
 			}
 			else{
-				alert('appRequiresWiFi 540');
 				navigator.notification.alert(appRequiresWiFi,alertConfirm,appName,'Ok');
 			}	
 		}
@@ -622,7 +618,6 @@ function handleLogin() {
 			   },
 			   error:function(data,t,f){
 				   hideModal();
-				   alert('appRequiresWiFi 625');
 				   navigator.notification.alert(appRequiresWiFi,alertConfirm,appName,'Ok');
 				   var responseJson = $.parseJSON(data);
 				   if(responseJson.status==404){
@@ -632,7 +627,6 @@ function handleLogin() {
 			});
 		}
 		else{
-			 alert('appRequiresWiFi 635');
 			navigator.notification.alert(appRequiresWiFi,alertConfirm,appName,'Ok');
 		}
 		$("#submitButton").removeAttr("disabled");
@@ -796,10 +790,10 @@ function errorCB(err) {
 
 function insertTailorDetailsDetails(tx) {
 	var currDateTimestamp="";
-	currDateTimestamp=dateTimestamp();
+	//currDateTimestamp=dateTimestamp();
 	
 	tx.executeSql('CREATE TABLE IF NOT EXISTS tailor_details (id integer primary key autoincrement, server_td_id integer, first_name text, middle_name text, last_name text, business_title text, address1 text, address2 text, email text, contact1 text, contact2 text, secret_key text, tailor_status integer, city text, pincode text, state_id integer, country_id integer, state_name text, country_name text, update_timestamp text)');
-		var value = tailorDetailsJsonData;
+		var value = jQuery.parseJSON(tailorDetailsJsonData);
 		var tailor_details_id = value["id"];
 		var first_name = value["first_name"];
 		var last_name = value["last_name"];
@@ -854,6 +848,7 @@ function getTailorDetailsFromLocal(){
 		tailorDetailsObj.update_timestamp = "1";
 		tailorDetailsSession = tailorDetailsObj;
 		
+		console.log(tailorDetailsSession);
 		getCategoriesListFromLocal();
 		return;
 	}
@@ -863,11 +858,9 @@ function getTailorDetailsFromLocal(){
 			tx.executeSql('select * from tailor_details where secret_key="4TPD6PI91" ',[],function(tx,results){
 					len = results.rows.length;
 					if(len>0){
-						alert();
 						tailorDetailsSession = {};
 						for (var i = 0; i < len; i++) {
 							var tailorDetailsObj={};
-							alert('Tailor Rani Auto Increment : '+ results.rows.item(i)['id']);
 							tailorDetailsObj.id = results.rows.item(i)['id'];
 							tailorDetailsObj.tailor_details_id = results.rows.item(i)['tailor_details_id'];
 							tailorDetailsObj.first_name = results.rows.item(i)['first_name'];
@@ -898,7 +891,7 @@ function getTailorDetailsFromLocal(){
 }
 
 function successCBTailorDetailsListDB() {
-	checkCategoryInLocalDB();
+	 getCategoriesListFromLocal();
 }	
 
 function errorCBTailorDetailsListDB(err) {
@@ -908,9 +901,10 @@ function errorCBTailorDetailsListDB(err) {
 
 function insertCategories(arrData) {
 	//db.transaction(insertCategories, errorCBInsertCategories, successCBInsertCategories);
+	console.log(arrData);
 	db.transaction(function(tx) {
 		var currDateTimestamp="";
-		currDateTimestamp=dateTimestamp();
+		//currDateTimestamp=dateTimestamp();
 		tx.executeSql('CREATE TABLE IF NOT EXISTS category(id integer primary key autoincrement, server_cat_id integer, parent_id integer,name text,update_timestamp text, description text, catImage text, catStatus integer, children text)');
 		
 		jQuery.each(arrData, function(index,value) {
@@ -956,7 +950,7 @@ function successCBInsertCategories() {
 }	
 
 function errorCBInsertCategories(err) {
-	console.log("errorCBInsertCategories : "+ err.message);
+	console.log("errorCBInsertCategories");
 }
 
 function getCategoriesListFromLocal(){
@@ -1011,29 +1005,29 @@ function successCBCatListDB() {
 	appendCatListDB(catArrSession, subCatArrSession);
 }	
 
-function errorCBCatListDB(err) {
-	console.log("errorCBCatListDB : "+err.message);
+function errorCBCatListDB() {
+	console.log("errorCBCatListDB");
 }
 
 function successCBCatLocalDB() {
 	console.log("successCBCatLocalDB");
 }	
 
-function errorCBCatLocalDB(err) {
-	console.log("errorCBCatLocalDB : "+err.message);
+function errorCBCatLocalDB() {
+	console.log("errorCBCatLocalDB");
 }
 
 function successCBSubCatListDB() {
 	appendSubCatListDB(subCatArrSession);
 }	
 
-function errorCBSubCatListDB(err) {
-	console.log("errorCBSubCatListDB : "+err.message);
+function errorCBSubCatListDB() {
+	console.log("errorCBCatListDB");
 }
 
 function insertProductDetails(tx) {
 	var currDateTimestamp="";
-	currDateTimestamp=dateTimestamp();
+	//currDateTimestamp=dateTimestamp();
 	tx.executeSql('CREATE TABLE IF NOT EXISTS product_details (id integer primary key autoincrement, server_prod_id integer, name text, description text, update_timestamp text, measurement_typeid integer, status integer, attribute_details text, gallery text, category text)');
 	
 	jQuery.each(productJsonData, function(index,value) {
@@ -1058,16 +1052,16 @@ function successCBProdListDB() {
 	appendProdListDB(productDetailsArrSession);
 }	
 
-function errorCBProdListDB(err) {
-	console.log("errorCBProdListDB : "+err.message);
+function errorCBProdListDB() {
+	console.log("errorCBProdListDB");
 }
 
 function successCBProdLocalDB() {
 	console.log("successCBProdLocalDB");
 }	
 
-function errorCBProdLocalDB(err) {
-	console.log("errorCBProdLocalDB : "+err.message);
+function errorCBProdLocalDB() {
+	console.log("errorCBProdLocalDB");
 }
 
 function successCBInsertProductDetails() {
@@ -1075,7 +1069,7 @@ function successCBInsertProductDetails() {
 }
 
 function errorCBInsertProductDetails(err) {
-	console.log("errorCBInsertProductDetails : "+err.message);
+	console.log("errorCBInsertProductDetails");
 }
 
 var appendCount=1;
@@ -1177,7 +1171,7 @@ function getProductsListFromLocal(){
 
 function insertAttributesDetails(tx) {
 	var currDateTimestamp="";
-	currDateTimestamp=dateTimestamp();
+	//currDateTimestamp=dateTimestamp();
 	tx.executeSql('CREATE TABLE IF NOT EXISTS product_attributes (id integer primary key autoincrement, server_attr_id integer, name text, identifier text, status integer, backend_name text, update_timestamp text, option text)');
 	
 	jQuery.each(attributeJsonData, function(index,value) {
@@ -1198,8 +1192,8 @@ function insertAttributesDetails(tx) {
 function successCBAttrListDB() {
 }	
 
-function errorCBAttrListDB(err) {
-	console.log("errorCBProdListDB : "+err.message);
+function errorCBAttrListDB() {
+	console.log("errorCBProdListDB");
 }
 
 function successCBInsertAttributeDetails() {
@@ -1207,14 +1201,14 @@ function successCBInsertAttributeDetails() {
 	    
 }	
 function errorCBInsertAttributeDetails(err) {
-	console.log("errorCBInsertAttributeDetails : "+err.message);
+	console.log("errorCBInsertAttributeDetails");
 }
 
 function successCBAttrLocalDB() {
 }	
 
-function errorCBAttrLocalDB(err) {
-	console.log("errorCBAttrLocalDB : "+err.message);
+function errorCBAttrLocalDB() {
+	console.log("errorCBAttrLocalDB");
 }
 
 function getAttributeListFromLocal(){
@@ -1292,7 +1286,7 @@ function getAttributeListFromLocal(){
 
 function insertMeasurementsDetails(tx) {
 	var currDateTimestamp="";
-	currDateTimestamp=dateTimestamp();
+	//currDateTimestamp=dateTimestamp();
 	tx.executeSql('CREATE TABLE IF NOT EXISTS measurement_details (id integer primary key autoincrement, name text, server_measurement_id integer, status integer, update_timestamp text, group_data text)');
 	
 	jQuery.each(measurementJsonData, function(index,value) {
@@ -1356,8 +1350,8 @@ function successCBMeasurementListDB() {
 	appendMeasurementDataInDiv(measurementArrSession);
 }	
 
-function errorCBMeasurementListDB(err) {
-	console.log("errorCBMeasurementListDB : "+err.message);
+function errorCBMeasurementListDB() {
+	console.log("errorCBMeasurementListDB");
 }
 
 function insertOrderDetails(){
@@ -1367,7 +1361,7 @@ function insertOrderDetails(){
 	var newOrderId = $('#newOrderId').val();
 	var customerIdInput = $('#customerIdInput').val();
 	var currDateTimestamp="";
-	currDateTimestamp=dateTimestamp();
+	//currDateTimestamp=dateTimestamp();
 	if(newOrderId == '' || newOrderId == undefined){
 		db.transaction(function(tx) {
 			
@@ -1513,7 +1507,7 @@ function takeCustomerDetailsFn(){
 		return;
 	}
 	var currDateTimestamp="";
-	currDateTimestamp=dateTimestamp();
+	//currDateTimestamp=dateTimestamp();
 	var customerName = $('#customerNameInput').val();
 	var priceInput = $('#priceInput').val();
 	//var orderId = $('#newOrderId').val();
@@ -1541,7 +1535,7 @@ function successCBInsertCustomerDetails() {
 	//getOrderListFromLocalDB();
 	//gotoOrderPageDiv();
 	
-	//function sendCustomerDetailsToServer();
+	function sendCustomerDetailsToServer();
 	
 	insertOrderDetails();
 }	
@@ -1615,7 +1609,6 @@ function errorCBCustomerListDB(err) {
 		connectionType=checkConnection();
 		
 		if(connectionType=="Unknown connection" || connectionType=="No network connection"){
-			 alert('appRequiresWiFi 1616');
 			navigator.notification.alert(appRequiresWiFi,alertConfirm,appName,'Ok');
 		}
 		else if(connectionType=="WiFi connection" || connectionType=="Cell 4G connection" || connectionType=="Cell 3G connection" || connectionType=="Cell 2G connection"){
@@ -1635,7 +1628,6 @@ function errorCBCustomerListDB(err) {
 			});
 		}
 		else{
-			alert('appRequiresWiFi 1636');
 			navigator.notification.alert(appRequiresWiFi,alertConfirm,appName,'Ok');
 		}
 	}
@@ -1643,7 +1635,6 @@ function errorCBCustomerListDB(err) {
 	function getDataByUrlAndData(url, data, successCallbackFn, errorCallbackFn, ajaxCallType) {
 		connectionType=checkConnection();
 		if(connectionType=="Unknown connection" || connectionType=="No network connection"){
-			alert('appRequiresWiFi 1644');
 			navigator.notification.alert(appRequiresWiFi,alertConfirm,appName,'Ok');
 		}
 		else if(connectionType=="WiFi connection" || connectionType=="Cell 4G connection" || connectionType=="Cell 3G connection" || connectionType=="Cell 2G connection"){
@@ -1665,7 +1656,6 @@ function errorCBCustomerListDB(err) {
 			});
 		}
 		else{
-			alert('appRequiresWiFi 1666');
 			navigator.notification.alert(appRequiresWiFi,alertConfirm,appName,'Ok');
 		}
 	}
@@ -1679,11 +1669,9 @@ function errorCBCustomerListDB(err) {
 	
 	function commonErrorCallback(data) {
 	    hideModal();
-	    alert('appRequiresWiFi 1681');
 		navigator.notification.alert(appRequiresWiFi,alertConfirm,appName,'Ok');
 		var responseJson = $.parseJSON(data);
 		if(responseJson.status==404){
-			alert('appRequiresWiFi 1684');
 		     navigator.notification.alert(appRequiresWiFi,alertConfirm,appName,'Ok');
 		}
 	}
@@ -1740,26 +1728,19 @@ function errorCBCustomerListDB(err) {
 	    var ss = addZero(d.getSeconds(), 2);
 	    var mss = addZero(d.getMilliseconds(), 3);
 	    
-	    var dateTimeStampTemp = yyyy +'-'+ month +'-'+ dd +"_"+ hh +':'+ mm +':'+ ss +':'+ mss;
+	    var dateTimeStampTemp = yyyy + month + dd +"-"+ hh + mm + ss + mss;
 	    return dateTimeStampTemp;
 	}
-	
-	function addZero(x,n) {
-    while (x.toString().length < n) {
-        x = "0" + x;
-    }
-    return x;
-}
 /*  ------------------- Common Methods/Function Code Ends -------------------------  */
 
 
 /*  ------------------- Module-wise Methods/Function Code Starts ------------------  */	
 
 	function getCountByTableName(tablename){
-	    var x = 0;
-	    db.readTransaction(function (tx) {
-	        tx.executeSql('select count(*) as c from ' + tablename, [], function (tx, r) {
-	            alert(r.rows[0].c + "rows");
+	    var x;
+	    db.readTransaction(function (t) {
+	        t.executeSql('SELECT COUNT(*) AS c FROM ' + tablename, [], function (t, r) {
+	            alert(r.rows[0].c + "rows")
 	            x= r.rows[0].c;
 	        });
 	    });
@@ -1778,12 +1759,10 @@ function errorCBCustomerListDB(err) {
 	
 	function loadDataFromServer(){
 		if(testingInBrowser){
-			checkCategoryInLocalDB();
+			getTailorDetailsFromLocal();
 			return;
 		}
-		
-		//checkCategoryInLocalDB();
-		checkTailorDetailsInLocalDB();
+		checkCategoryInLocalDB();
 	}
 	
 	var tailorDetailsJsonData;
@@ -1800,9 +1779,7 @@ function errorCBCustomerListDB(err) {
 		dataToSend["secret_key"] = tailorDetailsSession.secret_key;
 		var apiCallUrl="http://tailorraniapp.stavyah.com/api/categories/categoriesJson"
 		connectionType=checkConnection();
-		alert('getCategoriesDataFromServer');
 		if(connectionType=="Unknown connection" || connectionType=="No network connection"){
-			alert('appRequiresWiFi 1812');
 			navigator.notification.alert(appRequiresWiFi,alertConfirm,appName,'Ok');
 		}
 		else if(connectionType=="WiFi connection" || connectionType=="Cell 4G connection" || connectionType=="Cell 3G connection" || connectionType=="Cell 2G connection"){
@@ -1815,7 +1792,6 @@ function errorCBCustomerListDB(err) {
 			});
 		}
 		else{
-			alert('appRequiresWiFi 1825');
 			navigator.notification.alert(appRequiresWiFi,alertConfirm,appName,'Ok');
 		}
 	}
@@ -1885,9 +1861,7 @@ function errorCBCustomerListDB(err) {
 		dataToSend["secret_key"] = tailorDetailsSession.secret_key;
 		var apiCallUrl="http://tailorraniapp.stavyah.com/api/products/productsJson"
 		connectionType=checkConnection();
-		alert('getCategoriesDataFromServer');
 		if(connectionType=="Unknown connection" || connectionType=="No network connection"){
-			alert('appRequiresWiFi 1896');
 			navigator.notification.alert(appRequiresWiFi,alertConfirm,appName,'Ok');
 		}
 		else if(connectionType=="WiFi connection" || connectionType=="Cell 4G connection" || connectionType=="Cell 3G connection" || connectionType=="Cell 2G connection"){
@@ -1900,7 +1874,6 @@ function errorCBCustomerListDB(err) {
 			});
 		}
 		else{
-			alert('appRequiresWiFi 1909');
 			navigator.notification.alert(appRequiresWiFi,alertConfirm,appName,'Ok');
 		}
 	}
@@ -1919,7 +1892,6 @@ function errorCBCustomerListDB(err) {
 		var apiCallUrl="http://tailorraniapp.stavyah.com/api/attributes/attributesJson"
 		connectionType=checkConnection();
 		if(connectionType=="Unknown connection" || connectionType=="No network connection"){
-			alert('appRequiresWiFi 1928');
 			navigator.notification.alert(appRequiresWiFi,alertConfirm,appName,'Ok');
 		}
 		else if(connectionType=="WiFi connection" || connectionType=="Cell 4G connection" || connectionType=="Cell 3G connection" || connectionType=="Cell 2G connection"){
@@ -1932,7 +1904,6 @@ function errorCBCustomerListDB(err) {
 			});
 		}
 		else{
-			alert('appRequiresWiFi 1941');
 			navigator.notification.alert(appRequiresWiFi,alertConfirm,appName,'Ok');
 		}
 	}
@@ -1964,8 +1935,8 @@ function errorCBCustomerListDB(err) {
 				jQuery.each(galleryObj , function(indexObj,valueObj) {
 					var gallery_id = valueObj['id'];
 					var image = valueObj["image"];
-					var prodImage = productImageData + '/'+image; // For Production
-					//var prodImage = 'img/product'+index+'.jpg';
+					//var prodImage = productImageData + '/'+image; // For Production
+					var prodImage = 'img/product'+index+'.jpg';
 					//initToCheckTheFile(image, productImageData);
 					if(jsonObj['category'] != ''){
 						jQuery.each(categoryObj, function(indexCat, valueCat){
@@ -1974,7 +1945,7 @@ function errorCBCustomerListDB(err) {
 									'data-prod_id="'+server_prod_id+'" data-pro_index="'+index+'" data-prod_name="'+prod_name+'" data-lid="'+local_db_id+'" onclick="goToAttributeDiv(this)">';
 									
 							galleryImage+= '<img class="product-image" src="'+prodImage+'"  alt="'+prod_name+'" />'
-							//galleryImage+= '<p>'+prod_name+'</p>';
+							galleryImage+= '<p>'+prod_name+'</p>';
 							galleryImage+= '</div>';
 							
 							mainPageGallery += galleryImage;
@@ -2035,12 +2006,13 @@ function errorCBCustomerListDB(err) {
 						var galId = valueGal['id'];
 						var image = valueGal['image'];
 						
-						//var prodImageSrc = 'img/product'+pro_index+'.jpg';// For Testing
-						var prodImageSrc = productImageData + '/'+image; // For Production
+						measurementTypeId = jsonObj['measurement_typeid'];
+						var prodImageSrc = 'img/product'+pro_index+'.jpg';// For Testing
+						//var prodImage = productImageData + '/'+image; // For Production
 						//initToCheckTheFile(image, productImageData);
+						
 						var activeClass="";
 						if(galId == gallCurrId){
-							measurementTypeId = jsonObj['measurement_typeid'];
 							$prodSelDetailsDiv.find('.product-image-div img').attr("src", prodImageSrc);
 							activeClass="active";
 						}
@@ -2093,8 +2065,8 @@ function errorCBCustomerListDB(err) {
 							var optionId = value2['id'];
 							var optionName = value2['name'];
 							var optionImg = value2['image'];
-							var optionImages = attributeImageData + '/'+optionImg; // For Production
-							//optionImages = 'img/attr'+index2+'.png';
+							//var optionImages = attributeImageData + '/'+optionImg; Production
+							optionImages = 'img/attr'+index2+'.png';
 							//initToCheckTheFile(optionImg, attributeImageData);
 							var tempOptDiv = '<div class="col-xs-6 col-sm-4 col-md-4 col-lg-4 single-option optMenu-bar attrOpt'+server_attr_id+' div_opt_id'+optionId+'" onclick="selectedOptionFn(this)" data-opt_id="'+optionId+'" data-cat_id="'+catId+'" data-prod_id="'+prodId+'" data-attrid="'+server_attr_id+'" data-lid="'+attrId+'"><div class="box"><img class="" src="'+optionImages+'" data-imgt_cat_id="'+catId+'" data-imgt_prod_id="'+prodId+'" data-imgt_attrid="'+server_attr_id+'"  data-imgt_opt_id="'+optionId+'" data-imgt_lid="'+attrId+'" alt="'+optionName+'"></div></div>';
 							optionMainDiv += tempOptDiv;
@@ -2162,7 +2134,6 @@ function errorCBCustomerListDB(err) {
 		var apiCallUrl="http://tailorraniapp.stavyah.com/api/measurements/measurementsJson"
 		connectionType=checkConnection();
 		if(connectionType=="Unknown connection" || connectionType=="No network connection"){
-			alert('appRequiresWiFi 2171');
 			navigator.notification.alert(appRequiresWiFi,alertConfirm,appName,'Ok');
 		}
 		else if(connectionType=="WiFi connection" || connectionType=="Cell 4G connection" || connectionType=="Cell 3G connection" || connectionType=="Cell 2G connection"){
@@ -2175,7 +2146,6 @@ function errorCBCustomerListDB(err) {
 			});
 		}
 		else{
-			alert('appRequiresWiFi 2184');
 			navigator.notification.alert(appRequiresWiFi,alertConfirm,appName,'Ok');
 		}
 	}
@@ -2188,7 +2158,7 @@ function errorCBCustomerListDB(err) {
 	}
 	
 	function successCBInsertMeasurementDetails() {
-		getCategoriesListFromLocal();
+		getTailorDetailsFromLocal();
 		
 	}	
 	function errorCBInsertMeasurementDetails(err) {
@@ -2241,11 +2211,10 @@ function errorCBCustomerListDB(err) {
 	var measurementsData;
 	function getTailorDetailsDataFromServer(){
 		var dataToSend = {};
-		dataToSend["secret_key"] = '4TPD6PI91';
+		dataToSend["secret_key"] = tailorDetailsSession.secret_key;
 		var apiCallUrl="http://tailorraniapp.stavyah.com/api/tailors/tailorinfoJson"
 		connectionType=checkConnection();
 		if(connectionType=="Unknown connection" || connectionType=="No network connection"){
-			alert('appRequiresWiFi 2254');
 			navigator.notification.alert(appRequiresWiFi,alertConfirm,appName,'Ok');
 		}
 		else if(connectionType=="WiFi connection" || connectionType=="Cell 4G connection" || connectionType=="Cell 3G connection" || connectionType=="Cell 2G connection"){
@@ -2258,7 +2227,6 @@ function errorCBCustomerListDB(err) {
 			});
 		}
 		else{
-			alert('appRequiresWiFi 2267');
 			navigator.notification.alert(appRequiresWiFi,alertConfirm,appName,'Ok');
 		}
 	}
@@ -2266,13 +2234,12 @@ function errorCBCustomerListDB(err) {
 	function successCBTailorDetailsFn(data){
 		var responseJson = data;
 		tailorDetailsJsonData = responseJson["result"];
-		//alert('tailorDetailsJsonData : '+tailorDetailsJsonData);
 		// FIXME CHECK JSON DATA
 		db.transaction(insertTailorDetailsDetails, errorCBInsertTailorDetailsDetails, successCBInsertTailorDetailsDetails);
 	}
 	
 	function successCBInsertTailorDetailsDetails() {
-		getTailorDetailsFromLocal();
+		getCategoriesDataFromServer();
 	}	
 	function errorCBInsertTailorDetailsDetails(err) {
 		console.log("errorCBInsertTailorDetailsDetails : "+err.message);
@@ -2445,11 +2412,9 @@ function errorCBCustomerListDB(err) {
 					tableRow += '<td> &nbsp;</td>';
 				}
 				tableRow += '<td> '+server_prod_name+' </td>';
-				var timestamp = update_timestamp.split("_"); 
-				tableRow += '<td> '+timestamp[0]+' </td>';
+				tableRow += '<td> '+update_timestamp+' </td>';
 				tableRow += '<td> '+status_of_order+' </td>';
-				/*tableRow += '<td> Edit </td>';*/
-				tableRow += '</tr>';
+				tableRow += '<td> Edit </td></tr>';
 				tableRowMain += tableRow;
 			});
 			
@@ -2460,14 +2425,12 @@ function errorCBCustomerListDB(err) {
 		gotoOrderPageDiv();
 	}
 	
-	/*function gotFS(fileSystem) {
+	function gotFS(fileSystem) {
 	    console.log("got filesystem");
 	    // save the file system for later access
 	    console.log(fileSystem.root.fullPath);
-	    alert('fileSystem.root.fullPath : '+fileSystem.root.fullPath);
 	    window.rootFS = fileSystem.root;
-	    alert('window.rootFS : '+window.rootFS);
-	}*/
+	}
 	
 	
 	
