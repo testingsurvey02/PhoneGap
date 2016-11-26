@@ -892,7 +892,7 @@ function getTailorDetailsFromLocal(){
 }
 
 function successCBTailorDetailsListDB() {
-	 getCategoriesListFromLocal();
+	getCategoriesDataFromServer();
 }	
 
 function errorCBTailorDetailsListDB(err) {
@@ -2171,7 +2171,7 @@ function errorCBCustomerListDB(err) {
 	}
 	
 	function successCBInsertMeasurementDetails() {
-		getTailorDetailsFromLocal();
+		getCategoriesListFromLocal();
 		
 	}	
 	function errorCBInsertMeasurementDetails(err) {
@@ -2253,7 +2253,7 @@ function errorCBCustomerListDB(err) {
 	}
 	
 	function successCBInsertTailorDetailsDetails() {
-		getCategoriesDataFromServer();
+		getTailorDetailsFromLocal();
 	}	
 	function errorCBInsertTailorDetailsDetails(err) {
 		console.log("errorCBInsertTailorDetailsDetails : "+err.message);
