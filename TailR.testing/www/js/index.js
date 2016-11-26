@@ -1757,7 +1757,8 @@ function errorCBCustomerListDB(err) {
 		var len = 0;
 		/*len = getCountByTableName("category");*/
 		db.transaction(	function (tx){
-			tx.executeSql('select * from tailor_details" ',[],function(tx,results){
+			//tx.executeSql('CREATE TABLE IF NOT EXISTS category(id integer primary key autoincrement, server_cat_id integer, parent_id integer,name text,update_timestamp text, description text, catImage text, catStatus integer, children text)');
+			tx.executeSql('select * from category" ',[],function(tx,results){
 				len = results.rows.length;
 				alert('results.rows.length +'+results.rows.length);
 			});
