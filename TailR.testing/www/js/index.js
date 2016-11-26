@@ -2024,13 +2024,12 @@ function errorCBCustomerListDB(err) {
 						var galId = valueGal['id'];
 						var image = valueGal['image'];
 						
-						measurementTypeId = jsonObj['measurement_typeid'];
 						var prodImageSrc = 'img/product'+pro_index+'.jpg';// For Testing
 						//var prodImage = productImageData + '/'+image; // For Production
 						//initToCheckTheFile(image, productImageData);
-						
 						var activeClass="";
 						if(galId == gallCurrId){
+							measurementTypeId = jsonObj['measurement_typeid'];
 							$prodSelDetailsDiv.find('.product-image-div img').attr("src", prodImageSrc);
 							activeClass="active";
 						}
