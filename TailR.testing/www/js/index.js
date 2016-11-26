@@ -824,7 +824,7 @@ function insertTailorDetailsDetails(tx) {
 		
 		tx.executeSql('INSERT INTO tailor_details(server_td_id, first_name, middle_name, last_name, business_title, address1, address2, email, contact1, contact2, secret_key, tailor_status, city, pincode, state_id, country_id, state_name, country_name, update_timestamp) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)',
    	    			[tailor_details_id, first_name,last_name, middle_name, business_title, address1, address2, tailemail, contact1, contact2, secret_key, tailor_status, city, pincode, state_id, country_id, state_name, country_name, update_timestamp], function(tx, res) {
-	   	         //alert("Tailor Details Data insertId: " + res.insertId + " -- res.rowsAffected 1"+res.rowsAffected);
+	   	         alert("Tailor Details Data insertId: " + res.insertId + " -- res.rowsAffected 1"+res.rowsAffected);
   	    });
 	
 }
@@ -866,6 +866,7 @@ function getTailorDetailsFromLocal(){
 						tailorDetailsSession = {};
 						for (var i = 0; i < len; i++) {
 							var tailorDetailsObj={};
+							alert('Tailor Rani Auto Increment : '+ results.rows.item(i)['id']);
 							tailorDetailsObj.id = results.rows.item(i)['id'];
 							tailorDetailsObj.tailor_details_id = results.rows.item(i)['tailor_details_id'];
 							tailorDetailsObj.first_name = results.rows.item(i)['first_name'];
@@ -1767,7 +1768,7 @@ function errorCBCustomerListDB(err) {
 	function checkTailorDetailsInLocalDB(){
 		var len = 0;
 		db.transaction(	function (tx){
-				tx.executeSql('select * from tailor_details where secret_key="4TPD6PI91" ',[],function(tx,results){
+				tx.executeSql('select * from tailor_details" ',[],function(tx,results){
 						len = results.rows.length;
 				});
 		});
