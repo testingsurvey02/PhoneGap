@@ -1769,9 +1769,9 @@ function errorCBCustomerListDB(err) {
 			tx.executeSql('select * from category" ',[],function(tx,results){
 				len = results.rows.length;
 				alert('results.rows.length +'+results.rows.length);
-			});
+			}errorCountFn);
 			alert('checkCategoryInLocalDB '+len);
-		});
+		}errorReadCountFn);
 		if(len > 0){
 			window.localStorage["dbreadyflag"] = 1;
 		}else{
