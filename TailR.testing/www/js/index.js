@@ -1755,11 +1755,11 @@ function errorCBCustomerListDB(err) {
 	}
 	
 	function errorReadCountFn(err){
-		alert('errorReadCountFn : '+err.message);
+		alert('errorReadCountFn : '+err.code);
 	}
 	
 	function errorCountFn(err){
-		alert('errorCountFn : '+err.message);
+		alert('errorCountFn : '+err.code);
 	}
 	
 	function checkCategoryInLocalDB(){
