@@ -794,6 +794,7 @@ function insertTailorDetailsDetails(tx) {
 	
 	tx.executeSql('CREATE TABLE IF NOT EXISTS tailor_details (id integer primary key autoincrement, server_td_id integer, first_name text, middle_name text, last_name text, business_title text, address1 text, address2 text, email text, contact1 text, contact2 text, secret_key text, tailor_status integer, city text, pincode text, state_id integer, country_id integer, state_name text, country_name text, update_timestamp text)');
 		var value = jQuery.parseJSON(tailorDetailsJsonData);
+		alert('insertTailorDetailsDetails');
 		var tailor_details_id = value["id"];
 		var first_name = value["first_name"];
 		var last_name = value["last_name"];
@@ -2246,6 +2247,7 @@ function errorCBCustomerListDB(err) {
 	function successCBTailorDetailsFn(data){
 		var responseJson = data;
 		tailorDetailsJsonData = responseJson["result"];
+		alert('tailorDetailsJsonData : '+tailorDetailsJsonData);
 		// FIXME CHECK JSON DATA
 		db.transaction(insertTailorDetailsDetails, errorCBInsertTailorDetailsDetails, successCBInsertTailorDetailsDetails);
 	}
