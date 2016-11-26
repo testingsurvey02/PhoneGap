@@ -1727,7 +1727,7 @@ function errorCBCustomerListDB(err) {
 	    var ss = addZero(d.getSeconds(), 2);
 	    var mss = addZero(d.getMilliseconds(), 3);
 	    
-	    var dateTimeStampTemp = yyyy + month + dd +"_"+ hh + mm + ss + mss;
+	    var dateTimeStampTemp = yyyy +'-'+ month +'-'+ dd +" "+ hh +':'+ mm +':'+ ss +':'+ mss;
 	    return dateTimeStampTemp;
 	}
 	
@@ -2433,7 +2433,8 @@ function errorCBCustomerListDB(err) {
 				tableRow += '<td> '+server_prod_name+' </td>';
 				tableRow += '<td> '+update_timestamp+' </td>';
 				tableRow += '<td> '+status_of_order+' </td>';
-				tableRow += '<td> Edit </td></tr>';
+				/*tableRow += '<td> Edit </td>';*/
+				tableRow += '</tr>';
 				tableRowMain += tableRow;
 			});
 			
