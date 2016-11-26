@@ -86,7 +86,7 @@ $( document ).on( "mobileinit", function() {
 
 var connectionType;
 var appName='Tailor Rani';
-var testingInBrowser=true;
+var testingInBrowser=false;
 
 var rightPanelObj = '<div id="menu-wrapper">'+
 							'<div class="menu-title">'+
@@ -1943,8 +1943,8 @@ function errorCBCustomerListDB(err) {
 				jQuery.each(galleryObj , function(indexObj,valueObj) {
 					var gallery_id = valueObj['id'];
 					var image = valueObj["image"];
-					//var prodImage = productImageData + '/'+image; // For Production
-					var prodImage = 'img/product'+index+'.jpg';
+					var prodImage = productImageData + '/'+image; // For Production
+					//var prodImage = 'img/product'+index+'.jpg';
 					//initToCheckTheFile(image, productImageData);
 					if(jsonObj['category'] != ''){
 						jQuery.each(categoryObj, function(indexCat, valueCat){
@@ -2015,8 +2015,8 @@ function errorCBCustomerListDB(err) {
 						var image = valueGal['image'];
 						
 						measurementTypeId = jsonObj['measurement_typeid'];
-						var prodImageSrc = 'img/product'+pro_index+'.jpg';// For Testing
-						//var prodImage = productImageData + '/'+image; // For Production
+						//var prodImageSrc = 'img/product'+pro_index+'.jpg';// For Testing
+						var prodImageSrc = productImageData + '/'+image; // For Production
 						//initToCheckTheFile(image, productImageData);
 						
 						var activeClass="";
@@ -2073,8 +2073,8 @@ function errorCBCustomerListDB(err) {
 							var optionId = value2['id'];
 							var optionName = value2['name'];
 							var optionImg = value2['image'];
-							//var optionImages = attributeImageData + '/'+optionImg; Production
-							optionImages = 'img/attr'+index2+'.png';
+							var optionImages = attributeImageData + '/'+optionImg; // For Production
+							var optionImages = 'img/attr'+index2+'.png';
 							//initToCheckTheFile(optionImg, attributeImageData);
 							var tempOptDiv = '<div class="col-xs-6 col-sm-4 col-md-4 col-lg-4 single-option optMenu-bar attrOpt'+server_attr_id+' div_opt_id'+optionId+'" onclick="selectedOptionFn(this)" data-opt_id="'+optionId+'" data-cat_id="'+catId+'" data-prod_id="'+prodId+'" data-attrid="'+server_attr_id+'" data-lid="'+attrId+'"><div class="box"><img class="" src="'+optionImages+'" data-imgt_cat_id="'+catId+'" data-imgt_prod_id="'+prodId+'" data-imgt_attrid="'+server_attr_id+'"  data-imgt_opt_id="'+optionId+'" data-imgt_lid="'+attrId+'" alt="'+optionName+'"></div></div>';
 							optionMainDiv += tempOptDiv;
