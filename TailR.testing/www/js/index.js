@@ -1756,9 +1756,10 @@ function errorCBCustomerListDB(err) {
 /*  ------------------- Module-wise Methods/Function Code Starts ------------------  */	
 
 	function getCountByTableName(tablename){
-	    var x;
-	    db.readTransaction(function (t) {
-	        t.executeSql('select count(*) as c from ' + tablename, [], function (t, r) {
+	    var x = 0;
+	    db.readTransaction(function (tx) {
+	    	alert('Inside ');
+	        tx.executeSql('select count(*) as c from ' + tablename, [], function (t, r) {
 	            alert(r.rows[0].c + "rows")
 	            x= r.rows[0].c;
 	        });
