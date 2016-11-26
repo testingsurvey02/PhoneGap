@@ -60,10 +60,35 @@ ul.topnav li a:hover{background-color: #555;}
 
 .product-selection-details-div p{margin: 5px 0;}
 
-
-table{
+.table-container{
+	margin: 5px 0;
+}
+.table-container label{
 	text-align: left;
+}
+
+table {
+    border-collapse: collapse;
     width: 100%;
 }
+
+table, th, td {
+    border: 0;
+    text-align: left;
+}
+
+table td, table th {
+    border: 1px solid #9c9c9c;
+    padding: 8px;
+}
+
+table th {
+    padding-top: 12px;
+    padding-bottom: 12px;
+    text-align: left;
+    background-color: #ff5f89;
+    color: white;
+}
+
 
 img.product-image{}
