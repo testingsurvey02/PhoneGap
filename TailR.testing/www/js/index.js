@@ -1767,7 +1767,12 @@ function errorCBCustomerListDB(err) {
 	
 	function checkTailorDetailsInLocalDB(){
 		var len = 0;
-		len = getCountByTableName("tailor_details");
+		db.transaction(	function (tx){
+				tx.executeSql('select * from tailor_details where secret_key="4TPD6PI91" ',[],function(tx,results){
+						len = results.rows.length;
+						alert('len   ------ '+len);
+				});
+		});
 		alert('len '+len);
 		if(len > 0){
 			window.localStorage["dbreadyflag"] = 1;
