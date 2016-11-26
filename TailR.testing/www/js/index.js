@@ -1757,7 +1757,7 @@ function errorCBCustomerListDB(err) {
 	function getCountByTableName(tablename){
 	    var x;
 	    db.readTransaction(function (t) {
-	        t.executeSql('SELECT COUNT(*) AS c FROM ' + tablename, [], function (t, r) {
+	        t.executeSql('select count(*) as c from ' + tablename, [], function (t, r) {
 	            alert(r.rows[0].c + "rows")
 	            x= r.rows[0].c;
 	        });
@@ -1767,12 +1767,7 @@ function errorCBCustomerListDB(err) {
 	
 	function checkTailorDetailsInLocalDB(){
 		var len = 0;
-		db.transaction(	function (tx){
-				tx.executeSql('select * from tailor_details" ',[],function(tx,results){
-						len = results.rows.length;
-				});
-		});
-		//len = getCountByTableName("tailor_details");
+		len = getCountByTableName("tailor_details");
 		alert('len '+len);
 		if(len > 0){
 			window.localStorage["dbreadyflag"] = 1;
