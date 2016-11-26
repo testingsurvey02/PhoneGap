@@ -411,6 +411,7 @@ function checkPreAuth() {
 		}
 	}
 	else{
+		alert('appRequiresWiFi 414');
 		navigator.notification.alert(appRequiresWiFi, exitAppForcefully, appName,'Ok');
 	}
 }
@@ -531,10 +532,12 @@ function handleLogin() {
 		var loginData={};
 		if(connectionType=="Unknown connection" || connectionType=="No network connection"){
 			if(window.localStorage["user_logged_in"] ==1) {
+				alert('appRequiresWiFi 535');
 				navigator.notification.alert(appRequiresWiFi,alertConfirm,appName,'Ok');
 				//$.mobile.changePage('#home-page',{ transition: "slideup"});
 			}
 			else{
+				alert('appRequiresWiFi 540');
 				navigator.notification.alert(appRequiresWiFi,alertConfirm,appName,'Ok');
 			}	
 		}
@@ -619,6 +622,7 @@ function handleLogin() {
 			   },
 			   error:function(data,t,f){
 				   hideModal();
+				   alert('appRequiresWiFi 625');
 				   navigator.notification.alert(appRequiresWiFi,alertConfirm,appName,'Ok');
 				   var responseJson = $.parseJSON(data);
 				   if(responseJson.status==404){
@@ -628,6 +632,7 @@ function handleLogin() {
 			});
 		}
 		else{
+			 alert('appRequiresWiFi 635');
 			navigator.notification.alert(appRequiresWiFi,alertConfirm,appName,'Ok');
 		}
 		$("#submitButton").removeAttr("disabled");
@@ -891,7 +896,7 @@ function getTailorDetailsFromLocal(){
 }
 
 function successCBTailorDetailsListDB() {
-	getCategoriesDataFromServer();
+	checkCategoryInLocalDB();
 }	
 
 function errorCBTailorDetailsListDB(err) {
@@ -1608,6 +1613,7 @@ function errorCBCustomerListDB(err) {
 		connectionType=checkConnection();
 		
 		if(connectionType=="Unknown connection" || connectionType=="No network connection"){
+			 alert('appRequiresWiFi 1616');
 			navigator.notification.alert(appRequiresWiFi,alertConfirm,appName,'Ok');
 		}
 		else if(connectionType=="WiFi connection" || connectionType=="Cell 4G connection" || connectionType=="Cell 3G connection" || connectionType=="Cell 2G connection"){
@@ -1627,6 +1633,7 @@ function errorCBCustomerListDB(err) {
 			});
 		}
 		else{
+			alert('appRequiresWiFi 1636');
 			navigator.notification.alert(appRequiresWiFi,alertConfirm,appName,'Ok');
 		}
 	}
@@ -1634,6 +1641,7 @@ function errorCBCustomerListDB(err) {
 	function getDataByUrlAndData(url, data, successCallbackFn, errorCallbackFn, ajaxCallType) {
 		connectionType=checkConnection();
 		if(connectionType=="Unknown connection" || connectionType=="No network connection"){
+			alert('appRequiresWiFi 1644');
 			navigator.notification.alert(appRequiresWiFi,alertConfirm,appName,'Ok');
 		}
 		else if(connectionType=="WiFi connection" || connectionType=="Cell 4G connection" || connectionType=="Cell 3G connection" || connectionType=="Cell 2G connection"){
@@ -1655,6 +1663,7 @@ function errorCBCustomerListDB(err) {
 			});
 		}
 		else{
+			alert('appRequiresWiFi 1666');
 			navigator.notification.alert(appRequiresWiFi,alertConfirm,appName,'Ok');
 		}
 	}
@@ -1668,9 +1677,11 @@ function errorCBCustomerListDB(err) {
 	
 	function commonErrorCallback(data) {
 	    hideModal();
+	    alert('appRequiresWiFi 1681');
 		navigator.notification.alert(appRequiresWiFi,alertConfirm,appName,'Ok');
 		var responseJson = $.parseJSON(data);
 		if(responseJson.status==404){
+			alert('appRequiresWiFi 1684');
 		     navigator.notification.alert(appRequiresWiFi,alertConfirm,appName,'Ok');
 		}
 	}
@@ -1754,11 +1765,18 @@ function errorCBCustomerListDB(err) {
 	}
 	
 	function checkTailorDetailsInLocalDB(){
-		len = 0;
-		len = getCountByTableName("tailor_details");
+		var len = 0;
+		db.transaction(	function (tx){
+				tx.executeSql('select * from tailor_details where secret_key="4TPD6PI91" ',[],function(tx,results){
+						len = results.rows.length;
+				});
+		});
+		//len = getCountByTableName("tailor_details");
+		alert('len '+len);
 		if(len > 0){
 			window.localStorage["dbreadyflag"] = 1;
 		}else{
+			alert('Test');
 			getTailorDetailsDataFromServer();
 		}
 	}
@@ -1797,7 +1815,9 @@ function errorCBCustomerListDB(err) {
 		dataToSend["secret_key"] = tailorDetailsSession.secret_key;
 		var apiCallUrl="http://tailorraniapp.stavyah.com/api/categories/categoriesJson"
 		connectionType=checkConnection();
+		alert('getCategoriesDataFromServer');
 		if(connectionType=="Unknown connection" || connectionType=="No network connection"){
+			alert('appRequiresWiFi 1812');
 			navigator.notification.alert(appRequiresWiFi,alertConfirm,appName,'Ok');
 		}
 		else if(connectionType=="WiFi connection" || connectionType=="Cell 4G connection" || connectionType=="Cell 3G connection" || connectionType=="Cell 2G connection"){
@@ -1810,6 +1830,7 @@ function errorCBCustomerListDB(err) {
 			});
 		}
 		else{
+			alert('appRequiresWiFi 1825');
 			navigator.notification.alert(appRequiresWiFi,alertConfirm,appName,'Ok');
 		}
 	}
@@ -1879,7 +1900,9 @@ function errorCBCustomerListDB(err) {
 		dataToSend["secret_key"] = tailorDetailsSession.secret_key;
 		var apiCallUrl="http://tailorraniapp.stavyah.com/api/products/productsJson"
 		connectionType=checkConnection();
+		alert('getCategoriesDataFromServer');
 		if(connectionType=="Unknown connection" || connectionType=="No network connection"){
+			alert('appRequiresWiFi 1896');
 			navigator.notification.alert(appRequiresWiFi,alertConfirm,appName,'Ok');
 		}
 		else if(connectionType=="WiFi connection" || connectionType=="Cell 4G connection" || connectionType=="Cell 3G connection" || connectionType=="Cell 2G connection"){
@@ -1892,6 +1915,7 @@ function errorCBCustomerListDB(err) {
 			});
 		}
 		else{
+			alert('appRequiresWiFi 1909');
 			navigator.notification.alert(appRequiresWiFi,alertConfirm,appName,'Ok');
 		}
 	}
@@ -1910,6 +1934,7 @@ function errorCBCustomerListDB(err) {
 		var apiCallUrl="http://tailorraniapp.stavyah.com/api/attributes/attributesJson"
 		connectionType=checkConnection();
 		if(connectionType=="Unknown connection" || connectionType=="No network connection"){
+			alert('appRequiresWiFi 1928');
 			navigator.notification.alert(appRequiresWiFi,alertConfirm,appName,'Ok');
 		}
 		else if(connectionType=="WiFi connection" || connectionType=="Cell 4G connection" || connectionType=="Cell 3G connection" || connectionType=="Cell 2G connection"){
@@ -1922,6 +1947,7 @@ function errorCBCustomerListDB(err) {
 			});
 		}
 		else{
+			alert('appRequiresWiFi 1941');
 			navigator.notification.alert(appRequiresWiFi,alertConfirm,appName,'Ok');
 		}
 	}
@@ -1953,8 +1979,8 @@ function errorCBCustomerListDB(err) {
 				jQuery.each(galleryObj , function(indexObj,valueObj) {
 					var gallery_id = valueObj['id'];
 					var image = valueObj["image"];
-					//var prodImage = productImageData + '/'+image; // For Production
-					var prodImage = 'img/product'+index+'.jpg';
+					var prodImage = productImageData + '/'+image; // For Production
+					//var prodImage = 'img/product'+index+'.jpg';
 					//initToCheckTheFile(image, productImageData);
 					if(jsonObj['category'] != ''){
 						jQuery.each(categoryObj, function(indexCat, valueCat){
@@ -1963,7 +1989,7 @@ function errorCBCustomerListDB(err) {
 									'data-prod_id="'+server_prod_id+'" data-pro_index="'+index+'" data-prod_name="'+prod_name+'" data-lid="'+local_db_id+'" onclick="goToAttributeDiv(this)">';
 									
 							galleryImage+= '<img class="product-image" src="'+prodImage+'"  alt="'+prod_name+'" />'
-							galleryImage+= '<p>'+prod_name+'</p>';
+							//galleryImage+= '<p>'+prod_name+'</p>';
 							galleryImage+= '</div>';
 							
 							mainPageGallery += galleryImage;
@@ -2024,8 +2050,8 @@ function errorCBCustomerListDB(err) {
 						var galId = valueGal['id'];
 						var image = valueGal['image'];
 						
-						var prodImageSrc = 'img/product'+pro_index+'.jpg';// For Testing
-						//var prodImage = productImageData + '/'+image; // For Production
+						//var prodImageSrc = 'img/product'+pro_index+'.jpg';// For Testing
+						var prodImageSrc = productImageData + '/'+image; // For Production
 						//initToCheckTheFile(image, productImageData);
 						var activeClass="";
 						if(galId == gallCurrId){
@@ -2082,8 +2108,8 @@ function errorCBCustomerListDB(err) {
 							var optionId = value2['id'];
 							var optionName = value2['name'];
 							var optionImg = value2['image'];
-							//var optionImages = attributeImageData + '/'+optionImg; Production
-							optionImages = 'img/attr'+index2+'.png';
+							var optionImages = attributeImageData + '/'+optionImg; // For Production
+							//optionImages = 'img/attr'+index2+'.png';
 							//initToCheckTheFile(optionImg, attributeImageData);
 							var tempOptDiv = '<div class="col-xs-6 col-sm-4 col-md-4 col-lg-4 single-option optMenu-bar attrOpt'+server_attr_id+' div_opt_id'+optionId+'" onclick="selectedOptionFn(this)" data-opt_id="'+optionId+'" data-cat_id="'+catId+'" data-prod_id="'+prodId+'" data-attrid="'+server_attr_id+'" data-lid="'+attrId+'"><div class="box"><img class="" src="'+optionImages+'" data-imgt_cat_id="'+catId+'" data-imgt_prod_id="'+prodId+'" data-imgt_attrid="'+server_attr_id+'"  data-imgt_opt_id="'+optionId+'" data-imgt_lid="'+attrId+'" alt="'+optionName+'"></div></div>';
 							optionMainDiv += tempOptDiv;
@@ -2151,6 +2177,7 @@ function errorCBCustomerListDB(err) {
 		var apiCallUrl="http://tailorraniapp.stavyah.com/api/measurements/measurementsJson"
 		connectionType=checkConnection();
 		if(connectionType=="Unknown connection" || connectionType=="No network connection"){
+			alert('appRequiresWiFi 2171');
 			navigator.notification.alert(appRequiresWiFi,alertConfirm,appName,'Ok');
 		}
 		else if(connectionType=="WiFi connection" || connectionType=="Cell 4G connection" || connectionType=="Cell 3G connection" || connectionType=="Cell 2G connection"){
@@ -2163,6 +2190,7 @@ function errorCBCustomerListDB(err) {
 			});
 		}
 		else{
+			alert('appRequiresWiFi 2184');
 			navigator.notification.alert(appRequiresWiFi,alertConfirm,appName,'Ok');
 		}
 	}
@@ -2232,6 +2260,7 @@ function errorCBCustomerListDB(err) {
 		var apiCallUrl="http://tailorraniapp.stavyah.com/api/tailors/tailorinfoJson"
 		connectionType=checkConnection();
 		if(connectionType=="Unknown connection" || connectionType=="No network connection"){
+			alert('appRequiresWiFi 2254');
 			navigator.notification.alert(appRequiresWiFi,alertConfirm,appName,'Ok');
 		}
 		else if(connectionType=="WiFi connection" || connectionType=="Cell 4G connection" || connectionType=="Cell 3G connection" || connectionType=="Cell 2G connection"){
@@ -2244,6 +2273,7 @@ function errorCBCustomerListDB(err) {
 			});
 		}
 		else{
+			alert('appRequiresWiFi 2267');
 			navigator.notification.alert(appRequiresWiFi,alertConfirm,appName,'Ok');
 		}
 	}
