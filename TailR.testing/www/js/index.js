@@ -241,10 +241,10 @@ var app = {
     },
     // Phonegap is now ready...
     onDeviceReady: function() {
-    	
+    	/*
     	window.requestFileSystem  = window.requestFileSystem || window.webkitRequestFileSystem; // Kishore Added
         window.requestFileSystem(LocalFileSystem.PERSISTENT, 0, gotFS, fail); // Kishore Added
-    	
+    	*/
         document.addEventListener("backbutton", onBackKeyDown, false);
         
         if(window.localStorage["gcmregistrationId"] === undefined ) {
@@ -1535,7 +1535,7 @@ function successCBInsertCustomerDetails() {
 	//getOrderListFromLocalDB();
 	//gotoOrderPageDiv();
 	
-	function sendCustomerDetailsToServer();
+	//function sendCustomerDetailsToServer();
 	
 	insertOrderDetails();
 }	
@@ -2437,14 +2437,14 @@ function errorCBCustomerListDB(err) {
 		gotoOrderPageDiv();
 	}
 	
-	function gotFS(fileSystem) {
+	/*function gotFS(fileSystem) {
 	    console.log("got filesystem");
 	    // save the file system for later access
 	    console.log(fileSystem.root.fullPath);
 	    alert('fileSystem.root.fullPath : '+fileSystem.root.fullPath);
 	    window.rootFS = fileSystem.root;
 	    alert('window.rootFS : '+window.rootFS);
-	}
+	}*/
 	
 	
 	
