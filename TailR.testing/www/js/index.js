@@ -1690,23 +1690,9 @@ function errorCBCustomerListDB(err) {
 	            alert(r.rows[0].c + "rows")
 	            countOfCat= r.rows[0].c;
 	            x= r.rows[0].c;
-	        },errorCountFn);
-	    },errorReadCountFn, successReadCountFn);
+	        });
+	    });
 	    return x;
-	}
-	
-	function errorReadCountFn(err){
-		alert('errorReadCountFn : '+err.code);
-	}
-	
-	function successReadCountFn(){
-		console.log("countOfCat-- " + countOfCat);
-		if(countOfCat > 0){
-		}
-	}
-	
-	function errorCountFn(err){
-		alert('errorCountFn : '+err.code);
 	}
 	
 	function checkTailorDetailsInLocalDB(){
