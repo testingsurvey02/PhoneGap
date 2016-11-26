@@ -1758,26 +1758,12 @@ function errorCBCustomerListDB(err) {
 	function getCountByTableName(tablename){
 	    var x = 0;
 	    db.readTransaction(function (tx) {
-	    	alert('Inside ');
 	        tx.executeSql('select count(*) as c from ' + tablename, [], function (tx, r) {
 	            alert(r.rows[0].c + "rows");
 	            x= r.rows[0].c;
 	        });
 	    });
-	    alert('getCountByTableName  '+x);
 	    return x;
-	}
-	
-	function checkTailorDetailsInLocalDB(){
-		var len = 0;
-		len = getCountByTableName("tailor_details");
-		alert('len '+len);
-		if(len > 0){
-			window.localStorage["dbreadyflag"] = 1;
-		}else{
-			alert('Test');
-			getTailorDetailsDataFromServer();
-		}
 	}
 	
 	function checkCategoryInLocalDB(){
@@ -1786,13 +1772,13 @@ function errorCBCustomerListDB(err) {
 		if(len > 0){
 			window.localStorage["dbreadyflag"] = 1;
 		}else{
-			getCategoriesDataFromServer();
+			getTailorDetailsDataFromServer();
 		}
 	}
 	
 	function loadDataFromServer(){
 		if(testingInBrowser){
-			getTailorDetailsFromLocal();
+			checkCategoryInLocalDB();
 			return;
 		}
 		
