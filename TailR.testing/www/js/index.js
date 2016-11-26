@@ -1748,16 +1748,24 @@ function errorCBCustomerListDB(err) {
 	        tx.executeSql('SELECT COUNT(*) AS c FROM ' + tablename, [], function (tx, r) {
 	            alert(r.rows[0].c + "rows")
 	            x= r.rows[0].c;
-	        });
-	    });
+	            return x;
+	        }errorCountFn);
+	    }errorReadCountFn);
 	    return x;
+	}
+	
+	function errorReadCountFn(err){
+		alert('errorReadCountFn : '+err.message);
+	}
+	
+	function errorCountFn(err){
+		alert('errorCountFn : '+err.message);
 	}
 	
 	function checkCategoryInLocalDB(){
 		var len = 0;
 		/*len = getCountByTableName("category");*/
 		db.transaction(	function (tx){
-			tx.executeSql('CREATE TABLE IF NOT EXISTS category(id integer primary key autoincrement, server_cat_id integer, parent_id integer,name text,update_timestamp text, description text, catImage text, catStatus integer, children text)');
 			tx.executeSql('select * from category" ',[],function(tx,results){
 				len = results.rows.length;
 				alert('results.rows.length +'+results.rows.length);
