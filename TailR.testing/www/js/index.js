@@ -1749,8 +1749,8 @@ function errorCBCustomerListDB(err) {
 	            alert(r.rows[0].c + "rows")
 	            x= r.rows[0].c;
 	            return x;
-	        }errorCountFn);
-	    }errorReadCountFn);
+	        },errorCountFn);
+	    },errorReadCountFn);
 	    return x;
 	}
 	
@@ -1769,9 +1769,9 @@ function errorCBCustomerListDB(err) {
 			tx.executeSql('select * from category" ',[],function(tx,results){
 				len = results.rows.length;
 				alert('results.rows.length +'+results.rows.length);
-			}errorCountFn);
+			},errorCountFn);
 			alert('checkCategoryInLocalDB '+len);
-		}errorReadCountFn);
+		},errorReadCountFn);
 		if(len > 0){
 			window.localStorage["dbreadyflag"] = 1;
 		}else{
