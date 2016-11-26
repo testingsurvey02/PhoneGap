@@ -1759,8 +1759,8 @@ function errorCBCustomerListDB(err) {
 	    var x = 0;
 	    db.readTransaction(function (tx) {
 	    	alert('Inside ');
-	        tx.executeSql('select count(*) as c from ' + tablename, [], function (t, r) {
-	            alert(r.rows[0].c + "rows")
+	        tx.executeSql('select count(*) as c from ' + tablename, [], function (tx, r) {
+	            alert(r.rows[0].c + "rows");
 	            x= r.rows[0].c;
 	        });
 	    });
