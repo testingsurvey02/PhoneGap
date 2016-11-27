@@ -1719,7 +1719,7 @@ function errorCBCustomerListDB(err) {
 			getCategoriesListFromLocal();
 		}else{*/
 		alert(catArrSession);
-			if(catArrSession == [] && subCatArrSession == []){
+			if(catArrSession == '' && subCatArrSession == ''){
 				alert('getCategoriesDataFromServer call ');
 				getCategoriesDataFromServer();
 			}else{
