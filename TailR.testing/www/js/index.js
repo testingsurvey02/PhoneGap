@@ -1759,6 +1759,7 @@ function errorCBCustomerListDB(err) {
 
 	function getCategoriesDataFromServer(){
 		var dataToSend = {};
+		alert('tailorDetailsSession.secret_key '+tailorDetailsSession.secret_key);
 		dataToSend["secret_key"] = tailorDetailsSession.secret_key;
 		var apiCallUrl="http://tailorraniapp.stavyah.com/api/categories/categoriesJson"
 		connectionType=checkConnection();
