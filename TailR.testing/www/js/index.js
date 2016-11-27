@@ -1718,7 +1718,7 @@ function errorCBCustomerListDB(err) {
 			window.localStorage["dbreadyflag"] = 1;
 			getCategoriesListFromLocal();
 		}else{
-			if(customerArrSession == []){
+			if(catArrSession == [] && subCatArrSession == []){
 				getCategoriesDataFromServer();
 			}else{
 				appendCatListDB(catArrSession, subCatArrSession);
