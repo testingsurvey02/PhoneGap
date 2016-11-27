@@ -866,7 +866,7 @@ function insertCategories(arrData) {
 			}
 			tx.executeSql('INSERT INTO category(server_cat_id, parent_id, name, update_timestamp, description, catImage, catStatus, children) VALUES (?,?,?,?,?,?,?,?)',
 						[server_cat_id, parent_id, name, update_timestamp,description, catImage, catStatus, childExist], function(tx, res) {
-				//alert(server_cat_id, name, childExist);
+				alert(server_cat_id, name, childExist);
 			});
 			
 			if(childExist == '1'){
@@ -889,11 +889,12 @@ function insertCategories(arrData) {
 }
 
 function successCBInsertCategories() {
+	alert('successCBInsertCategories');
 	getProductDataFromServer();
 }	
 
 function errorCBInsertCategories(err) {
-	console.log("errorCBInsertCategories : "+ err.message);
+	alert("errorCBInsertCategories : "+ err.message);
 }
 
 function getCategoriesListFromLocal(){
@@ -986,7 +987,7 @@ function insertProductDetails(tx) {
 		
 		tx.executeSql('INSERT INTO product_details (server_prod_id, name, description, update_timestamp, measurement_typeid, status, attribute_details, gallery, category) VALUES (?,?,?,?,?,?,?,?,?)',
    	    			[server_prod_id, name, description, update_timestamp, measurement_typeid, prod_status, attributeJson, galleryJson, categoryJson], function(tx, res) {
-	   	        // alert("PD insertId: " + res.insertId );
+	   	         alert("PD insertId: " + res.insertId );
   	    });
 	});
 }
@@ -1008,7 +1009,8 @@ function errorCBProdLocalDB(err) {
 }
 
 function successCBInsertProductDetails() {
-	 getAttributesDataFromServer();
+	alert('successCBInsertProductDetails');
+	getAttributesDataFromServer();
 }
 
 function errorCBInsertProductDetails(err) {
@@ -1125,7 +1127,7 @@ function insertAttributesDetails(tx) {
 		var update_timestamp = currDateTimestamp;
 		tx.executeSql('INSERT INTO product_attributes(server_attr_id, name, identifier, status, backend_name, update_timestamp, option) VALUES (?,?,?,?,?,?,?)',
    	    			[server_attr_id, name,identifier, attr_status, backend_name, update_timestamp, optionJson], function(tx, res) {
-	   	         //alert("Attribute Data insertId: " + res.insertId + " -- res.rowsAffected 1"+res.rowsAffected);
+	   	         alert("Attribute Data insertId: " + res.insertId + " -- res.rowsAffected 1"+res.rowsAffected);
   	    });
 	});
 }
@@ -1139,6 +1141,7 @@ function errorCBAttrListDB(err) {
 }
 
 function successCBInsertAttributeDetails() {
+	alert('successCBInsertAttributeDetails');
 	 getMeasurementsDataFromServer();
 	    
 }	
@@ -1779,7 +1782,7 @@ function errorCBCustomerListDB(err) {
 	function successCBServerCatFn(data){
 		var responseJson = $.parseJSON(JSON.stringify(data));
 		categoriesJsonData = responseJson["result"];
-		console.log(categoriesJsonData);
+		alert(categoriesJsonData);
 		// FIXME CHECK JSON DATA
 		insertCategories(categoriesJsonData);
 	}
@@ -1862,6 +1865,7 @@ function errorCBCustomerListDB(err) {
 		var responseJson = $.parseJSON(JSON.stringify(data));
 		productJsonData = responseJson["result"];
 		productImageData = responseJson['image_url'];
+		alert('successCBServerProductFn');
 		// FIXME CHECK JSON DATA
 		db.transaction(insertProductDetails, errorCBInsertProductDetails, successCBInsertProductDetails);
 	}
@@ -1892,6 +1896,7 @@ function errorCBCustomerListDB(err) {
 		var responseJson = $.parseJSON(JSON.stringify(data));
 		attributeJsonData = responseJson["result"];
 		attributeImageData = responseJson['image_url'];
+		alert('attributeJsonData' +attributeJsonData);
 		// FIXME CHECK JSON DATA
 		db.transaction(insertAttributesDetails, errorCBInsertAttributeDetails, successCBInsertAttributeDetails);
 	}
@@ -2134,6 +2139,7 @@ function errorCBCustomerListDB(err) {
 
 	function successCBMeasurementsFn(data){
 		var responseJson = data;
+		alert('measurementJsonData' +measurementJsonData);
 		measurementJsonData = responseJson["result"];
 		// FIXME CHECK JSON DATA
 		db.transaction(insertMeasurementsDetails, errorCBInsertMeasurementDetails, successCBInsertMeasurementDetails);
