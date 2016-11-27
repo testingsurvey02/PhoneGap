@@ -1248,7 +1248,7 @@ function insertMeasurementsDetails(tx) {
 		var update_timestamp = currDateTimestamp;
 		tx.executeSql('INSERT INTO measurement_details(name, server_measurement_id, status, update_timestamp, group_data) VALUES (?,?,?,?,?)',
    	    			[name, server_measurement_id,meas_status, update_timestamp, groupJson], function(tx, res) {
-	   	         //alert("Measurement Data insertId: " + res.insertId + " -- res.rowsAffected 1"+res.rowsAffected);
+	   	         alert("Measurement Data insertId: " + res.insertId + " -- res.rowsAffected 1"+res.rowsAffected);
   	    });
 	});
 }
@@ -2143,14 +2143,14 @@ function errorCBCustomerListDB(err) {
 
 	function successCBMeasurementsFn(data){
 		var responseJson = data;
-		alert('measurementJsonData' +measurementJsonData);
 		measurementJsonData = responseJson["result"];
+		alert('measurementJsonData' +measurementJsonData);
 		// FIXME CHECK JSON DATA
 		db.transaction(insertMeasurementsDetails, errorCBInsertMeasurementDetails, successCBInsertMeasurementDetails);
 	}
 	
 	function successCBInsertMeasurementDetails() {
-		//getCategoriesListFromLocal();
+		getCategoriesListFromLocal();
 	}	
 	function errorCBInsertMeasurementDetails(err) {
 		console.log("errorCBInsertMeasurementDetails");
