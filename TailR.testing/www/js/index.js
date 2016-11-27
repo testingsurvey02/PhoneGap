@@ -1739,6 +1739,7 @@ function errorCBCustomerListDB(err) {
 			return;
 		}
 		alert('loadDataFromServer came to else block');
+		alert(dataTypeCheckJSON(tailorDetailsSession));
 		if(tailorDetailsSession == ''){
 			alert('tailorDetailsSession ' +tailorDetailsSession);
 			checkTailorDetailsInLocalDB();
