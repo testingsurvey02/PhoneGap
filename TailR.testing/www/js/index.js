@@ -1686,6 +1686,7 @@ function errorCBCustomerListDB(err) {
 	function getCountByTableName(tablename){
 	    var x;
 	    db.readTransaction(function (tx) {
+	    	alert('getCountByTableName '+tablename + ' tx '+tx +' db '+db);
 	        tx.executeSql('SELECT COUNT(*) AS c FROM ' + tablename, [], function (tx, r) {
 	            alert(r.rows[0].c + "rows")
 	            countOfCat= r.rows[0].c;
@@ -1717,16 +1718,28 @@ function errorCBCustomerListDB(err) {
 			window.localStorage["dbreadyflag"] = 1;
 			getCategoriesListFromLocal();
 		}else{
-			getCategoriesDataFromServer();
+			if(customerArrSession == []){
+				getCategoriesDataFromServer();
+			}else{
+				appendCatListDB(catArrSession, subCatArrSession);
+			}
+			
 		}
 	}
 	
 	function loadDataFromServer(){
+		alert('loadDataFromServer');
 		if(testingInBrowser){
 			getTailorDetailsFromLocal();
 			return;
 		}
-		checkTailorDetailsInLocalDB();
+		alert('loadDataFromServer came to else block');
+		if(tailorDetailsSession == ''){
+			checkTailorDetailsInLocalDB();
+		}else{
+			checkCategoryInLocalDB();
+		}
+		
 	}
 	
 	var tailorDetailsJsonData;
