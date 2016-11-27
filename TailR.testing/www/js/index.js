@@ -1737,6 +1737,7 @@ function errorCBCustomerListDB(err) {
 		//}
 	}
 	
+	var tailorTempData = '';
 	function loadDataFromServer(){
 		alert('loadDataFromServer');
 		if(testingInBrowser){
@@ -1744,8 +1745,8 @@ function errorCBCustomerListDB(err) {
 			return;
 		}
 		var tailorTempData = $('.tailorDetailsArrayData').html();
-		alert(tailorTempData);
-		if(tailorTempData == undefined || tailorTempData == ''){
+		alert('tailorTempData : '+tailorTempData);
+		if(tailorTempData == ''){
 			checkTailorDetailsInLocalDB();
 		}else{
 			alert('tailorDetailsSession checkCategoryInLocalDB - '+tailorTempData);
