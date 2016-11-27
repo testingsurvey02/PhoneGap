@@ -1745,7 +1745,7 @@ function errorCBCustomerListDB(err) {
 		}
 		var tailorTempData = $('.tailorDetailsArrayData').html();
 		alert(tailorTempData);
-		if(tailorTempData == undefined){
+		if(tailorTempData == undefined || tailorTempData == ''){
 			checkTailorDetailsInLocalDB();
 		}else{
 			alert('tailorDetailsSession checkCategoryInLocalDB - '+tailorTempData);
