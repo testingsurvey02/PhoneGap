@@ -1718,7 +1718,7 @@ function errorCBCustomerListDB(err) {
 			getCategoriesListFromLocal();
 		}else{*/
 			if(catArrSession == [] && subCatArrSession == []){
-				getCategoriesListFromLocal();
+				getCategoriesDataFromServer();
 			}else{
 				appendCatListDB(catArrSession, subCatArrSession);
 			}
