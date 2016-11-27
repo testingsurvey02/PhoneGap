@@ -673,7 +673,6 @@ var measurementTypeId = '';
 var orderArrSession = [];
 var customerArrSession = [];
 var tailorDetailsSession = {};
-var tailorDetailsExistSession = 0;
 
 //The directory to store data
 var store;
@@ -788,7 +787,6 @@ function getTailorDetailsFromLocal(){
 		tailorDetailsObj.country_name = "India";
 		tailorDetailsObj.update_timestamp = "1";
 		tailorDetailsSession = tailorDetailsObj;
-		tailorDetailsExistSession = 1;
 		getCategoriesListFromLocal();
 		return;
 	}
@@ -822,7 +820,6 @@ function getTailorDetailsFromLocal(){
 							tailorDetailsObj.country_name = results.rows.item(i)['country_name'];
 							tailorDetailsObj.update_timestamp = results.rows.item(i)['update_timestamp'];
 							tailorDetailsSession = tailorDetailsObj;
-							tailorDetailsExistSession = 1;
 						}
 					}
 				}, errorCB
@@ -832,6 +829,8 @@ function getTailorDetailsFromLocal(){
 }
 
 function successCBTailorDetailsListDB() {
+	$('.tailorDetailsArrayData').append(tailorDetailsSession);
+	
 	if(connectionType=="Unknown connection" || connectionType=="No network connection"){
 		checkCategoryInLocalDB();
 	}
@@ -948,6 +947,8 @@ function getCategoriesListFromLocal(){
 }
 
 function successCBCatListDB() {
+	$('.categoryArrayData').append(catArrSession);
+	$('.subCategoryArrayData').append(subCatArrSession);
 	appendCatListDB(catArrSession, subCatArrSession);
 }	
 
@@ -995,6 +996,7 @@ function insertProductDetails(tx) {
 }
 
 function successCBProdListDB() {
+	$('productArrayData').append(productDetailsArrSession);
 	appendProdListDB(productDetailsArrSession);
 }	
 
@@ -1135,7 +1137,7 @@ function insertAttributesDetails(tx) {
 }
 
 function successCBAttrListDB() {
-	
+	$('.attributeArrayData').append(attrDetailsArrSession);
 }	
 
 function errorCBAttrListDB(err) {
@@ -1294,6 +1296,7 @@ function getMeasumentListFromLocal(){
 }
 
 function successCBMeasurementListDB() {
+	$('.measurementArrayData').append(measurementArrSession);
 	appendMeasurementDataInDiv(measurementArrSession);
 }	
 
@@ -1740,13 +1743,12 @@ function errorCBCustomerListDB(err) {
 			getTailorDetailsFromLocal();
 			return;
 		}
-		alert('loadDataFromServer came to else block');
-		alert(tailorDetailsExistSession );
-		if(tailorDetailsExistSession == 0){
-			alert('tailorDetailsExistSession ' +tailorDetailsExistSession);
+		var tailorTempData = $('.tailorDetailsArrayData').html();
+		alert(tailorTempData);
+		if(tailorTempData == undefined){
 			checkTailorDetailsInLocalDB();
 		}else{
-			alert('tailorDetailsSession checkCategoryInLocalDB ' +tailorDetailsExistSession);
+			alert('tailorDetailsSession checkCategoryInLocalDB - '+tailorTempData);
 			checkCategoryInLocalDB();
 		}
 	}
