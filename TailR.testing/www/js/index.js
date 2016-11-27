@@ -1696,16 +1696,17 @@ function errorCBCustomerListDB(err) {
 	}
 	
 	function checkTailorDetailsInLocalDB(){
-		var len = 0;
+		/*var len = 0;
 		//console.log(getCountByTableName("tailor_details"));
 		len = getCountByTableName("tailor_details");
 		
 		if(len > 0){
 			window.localStorage["dbreadyflag"] = 1;
 			getTailorDetailsFromLocal();
-		}else{
+		}else{*/
+			alert('getTailorDetailsDataFromServer call ');
 			getTailorDetailsDataFromServer();
-		}
+		//}
 	}
 	
 	function checkCategoryInLocalDB(){
@@ -1718,6 +1719,7 @@ function errorCBCustomerListDB(err) {
 			getCategoriesListFromLocal();
 		}else{*/
 			if(catArrSession == [] && subCatArrSession == []){
+				alert('getCategoriesDataFromServer call ');
 				getCategoriesDataFromServer();
 			}else{
 				appendCatListDB(catArrSession, subCatArrSession);
