@@ -1744,9 +1744,9 @@ function errorCBCustomerListDB(err) {
 			getTailorDetailsFromLocal();
 			return;
 		}
-		var tailorTempData = $('.tailorDetailsArrayData').html();
+		tailorTempData = $('.tailorDetailsArrayData').html();
 		alert('tailorTempData : '+tailorTempData);
-		if(tailorTempData == ''){
+		if(tailorTempData == '0' || tailorTempData === '' && typeof tailorTempData == undefined && typeof tailorTempData == 'undefined'){
 			checkTailorDetailsInLocalDB();
 		}else{
 			alert('tailorDetailsSession checkCategoryInLocalDB - '+tailorTempData);
