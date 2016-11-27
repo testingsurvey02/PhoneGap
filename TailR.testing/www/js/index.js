@@ -1695,7 +1695,7 @@ function errorCBCustomerListDB(err) {
 	
 	function checkTailorDetailsInLocalDB(){
 		var len = 0;
-		console.log(getCountByTableName("tailor_details"));
+		//console.log(getCountByTableName("tailor_details"));
 		len = getCountByTableName("tailor_details");
 		
 		if(len > 0){
@@ -1708,7 +1708,7 @@ function errorCBCustomerListDB(err) {
 	
 	function checkCategoryInLocalDB(){
 		var len = 0;
-		console.log(getCountByTableName("category"));
+		//console.log(getCountByTableName("category"));
 		len = getCountByTableName("category");
 		
 		if(len > 0){
@@ -1732,8 +1732,10 @@ function errorCBCustomerListDB(err) {
 		}
 		alert('loadDataFromServer came to else block');
 		if(tailorDetailsSession == ''){
+			alert('tailorDetailsSession ' +tailorDetailsSession);
 			checkTailorDetailsInLocalDB();
 		}else{
+			alert('tailorDetailsSession checkCategoryInLocalDB ' +tailorDetailsSession);
 			checkCategoryInLocalDB();
 		}
 		
