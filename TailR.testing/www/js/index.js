@@ -935,6 +935,8 @@ function getCategoriesListFromLocal(){
 								catArrSession.push(jsonObj);
 							}
 						}
+					}else{
+						getCategoriesDataFromServer();
 					}
 				}, errorCB
 			);
@@ -1707,21 +1709,21 @@ function errorCBCustomerListDB(err) {
 	}
 	
 	function checkCategoryInLocalDB(){
-		var len = 0;
+		/*var len = 0;
 		//console.log(getCountByTableName("category"));
 		len = getCountByTableName("category");
 		
 		if(len > 0){
 			window.localStorage["dbreadyflag"] = 1;
 			getCategoriesListFromLocal();
-		}else{
+		}else{*/
 			if(catArrSession == [] && subCatArrSession == []){
-				getCategoriesDataFromServer();
+				getCategoriesListFromLocal();
 			}else{
 				appendCatListDB(catArrSession, subCatArrSession);
 			}
 			
-		}
+		//}
 	}
 	
 	function loadDataFromServer(){
@@ -1738,7 +1740,6 @@ function errorCBCustomerListDB(err) {
 			alert('tailorDetailsSession checkCategoryInLocalDB ' +tailorDetailsSession);
 			checkCategoryInLocalDB();
 		}
-		
 	}
 	
 	var tailorDetailsJsonData;
