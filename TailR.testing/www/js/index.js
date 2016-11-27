@@ -1682,14 +1682,11 @@ function errorCBCustomerListDB(err) {
 
 
 /*  ------------------- Module-wise Methods/Function Code Starts ------------------  */	
-	var countOfCat = 0;
 	function getCountByTableName(tablename){
 	    var x;
-	    db.readTransaction(function (tx) {
-	    	alert('getCountByTableName '+tablename + ' tx '+tx +' db '+db);
-	        tx.executeSql('SELECT COUNT(*) AS c FROM ' + tablename, [], function (tx, r) {
+	    db.readTransaction(function (t) {
+	        t.executeSql('SELECT COUNT(*) AS c FROM ' + tablename, [], function (t, r) {
 	            alert(r.rows[0].c + "rows")
-	            countOfCat= r.rows[0].c;
 	            x= r.rows[0].c;
 	        });
 	    });
