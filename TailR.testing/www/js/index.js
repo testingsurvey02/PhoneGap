@@ -1765,8 +1765,9 @@ function errorCBCustomerListDB(err) {
 
 	function getCategoriesDataFromServer(){
 		var dataToSend = {};
-		alert('tailorDetailsSession.secret_key '+tailorDetailsSession.secret_key);
-		dataToSend["secret_key"] = tailorDetailsSession.secret_key;
+		//alert('tailorDetailsSession.secret_key '+tailorDetailsSession.secret_key);
+		//dataToSend["secret_key"] = tailorDetailsSession.secret_key;
+		dataToSend["secret_key"] = '4TPD6PI91';
 		var apiCallUrl="http://tailorraniapp.stavyah.com/api/categories/categoriesJson"
 		connectionType=checkConnection();
 		if(connectionType=="Unknown connection" || connectionType=="No network connection"){
@@ -1848,7 +1849,8 @@ function errorCBCustomerListDB(err) {
 	// Remaining
 	function getProductDataFromServer(){
 		var dataToSend = {};
-		dataToSend["secret_key"] = tailorDetailsSession.secret_key;
+		//dataToSend["secret_key"] = tailorDetailsSession.secret_key;
+		dataToSend["secret_key"] = '4TPD6PI91';
 		var apiCallUrl="http://tailorraniapp.stavyah.com/api/products/productsJson"
 		connectionType=checkConnection();
 		if(connectionType=="Unknown connection" || connectionType=="No network connection"){
@@ -1879,7 +1881,8 @@ function errorCBCustomerListDB(err) {
 	
 	function getAttributesDataFromServer(){
 		var dataToSend = {};
-		dataToSend["secret_key"] = tailorDetailsSession.secret_key;
+		//dataToSend["secret_key"] = tailorDetailsSession.secret_key;
+		dataToSend["secret_key"] = '4TPD6PI91';
 		var apiCallUrl="http://tailorraniapp.stavyah.com/api/attributes/attributesJson"
 		connectionType=checkConnection();
 		if(connectionType=="Unknown connection" || connectionType=="No network connection"){
@@ -2124,7 +2127,8 @@ function errorCBCustomerListDB(err) {
 	var measurementsData;
 	function getMeasurementsDataFromServer(){
 		var dataToSend = {};
-		dataToSend["secret_key"] = tailorDetailsSession.secret_key;
+		//dataToSend["secret_key"] = tailorDetailsSession.secret_key;
+		dataToSend["secret_key"] = '4TPD6PI91';
 		var apiCallUrl="http://tailorraniapp.stavyah.com/api/measurements/measurementsJson"
 		connectionType=checkConnection();
 		if(connectionType=="Unknown connection" || connectionType=="No network connection"){
