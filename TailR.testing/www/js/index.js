@@ -673,6 +673,7 @@ var measurementTypeId = '';
 var orderArrSession = [];
 var customerArrSession = [];
 var tailorDetailsSession = {};
+var tailorDetailsExistSession = 0;
 
 //The directory to store data
 var store;
@@ -787,7 +788,7 @@ function getTailorDetailsFromLocal(){
 		tailorDetailsObj.country_name = "India";
 		tailorDetailsObj.update_timestamp = "1";
 		tailorDetailsSession = tailorDetailsObj;
-		
+		tailorDetailsExistSession = 1;
 		getCategoriesListFromLocal();
 		return;
 	}
@@ -821,6 +822,7 @@ function getTailorDetailsFromLocal(){
 							tailorDetailsObj.country_name = results.rows.item(i)['country_name'];
 							tailorDetailsObj.update_timestamp = results.rows.item(i)['update_timestamp'];
 							tailorDetailsSession = tailorDetailsObj;
+							tailorDetailsExistSession = 1;
 						}
 					}
 				}, errorCB
@@ -1739,12 +1741,12 @@ function errorCBCustomerListDB(err) {
 			return;
 		}
 		alert('loadDataFromServer came to else block');
-		alert(dataTypeCheckJSON(tailorDetailsSession));
-		if(tailorDetailsSession == ''){
-			alert('tailorDetailsSession ' +tailorDetailsSession);
+		alert(tailorDetailsExistSession );
+		if(tailorDetailsExistSession == 0){
+			alert('tailorDetailsExistSession ' +tailorDetailsExistSession);
 			checkTailorDetailsInLocalDB();
 		}else{
-			alert('tailorDetailsSession checkCategoryInLocalDB ' +tailorDetailsSession);
+			alert('tailorDetailsSession checkCategoryInLocalDB ' +tailorDetailsExistSession);
 			checkCategoryInLocalDB();
 		}
 	}
