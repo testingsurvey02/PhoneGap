@@ -1700,7 +1700,7 @@ function errorCBCustomerListDB(err) {
 		alert(getCountByTableName("tailor_details"));
 		len = getCountByTableName("tailor_details");
 		
-		if(len > 0){
+		if(len > 0 && len != undefined && typeof len === "undefined" && typeof len === undefined){
 			window.localStorage["dbreadyflag"] = 1;
 			getTailorDetailsFromLocal();
 		}else{
@@ -1726,7 +1726,7 @@ function errorCBCustomerListDB(err) {
 				  function() 
 				  {
 				    //do something special
-				  }, 10000);
+				  }, 15000);
 		if(testingInBrowser){
 			getTailorDetailsFromLocal();
 			return;
