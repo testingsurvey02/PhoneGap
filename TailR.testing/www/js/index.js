@@ -211,19 +211,17 @@ var app = {
         }	
         
         console.log("DB CALL");
-        alert("DB CALL");
         db = window.sqlitePlugin.openDatabase({name: "tailorrani.db", location: 2});
-//      // db = window.sqlitePlugin.openDatabase({name: "tailorrani.db", location: 2});
-        //db = window.openDatabase("Database", "1.0", "tailorrani.db", 200000);
-        alert("DB CALL Opened");
-		//db.transaction(initializeDB, errorCB, successCB);
+        // db = window.sqlitePlugin.openDatabase({name: "tailorrani.db", location: 2});
+        // db = window.openDatabase("Database", "1.0", "tailorrani.db", 200000);
+		db.transaction(initializeDB, errorCB, successCB);
         
 		// FIXME PUT CONDITIONS
 		// LOAD DATA FROM SERVER
 		// UPDATE TO SERVER
 		// UPDATE DATA FROM SERVER
 		window.localStorage["dbreadyflag"] = 0;
-		loadDataFromServer();
+		//loadDataFromServer();
     },
 };
 
@@ -694,19 +692,20 @@ function closeDatabase() {
 }
 // InitializeDB the database 
 function initializeDB(tx) {
-	//tx.executeSql('CREATE TABLE IF NOT EXISTS category(id integer primary key autoincrement, server_cat_id integer, parent_id integer,name text,update_timestamp text, description text, catImage text, catStatus integer, children text)');
+	//	tx.executeSql('CREATE TABLE IF NOT EXISTS category(id integer primary key autoincrement, server_cat_id integer, parent_id integer,name text,update_timestamp text, description text, catImage text, catStatus integer, children text)');
+	//	tx.executeSql('CREATE TABLE IF NOT EXISTS product_details (id integer primary key autoincrement, server_prod_id integer, name text, description text, update_timestamp text, measurement_typeid integer, status integer, attribute_details text, gallery text, category text)');
+	//	tx.executeSql('CREATE TABLE IF NOT EXISTS product_attributes (id integer primary key autoincrement, server_attr_id integer, name text, identifier text, status integer, backend_name text, update_timestamp text, option text)');
+	//	tx.executeSql('CREATE TABLE IF NOT EXISTS measurement_details (id integer primary key autoincrement, name text, server_measurement_id integer, status integer, update_timestamp text, group text, measurement_type_id integer)');
 	
-	//tx.executeSql('CREATE TABLE IF NOT EXISTS product_details (id integer primary key autoincrement, server_prod_id integer, name text, description text, update_timestamp text, measurement_typeid integer, status integer, attribute_details text, gallery text, category text)');
-	//tx.executeSql('CREATE TABLE IF NOT EXISTS product_attributes (id integer primary key autoincrement, server_attr_id integer, name text, identifier text, status integer, backend_name text, update_timestamp text, option text)');
-//	tx.executeSql('CREATE TABLE IF NOT EXISTS measurement_details (id integer primary key autoincrement, name text, server_measurement_id integer, status integer, update_timestamp text, group text, measurement_type_id integer)');
-	
-	//tx.executeSql('CREATE TABLE IF NOT EXISTS customer_details (id integer primary key autoincrement,name text, price text, update_timestamp text)');
-	//tx.executeSql('CREATE TABLE IF NOT EXISTS order_details(id integer primary key autoincrement, server_cat_id integer, server_prod_id integer, order_data text,update_timestamp text, server_prod_name text, customer_id integer)');
-	
+	//	tx.executeSql('CREATE TABLE IF NOT EXISTS customer_details (id integer primary key autoincrement,name text, price text, update_timestamp text)');
+	//	tx.executeSql('CREATE TABLE IF NOT EXISTS order_details(id integer primary key autoincrement, server_cat_id integer, server_prod_id integer, order_data text,update_timestamp text, server_prod_name text, customer_id integer)');
 }
+
 // Common Transaction success callback
 function successCB() {
 	//alert('db transcation success');
+	console.log('db transcation success');
+	loadDataFromServer();
 }
 //Transaction error callback
 function errorCB(err) {
@@ -1694,9 +1693,14 @@ function errorCBCustomerListDB(err) {
 	            alert(r.rows[0].c + "rows")
 	            countOfCat= r.rows[0].c;
 	            x= r.rows[0].c;
-	        });
+	        }, errorCountDBFn);
 	    });
 	    return x;
+	}
+	
+	function errorCountDBFn(err){
+		console.log('errorCountDBFn : '+err.message);
+		console.log('errorCountDBFn : '+err.code);
 	}
 	
 	function checkTailorDetailsInLocalDB(){
@@ -1717,7 +1721,7 @@ function errorCBCustomerListDB(err) {
 		console.log(getCountByTableName("category"));
 		len = getCountByTableName("category");
 		
-		if(len > 0){
+		if(len > 0 && len != undefined){
 			window.localStorage["dbreadyflag"] = 1;
 			getCategoriesListFromLocal();
 		}else{
