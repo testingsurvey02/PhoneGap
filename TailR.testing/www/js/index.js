@@ -2681,9 +2681,9 @@ function errorCBCustomerListDB(err) {
         }
         var filePath = window.appRootDir.fullPath;
         if(imageType == 'product'){
-        	filePath = '/' + imageId +'_'+ imageName;
+        	filePath = window.appRootDir.fullPath + '/' + imageId +'_'+ imageName;
         }else if(imageType == 'attrOption'){
-        	filePath = '/' + imageId +'_' + imageName;
+        	filePath = window.appRootDir.fullPath + '/' + imageId +'_' + imageName;
         }
         fileTransfer.download(
         url, filePath, function(entry) {
