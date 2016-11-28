@@ -2679,14 +2679,14 @@ function errorCBCustomerListDB(err) {
         }else if(imageType == 'attrOption'){
         	url = attributeImageData + '/'+ imageName;
         }
-        var filePath = window.appRootDir.fullPath;
+        var filePath = '';
         if(imageType == 'product'){
-        	filePath = window.appRootDir.fullPath + '/' + imageId +'_'+ imageName;
+        	filePath = '/' + imageId +'_'+ imageName;
         }else if(imageType == 'attrOption'){
-        	filePath = window.appRootDir.fullPath + '/' + imageId +'_' + imageName;
+        	filePath = '/' + imageId +'_' + imageName;
         }
         fileTransfer.download(
-        url, filePath, function(entry) {
+        url, window.appRootDir.fullPath + + filePath, function(entry) {
             console.log("download complete: " + entry.fullPath);
         }, function(error) {
         	console.log("download error : " + error.source);
