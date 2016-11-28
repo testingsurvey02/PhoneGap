@@ -2651,6 +2651,19 @@ function errorCBCustomerListDB(err) {
         }, dirReady, fail);
 	}
 	
+/*	fileSystem.root.getDirectory("your dir", {create: true}, function fileSystemSuccess(fileSystem){
+        fileSystem.getFile("dummy.txt",{create: true,exclusive:false},function gotFileEntry(fileEntry){
+            var path = fileEntry.fullPath.replace("dummy.txt","");
+            fileEntry.remove();
+            var fileTransfer = new FileTransfer();
+            fileTransfer.download(FILE_DOWNLOAD_URL, path+""+your -savedName,function(theFile){
+                alert("File Downloaded Successfully " + theFile.toURI());
+            },function(error){
+                alert("File Transfer failed" + error.message);
+            });
+        },fail);
+    });*/
+	
 	function onRequestFileSystemSuccess(fileSystem) { 
         var entry=fileSystem.root; 
         entry.getDirectory("tailorrani", {create: true, exclusive: false}, onGetDirectorySuccess, onGetDirectoryFail); 
@@ -2687,7 +2700,7 @@ function errorCBCustomerListDB(err) {
         }
         fileTransfer.download(
         url, 'file://'+ window.appRootDir.fullPath + filePath, function(entry) {
-            console.log("download complete: " + entry.fullPath);
+            console.log("download complete: " + entry.toURI());
         }, function(error) {
         	console.log("download error : " + error.source);
         	console.log("download target : " + error.target);
