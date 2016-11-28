@@ -1707,7 +1707,7 @@ function errorCBCustomerListDB(err) {
 		var len = 0;
 		len = getCountByTableName("tailor_details");
 		console.log('len..... '+len);
-		if (len == 'undefined') {
+		if (typeof len === 'undefined' || len == undefined) {
 			getTailorDetailsDataFromServer();
 		}else if(len > 0){
 			window.localStorage["dbreadyflag"] = 1;
