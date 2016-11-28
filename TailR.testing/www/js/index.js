@@ -1723,7 +1723,9 @@ function errorCBCustomerListDB(err) {
 		console.log(getCountByTableName("category"));
 		len = getCountByTableName("category");
 		
-		if(len > 0 && len != undefined){
+		if (typeof len === "undefined") {
+			getCategoriesDataFromServer();
+		}else if(len > 0){
 			window.localStorage["dbreadyflag"] = 1;
 			getCategoriesListFromLocal();
 		}else{
