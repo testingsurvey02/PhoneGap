@@ -679,6 +679,7 @@ var measurementTypeId = '';
 var orderArrSession = [];
 var customerArrSession = [];
 var tailorDetailsSession = {};
+var dataIsFromServer = 0;
 
 //The directory to store data
 var store;
@@ -1719,6 +1720,7 @@ function errorCBCustomerListDB(err) {
 	          recordCount = rs.rows.item(0).mycount;
 	          console.log(recordCount);
 	          if(parseInt(recordCount) > 0){
+	        	  dataIsFromServer = 1;
 	        	  if(tablename == 'tailor_details'){
 	        		  console.log('getTailorDetailsFromLocal');
 	        		  getTailorDetailsFromLocal();
@@ -1793,7 +1795,6 @@ function errorCBCustomerListDB(err) {
 	var measurementTypeId = 0;
 	var productImageData = 'http:\/\/tailorraniapp.stavyah.com\/images\/Products\/product_image';
 	var attributeImageData = 'http:\/\/tailorraniapp.stavyah.com\/images\/Attributes\/attribute_image';
-	var realPathFile = '';
 
 	function getCategoriesDataFromServer(){
 		var dataToSend = {};
@@ -1962,7 +1963,9 @@ function errorCBCustomerListDB(err) {
 				jQuery.each(galleryObj , function(indexObj,valueObj) {
 					var gallery_id = valueObj['id'];
 					var image = valueObj["image"];
-					downloadFile(gallery_id+'_'+image, 'product');
+					if(parseInt(dataIsFromServer) == 0){
+						downloadFile(gallery_id+'_'+image, 'product');
+					}
 					//var prodImage = productImageData + '/'+image; // For Production
 					var prodImage = window.appRootDir.fullPath + '/product/' + gallery_id+'_'+image;
 					//var prodImage = 'img/product'+indexObj+'.jpg'; // For Testing
@@ -2039,7 +2042,15 @@ function errorCBCustomerListDB(err) {
 							
 							measurementTypeId = jsonObj['measurement_typeid'];
 							//var prodImageSrc = 'img/product'+indexGal+'.jpg';// For Testing
-							downloadFile(gallery_id+'_'+image, 'product');
+							
+							// Not need to download
+							
+							/*
+							if(parseInt(dataIsFromServer) == 0){
+								downloadFile(gallery_id+'_'+image, 'product');
+							}
+							*/
+							
 							var prodImageSrc = window.appRootDir.fullPath + '/product/' + gallery_id+'_'+image;
 							//var prodImageSrc = productImageData + '/'+image; // For Production
 							//initToCheckTheFile(image, productImageData);
@@ -2112,7 +2123,9 @@ function errorCBCustomerListDB(err) {
 							var optionId = value2['id'];
 							var optionName = value2['name'];
 							var optionImg = value2['image'];
-							downloadFile(optionId+'_'+optionImg, 'attrOption');
+							if(parseInt(dataIsFromServer) == 0){
+								downloadFile(optionId+'_'+optionImg, 'attrOption');
+							}
 							var optionImages = window.appRootDir.fullPath + '/attrOption/' + optionId+'_'+optionImg;
 							//var optionImages = attributeImageData + '/'+optionImg; // For Production
 							//var optionImages = 'img/attr'+index2+'.png'; // For Testing
@@ -2121,12 +2134,22 @@ function errorCBCustomerListDB(err) {
 							optionMainDiv += tempOptDiv;
 						});
 						 attributeDiv += tempAttrDiv;
+					}else{
+						if(parseInt(dataIsFromServer) == 0){
+							jQuery.each(optionObj, function(index2,value2) {
+								var optionId = value2['id'];
+								var optionName = value2['name'];
+								var optionImg = value2['image'];
+								downloadFile(optionId+'_'+optionImg, 'attrOption');
+							});
+						}
 					}
 				});
 			}
 		});
 		$('.selMenu-bar').remove();
 		$('.optMenu-bar').remove();
+		dataIsFromServer = 1;
 		$( attributeDiv ).insertBefore( ".selection-menu .selection-menu-ul .measurementDivShow" );
 		//$('.selection-menu').append(attributeDiv);
 		$('.attr-option-div').append(optionMainDiv);
