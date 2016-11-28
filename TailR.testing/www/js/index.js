@@ -1970,7 +1970,7 @@ function errorCBCustomerListDB(err) {
 		    			}, 2000);
 					}
 					//var prodImage = productImageData + '/'+image; // For Production
-					var prodImage = window.appRootDir.fullPath + '/' + gallery_id+'_'+image;
+					var prodImage = window.appRootDir.fullPath + '/' + image;
 					console.log('prodImage' +prodImage);
 					//var prodImage = 'img/product'+indexObj+'.jpg'; // For Testing
 					//initToCheckTheFile(image, productImageData);
@@ -2058,7 +2058,7 @@ function errorCBCustomerListDB(err) {
 							}
 							*/
 							
-							var prodImageSrc = window.appRootDir.fullPath + '/' + galId+'_'+image;
+							var prodImageSrc = window.appRootDir.fullPath + '/' + image;
 							console.log('prodImageSrc ' +prodImageSrc);
 							//var prodImageSrc = productImageData + '/'+image; // For Production
 							//initToCheckTheFile(image, productImageData);
@@ -2137,7 +2137,7 @@ function errorCBCustomerListDB(err) {
 				    				//$('#please-wait-modal').modal('hide');
 				    			}, 2000);
 							}
-							var optionImages = window.appRootDir.fullPath + '/' + optionId+'_'+optionImg;
+							var optionImages = window.appRootDir.fullPath + '/' + optionImg;
 							console.log('optionImages' + optionImages);
 							//var optionImages = attributeImageData + '/'+optionImg; // For Production
 							//var optionImages = 'img/attr'+index2+'.png'; // For Testing
@@ -2699,9 +2699,9 @@ function errorCBCustomerListDB(err) {
         }
         var filePath = '';
         if(imageType == 'product'){
-        	filePath = '/' + imageId +'_'+ imageName;
+        	filePath = '/' + imageName;
         }else if(imageType == 'attrOption'){
-        	filePath = '/' + imageId +'_' + imageName;
+        	filePath = '/' + imageName;
         }
         fileTransfer.download(
         url, 'file://'+ window.appRootDir.fullPath + filePath, function(entry) {
