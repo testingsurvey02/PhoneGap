@@ -1685,22 +1685,28 @@ function errorCBCustomerListDB(err) {
 
 
 /*  ------------------- Module-wise Methods/Function Code Starts ------------------  */	
+	var countOfCat = 0;
 	function getCountByTableName(tablename){
 	    var x;
 	    db.readTransaction(function (tx) {
 	        tx.executeSql('SELECT COUNT(*) AS c FROM ' + tablename, [], function (tx, r) {
 	            alert(r.rows[0].c + "rows")
+	            countOfCat= r.rows[0].c;
 	            x= r.rows[0].c;
 	        });
 	    });
 	    return x;
 	}
 	
+	function errorCountDBFn(err){
+		console.log('errorCountDBFn : '+err.message);
+		console.log('errorCountDBFn : '+err.code);
+	}
+	
 	function checkTailorDetailsInLocalDB(){
 		var len = 0;
-		console.log(getCountByTableName("tailor_details"));
 		len = getCountByTableName("tailor_details");
-		console.log(len);
+		console.log('len..... '+len);
 		if (len == 'undefined') {
 			getTailorDetailsDataFromServer();
 		}else if(len > 0){
@@ -1713,10 +1719,9 @@ function errorCBCustomerListDB(err) {
 	
 	function checkCategoryInLocalDB(){
 		var len = 0;
-		console.log(getCountByTableName("category"));
 		len = getCountByTableName("category");
-		
-		if (len == 'undefined') {
+		console.log('len checkCat ---- '+len);		
+		if (typeof len === "undefined") {
 			getCategoriesDataFromServer();
 		}else if(len > 0){
 			window.localStorage["dbreadyflag"] = 1;
