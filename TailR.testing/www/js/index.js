@@ -1964,7 +1964,7 @@ function errorCBCustomerListDB(err) {
 					var gallery_id = valueObj['id'];
 					var image = valueObj["image"];
 					if(parseInt(dataIsFromServer) == 0){
-						downloadFile(gallery_id+'_'+image, 'product');
+						downloadFile(gallery_id, image, 'product');
 						setTimeout(function() {
 		    				//$('#please-wait-modal').modal('hide');
 		    			}, 2000);
@@ -2050,7 +2050,7 @@ function errorCBCustomerListDB(err) {
 							
 							/*
 							if(parseInt(dataIsFromServer) == 0){
-								downloadFile(gallery_id+'_'+image, 'product');
+								downloadFile(galId, image, 'product');
 								setTimeout(function() {
 		    						//$('#please-wait-modal').modal('hide');
 		    					}, 2000);
@@ -2130,7 +2130,7 @@ function errorCBCustomerListDB(err) {
 							var optionName = value2['name'];
 							var optionImg = value2['image'];
 							if(parseInt(dataIsFromServer) == 0){
-								downloadFile(optionId+'_'+optionImg, 'attrOption');
+								downloadFile(optionId, optionImg, 'attrOption');
 								setTimeout(function() {
 				    				//$('#please-wait-modal').modal('hide');
 				    			}, 2000);
@@ -2149,7 +2149,7 @@ function errorCBCustomerListDB(err) {
 								var optionId = value2['id'];
 								var optionName = value2['name'];
 								var optionImg = value2['image'];
-								downloadFile(optionId+'_'+optionImg, 'attrOption');
+								downloadFile(optionId, optionImg, 'attrOption');
 								setTimeout(function() {
 				    				//$('#please-wait-modal').modal('hide');
 				    			}, 2000);
@@ -2657,19 +2657,19 @@ function errorCBCustomerListDB(err) {
         console.log("application dir is ready");
     }
 	
-	function downloadFile(imageName, imageType) {
+	function downloadFile(imageId, imageName, imageType) {
         var fileTransfer = new FileTransfer();
         var url = '';
         if(imageType == 'product'){
-        	url = productImageData + imageName;
+        	url = productImageData + '/' + imageName;
         }else if(imageType == 'attrOption'){
-        	url = attributeImageData + imageName;
+        	url = attributeImageData + '/'+ imageName;
         }
         var filePath = window.appRootDir.fullPath;
         if(imageType == 'product'){
-        	filePath = '/' + imageName;
+        	filePath = '/' + imageId +'_'+ imageName;
         }else if(imageType == 'attrOption'){
-        	filePath = '/' + imageName;
+        	filePath = '/' + imageId +'_' + imageName;
         }
         fileTransfer.download(
         url, filePath, function(entry) {
