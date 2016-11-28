@@ -767,6 +767,7 @@ function insertTailorDetailsDetails(tx) {
 }
 
 function getTailorDetailsFromLocal(){
+	console.log('getTailorDetailsFromLocal opened');
 	if(testingInBrowser){
 		var tailorDetailsObj={};
 		tailorDetailsObj.id = 1;
@@ -833,7 +834,9 @@ function getTailorDetailsFromLocal(){
 }
 
 function successCBTailorDetailsListDB() {
+	console.log('successCBTailorDetailsListDB');
 	if(connectionType=="Unknown connection" || connectionType=="No network connection"){
+		console.log('No Connection');
 		checkCategoryInLocalDB();
 	}
 	else if(connectionType=="WiFi connection" || connectionType=="Cell 4G connection" || connectionType=="Cell 3G connection" || connectionType=="Cell 2G connection"){
@@ -1704,14 +1707,18 @@ function errorCBCustomerListDB(err) {
 	          console.log(recordCount);
 	          if(recordCount > 0){
 	        	  if(tableName == 'tailor_details'){
+	        		  console.log('getTailorDetailsFromLocal');
 	        		  getTailorDetailsFromLocal();
 	        	  }else if(tableName == 'category'){
+	        		  console.log('getCategoriesListFromLocal');
 	        		  getCategoriesListFromLocal();
 	        	  }
 	          }else if(recordCount == 0){
 	        	  if(tableName == 'tailor_details'){
+	        		  console.log('getTailorDetailsDataFromServer');
 	        		  getTailorDetailsDataFromServer();
 	        	  }else if(tableName == 'category'){
+	        		  console.log('getTailorDetailsDataFromServer');
 	        		  getCategoriesDataFromServer();
 	        	  }
 	          }
