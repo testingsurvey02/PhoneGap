@@ -153,3 +153,7 @@ table th {
 }
 
 img.product-image{}
+
+.ui-page-theme-a a, html .ui-bar-a a, html .ui-body-a a, html body .ui-group-theme-a a {
+    color: #ffcc00 !important;
+}
