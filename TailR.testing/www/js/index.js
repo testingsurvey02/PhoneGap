@@ -225,6 +225,10 @@ var app = {
     },
 };
 
+function fail() {
+    console.log("failed to get filesystem");
+}
+
 //handle GCM notifications for Android
 function onNotification(e) {
     switch( e.event ){
