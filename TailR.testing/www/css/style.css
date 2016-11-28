@@ -58,7 +58,57 @@ ul.topnav li a:hover{background-color: #555;}
 .selection-page-options-div .attr-option-div .single-option{padding: 10px;}
 .selection-page-options-div .attr-option-div .single-option.active{border: 2px solid #ff5f89;}
 
-.product-selection-details-div p{margin: 5px 0;}
+.product-selection-details-div{
+    padding: 0 5px;
+}
+
+.product-selection-details-div p.product-name{
+	margin: 5px 0;
+	text-align: center;
+	font-weight: 500;
+	font-size: 18px;
+}
+
+.product-selection-details-div .product-image-div{
+	border: 1px solid #d1cfcf;
+	height: 250px;
+	text-align: center;
+}
+
+.product-selection-details-div .product-image-div img{
+	height: 250px;
+}
+
+.product-selection-details-div .gallery-images-list{
+	margin: 10px 0 0;
+    overflow: hidden;
+    position: static;
+	padding: 0;
+}
+
+.product-selection-details-div .gallery-images-list li {
+    float: left;
+    margin: 0 10px 10px 0;
+    min-width: 24.2%;
+    max-width: 24%;
+    display: inline-block;
+}
+
+.product-selection-details-div .gallery-images-list li img {
+    border: 1px solid #d1cfcf;
+    cursor: pointer;
+    display: block;
+    height: auto;
+    opacity: 0.7;
+/*     padding: 14%; */
+    transition: all 1s ease 0s;
+    width: 100%;
+}
+
+.product-selection-details-div .gallery-images-list li .active {
+    cursor: default;
+    opacity: 1;
+}
 
 .table-container{
 	margin: 5px 0;
@@ -90,8 +140,16 @@ table th {
     color: white;
 }
 
-.ui-page-theme-a a:hover, html .ui-bar-a a:hover, html .ui-body-a a:hover, html body .ui-group-theme-a a:hover {
-    color: #F39C12;
+.product-list .galleriesClass {
+	margin-left: 5px;
+}
+
+.product-list .galleriesClass {
+	margin-left: 10px;
+}
+
+.product-list .galleriesClass p{
+	text-align: center;
 }
 
 img.product-image{}

@@ -3,8 +3,8 @@
 $(function() {
 	loadDataFromServer();
 });
-*/
 
+*/
 $( document ).on( "mobileinit", function() {
     // Make your jQuery Mobile framework configuration changes here!
 	 $.support.cors = true;
@@ -1065,13 +1065,13 @@ function getProductsListFromLocal(){
 		var myObject = new Object();
 		myObject.id = 1;
 		myObject.server_prod_id = 3;
-		myObject.prod_name = "SHIRT - FULL SLEEVE";
+		myObject.prod_name = "Women - Kurta";
 		myObject.prod_description = "Fabric: Cotton Linen Blend Slim Fit, Full Sleeve Collar Type: Regular Pattern: Checkered Set of 1";
 		myObject.measurement_typeid = "1";
 		myObject.prod_status = "1";
 		myObject.attribute_details = '[{"id":59,"pdt_id":"3","attr_id":"5","created_at":"2016-11-21 06:02:58","updated_at":"2016-11-21 06:02:58"}, {"id":59,"pdt_id":"3","attr_id":"6","created_at":"2016-11-21 06:02:58","updated_at":"2016-11-21 06:02:58"}]';
 		myObject.category = '[{"id":40,"pdt_id":"3","cat_id":"5","created_at":"2016-11-21 06:02:58","updated_at":"2016-11-21 06:02:58"}]';
-		myObject.gallery = '[{"id":9,"pdt_id":"3","image":"product_5_582ea8c053c3b.jpg","created_at":"2016-11-18 07:07:44","updated_at":"2016-11-18 07:07:44"}]';
+		myObject.gallery = '[{"id":9,"pdt_id":"3","image":"product_5_582ea8c053c3b.jpg","created_at":"2016-11-18 07:07:44","updated_at":"2016-11-18 07:07:44"}, {"id":11,"pdt_id":"3","image":"product_5_582ea8c053c3b.jpg","created_at":"2016-11-18 07:07:44","updated_at":"2016-11-18 07:07:44"}, {"id":10,"pdt_id":"3","image":"product_5_582ea8c053c3b.jpg","created_at":"2016-11-18 07:07:44","updated_at":"2016-11-18 07:07:44"}]';
 			
 		myArr.push(myObject);
 		
@@ -1958,7 +1958,7 @@ function errorCBCustomerListDB(err) {
 					var gallery_id = valueObj['id'];
 					var image = valueObj["image"];
 					var prodImage = productImageData + '/'+image; // For Production
-					//var prodImage = 'img/product'+index+'.jpg';
+					//var prodImage = 'img/product'+indexObj+'.jpg'; // For Testing
 					//initToCheckTheFile(image, productImageData);
 					if(jsonObj['category'] != ''){
 						jQuery.each(categoryObj, function(indexCat, valueCat){
@@ -2031,7 +2031,7 @@ function errorCBCustomerListDB(err) {
 							var image = valueGal['image'];
 							
 							measurementTypeId = jsonObj['measurement_typeid'];
-							//var prodImageSrc = 'img/product'+pro_index+'.jpg';// For Testing
+							//var prodImageSrc = 'img/product'+indexGal+'.jpg';// For Testing
 							var prodImageSrc = productImageData + '/'+image; // For Production
 							//initToCheckTheFile(image, productImageData);
 							
@@ -2040,7 +2040,7 @@ function errorCBCustomerListDB(err) {
 								$prodSelDetailsDiv.find('.product-image-div img').attr("src", prodImageSrc);
 								activeClass="active";
 							}
-							var liObj='<li class="childGalleryClass"><img src="'+prodImageSrc+'" class="'+activeClass+'" onclick="changeGallInAttMeaCusFn(this)"></li>';
+							var liObj='<li class="childGalleryClass"><img src="'+prodImageSrc+'" data-childgalid="'+galId+'" class="'+activeClass+' gallCIndClassId'+galId+'" onclick="changeGallInAttMeaCusFn(this)"></li>';
 							$galleryImagesList.append(liObj);
 						});
 					}
@@ -2068,14 +2068,16 @@ function errorCBCustomerListDB(err) {
 		});
 	}
 	
-	function changeGallInAttMeaCusFn(data){
+	function changeGallInAttMeaCusFn(dataObj){
+		var $prodSelDetailsDiv =$('.product-selection-details-div');
 		var $galleryImagesList=$prodSelDetailsDiv.find('.gallery-images-list');
-		var srcOfOnClick = $(data).attr('src');
-			$prodSelDetailsDiv.find('.product-image-div img').attr("src", srcOfOnClick);
+		var srcOfOnClick = $(dataObj).attr('src');
+		var gallCldIndId = $(dataObj).data('childgalid');
+			var imageToActive = $prodSelDetailsDiv.find('.product-image-div img').attr("src", srcOfOnClick);
 			var activeClass="active";
-			var liObj='<li class="childGalleryClass"><img src="'+prodImageSrc+'" class="'+activeClass+'" onclick="changeGallInAttMeaCusFn(this)"></li>';
-			$('.gallery-images-list .childGalleryClass').find('img').removeClass(activeClass);
-			$galleryImagesList.append(liObj);
+			console.log('gallCldIndId'+gallCldIndId);
+			$galleryImagesList.find('img').removeClass(activeClass);
+			$galleryImagesList.find('.gallCIndClassId'+gallCldIndId).addClass(activeClass);
 	}
 	
 	function appendAttrDataByArraysAndIds(prodAttrArr, attrArr, catId, prodId){
