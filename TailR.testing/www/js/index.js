@@ -25,7 +25,7 @@ $( document ).on( "mobileinit", function() {
 
 var connectionType;
 var appName='Tailor Rani';
-var testingInBrowser=true;// For Testing
+var testingInBrowser=false;// For Testing
 
 var rightPanelObj = '<div id="menu-wrapper">'+
 							'<div class="menu-title">'+
