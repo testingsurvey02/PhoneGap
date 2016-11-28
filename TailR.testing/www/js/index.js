@@ -1965,6 +1965,9 @@ function errorCBCustomerListDB(err) {
 					var image = valueObj["image"];
 					if(parseInt(dataIsFromServer) == 0){
 						downloadFile(gallery_id+'_'+image, 'product');
+						setTimeout(function() {
+		    				//$('#please-wait-modal').modal('hide');
+		    			}, 2000);
 					}
 					//var prodImage = productImageData + '/'+image; // For Production
 					var prodImage = window.appRootDir.fullPath + '/' + gallery_id+'_'+image;
@@ -2048,6 +2051,9 @@ function errorCBCustomerListDB(err) {
 							/*
 							if(parseInt(dataIsFromServer) == 0){
 								downloadFile(gallery_id+'_'+image, 'product');
+								setTimeout(function() {
+		    						//$('#please-wait-modal').modal('hide');
+		    					}, 2000);
 							}
 							*/
 							
@@ -2125,6 +2131,9 @@ function errorCBCustomerListDB(err) {
 							var optionImg = value2['image'];
 							if(parseInt(dataIsFromServer) == 0){
 								downloadFile(optionId+'_'+optionImg, 'attrOption');
+								setTimeout(function() {
+				    				//$('#please-wait-modal').modal('hide');
+				    			}, 2000);
 							}
 							var optionImages = window.appRootDir.fullPath + '/' + optionId+'_'+optionImg;
 							//var optionImages = attributeImageData + '/'+optionImg; // For Production
@@ -2141,6 +2150,9 @@ function errorCBCustomerListDB(err) {
 								var optionName = value2['name'];
 								var optionImg = value2['image'];
 								downloadFile(optionId+'_'+optionImg, 'attrOption');
+								setTimeout(function() {
+				    				//$('#please-wait-modal').modal('hide');
+				    			}, 2000);
 							});
 						}
 					}
