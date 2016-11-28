@@ -1701,6 +1701,7 @@ function errorCBCustomerListDB(err) {
 	            x= r.rows[0].c;
 	        });
 	    });*/
+	    console.log(tablename);
 	    db.transaction(function(tx) {
 	        tx.executeSql('SELECT count(*) AS mycount FROM '+tablename, [], function(tx, rs) {
 	          console.log('Record count (expected to be 2): ' + rs.rows.item(0).mycount);
