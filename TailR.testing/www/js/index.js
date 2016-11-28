@@ -1693,7 +1693,7 @@ function errorCBCustomerListDB(err) {
 	            alert(r.rows[0].c + "rows")
 	            countOfCat= r.rows[0].c;
 	            x= r.rows[0].c;
-	        }, errorCountDBFn);
+	        });
 	    });
 	    return x;
 	}
@@ -1708,7 +1708,9 @@ function errorCBCustomerListDB(err) {
 		console.log(getCountByTableName("tailor_details"));
 		len = getCountByTableName("tailor_details");
 		
-		if(len > 0){
+		if(len == undefined){
+			getTailorDetailsDataFromServer();
+		}else if(len > 0){
 			window.localStorage["dbreadyflag"] = 1;
 			getTailorDetailsFromLocal();
 		}else{
