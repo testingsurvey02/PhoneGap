@@ -2626,7 +2626,7 @@ function errorCBCustomerListDB(err) {
 	
 	// To save File Function
 	function gotFS(fileSystem) {
-		window.appRootDirName = "tailorRani/images";
+		window.appRootDirName = "tailorrani";
 	    // save the file system for later access
 	    console.log(fileSystem.root.fullPath);
 	    window.fileSystem = fileSystem;
