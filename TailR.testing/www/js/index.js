@@ -2686,7 +2686,7 @@ function errorCBCustomerListDB(err) {
         	filePath = '/' + imageId +'_' + imageName;
         }
         fileTransfer.download(
-        url, window.appRootDir.fullPath + filePath, function(entry) {
+        url, 'file://'+ window.appRootDir.fullPath + filePath, function(entry) {
             console.log("download complete: " + entry.fullPath);
         }, function(error) {
         	console.log("download error : " + error.source);
