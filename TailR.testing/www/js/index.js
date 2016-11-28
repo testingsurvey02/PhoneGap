@@ -2639,6 +2639,7 @@ function errorCBCustomerListDB(err) {
 	// To save File Function
 	function gotFS(fileSystem) {
 		window.appRootDirName = "tailorrani";
+		onRequestFileSystemSuccess(fileSystem);
 	    // save the file system for later access
 	    console.log(fileSystem.root.fullPath);
 	    window.fileSystem = fileSystem;
@@ -2649,6 +2650,19 @@ function errorCBCustomerListDB(err) {
             exclusive: false
         }, dirReady, fail);
 	}
+	
+	function onRequestFileSystemSuccess(fileSystem) { 
+        var entry=fileSystem.root; 
+        entry.getDirectory("tailorrani", {create: true, exclusive: false}, onGetDirectorySuccess, onGetDirectoryFail); 
+	} 
+	
+	function onGetDirectorySuccess(dir) { 
+	      console.log("Created dir "+dir.name); 
+	} 
+
+	function onGetDirectoryFail(error) { 
+	     console.log("Error creating directory "+error.code); 
+	} 
 	
 	function dirReady(entry) {
         window.appRootDir = entry;
