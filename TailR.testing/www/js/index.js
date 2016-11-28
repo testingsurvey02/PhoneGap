@@ -704,7 +704,7 @@ function initializeDB(tx) {
 // Common Transaction success callback
 function successCB() {
 	//alert('db transcation success');
-	console.log('db transcation success');
+	//console.log('db transcation success');
 	loadDataFromServer();
 }
 //Transaction error callback
@@ -2033,7 +2033,7 @@ function errorCBCustomerListDB(err) {
 							$prodSelDetailsDiv.find('.product-image-div img').attr("src", prodImageSrc);
 							activeClass="active";
 						}
-						var liObj='<li><img src="'+prodImageSrc+'" class="'+activeClass+'" ></li>';
+						var liObj='<li class="childGalleryClass"><img src="'+prodImageSrc+'" class="'+activeClass+'" onclick="changeGallInAttMeaCusFn(this)"></li>';
 						$galleryImagesList.append(liObj);
 					});
 				}
@@ -2057,6 +2057,16 @@ function errorCBCustomerListDB(err) {
 				});
 			}
 		});
+	}
+	
+	function changeGallInAttMeaCusFn(data){
+		var $galleryImagesList=$prodSelDetailsDiv.find('.gallery-images-list');
+		var srcOfOnClick = $(data).attr('src');
+			$prodSelDetailsDiv.find('.product-image-div img').attr("src", srcOfOnClick);
+			var activeClass="active";
+			var liObj='<li class="childGalleryClass"><img src="'+prodImageSrc+'" class="'+activeClass+'" onclick="changeGallInAttMeaCusFn(this)"></li>';
+			$('.gallery-images-list .childGalleryClass').find('img').removeClass(activeClass);
+			$galleryImagesList.append(liObj);
 	}
 	
 	function appendAttrDataByArraysAndIds(prodAttrArr, attrArr, catId, prodId){
@@ -2083,7 +2093,7 @@ function errorCBCustomerListDB(err) {
 							var optionName = value2['name'];
 							var optionImg = value2['image'];
 							var optionImages = attributeImageData + '/'+optionImg; // For Production
-							var optionImages = 'img/attr'+index2+'.png';
+							//var optionImages = 'img/attr'+index2+'.png'; // For Testing
 							//initToCheckTheFile(optionImg, attributeImageData);
 							var tempOptDiv = '<div class="col-xs-6 col-sm-4 col-md-4 col-lg-4 single-option optMenu-bar attrOpt'+server_attr_id+' div_opt_id'+optionId+'" onclick="selectedOptionFn(this)" data-opt_id="'+optionId+'" data-cat_id="'+catId+'" data-prod_id="'+prodId+'" data-attrid="'+server_attr_id+'" data-lid="'+attrId+'"><div class="box"><img class="" src="'+optionImages+'" data-imgt_cat_id="'+catId+'" data-imgt_prod_id="'+prodId+'" data-imgt_attrid="'+server_attr_id+'"  data-imgt_opt_id="'+optionId+'" data-imgt_lid="'+attrId+'" alt="'+optionName+'"></div></div>';
 							optionMainDiv += tempOptDiv;
@@ -2272,6 +2282,7 @@ function errorCBCustomerListDB(err) {
 		var subMenuId = $(object).data('submenuid');
 		$('#mainPageId').find('.sub-menu').hide();
 		$("."+subMenuId).show();
+		$('#mainPageId .product-list').find('.galleriesClass').hide();
 		//mainGalleryFn(object);
 	}
 	
