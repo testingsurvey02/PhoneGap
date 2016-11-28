@@ -1703,7 +1703,7 @@ function errorCBCustomerListDB(err) {
 	    });*/
 	    console.log(tablename);
 	    db.transaction(function(tx) {
-	        tx.executeSql('SELECT count(*) AS mycount FROM '+tablename, [], function(tx, rs) {
+	        tx.executeSql('SELECT count(*) AS mycount FROM '+tablename+' ', [], function(tx, rs) {
 	          console.log('Record count (expected to be 2): ' + rs.rows.item(0).mycount);
 	          var recordCount = 0;
 	          recordCount = rs.rows.item(0).mycount;
