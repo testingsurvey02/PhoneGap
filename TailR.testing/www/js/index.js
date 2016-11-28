@@ -1744,13 +1744,13 @@ function errorCBCustomerListDB(err) {
 			getTailorDetailsFromLocal();
 			return;
 		}
-		tailorTempData = $('.tailorDetailsArrayData').html();
-		catArrSession = $('.categoryArrayData').html();
-		alert('tailorTempData : '+tailorTempData);
-		if(tailorTempData == '0' || tailorTempData === '' && typeof tailorTempData == undefined && typeof tailorTempData == 'undefined'){
+		var tailorTempDataId = $('.tailorDetailsArrayDataId').val();
+		var catArrSessionId = $('.categoryArrayDataId').val();
+		alert('catArrSessionId : '+catArrSessionId + " tailorTempDataId "+tailorTempDataId);
+		if(tailorTempDataId == '' || typeof tailorTempDataId == undefined || typeof tailorTempDataId == 'undefined'){
 			checkTailorDetailsInLocalDB();
 		}else{
-			alert('tailorDetailsSession checkCategoryInLocalDB - '+tailorTempData);
+			alert('tailorTempDataId checkCategoryInLocalDB - '+tailorTempDataId);
 			checkCategoryInLocalDB();
 		}
 	}
