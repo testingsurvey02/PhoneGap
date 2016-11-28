@@ -2023,7 +2023,7 @@ function errorCBCustomerListDB(err) {
 					console.log(galleryArr.length);
 					if(galleryArr.length>0){
 						
-						var $galleryImagesList=$prodSelDetailsDiv.find('ol .gallery-images-list');
+						var $galleryImagesList=$prodSelDetailsDiv.find('.gallery-images-list');
 						$galleryImagesList.find('li').remove();
 						
 						jQuery.each(galleryArr, function(indexGal, valueGal){
@@ -2046,6 +2046,7 @@ function errorCBCustomerListDB(err) {
 					}
 				}
 			}
+			
 			
 			var mainPageCatId = $(currentData).data('cat_id');
 			var mainPageProdId = $(currentData).data('prod_id');
