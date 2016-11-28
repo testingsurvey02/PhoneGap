@@ -213,6 +213,7 @@ var app = {
         console.log("DB CALL");
         alert("DB CALL");
         db = window.sqlitePlugin.openDatabase({name: "tailorrani.db"});
+//      // db = window.sqlitePlugin.openDatabase({name: "tailorrani.db", location: 2});
         //db = window.openDatabase("Database", "1.0", "tailorrani.db", 200000);
         alert("DB CALL Opened");
 		//db.transaction(initializeDB, errorCB, successCB);
