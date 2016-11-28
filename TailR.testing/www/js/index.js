@@ -1793,6 +1793,7 @@ function errorCBCustomerListDB(err) {
 	var measurementTypeId = 0;
 	var productImageData = 'http:\/\/tailorraniapp.stavyah.com\/images\/Products\/product_image';
 	var attributeImageData = 'http:\/\/tailorraniapp.stavyah.com\/images\/Attributes\/attribute_image';
+	var realPathFile = '';
 
 	function getCategoriesDataFromServer(){
 		var dataToSend = {};
@@ -1961,7 +1962,9 @@ function errorCBCustomerListDB(err) {
 				jQuery.each(galleryObj , function(indexObj,valueObj) {
 					var gallery_id = valueObj['id'];
 					var image = valueObj["image"];
-					var prodImage = productImageData + '/'+image; // For Production
+					downloadFile(gallery_id+'_'+image, 'product');
+					//var prodImage = productImageData + '/'+image; // For Production
+					var prodImage = window.appRootDir.fullPath + '/product/' + gallery_id+'_'+image;
 					//var prodImage = 'img/product'+indexObj+'.jpg'; // For Testing
 					//initToCheckTheFile(image, productImageData);
 					if(jsonObj['category'] != ''){
@@ -2036,7 +2039,9 @@ function errorCBCustomerListDB(err) {
 							
 							measurementTypeId = jsonObj['measurement_typeid'];
 							//var prodImageSrc = 'img/product'+indexGal+'.jpg';// For Testing
-							var prodImageSrc = productImageData + '/'+image; // For Production
+							downloadFile(gallery_id+'_'+image, 'product');
+							var prodImageSrc = window.appRootDir.fullPath + '/product/' + gallery_id+'_'+image;
+							//var prodImageSrc = productImageData + '/'+image; // For Production
 							//initToCheckTheFile(image, productImageData);
 							
 							var activeClass="";
@@ -2107,7 +2112,9 @@ function errorCBCustomerListDB(err) {
 							var optionId = value2['id'];
 							var optionName = value2['name'];
 							var optionImg = value2['image'];
-							var optionImages = attributeImageData + '/'+optionImg; // For Production
+							downloadFile(optionId+'_'+optionImg, 'attrOption');
+							var optionImages = window.appRootDir.fullPath + '/attrOption/' + optionId+'_'+optionImg;
+							//var optionImages = attributeImageData + '/'+optionImg; // For Production
 							//var optionImages = 'img/attr'+index2+'.png'; // For Testing
 							//initToCheckTheFile(optionImg, attributeImageData);
 							var tempOptDiv = '<div class="col-xs-6 col-sm-4 col-md-4 col-lg-4 single-option optMenu-bar attrOpt'+server_attr_id+' div_opt_id'+optionId+'" onclick="selectedOptionFn(this)" data-opt_id="'+optionId+'" data-cat_id="'+catId+'" data-prod_id="'+prodId+'" data-attrid="'+server_attr_id+'" data-lid="'+attrId+'"><div class="box"><img class="" src="'+optionImages+'" data-imgt_cat_id="'+catId+'" data-imgt_prod_id="'+prodId+'" data-imgt_attrid="'+server_attr_id+'"  data-imgt_opt_id="'+optionId+'" data-imgt_lid="'+attrId+'" alt="'+optionName+'"></div></div>';
@@ -2596,13 +2603,12 @@ function errorCBCustomerListDB(err) {
 	
 	// To save File Function
 	function gotFS(fileSystem) {
-		window.appRootDirName = "download_test";
+		window.appRootDirName = "tailorRani/images";
 	    // save the file system for later access
 	    console.log(fileSystem.root.fullPath);
-	    alert('fileSystem.root.fullPath : '+fileSystem.root.fullPath);
 	    window.fileSystem = fileSystem;
 	    window.rootFS = fileSystem.root;
-	    alert('window.rootFS : '+window.rootFS);
+	    console.log('window.rootFS : '+window.rootFS);
 	    fileSystem.root.getDirectory(window.appRootDirName, {
             create: true,
             exclusive: false
@@ -2616,16 +2622,25 @@ function errorCBCustomerListDB(err) {
         console.log("application dir is ready");
     }
 	
-	downloadFile = function() {
+	function downloadFile(imageName, imageType) {
         var fileTransfer = new FileTransfer();
-
-        var url = "http://www.irs.gov/pub/irs-pdf/fw4.pdf";
-        var filePath = window.appRootDir.fullPath + "/test.pdf";
+        var url = '';
+        if(imageType == 'product'){
+        	url = productImageData + imageName;
+        }else if(imageType == 'attrOption'){
+        	url = attributeImageData + imageName;
+        }
+        var filePath = window.appRootDir.fullPath;
+        if(imageType == 'product'){
+        	filePath = '/product/' + imageName;
+        }else if(imageType == 'attrOption'){
+        	filePath = '/attrOption/' + imageName;
+        }
         fileTransfer.download(
         url, filePath, function(entry) {
-            alert("download complete: " + entry.fullPath);
+            console.log("download complete: " + entry.fullPath);
         }, function(error) {
-            alert("download error" + error.source);
+        	console.log("download error" + error.source);
         });
     }
 	
