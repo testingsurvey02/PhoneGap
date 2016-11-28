@@ -1732,8 +1732,10 @@ function errorCBCustomerListDB(err) {
 		setTimeout(
 				  function() 
 				  {
+					  alert('setTimeout');
 				    //do something special
 				  }, 15000);
+		alert('Time limit completed');
 		if(testingInBrowser){
 			getTailorDetailsFromLocal();
 			return;
