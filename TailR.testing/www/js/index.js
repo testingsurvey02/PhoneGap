@@ -2690,8 +2690,8 @@ function errorCBCustomerListDB(err) {
             console.log("download complete: " + entry.fullPath);
         }, function(error) {
         	console.log("download error : " + error.source);
-        	console.log("download error : " + error.message);
-        	console.log("download error : " + error.code);
+        	console.log("download target : " + error.target);
+        	console.log("download code : " + error.code);
         });
     }
 	
