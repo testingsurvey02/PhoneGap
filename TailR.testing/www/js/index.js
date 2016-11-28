@@ -2140,6 +2140,7 @@ function errorCBCustomerListDB(err) {
 	var attributeArrayToSave = [];
 	function selectedOptionFn(thisData){
 		var attrId = $(thisData).data('attrid');
+		$('.subMen_attrId'+attrId).css("color","orange");
 		$('.selection-page-options-div .attr-option-div .attrOpt'+attrId).removeClass('active');
 		$(thisData).addClass("active");
 		
@@ -2372,7 +2373,7 @@ function errorCBCustomerListDB(err) {
 	function orderTakeMeastFn(){
 		 var lengthOfOrder = $( "#measurementPageId .measure-inputField" ).length;
 		if(optionArrayToSave.length > 0 && attributeArrayToSave.length > 0){
-			var arrObject= new Array();
+			var arrObject = new Array();
 			for(var i = 0; i< optionArrayToSave.length; i++){
 				var childObject = new Object();
 				var optionId = optionArrayToSave[i];
@@ -2468,18 +2469,168 @@ function errorCBCustomerListDB(err) {
 		gotoOrderPageDiv();
 	}
 	
+	// Send Data to Server
+	function sendCustomerDetailsToSaveInServer(){
+		var dataToSend = {};
+		
+		dataToSend["secret_key"] = "4TPD6PI91";
+		dataToSend["name"] = $('customerNameInput').val();
+		dataToSend["tailor_id"] = tailorDetailsObj.tailor_details_id;
+		dataToSend["customer_id"] = $('#customerIdInput').val();
+		dataToSend["contact"] = "";
+		dataToSend["email"] = "";
+		dataToSend["status"] = 1;
+		
+		var appurltemps="http://tailorraniapp.stavyah.com/api/customers/storejson"
+		connectionType=checkConnection();
+		if(connectionType=="Unknown connection" || connectionType=="No network connection"){
+			navigator.notification.alert(appRequiresWiFi,alertConfirm,appName,'Ok');
+		}
+		else if(connectionType=="WiFi connection" || connectionType=="Cell 4G connection" || connectionType=="Cell 3G connection" || connectionType=="Cell 2G connection"){
+			$.ajax({
+				type : ajaxCallType,
+				url: url,
+				data : dataToSend,
+				success: successCBMeasurementsFn,
+				error: commonErrorCallback
+			});
+		}
+		else{
+			navigator.notification.alert(appRequiresWiFi,alertConfirm,appName,'Ok');
+		}
+	}
+	
+	function sendCustomerDetailsToUpdateInServer(){
+		var dataToSend = {};
+		
+		dataToSend["secret_key"] = "4TPD6PI91";
+    	dataToSend["id"] = 0;
+		dataToSend["name"] = $('customerNameInput').val();
+		dataToSend["tailor_id"] = tailorDetailsObj.tailor_details_id;
+		dataToSend["customer_id"] = $('#customerIdInput').val();
+		dataToSend["contact"] = "";
+		dataToSend["email"] = "";
+		dataToSend["status"] = 0;
+		
+		var appurltemps="http://tailorraniapp.stavyah.com/api/customers/updateJson"
+		connectionType=checkConnection();
+		if(connectionType=="Unknown connection" || connectionType=="No network connection"){
+			navigator.notification.alert(appRequiresWiFi,alertConfirm,appName,'Ok');
+		}
+		else if(connectionType=="WiFi connection" || connectionType=="Cell 4G connection" || connectionType=="Cell 3G connection" || connectionType=="Cell 2G connection"){
+			$.ajax({
+				type : ajaxCallType,
+				url: url,
+				data : dataToSend,
+				success: successCBMeasurementsFn,
+				error: commonErrorCallback
+			});
+		}
+		else{
+			navigator.notification.alert(appRequiresWiFi,alertConfirm,appName,'Ok');
+		}
+	}
+	
+	function sendOrderDetailsToSaveInServer(){
+		var dataToSend = {};
+		
+		dataToSend["secret_key"] = "4TPD6PI91";
+		dataToSend["tailor_id"] = tailorDetailsObj.tailor_details_id;
+		dataToSend["customer_id"] = $('#customerIdInput').val();
+		dataToSend["order_id"] = $('#newOrderId').val();
+		dataToSend["order_price"] = $('#priceInput').val();
+		dataToSend["status"] = 1;
+		dataToSend["order_attributes"] = JSON.stringify(selectedOptionMain);
+		dataToSend["order_measurements"] = JSON.stringify(orderTakenDetails);
+		
+		var appurltemps="http://tailorraniapp.stavyah.com/api/orders/storejson"
+		connectionType=checkConnection();
+		if(connectionType=="Unknown connection" || connectionType=="No network connection"){
+			navigator.notification.alert(appRequiresWiFi,alertConfirm,appName,'Ok');
+		}
+		else if(connectionType=="WiFi connection" || connectionType=="Cell 4G connection" || connectionType=="Cell 3G connection" || connectionType=="Cell 2G connection"){
+			$.ajax({
+				type : ajaxCallType,
+				url: url,
+				data : dataToSend,
+				success: successCBMeasurementsFn,
+				error: commonErrorCallback
+			});
+		}
+		else{
+			navigator.notification.alert(appRequiresWiFi,alertConfirm,appName,'Ok');
+		}
+	}
+	
+	function sendOrderDetailsToUpdateInServer(){
+		var dataToSend = {};
+    	
+    	dataToSend["secret_key"] = "4TPD6PI91";
+    	dataToSend["id"] = 0;
+		dataToSend["tailor_id"] = tailorDetailsObj.tailor_details_id;
+		dataToSend["customer_id"] = $('#customerIdInput').val();
+		dataToSend["order_id"] = $('#newOrderId').val();
+		dataToSend["order_price"] = $('#priceInput').val();
+		dataToSend["status"] = 1;
+		dataToSend["order_attributes"] = JSON.stringify(selectedOptionMain);
+		dataToSend["order_measurements"] = JSON.stringify(orderTakenDetails);
+		
+		var appurltemps="http://tailorraniapp.stavyah.com/api/orders/updateJson"
+		connectionType=checkConnection();
+		if(connectionType=="Unknown connection" || connectionType=="No network connection"){
+			navigator.notification.alert(appRequiresWiFi,alertConfirm,appName,'Ok');
+		}
+		else if(connectionType=="WiFi connection" || connectionType=="Cell 4G connection" || connectionType=="Cell 3G connection" || connectionType=="Cell 2G connection"){
+			$.ajax({
+				type : ajaxCallType,
+				url: url,
+				data : dataToSend,
+				success: successCBMeasurementsFn,
+				error: commonErrorCallback
+			});
+		}
+		else{
+			navigator.notification.alert(appRequiresWiFi,alertConfirm,appName,'Ok');
+		}
+	}	
+	
+	// To save File Function
 	function gotFS(fileSystem) {
-	    console.log("got filesystem");
+		window.appRootDirName = "download_test";
 	    // save the file system for later access
 	    console.log(fileSystem.root.fullPath);
 	    alert('fileSystem.root.fullPath : '+fileSystem.root.fullPath);
+	    window.fileSystem = fileSystem;
 	    window.rootFS = fileSystem.root;
 	    alert('window.rootFS : '+window.rootFS);
+	    fileSystem.root.getDirectory(window.appRootDirName, {
+            create: true,
+            exclusive: false
+        }, dirReady, fail);
 	}
 	
+	function dirReady(entry) {
+        window.appRootDir = entry;
+        console.log('window.appRootDir'+window.appRootDir);
+        console.log('window.appRootDir FullPath'+window.appRootDir.fullPath);
+        console.log("application dir is ready");
+    }
+	
+	downloadFile = function() {
+        var fileTransfer = new FileTransfer();
+
+        var url = "http://www.irs.gov/pub/irs-pdf/fw4.pdf";
+        var filePath = window.appRootDir.fullPath + "/test.pdf";
+        fileTransfer.download(
+        url, filePath, function(entry) {
+            alert("download complete: " + entry.fullPath);
+        }, function(error) {
+            alert("download error" + error.source);
+        });
+    }
 	
 	
-	/*function initToCheckTheFile(fileName, assetURL) {
+/*	function initToCheckTheFile(fileName, assetURL) {
 	    
 	    $status = document.querySelector("#status");
 
@@ -2514,15 +2665,6 @@ function errorCBCustomerListDB(err) {
 	function appStart() {
 	    $status.innerHTML = "App ready!";
 	}
-	
-	function gotFS(fileSystem) {
-	    alert("got filesystem");
-	    // save the file system for later access
-	    alert(fileSystem.root.fullPath);
-	    window.rootFS = fileSystem.root;
-	}
 
-	document.addEventListener('deviceready', function() {                
-	    window.requestFileSystem  = window.requestFileSystem || window.webkitRequestFileSystem;
-	    window.requestFileSystem(LocalFileSystem.PERSISTENT, 0, gotFS, fail);
-	}, false);*/
+
+*/
