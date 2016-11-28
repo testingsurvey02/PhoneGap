@@ -1697,7 +1697,7 @@ function errorCBCustomerListDB(err) {
 	
 	function checkTailorDetailsInLocalDB(){
 		var len = 0;
-		console.log(getCountByTableName("tailor_details"));
+		alert(getCountByTableName("tailor_details"));
 		len = getCountByTableName("tailor_details");
 		
 		if(len > 0){
