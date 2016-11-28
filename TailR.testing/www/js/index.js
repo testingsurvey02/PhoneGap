@@ -1685,29 +1685,22 @@ function errorCBCustomerListDB(err) {
 
 
 /*  ------------------- Module-wise Methods/Function Code Starts ------------------  */	
-	var countOfCat = 0;
 	function getCountByTableName(tablename){
 	    var x;
 	    db.readTransaction(function (tx) {
 	        tx.executeSql('SELECT COUNT(*) AS c FROM ' + tablename, [], function (tx, r) {
 	            alert(r.rows[0].c + "rows")
-	            countOfCat= r.rows[0].c;
 	            x= r.rows[0].c;
 	        });
 	    });
 	    return x;
 	}
 	
-	function errorCountDBFn(err){
-		console.log('errorCountDBFn : '+err.message);
-		console.log('errorCountDBFn : '+err.code);
-	}
-	
 	function checkTailorDetailsInLocalDB(){
 		var len = 0;
 		console.log(getCountByTableName("tailor_details"));
 		len = getCountByTableName("tailor_details");
-		
+		console.log(len);
 		if (len == undefined) {
 			getTailorDetailsDataFromServer();
 		}else if(len > 0){
