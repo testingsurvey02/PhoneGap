@@ -835,13 +835,15 @@ function getTailorDetailsFromLocal(){
 
 function successCBTailorDetailsListDB() {
 	console.log('successCBTailorDetailsListDB');
-	if(connectionType=="Unknown connection" || connectionType=="No network connection"){
+	console.log(connectionType);
+	/*if(connectionType=="Unknown connection" || connectionType=="No network connection"){
 		console.log('No Connection');
 		checkCategoryInLocalDB();
 	}
 	else if(connectionType=="WiFi connection" || connectionType=="Cell 4G connection" || connectionType=="Cell 3G connection" || connectionType=="Cell 2G connection"){
 		getCategoriesDataFromServer();
-	}
+	}*/
+	checkCategoryInLocalDB();
 }	
 
 function errorCBTailorDetailsListDB(err) {
