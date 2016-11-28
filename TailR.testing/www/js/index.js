@@ -2699,7 +2699,7 @@ function errorCBCustomerListDB(err) {
         	filePath = '/' + imageId +'_' + imageName;
         }
         fileTransfer.download(
-        url, 'file://'+ window.appRootDir.fullPath + filePath, function(entry) {
+        url, window.appRootDir.fullPath + filePath, function(entry) {
             console.log("download complete: " + entry.toURI());
         }, function(error) {
         	console.log("download error : " + error.source);
