@@ -1699,6 +1699,21 @@ function errorCBCustomerListDB(err) {
 	    db.transaction(function(tx) {
 	        tx.executeSql('SELECT count(*) AS mycount FROM '+tablename, [], function(tx, rs) {
 	          console.log('Record count (expected to be 2): ' + rs.rows.item(0).mycount);
+	          var recordCount = 0;
+	          recordCount = rs.rows.item(0).mycount;
+	          if(recordCount > 0){
+	        	  if(tableName == 'tailor_details'){
+	        		  getTailorDetailsFromLocal();
+	        	  }else if(tableName == 'category'){
+	        		  getCategoriesListFromLocal();
+	        	  }
+	          }else if(recordCount == 0){
+	        	  if(tableName == 'tailor_details'){
+	        		  getTailorDetailsDataFromServer();
+	        	  }else if(tableName == 'category'){
+	        		  getCategoriesDataFromServer();
+	        	  }
+	          }
 	        }, function(tx, error) {
 	          console.log('SELECT error: ' + error.message);
 	        });
@@ -1712,7 +1727,7 @@ function errorCBCustomerListDB(err) {
 	}
 	
 	function checkTailorDetailsInLocalDB(){
-		var len = 0;
+		/*var len = 0;
 		len = getCountByTableName("tailor_details");
 		console.log('len..... '+len);
 		if (typeof len === 'undefined') {
@@ -1722,11 +1737,12 @@ function errorCBCustomerListDB(err) {
 			getTailorDetailsFromLocal();
 		}else{
 			getTailorDetailsDataFromServer();
-		}
+		}*/
+		getCountByTableName("tailor_details");
 	}
 	
 	function checkCategoryInLocalDB(){
-		var len = 0;
+		/*var len = 0;
 		//console.log(getCountByTableName("category"));
 		len = getCountByTableName("category");
 		if (typeof len === 'undefined') {
@@ -1736,7 +1752,8 @@ function errorCBCustomerListDB(err) {
 			getCategoriesListFromLocal();
 		}else{
 			getCategoriesDataFromServer();
-		}
+		}*/
+		getCountByTableName("category");
 	}
 	
 	function loadDataFromServer(){
