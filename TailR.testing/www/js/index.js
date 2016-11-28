@@ -1705,7 +1705,7 @@ function errorCBCustomerListDB(err) {
 	          var recordCount = 0;
 	          recordCount = rs.rows.item(0).mycount;
 	          console.log(recordCount);
-	          if(recordCount > 0){
+	          if(parseInt(recordCount) > 0){
 	        	  if(tableName == 'tailor_details'){
 	        		  console.log('getTailorDetailsFromLocal');
 	        		  getTailorDetailsFromLocal();
