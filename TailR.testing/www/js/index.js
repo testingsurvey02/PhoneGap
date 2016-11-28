@@ -820,6 +820,7 @@ function getTailorDetailsFromLocal(){
 							tailorDetailsObj.country_name = results.rows.item(i)['country_name'];
 							tailorDetailsObj.update_timestamp = results.rows.item(i)['update_timestamp'];
 							tailorDetailsSession = tailorDetailsObj;
+							tailorTempDataId = 1;
 						}
 					}
 				}, errorCB
@@ -947,6 +948,8 @@ function getCategoriesListFromLocal(){
 }
 
 function successCBCatListDB() {
+	catArrSessionId = 1;
+	subCategoryArrayDataId = 1;
 	$('.categoryArrayData').append(catArrSession);
 	$('.subCategoryArrayData').append(subCatArrSession);
 	appendCatListDB(catArrSession, subCatArrSession);
