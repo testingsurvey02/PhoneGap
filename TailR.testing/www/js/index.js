@@ -183,7 +183,7 @@ var app = {
     	// Kishore Commented
     	
     	window.requestFileSystem  = window.requestFileSystem || window.webkitRequestFileSystem; // Kishore Added
-        window.requestFileSystem(LocalFileSystem.PERSISTENT, 0, gotFS, fail); // Kishore Added
+        window.requestFileSystem(LocalFileSystem.TEMPORARY, 0, gotFS, fail); // Kishore Added
     	
         document.addEventListener("backbutton", onBackKeyDown, false);
         
@@ -2699,7 +2699,7 @@ function errorCBCustomerListDB(err) {
         	filePath = '/' + imageId +'_' + imageName;
         }
         fileTransfer.download(
-        url, window.appRootDir.fullPath + filePath, function(entry) {
+        url, 'file://'+ window.appRootDir.fullPath + filePath, function(entry) {
             console.log("download complete: " + entry.toURI());
         }, function(error) {
         	console.log("download error : " + error.source);
