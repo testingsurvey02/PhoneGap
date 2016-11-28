@@ -2015,34 +2015,35 @@ function errorCBCustomerListDB(err) {
 			var galleryArr = jQuery.parseJSON(jsonObj.gallery);
 			var categoryObj = jQuery.parseJSON(jsonObj.category);
 			var attributeObj = jQuery.parseJSON(jsonObj.attribute_details);
-			
-			if(jsonObj.gallery != ''){
-				var $prodSelDetailsDiv =$('.product-selection-details-div');
-				$prodSelDetailsDiv.find('p.product-name').html(prod_name);
-				
-				console.log(galleryArr.length);
-				if(galleryArr.length>0){
+			if(productId == server_prod_id){
+				if(jsonObj.gallery != ''){
+					var $prodSelDetailsDiv =$('.product-selection-details-div');
+					$prodSelDetailsDiv.find('p.product-name').html(prod_name);
 					
-					var $galleryImagesList=$prodSelDetailsDiv.find('.gallery-images-list');
-					$galleryImagesList.find('li').remove();
-					
-					jQuery.each(galleryArr, function(indexGal, valueGal){
-						var galId = valueGal['id'];
-						var image = valueGal['image'];
+					console.log(galleryArr.length);
+					if(galleryArr.length>0){
 						
-						measurementTypeId = jsonObj['measurement_typeid'];
-						//var prodImageSrc = 'img/product'+pro_index+'.jpg';// For Testing
-						var prodImageSrc = productImageData + '/'+image; // For Production
-						//initToCheckTheFile(image, productImageData);
+						var $galleryImagesList=$prodSelDetailsDiv.find('.gallery-images-list');
+						$galleryImagesList.find('li').remove();
 						
-						var activeClass="";
-						if(galId == gallCurrId){
-							$prodSelDetailsDiv.find('.product-image-div img').attr("src", prodImageSrc);
-							activeClass="active";
-						}
-						var liObj='<li class="childGalleryClass"><img src="'+prodImageSrc+'" class="'+activeClass+'" onclick="changeGallInAttMeaCusFn(this)"></li>';
-						$galleryImagesList.append(liObj);
-					});
+						jQuery.each(galleryArr, function(indexGal, valueGal){
+							var galId = valueGal['id'];
+							var image = valueGal['image'];
+							
+							measurementTypeId = jsonObj['measurement_typeid'];
+							//var prodImageSrc = 'img/product'+pro_index+'.jpg';// For Testing
+							var prodImageSrc = productImageData + '/'+image; // For Production
+							//initToCheckTheFile(image, productImageData);
+							
+							var activeClass="";
+							if(galId == gallCurrId){
+								$prodSelDetailsDiv.find('.product-image-div img').attr("src", prodImageSrc);
+								activeClass="active";
+							}
+							var liObj='<li class="childGalleryClass"><img src="'+prodImageSrc+'" class="'+activeClass+'" onclick="changeGallInAttMeaCusFn(this)"></li>';
+							$galleryImagesList.append(liObj);
+						});
+					}
 				}
 			}
 			
