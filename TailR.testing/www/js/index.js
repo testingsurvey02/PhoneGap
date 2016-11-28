@@ -1704,6 +1704,7 @@ function errorCBCustomerListDB(err) {
 			window.localStorage["dbreadyflag"] = 1;
 			getTailorDetailsFromLocal();
 		}else{
+			alert('getTailorDetailsDataFromServer');
 			getTailorDetailsDataFromServer();
 		}
 	}
