@@ -1967,7 +1967,7 @@ function errorCBCustomerListDB(err) {
 						downloadFile(gallery_id+'_'+image, 'product');
 					}
 					//var prodImage = productImageData + '/'+image; // For Production
-					var prodImage = window.appRootDir.fullPath + '/product/' + gallery_id+'_'+image;
+					var prodImage = window.appRootDir.fullPath + '/' + gallery_id+'_'+image;
 					//var prodImage = 'img/product'+indexObj+'.jpg'; // For Testing
 					//initToCheckTheFile(image, productImageData);
 					if(jsonObj['category'] != ''){
@@ -2051,7 +2051,7 @@ function errorCBCustomerListDB(err) {
 							}
 							*/
 							
-							var prodImageSrc = window.appRootDir.fullPath + '/product/' + gallery_id+'_'+image;
+							var prodImageSrc = window.appRootDir.fullPath + '/' + gallery_id+'_'+image;
 							//var prodImageSrc = productImageData + '/'+image; // For Production
 							//initToCheckTheFile(image, productImageData);
 							
@@ -2126,7 +2126,7 @@ function errorCBCustomerListDB(err) {
 							if(parseInt(dataIsFromServer) == 0){
 								downloadFile(optionId+'_'+optionImg, 'attrOption');
 							}
-							var optionImages = window.appRootDir.fullPath + '/attrOption/' + optionId+'_'+optionImg;
+							var optionImages = window.appRootDir.fullPath + '/' + optionId+'_'+optionImg;
 							//var optionImages = attributeImageData + '/'+optionImg; // For Production
 							//var optionImages = 'img/attr'+index2+'.png'; // For Testing
 							//initToCheckTheFile(optionImg, attributeImageData);
@@ -2655,9 +2655,9 @@ function errorCBCustomerListDB(err) {
         }
         var filePath = window.appRootDir.fullPath;
         if(imageType == 'product'){
-        	filePath = '/product/' + imageName;
+        	filePath = '/' + imageName;
         }else if(imageType == 'attrOption'){
-        	filePath = '/attrOption/' + imageName;
+        	filePath = '/' + imageName;
         }
         fileTransfer.download(
         url, filePath, function(entry) {
