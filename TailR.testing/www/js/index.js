@@ -870,6 +870,7 @@ function insertCategories(arrData) {
 			tx.executeSql('INSERT INTO category(server_cat_id, parent_id, name, update_timestamp, description, catImage, catStatus, children) VALUES (?,?,?,?,?,?,?,?)',
 						[server_cat_id, parent_id, name, update_timestamp,description, catImage, catStatus, childExist], function(tx, res) {
 				//alert(server_cat_id, name, childExist);
+				console.log(' Parent Category ');
 			});
 			
 			if(childExist == '1'){
@@ -884,6 +885,7 @@ function insertCategories(arrData) {
 					tx.executeSql('INSERT INTO category(server_cat_id, parent_id, name, update_timestamp, description, catImage, catStatus, children) VALUES (?,?,?,?,?,?,?,?)',
 							[server_cat_id_child, parent_id_child, name_child, update_timestamp,description_child, catImage_child, catStatus_child, childrenArrString], function(tx, res) {
 						//alert(server_cat_id_child, parent_id_child, name_child);
+						console.log(' Child Category ');
 					});	
 				});
 			}
@@ -892,6 +894,7 @@ function insertCategories(arrData) {
 }
 
 function successCBInsertCategories() {
+	console.log(' successCBInsertCategories ');
 	getProductDataFromServer();
 }	
 
@@ -1707,7 +1710,7 @@ function errorCBCustomerListDB(err) {
 		var len = 0;
 		len = getCountByTableName("tailor_details");
 		console.log('len..... '+len);
-		if (typeof len === 'undefined' || len == undefined) {
+		if (len == undefined) {
 			getTailorDetailsDataFromServer();
 		}else if(len > 0){
 			window.localStorage["dbreadyflag"] = 1;
@@ -1719,9 +1722,9 @@ function errorCBCustomerListDB(err) {
 	
 	function checkCategoryInLocalDB(){
 		var len = 0;
+		//console.log(getCountByTableName("category"));
 		len = getCountByTableName("category");
-		console.log('len checkCat ---- '+len);		
-		if (typeof len === "undefined") {
+		if (len == undefined) {
 			getCategoriesDataFromServer();
 		}else if(len > 0){
 			window.localStorage["dbreadyflag"] = 1;
@@ -1856,6 +1859,7 @@ function errorCBCustomerListDB(err) {
 		var responseJson = $.parseJSON(JSON.stringify(data));
 		productJsonData = responseJson["result"];
 		productImageData = responseJson['image_url'];
+		console.log(insertProductDetails);
 		// FIXME CHECK JSON DATA
 		db.transaction(insertProductDetails, errorCBInsertProductDetails, successCBInsertProductDetails);
 	}
@@ -2134,7 +2138,7 @@ function errorCBCustomerListDB(err) {
 	}
 	
 	function successCBInsertMeasurementDetails() {
-		//getCategoriesListFromLocal();
+		getCategoriesListFromLocal();
 	}	
 	function errorCBInsertMeasurementDetails(err) {
 		console.log("errorCBInsertMeasurementDetails");
