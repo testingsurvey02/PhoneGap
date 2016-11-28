@@ -2638,6 +2638,8 @@ function errorCBCustomerListDB(err) {
 	
 	// To save File Function
 	function gotFS(fileSystem) {
+		store = cordova.file.dataDirectory;
+		alert('store location : '+ store + 'ApplicationDirectory : '+cordova.file.applicationDirectory);
 		window.appRootDirName = "tailorrani";
 		onRequestFileSystemSuccess(fileSystem);
 	    // save the file system for later access
