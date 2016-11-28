@@ -25,7 +25,7 @@ $( document ).on( "mobileinit", function() {
 
 var connectionType;
 var appName='Tailor Rani';
-var testingInBrowser=false;// For Testing
+var testingInBrowser=true;// For Testing
 
 var rightPanelObj = '<div id="menu-wrapper">'+
 							'<div class="menu-title">'+
@@ -1814,8 +1814,8 @@ function errorCBCustomerListDB(err) {
 	}
 	
 	function appendCatListDB(catArrData, subCatArrData) {
-		$("#mainPageId").find('.main-menu').remove();
-		$("#mainPageId").find('.sub-menu').remove();
+		//$("#mainPageId").find('.main-menu').remove();
+		//$("#mainPageId").find('.sub-menu').remove();
 		
 		var categoryDiv = '<div class="row main-menu main-menu-div" id="main-menu-div" ><ul class="topnav main-menu-ul" id="main-menu-ul">';
 		var subCategoryDiv = "";
@@ -1830,7 +1830,7 @@ function errorCBCustomerListDB(err) {
 			var uniqueId = name+'_'+server_cat_id;
 			categoryDiv+='<li class="" data-submenuid="'+uniqueId
 					+'" data-cat_id="'+server_cat_id+'" data-lid="'+primaryCKeyId
-					+'" onclick="menuCategoryOne(this);"> <a href="#">'+name+'</a> </li>';
+					+'" data-isparent="0" onclick="menuCategoryOne(this);"> <a href="#">'+name+'</a> </li>';
 			if(children != 0){
 				var subCategoryTempDiv="";
 				var isExist = false;
@@ -1843,7 +1843,7 @@ function errorCBCustomerListDB(err) {
 					if(parseInt(server_cat_id) == parseInt(child_parent_id)){
 						isExist = true;
 						subCategoryTempDiv += '<li class="" data-lid="'+primarySCKeyId+
-							'" data-parcat_id="'+child_parent_id+'" data-cat_id="'+server_cat_child_id+'" onclick="mainGalleryFn(this);"><a href="#">'+ child_name +'</a></li>';
+							'" data-parcat_id="'+child_parent_id+'" data-isparent="1" data-cat_id="'+server_cat_child_id+'" onclick="mainGalleryFn(this);"><a href="#">'+ child_name +'</a></li>';
 					}
 				});
 				
@@ -1856,8 +1856,13 @@ function errorCBCustomerListDB(err) {
 		});
 		
 		categoryDiv+='</ul></div>';
-		$( categoryDiv ).insertBefore( "#mainPageId .hrBarCatClass" );
-		$( subCategoryDiv ).insertBefore( "#mainPageId .hrBarCatClass" );
+		$('#mainPageId').empty();
+		$('#mainPageId').append(categoryDiv);
+		$('#mainPageId').append(subCategoryDiv);
+		$('#mainPageId').append('<div class="row hrBarCatClass"> <hr></div>');
+		$('#mainPageId').append('<div class="row product-list">	</div>');
+		//$( categoryDiv ).insertBefore( "#mainPageId .hrBarCatClass" );
+		//$( subCategoryDiv ).insertBefore( "#mainPageId .hrBarCatClass" );
 		$('#mainPageId').find('.sub-menu').hide();
 		
 		getProductsListFromLocal();
@@ -2267,7 +2272,7 @@ function errorCBCustomerListDB(err) {
 		var subMenuId = $(object).data('submenuid');
 		$('#mainPageId').find('.sub-menu').hide();
 		$("."+subMenuId).show();
-		mainGalleryFn(object);
+		//mainGalleryFn(object);
 	}
 	
 	function getOptionByAttrId(dataObj){
