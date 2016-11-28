@@ -1967,7 +1967,7 @@ function errorCBCustomerListDB(err) {
 						downloadFile(gallery_id+'_'+image, 'product');
 					}
 					//var prodImage = productImageData + '/'+image; // For Production
-					var prodImage = window.appRootDir.fullPath + '/tailorrani/' + gallery_id+'_'+image;
+					var prodImage = window.appRootDir.fullPath + '/' + gallery_id+'_'+image;
 					//var prodImage = 'img/product'+indexObj+'.jpg'; // For Testing
 					//initToCheckTheFile(image, productImageData);
 					if(jsonObj['category'] != ''){
@@ -2051,7 +2051,7 @@ function errorCBCustomerListDB(err) {
 							}
 							*/
 							
-							var prodImageSrc = window.appRootDir.fullPath + '/tailorrani/' + galId+'_'+image;
+							var prodImageSrc = window.appRootDir.fullPath + '/' + galId+'_'+image;
 							//var prodImageSrc = productImageData + '/'+image; // For Production
 							//initToCheckTheFile(image, productImageData);
 							
@@ -2126,7 +2126,7 @@ function errorCBCustomerListDB(err) {
 							if(parseInt(dataIsFromServer) == 0){
 								downloadFile(optionId+'_'+optionImg, 'attrOption');
 							}
-							var optionImages = window.appRootDir.fullPath + '/tailorrani/' + optionId+'_'+optionImg;
+							var optionImages = window.appRootDir.fullPath + '/' + optionId+'_'+optionImg;
 							//var optionImages = attributeImageData + '/'+optionImg; // For Production
 							//var optionImages = 'img/attr'+index2+'.png'; // For Testing
 							//initToCheckTheFile(optionImg, attributeImageData);
@@ -2663,7 +2663,9 @@ function errorCBCustomerListDB(err) {
         url, filePath, function(entry) {
             console.log("download complete: " + entry.fullPath);
         }, function(error) {
-        	console.log("download error" + error.source);
+        	console.log("download error : " + error.source);
+        	console.log("download error : " + error.message);
+        	console.log("download error : " + error.code);
         });
     }
 	
