@@ -1971,6 +1971,7 @@ function errorCBCustomerListDB(err) {
 					}
 					//var prodImage = productImageData + '/'+image; // For Production
 					var prodImage = window.appRootDir.fullPath + '/' + gallery_id+'_'+image;
+					console.log('prodImage' +prodImage);
 					//var prodImage = 'img/product'+indexObj+'.jpg'; // For Testing
 					//initToCheckTheFile(image, productImageData);
 					if(jsonObj['category'] != ''){
@@ -2058,6 +2059,7 @@ function errorCBCustomerListDB(err) {
 							*/
 							
 							var prodImageSrc = window.appRootDir.fullPath + '/' + galId+'_'+image;
+							console.log('prodImageSrc ' +prodImageSrc);
 							//var prodImageSrc = productImageData + '/'+image; // For Production
 							//initToCheckTheFile(image, productImageData);
 							
@@ -2136,6 +2138,7 @@ function errorCBCustomerListDB(err) {
 				    			}, 2000);
 							}
 							var optionImages = window.appRootDir.fullPath + '/' + optionId+'_'+optionImg;
+							console.log('optionImages' + optionImages);
 							//var optionImages = attributeImageData + '/'+optionImg; // For Production
 							//var optionImages = 'img/attr'+index2+'.png'; // For Testing
 							//initToCheckTheFile(optionImg, attributeImageData);
