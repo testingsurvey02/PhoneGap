@@ -758,7 +758,7 @@ function insertTailorDetailsDetails(tx) {
 		
 		tx.executeSql('INSERT INTO tailor_details(server_td_id, first_name, middle_name, last_name, business_title, address1, address2, email, contact1, contact2, secret_key, tailor_status, city, pincode, state_id, country_id, state_name, country_name, update_timestamp) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)',
    	    			[tailor_details_id, first_name,last_name, middle_name, business_title, address1, address2, tailemail, contact1, contact2, secret_key, tailor_status, city, pincode, state_id, country_id, state_name, country_name, update_timestamp], function(tx, res) {
-	   	         //alert("Tailor Details Data insertId: " + res.insertId + " -- res.rowsAffected 1"+res.rowsAffected);
+	   	         alert("Tailor Details Data insertId: " + res.insertId + " -- res.rowsAffected 1"+res.rowsAffected);
   	    });
 	
 }
@@ -830,10 +830,13 @@ function getTailorDetailsFromLocal(){
 }
 
 function successCBTailorDetailsListDB() {
+	alert('successCBTailorDetailsListDB');
 	if(connectionType=="Unknown connection" || connectionType=="No network connection"){
+		alert('checkCategoryInLocalDB');
 		checkCategoryInLocalDB();
 	}
 	else if(connectionType=="WiFi connection" || connectionType=="Cell 4G connection" || connectionType=="Cell 3G connection" || connectionType=="Cell 2G connection"){
+		alert('getCategoriesDataFromServer');
 		getCategoriesDataFromServer();
 	}
 }	
@@ -1711,10 +1714,10 @@ function errorCBCustomerListDB(err) {
 	
 	function checkCategoryInLocalDB(){
 		var len = 0;
-		console.log(getCountByTableName("category"));
+		alert(getCountByTableName("category"));
 		len = getCountByTableName("category");
 		
-		if(len > 0){
+		if(len > 0 && len != undefined && typeof len === "undefined" && typeof len === undefined){
 			window.localStorage["dbreadyflag"] = 1;
 			getCategoriesListFromLocal();
 		}else{
@@ -1746,7 +1749,8 @@ function errorCBCustomerListDB(err) {
 
 	function getCategoriesDataFromServer(){
 		var dataToSend = {};
-		dataToSend["secret_key"] = tailorDetailsSession.secret_key;
+		alert('tailorDetailsSession.secret_key' + tailorDetailsSession.secret_key);
+		dataToSend["secret_key"] = '4TPD6PI91';
 		var apiCallUrl="http://tailorraniapp.stavyah.com/api/categories/categoriesJson"
 		connectionType=checkConnection();
 		if(connectionType=="Unknown connection" || connectionType=="No network connection"){
@@ -1828,7 +1832,7 @@ function errorCBCustomerListDB(err) {
 	// Remaining
 	function getProductDataFromServer(){
 		var dataToSend = {};
-		dataToSend["secret_key"] = tailorDetailsSession.secret_key;
+		dataToSend["secret_key"] = '4TPD6PI91';
 		var apiCallUrl="http://tailorraniapp.stavyah.com/api/products/productsJson"
 		connectionType=checkConnection();
 		if(connectionType=="Unknown connection" || connectionType=="No network connection"){
@@ -1858,7 +1862,7 @@ function errorCBCustomerListDB(err) {
 	
 	function getAttributesDataFromServer(){
 		var dataToSend = {};
-		dataToSend["secret_key"] = tailorDetailsSession.secret_key;
+		dataToSend["secret_key"] = '4TPD6PI91';
 		var apiCallUrl="http://tailorraniapp.stavyah.com/api/attributes/attributesJson"
 		connectionType=checkConnection();
 		if(connectionType=="Unknown connection" || connectionType=="No network connection"){
@@ -2102,7 +2106,7 @@ function errorCBCustomerListDB(err) {
 	var measurementsData;
 	function getMeasurementsDataFromServer(){
 		var dataToSend = {};
-		dataToSend["secret_key"] = tailorDetailsSession.secret_key;
+		dataToSend["secret_key"] = '4TPD6PI91';
 		var apiCallUrl="http://tailorraniapp.stavyah.com/api/measurements/measurementsJson"
 		connectionType=checkConnection();
 		if(connectionType=="Unknown connection" || connectionType=="No network connection"){
@@ -2205,12 +2209,13 @@ function errorCBCustomerListDB(err) {
 	function successCBTailorDetailsFn(data){
 		var responseJson = data;
 		tailorDetailsJsonData = responseJson["result"];
-		//alert('tailorDetailsJsonData : '+tailorDetailsJsonData);
+		alert('tailorDetailsJsonData : '+tailorDetailsJsonData);
 		// FIXME CHECK JSON DATA
 		db.transaction(insertTailorDetailsDetails, errorCBInsertTailorDetailsDetails, successCBInsertTailorDetailsDetails);
 	}
 	
 	function successCBInsertTailorDetailsDetails() {
+		alert('successCBInsertTailorDetailsDetails');
 		getTailorDetailsFromLocal();
 	}	
 	function errorCBInsertTailorDetailsDetails(err) {
