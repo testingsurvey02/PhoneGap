@@ -1706,18 +1706,18 @@ function errorCBCustomerListDB(err) {
 	          recordCount = rs.rows.item(0).mycount;
 	          console.log(recordCount);
 	          if(parseInt(recordCount) > 0){
-	        	  if(tableName == 'tailor_details'){
+	        	  if(tablename == 'tailor_details'){
 	        		  console.log('getTailorDetailsFromLocal');
 	        		  getTailorDetailsFromLocal();
-	        	  }else if(tableName == 'category'){
+	        	  }else if(tablename == 'category'){
 	        		  console.log('getCategoriesListFromLocal');
 	        		  getCategoriesListFromLocal();
 	        	  }
-	          }else if(recordCount == 0){
-	        	  if(tableName == 'tailor_details'){
+	          }else if(parseInt(recordCount) == 0){
+	        	  if(tablename == 'tailor_details'){
 	        		  console.log('getTailorDetailsDataFromServer');
 	        		  getTailorDetailsDataFromServer();
-	        	  }else if(tableName == 'category'){
+	        	  }else if(tablename == 'category'){
 	        		  console.log('getTailorDetailsDataFromServer');
 	        		  getCategoriesDataFromServer();
 	        	  }
