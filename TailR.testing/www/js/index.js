@@ -1006,7 +1006,12 @@ function insertProductDetails(tx) {
 }
 
 function successCBProdListDB() {
-	appendProdListDB(productDetailsArrSession);
+	if(parseInt(dataIsFromServer) == 0){
+		downloadImagesOfProduct(productDetailsArrSession);
+	}else{
+		appendProdListDB(productDetailsArrSession);
+	}
+	
 }	
 
 function errorCBProdListDB(err) {
@@ -1145,7 +1150,9 @@ function insertAttributesDetails(tx) {
 }
 
 function successCBAttrListDB() {
-	
+	if(parseInt(dataIsFromServer) == 0){
+		downloadAttrOptionImages(attrDetailsArrSession);
+	}
 }	
 
 function errorCBAttrListDB(err) {
@@ -1944,6 +1951,23 @@ function errorCBCustomerListDB(err) {
 		db.transaction(insertAttributesDetails, errorCBInsertAttributeDetails, successCBInsertAttributeDetails);
 	}
 	
+	function downloadImagesOfProduct(prodArrDataToDownload){
+		prodArrDataToDownload = productDetailsArrSession;
+		jQuery.each(prodArrDataToDownload, function(index,value) {
+			var jsonObj=value;
+			var galleryObj = '';
+			galleryObj = jQuery.parseJSON(jsonObj['gallery']);
+			if(jsonObj['gallery'] != ''){
+				jQuery.each(galleryObj , function(indexObj,valueObj) {
+					var gallery_id = valueObj['id'];
+					var image = valueObj["image"];
+					downloadFile(gallery_id, image, 'product');
+				});
+			}
+		});
+		appendProdListDB(productDetailsArrSession);
+	}
+	
 	function appendProdListDB(prodArrData) {
 		prodArrData = productDetailsArrSession;
 		var mainPageGallery = '';
@@ -1963,12 +1987,12 @@ function errorCBCustomerListDB(err) {
 				jQuery.each(galleryObj , function(indexObj,valueObj) {
 					var gallery_id = valueObj['id'];
 					var image = valueObj["image"];
-					if(parseInt(dataIsFromServer) == 0){
+					/*if(parseInt(dataIsFromServer) == 0){
 						downloadFile(gallery_id, image, 'product');
 						setTimeout(function() {
 		    				//$('#please-wait-modal').modal('hide');
 		    			}, 2000);
-					}
+					}*/
 					//var prodImage = productImageData + '/'+image; // For Production
 					var prodImage = window.appRootDir.fullPath + '/' + gallery_id+'_'+image;
 					console.log('prodImage' +prodImage);
@@ -2108,6 +2132,20 @@ function errorCBCustomerListDB(err) {
 			$galleryImagesList.find('.gallCIndClassId'+gallCldIndId).addClass(activeClass);
 	}
 	
+	function downloadAttrOptionImages(attrDetailsArrSession){
+		jQuery.each(attrDetailsArrSession, function(index,value) {
+			if(value['option'] != ''){
+				var optionObj = jQuery.parseJSON(value['option']);
+				jQuery.each(optionObj, function(index2,value2) {
+					var optionId = value2['id'];
+					var optionName = value2['name'];
+					var optionImg = value2['image'];
+					downloadFile(optionId, optionImg, 'attrOption');
+				});
+			}
+		});
+	}
+	
 	function appendAttrDataByArraysAndIds(prodAttrArr, attrArr, catId, prodId){
 		var attributeDiv = '';
 		var optionMainDiv = '';
@@ -2131,12 +2169,12 @@ function errorCBCustomerListDB(err) {
 							var optionId = value2['id'];
 							var optionName = value2['name'];
 							var optionImg = value2['image'];
-							if(parseInt(dataIsFromServer) == 0){
+							/*if(parseInt(dataIsFromServer) == 0){
 								downloadFile(optionId, optionImg, 'attrOption');
 								setTimeout(function() {
 				    				//$('#please-wait-modal').modal('hide');
 				    			}, 2000);
-							}
+							}*/
 							var optionImages = window.appRootDir.fullPath + '/' + optionId+'_'+optionImg;
 							console.log('optionImages' + optionImages);
 							//var optionImages = attributeImageData + '/'+optionImg; // For Production
