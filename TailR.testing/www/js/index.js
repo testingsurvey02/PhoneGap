@@ -2797,7 +2797,7 @@ function errorCBCustomerListDB(err) {
 			var fp = rootdir.fullPath; // Returns Fulpath of local directory
 			
 
-			fp = fp + "/" + Folder_Name + "/" + File_Name + "." + ext; // fullpath and name of the file which we want to give
+			fp = store + "/" + Folder_Name + "/" + File_Name; // fullpath and name of the file which we want to give
 			// download function call
 			filetransferFn(download_link, fp);
 		}
