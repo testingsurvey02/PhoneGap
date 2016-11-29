@@ -904,7 +904,7 @@ function insertCategories(arrData) {
 }
 
 function successCBInsertCategories() {
-	console.log(' successCBInsertCategories ');
+	console.log(' category Successfully Inserted ');
 	getProductDataFromServer();
 }	
 
@@ -1528,7 +1528,7 @@ function getCustomerListFromLocalDB(){
 		myArr.push(myObject2);
 				
 		customerArrSession=myArr;
-		console.log('customerArrSession '+customerArrSession);
+		console.log('getCustomerListFromLocalDB customerArrSession ');
 		appendOrderAndCustomerDetails(orderArrSession, customerArrSession);
 		return;
 	}
@@ -1725,7 +1725,6 @@ function errorCBCustomerListDB(err) {
 	          console.log('Record count (expected to be 2): ' + rs.rows.item(0).mycount);
 	          var recordCount = 0;
 	          recordCount = rs.rows.item(0).mycount;
-	          console.log(recordCount);
 	          if(parseInt(recordCount) > 0){
 	        	  dataIsFromServer = 1;
 	        	  if(tablename == 'tailor_details'){
@@ -1916,7 +1915,7 @@ function errorCBCustomerListDB(err) {
 		var responseJson = $.parseJSON(JSON.stringify(data));
 		productJsonData = responseJson["result"];
 		productImageData = responseJson['image_url'];
-		console.log(insertProductDetails);
+		console.log('calling insertProductDetails');
 		// FIXME CHECK JSON DATA
 		db.transaction(insertProductDetails, errorCBInsertProductDetails, successCBInsertProductDetails);
 	}
@@ -2000,7 +1999,6 @@ function errorCBCustomerListDB(err) {
 					//var prodImage = productImageData + '/'+image; // For Production
 					//var prodImage = window.appRootDir.fullPath + '/' + gallery_id+'_'+image;
 					var prodImage = 'file:///storage/sdcard0/'+ 'tailorrani/' + gallery_id+'_'+image;
-					console.log('prodImage' +prodImage);
 					//var prodImage = 'img/product'+indexObj+'.jpg'; // For Testing
 					//initToCheckTheFile(image, productImageData);
 					if(jsonObj['category'] != ''){
@@ -2063,7 +2061,6 @@ function errorCBCustomerListDB(err) {
 					var $prodSelDetailsDiv =$('.product-selection-details-div');
 					$prodSelDetailsDiv.find('p.product-name').html(prod_name);
 					
-					console.log(galleryArr.length);
 					if(galleryArr.length>0){
 						
 						var $galleryImagesList=$prodSelDetailsDiv.find('.gallery-images-list');
@@ -2089,7 +2086,6 @@ function errorCBCustomerListDB(err) {
 							
 							//var prodImageSrc = window.appRootDir.fullPath + '/' + galId+'_'+image;
 							var prodImageSrc = 'file:///storage/sdcard0/'+ 'tailorrani/' + galId+'_'+image;
-							console.log('prodImageSrc ' +prodImageSrc);
 							//var prodImageSrc = productImageData + '/'+image; // For Production
 							//initToCheckTheFile(image, productImageData);
 							
@@ -2133,7 +2129,6 @@ function errorCBCustomerListDB(err) {
 		var gallCldIndId = $(dataObj).data('childgalid');
 			var imageToActive = $prodSelDetailsDiv.find('.product-image-div img').attr("src", srcOfOnClick);
 			var activeClass="active";
-			console.log('gallCldIndId'+gallCldIndId);
 			$galleryImagesList.find('img').removeClass(activeClass);
 			$galleryImagesList.find('.gallCIndClassId'+gallCldIndId).addClass(activeClass);
 	}
@@ -2183,7 +2178,6 @@ function errorCBCustomerListDB(err) {
 							}*/
 							//var optionImages = window.appRootDir.fullPath + '/' + optionId+'_'+optionImg;
 							var optionImages = 'file:///storage/sdcard0/'+ 'tailorrani/' + optionId+'_'+optionImg;
-							console.log('optionImages' + optionImages);
 							//var optionImages = attributeImageData + '/'+optionImg; // For Production
 							//var optionImages = 'img/attr'+index2+'.png'; // For Testing
 							//initToCheckTheFile(optionImg, attributeImageData);
