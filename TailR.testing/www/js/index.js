@@ -180,11 +180,6 @@ var app = {
     },
     // Phonegap is now ready...
     onDeviceReady: function() {
-    	// Kishore Commented
-    	
-    	window.requestFileSystem  = window.requestFileSystem || window.webkitRequestFileSystem; // Kishore Added
-        window.requestFileSystem(LocalFileSystem.TEMPORARY, 0, gotFS, fail); // Kishore Added
-    	
         document.addEventListener("backbutton", onBackKeyDown, false);
         
         if(window.localStorage["gcmregistrationId"] === undefined ) {
@@ -328,8 +323,8 @@ function onBackKeyDown() {
 
 function checkConnection() {
 	
-	connectionType="WiFi connection";//For Testing
-	return connectionType;
+	//connectionType="WiFi connection";//For Testing
+	//return connectionType;
 	
     var networkState = navigator.connection.type;
     var states = {};
@@ -702,7 +697,7 @@ function initializeDB(tx) {
 	//	tx.executeSql('CREATE TABLE IF NOT EXISTS product_attributes (id integer primary key autoincrement, server_attr_id integer, name text, identifier text, status integer, backend_name text, update_timestamp text, option text)');
 	//	tx.executeSql('CREATE TABLE IF NOT EXISTS measurement_details (id integer primary key autoincrement, name text, server_measurement_id integer, status integer, update_timestamp text, group text, measurement_type_id integer)');
 	
-	//	tx.executeSql('CREATE TABLE IF NOT EXISTS customer_details (id integer primary key autoincrement,name text, price text, update_timestamp text)');
+	//	tx.executeSql(CREATE TABLE IF NOT EXISTS customer_details (id integer primary key autoincrement,name text, price text, update_timestamp text, contact_number text, address_details text)');
 	//	tx.executeSql('CREATE TABLE IF NOT EXISTS order_details(id integer primary key autoincrement, server_cat_id integer, server_prod_id integer, order_data text,update_timestamp text, server_prod_name text, customer_id integer)');
 }
 
@@ -738,7 +733,7 @@ function errorCB(err) {
 
 function insertTailorDetailsDetails(tx) {
 	var currDateTimestamp="";
-	//currDateTimestamp=dateTimestamp();
+	currDateTimestamp=dateTimestamp();
 	
 	tx.executeSql('CREATE TABLE IF NOT EXISTS tailor_details (id integer primary key autoincrement, server_td_id integer, first_name text, middle_name text, last_name text, business_title text, address1 text, address2 text, email text, contact1 text, contact2 text, secret_key text, tailor_status integer, city text, pincode text, state_id integer, country_id integer, state_name text, country_name text, update_timestamp text)');
 		var value = tailorDetailsJsonData;
@@ -860,7 +855,7 @@ function insertCategories(arrData) {
 	//db.transaction(insertCategories, errorCBInsertCategories, successCBInsertCategories);
 	db.transaction(function(tx) {
 		var currDateTimestamp="";
-		//currDateTimestamp=dateTimestamp();
+		currDateTimestamp=dateTimestamp();
 		tx.executeSql('CREATE TABLE IF NOT EXISTS category(id integer primary key autoincrement, server_cat_id integer, parent_id integer,name text,update_timestamp text, description text, catImage text, catStatus integer, children text)');
 		
 		jQuery.each(arrData, function(index,value) {
@@ -984,7 +979,7 @@ function errorCBSubCatListDB(err) {
 
 function insertProductDetails(tx) {
 	var currDateTimestamp="";
-	//currDateTimestamp=dateTimestamp();
+	currDateTimestamp=dateTimestamp();
 	tx.executeSql('CREATE TABLE IF NOT EXISTS product_details (id integer primary key autoincrement, server_prod_id integer, name text, description text, update_timestamp text, measurement_typeid integer, status integer, attribute_details text, gallery text, category text)');
 	
 	jQuery.each(productJsonData, function(index,value) {
@@ -1131,7 +1126,7 @@ function getProductsListFromLocal(){
 
 function insertAttributesDetails(tx) {
 	var currDateTimestamp="";
-	//currDateTimestamp=dateTimestamp();
+	currDateTimestamp=dateTimestamp();
 	tx.executeSql('CREATE TABLE IF NOT EXISTS product_attributes (id integer primary key autoincrement, server_attr_id integer, name text, identifier text, status integer, backend_name text, update_timestamp text, option text)');
 	
 	jQuery.each(attributeJsonData, function(index,value) {
@@ -1249,7 +1244,7 @@ function getAttributeListFromLocal(){
 
 function insertMeasurementsDetails(tx) {
 	var currDateTimestamp="";
-	//currDateTimestamp=dateTimestamp();
+	currDateTimestamp=dateTimestamp();
 	tx.executeSql('CREATE TABLE IF NOT EXISTS measurement_details (id integer primary key autoincrement, name text, server_measurement_id integer, status integer, update_timestamp text, group_data text)');
 	
 	jQuery.each(measurementJsonData, function(index,value) {
@@ -1324,7 +1319,7 @@ function insertOrderDetails(){
 	var newOrderId = $('#newOrderId').val();
 	var customerIdInput = $('#customerIdInput').val();
 	var currDateTimestamp="";
-	//currDateTimestamp=dateTimestamp();
+	currDateTimestamp=dateTimestamp();
 	if(newOrderId == '' || newOrderId == undefined){
 		db.transaction(function(tx) {
 			
@@ -1470,20 +1465,22 @@ function takeCustomerDetailsFn(){
 		return;
 	}
 	var currDateTimestamp="";
-	//currDateTimestamp=dateTimestamp();
+	currDateTimestamp=dateTimestamp();
 	var customerName = $('#customerNameInput').val();
 	var priceInput = $('#priceInput').val();
+	var contactNumber = $('#contactNumberInput').val();
+	var address_details = $('#addressInput').val();
 	//var orderId = $('#newOrderId').val();
 	var customerIdInput = $('#customerIdInput').val();
 	if(customerIdInput == '' || customerIdInput == undefined){
 		db.transaction(function(tx) {
 			
-			tx.executeSql('CREATE TABLE IF NOT EXISTS customer_details (id integer primary key autoincrement,name text, price text, update_timestamp text)');
+			tx.executeSql('CREATE TABLE IF NOT EXISTS customer_details (id integer primary key autoincrement,name text, price text, update_timestamp text, contact_number text, address_details text)');
 			
 				var update_timestamp=currDateTimestamp;
 				
-				tx.executeSql('INSERT INTO customer_details(name, price, update_timestamp) VALUES (?,?,?)',
-							[customerName, priceInput, update_timestamp], function(tx, res) {
+				tx.executeSql('INSERT INTO customer_details(name, price, update_timestamp, contact_number, address_details) VALUES (?,?,?,?,?)',
+							[customerName, priceInput, update_timestamp, contactNumber, address_details], function(tx, res) {
 					//alert("Customer Details insertId: " + res.insertId + " -- res.rowsAffected 1"+res.rowsAffected);
 					$('#customerIdInput').val(res.insertId);
 				});
@@ -1517,6 +1514,8 @@ function getCustomerListFromLocalDB(){
 		myObject1.id = 1;
 		myObject1.name = 'KRISHNA';
 		myObject1.price = 150;
+		myObject1.contact_number = '9999999999';
+		myObject1.address_details = 'bangalore';
 		myObject1.update_timestamp = '';
 		myArr.push(myObject1);
 		
@@ -1524,6 +1523,8 @@ function getCustomerListFromLocalDB(){
 		myObject2.id = 2;
 		myObject2.name = 'Ramesh';
 		myObject2.price = 180;
+		myObject1.contact_number = '8888888888';
+		myObject1.address_details = 'Mysore';
 		myObject2.update_timestamp = '12-11-2016 13:15:15';
 		myArr.push(myObject2);
 				
@@ -1546,6 +1547,8 @@ function getCustomerListFromLocalDB(){
 							jsonCustomerDataObj['name'] = results.rows.item(i)['name'];
 							jsonCustomerDataObj['price'] = results.rows.item(i)['price'];
 							jsonCustomerDataObj['update_timestamp'] = results.rows.item(i)['update_timestamp'];
+							jsonCustomerDataObj['contact_number'] = results.rows.item(i)['contact_number'];
+							jsonCustomerDataObj['address_details'] = results.rows.item(i)['address_details'];
 							customerArrSession.push(jsonCustomerDataObj);
 						}
 					}
@@ -2204,7 +2207,6 @@ function errorCBCustomerListDB(err) {
 		});
 		$('.selMenu-bar').remove();
 		$('.optMenu-bar').remove();
-
 		$( attributeDiv ).insertBefore( ".selection-menu .selection-menu-ul .measurementDivShow" );
 		//$('.selection-menu').append(attributeDiv);
 		$('.attr-option-div').append(optionMainDiv);
@@ -2293,7 +2295,7 @@ function errorCBCustomerListDB(err) {
 	}
 	
 	function appendMeasurementDataInDiv(measurementArrData){
-		var appendMeasurementData = '';
+		var appendMeasurementData = '<table> <tbody>';
 		var i = 0;
 		jQuery.each(measurementArrData, function(index,value) {
 			var groupJsonDataCheck = dataTypeCheckJSON(value['group_data']);
@@ -2309,15 +2311,19 @@ function errorCBCustomerListDB(err) {
 						var groupName = groupValue['name'];
 						if(groupValue['measurements'] != ''){
 							var measurementGroupData = groupValue['measurements'];
-							var groupLabelName = '<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 h3Measure measurements-group-heading-div">' + groupName + '</div>';
+							//var groupLabelName = '<div class="col-sm-12">Col12</div><div class="col-sm-6">col6</div><div class="col-sm-6">col6</div>';
+							var groupLabelName = '<tr><th colspan=2 class="h3Measure measurements-group-heading-div">'+groupName+'</th></tr>';
+							//var groupLabelName = '<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 h3Measure measurements-group-heading-div">' + groupName + '</div>';
 							appendMeasurementData += groupLabelName;
 							//var measurementGroupJsonData = jQuery.parseJSON(measurementGroupData);
 							jQuery.each(measurementGroupData, function(measurementsIndex,measurementsValue) {
 								var measNameForField  = measurementsValue['name'];
 								var measPriKeyForField = measurementsValue['id'];
-								var fieldsDiv = '<div class="col-xs-12 col-sm-6 col-md-6 col-lg-6 measure-inputField"> <div class="box start-xs start-sm start-md start-lg"> '
-									+measNameForField+' <input type="text" class="form-control meas-ind'+i+'" data-meas_name="'+measNameForField+'" data-meas_pkid="'+measPriKeyForField+'" id="measField'+measPriKeyForField+'"'+'name="measField'+measPriKeyForField+'"> </div></div>';
-								appendMeasurementData += fieldsDiv;
+								var groupFieldsName = '<tr><td class="measure-inputField">'+measNameForField+'</td>'
+									+'<td class="measure-inputField"><input type="text" class="form-control meas-ind'+i+'" data-meas_name="'+measNameForField+'" data-meas_pkid="'+measPriKeyForField+'" id="measField'+measPriKeyForField+'"'+'name="measField'+measPriKeyForField+'"></td></tr>';
+								/*var fieldsDiv = '<div class="col-xs-12 col-sm-6 col-md-6 col-lg-6 measure-inputField"> <div class="box start-xs start-sm start-md start-lg"> '
+									+measNameForField+' <input type="text" class="form-control meas-ind'+i+'" data-meas_name="'+measNameForField+'" data-meas_pkid="'+measPriKeyForField+'" id="measField'+measPriKeyForField+'"'+'name="measField'+measPriKeyForField+'"> </div></div>';*/
+								appendMeasurementData += groupFieldsName;
 								i = parseInt(i)+1;
 							});
 						}
@@ -2326,10 +2332,12 @@ function errorCBCustomerListDB(err) {
 			}
 			//}
 		});
-		$('#measurementPageId').find('.measure-inputField').remove();
-		$('#measurementPageId').find('.h3Measure').remove();
-		$('#measurementPageId').find('.measureHr').remove();
-		$( appendMeasurementData ).insertBefore( "#measurementPageId .orderSubmitButton" );
+		appendMeasurementData += '<tr><td colspan="2"><button type="button" name="bookOrder" id="bookOrder" onclick="orderTakeMeastFn()" class="btn btn-primary st-bg-baby-pink"> Book Order </button></td></tr></tbody></table>'
+		$('#measurementPageId').find('.measurement-input-fields-div').empty();
+		$('#measurementPageId').find('.measurement-input-fields-div').append(appendMeasurementData);
+		//$('#measurementPageId').find('.h3Measure').remove();
+		//$('#measurementPageId').find('.measureHr').remove();
+		//$( appendMeasurementData ).insertBefore( "#measurementPageId .orderSubmitButton" );
 		//$('#measurementPageId').find('.measurement-InputFields').append(appendMeasurementData);
 	}
 	
@@ -2456,7 +2464,7 @@ function errorCBCustomerListDB(err) {
 	var orderTakenDetails = new Array();
 	var selectedOptionMain = new Array();
 	function orderTakeMeastFn(){
-		 var lengthOfOrder = $( "#measurementPageId .measure-inputField" ).length;
+		var lengthOfOrder = $( "#measurementPageId .measure-inputField" ).length;
 		if(optionArrayToSave.length > 0 && attributeArrayToSave.length > 0){
 			var arrObject = new Array();
 			for(var i = 0; i< optionArrayToSave.length; i++){
@@ -2469,7 +2477,7 @@ function errorCBCustomerListDB(err) {
 			}
 			selectedOptionMain = arrObject;
 		}
-		 
+			 
 		if(lengthOfOrder > 0){
 			var arrObject= new Array();
 			for(var i = 0; i<lengthOfOrder; i++){
@@ -2477,10 +2485,12 @@ function errorCBCustomerListDB(err) {
 				var measPKId = $('.meas-ind'+i).data('meas_pkid');
 				var measName = $('.meas-ind'+i).data('meas_name');
 				var inputValue = $('#measField'+measPKId).val();
-				childObject.measPKId = measPKId;
-				childObject.measName = measName;
-				childObject.inputValue = inputValue;
-				arrObject.push(childObject);
+				if(measPKId != undefined  && measPKId != 'undefined'){
+					childObject.measPKId = measPKId;
+					childObject.measName = measName;
+					childObject.inputValue = inputValue;
+					arrObject.push(childObject);
+				}
 			}
 			orderTakenDetails = arrObject;
 		}
@@ -2504,7 +2514,6 @@ function errorCBCustomerListDB(err) {
 				tableMainRow += tableChildRowEnd;
 			}
 			i = parseInt(i)+1;
-			
 		});
 		if(i % 2 != 0){
 			var tableChildRowEnd = '<td> &nbsp; </td><td> &nbsp; </td><tr>';
@@ -2526,29 +2535,32 @@ function errorCBCustomerListDB(err) {
 				var update_timestamp = value['update_timestamp'];
 				var status_of_order = value['status_of_order'];
 				var customer_id = value['customer_id'];
-				
+				var arr = update_timestamp.split('_');
 				var tableRow = '';
 				tableRow += '<tr><td>'+order_id+'</td>';
 				var customerExist = false;
 				jQuery.each(customerArrData, function(indexObj,valueObj) {
 					if(parseInt(customer_id) == parseInt(valueObj['id'])){
 						var customerName = valueObj['name'];
+						var contactNumber = valueObj['contact_number'];
 						tableRow += '<td>'+customerName+'</td>';
+						tableRow += '<td>'+contactNumber+'</td>';
 						customerExist = true;
 					}
 				});
 				if(!customerExist){
 					tableRow += '<td> &nbsp;</td>';
+					tableRow += '<td> &nbsp;</td>';
 				}
 				tableRow += '<td> '+server_prod_name+' </td>';
-				tableRow += '<td> '+update_timestamp+' </td>';
+				tableRow += '<td> '+arr[0]+' </td>';
 				tableRow += '<td> '+status_of_order+' </td>';
-				tableRow += '<td> Edit </td></tr>';
+				/*tableRow += '<td> Edit </td></tr>';*/
 				tableRowMain += tableRow;
 			});
 			
 		}else{
-			tableRowMain += '<tr><td>No data found.</td></tr>'
+			tableRowMain += '<tr><td colspan="6">No data found.</td></tr>'
 		}
 		$('#orderReportPageId').find('table tbody').append(tableRowMain);
 		gotoOrderPageDiv();
@@ -2558,7 +2570,7 @@ function errorCBCustomerListDB(err) {
 	function sendCustomerDetailsToSaveInServer(){
 		var dataToSend = {};
 		
-		dataToSend["secret_key"] = "4TPD6PI91";
+		dataToSend["secret_key"] = tailorDetailsObj.secret_key;
 		dataToSend["name"] = $('customerNameInput').val();
 		dataToSend["tailor_id"] = tailorDetailsObj.tailor_details_id;
 		dataToSend["customer_id"] = $('#customerIdInput').val();
@@ -2588,7 +2600,7 @@ function errorCBCustomerListDB(err) {
 	function sendCustomerDetailsToUpdateInServer(){
 		var dataToSend = {};
 		
-		dataToSend["secret_key"] = "4TPD6PI91";
+		dataToSend["secret_key"] = tailorDetailsObj.secret_key;
     	dataToSend["id"] = 0;
 		dataToSend["name"] = $('customerNameInput').val();
 		dataToSend["tailor_id"] = tailorDetailsObj.tailor_details_id;
@@ -2619,7 +2631,7 @@ function errorCBCustomerListDB(err) {
 	function sendOrderDetailsToSaveInServer(){
 		var dataToSend = {};
 		
-		dataToSend["secret_key"] = "4TPD6PI91";
+		dataToSend["secret_key"] = tailorDetailsObj.secret_key;
 		dataToSend["tailor_id"] = tailorDetailsObj.tailor_details_id;
 		dataToSend["customer_id"] = $('#customerIdInput').val();
 		dataToSend["order_id"] = $('#newOrderId').val();
@@ -2650,7 +2662,7 @@ function errorCBCustomerListDB(err) {
 	function sendOrderDetailsToUpdateInServer(){
 		var dataToSend = {};
     	
-    	dataToSend["secret_key"] = "4TPD6PI91";
+    	dataToSend["secret_key"] = tailorDetailsObj.secret_key;
     	dataToSend["id"] = 0;
 		dataToSend["tailor_id"] = tailorDetailsObj.tailor_details_id;
 		dataToSend["customer_id"] = $('#customerIdInput').val();
@@ -2696,19 +2708,6 @@ function errorCBCustomerListDB(err) {
         }, dirReady, fail);
 	}
 	
-/*	fileSystem.root.getDirectory("your dir", {create: true}, function fileSystemSuccess(fileSystem){
-        fileSystem.getFile("dummy.txt",{create: true,exclusive:false},function gotFileEntry(fileEntry){
-            var path = fileEntry.fullPath.replace("dummy.txt","");
-            fileEntry.remove();
-            var fileTransfer = new FileTransfer();
-            fileTransfer.download(FILE_DOWNLOAD_URL, path+""+your -savedName,function(theFile){
-                alert("File Downloaded Successfully " + theFile.toURI());
-            },function(error){
-                alert("File Transfer failed" + error.message);
-            });
-        },fail);
-    });*/
-	
 	function onRequestFileSystemSuccess(fileSystem) { 
         var entry=fileSystem.root; 
         entry.getDirectory("tailorrani", {create: true, exclusive: false}, onGetDirectorySuccess, onGetDirectoryFail); 
@@ -2728,9 +2727,12 @@ function errorCBCustomerListDB(err) {
         console.log('window.appRootDir FullPath'+window.appRootDir.fullPath);
         console.log("application dir is ready");
     }
+	// Kishore Commented
+	
+	//window.requestFileSystem  = window.requestFileSystem || window.webkitRequestFileSystem; // Kishore Added
+    //window.requestFileSystem(LocalFileSystem.TEMPORARY, 0, gotFS, fail); // Kishore Added
 	
 	function downloadFile(imageId, imageName, imageType) {
-        var fileTransfer = new FileTransfer();
         var url = '';
         if(imageType == 'product'){
         	url = productImageData + '/' + imageName;
@@ -2743,52 +2745,92 @@ function errorCBCustomerListDB(err) {
         }else if(imageType == 'attrOption'){
         	filePath = '/' + imageId +'_' + imageName;
         }
-        fileTransfer.download(
-        url, 'file:///storage/sdcard0/'+ 'tailorrani/' + filePath, function(entry) {
-            console.log("download complete: " + entry.toURI());
-        }, function(error) {
-        	console.log("download error : " + error.source);
-        	console.log("download target : " + error.target);
-        	console.log("download code : " + error.code);
-        });
+        
+        var filepathToStore='file:///storage/sdcard0/'+ 'tailorrani/' + filePath;
+        filetransferFn(url,filepathToStore);
     }
 	
-	
-/*	function initToCheckTheFile(fileName, assetURL) {
-	    
-	    $status = document.querySelector("#status");
-
-	    $status.innerHTML = "Checking for data file.";
-
-	    store = cordova.file.dataDirectory;
-	    alert('store location : '+ store + 'ApplicationDirectory : '+cordova.file.applicationDirectory);
-	    
-	    //Check for the file. 
-	    window.resolveLocalFileSystemURL(store + fileName, appStart, downloadAsset(fileName, assetURL));
-
+	function downloadFileTestFn() {
+		var File_Name='product_5_582ea8c053c3b.jpg';
+		var URL='http:\/\/tailorraniapp.stavyah.com\/images\/Products\/product_image' + '/' + File_Name;
+		var Folder_Name="galleryTest";
+		downloadFileValidatorFn(URL, Folder_Name, File_Name);
 	}
 	
-	function downloadAsset(fileName, assetURL) {
-	    var fileTransfer = new FileTransfer();
-	    console.log("About to start transfer");
-	    fileTransfer.download(assetURL, store + fileName, 
-	        function(entry) {
-	            console.log("Success!");
-	            alert('File successfully Saved in local system.');
-	            appStart();
-	        }, 
-	        function(err) {
-	            console.log("Error");
-	            console.dir(err);
-	            alert('File Error .'+ err);
-	            alert('File Error .'+ err.code);
-	            alert('File Error .'+ err.message);
-	        });
+	//First step check parameters mismatch and checking network connection if available call    download function
+	function downloadFileValidatorFn(URL, Folder_Name, File_Name) {
+		//Parameters mismatch check
+		if (URL == null && Folder_Name == null && File_Name == null) {
+			return;
+		}
+		else {
+			//checking Internet connection availablity
+			if(connectionType=="Unknown connection" || connectionType=="No network connection"){
+				return;
+			}
+			else {
+				downloadFileFn(URL, Folder_Name, File_Name); //If available download function call
+			}
+		}
 	}
 	
-	function appStart() {
-	    $status.innerHTML = "App ready!";
+	// 2nd Step 
+	function downloadFileFn(URL, Folder_Name, File_Name) {
+		//step to request a file system 
+		window.requestFileSystem(LocalFileSystem.PERSISTENT, 0, fileSystemSuccess, fileSystemFail);
+
+		function fileSystemSuccess(fileSystem) {
+			var download_link = encodeURI(URL);
+			ext = download_link.substr(download_link.lastIndexOf('.') + 1); //Get extension of URL
+
+			var rootdir11 = fileSystem.root;
+			console.log(fileSystem.root + " -- fileSystem.root --");
+			console.log(rootdir11.fullPath + " -- rootdir11.fullPath --");
+			
+			var directoryEntry = fileSystem.root; // to get root path of directory
+			directoryEntry.getDirectory(Folder_Name, { create: true, exclusive: false }, onDirectorySuccess, onDirectoryFail); // creating folder in sdcard
+			
+			//cordova.file.dataDirectory
+			var rootdir = fileSystem.root;
+			var fp = rootdir.fullPath; // Returns Fulpath of local directory
+			
+
+			fp = fp + "/" + Folder_Name + "/" + File_Name + "." + ext; // fullpath and name of the file which we want to give
+			// download function call
+			filetransferFn(download_link, fp);
+		}
+
+		function onDirectorySuccess(parent) {
+			// Directory created successfuly
+			console.log("onDirectorySuccess");
+		}
+
+		function onDirectoryFail(error) {
+			//Error while creating directory
+			console.log("Unable to create new directory: " + error.code);
+		}
+
+		function fileSystemFail(evt) {
+			//Unable to access file system
+			console.log(evt.target.error.code);
+		}
 	}
-
-
-*/
+	
+	// 3rd Step 
+	function filetransferFn(download_link, fp) {
+		var fileTransfer = new FileTransfer();
+		// File download function with URL and local path
+		fileTransfer.download(download_link, fp,
+				function (entry) {
+			alert("download toURI: " + entry.toURI());
+			alert("download fullPath: " + entry.fullPath + entry.toURI());
+		},
+		function (error) {
+			//Download abort errors or download failed errors
+			alert("download error source " + error.source);
+			//alert("download error target " + error.target);
+			//alert("upload error code" + error.code);
+		}
+		);
+	}
+	
