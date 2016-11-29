@@ -1953,6 +1953,7 @@ function errorCBCustomerListDB(err) {
 	
 	function downloadImagesOfProduct(prodArrDataToDownload){
 		prodArrDataToDownload = productDetailsArrSession;
+		var i = 0;
 		jQuery.each(prodArrDataToDownload, function(index,value) {
 			var jsonObj=value;
 			var galleryObj = '';
@@ -1964,8 +1965,11 @@ function errorCBCustomerListDB(err) {
 					downloadFile(gallery_id, image, 'product');
 				});
 			}
+			i = parseInt(i) + 1;
 		});
-		appendProdListDB(productDetailsArrSession);
+		if(i == prodArrDataToDownload.length){
+			appendProdListDB(productDetailsArrSession);
+		}
 	}
 	
 	function appendProdListDB(prodArrData) {
