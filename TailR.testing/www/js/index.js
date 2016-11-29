@@ -2791,6 +2791,8 @@ function errorCBCustomerListDB(err) {
 			directoryEntry.getDirectory(Folder_Name, { create: true, exclusive: false }, onDirectorySuccess, onDirectoryFail); // creating folder in sdcard
 			
 			//cordova.file.dataDirectory
+			store = cordova.file.dataDirectory;
+			console.log('store '+store);
 			var rootdir = fileSystem.root;
 			var fp = rootdir.fullPath; // Returns Fulpath of local directory
 			
@@ -2822,12 +2824,12 @@ function errorCBCustomerListDB(err) {
 		// File download function with URL and local path
 		fileTransfer.download(download_link, fp,
 				function (entry) {
-			alert("download toURI: " + entry.toURI());
-			alert("download fullPath: " + entry.fullPath + entry.toURI());
+			console.log("download toURI: " + entry.toURI());
+			console.log("download fullPath: " + entry.fullPath + entry.toURI());
 		},
 		function (error) {
 			//Download abort errors or download failed errors
-			alert("download error source " + error.source);
+			console.log("download error source " + error.source);
 			//alert("download error target " + error.target);
 			//alert("upload error code" + error.code);
 		}
