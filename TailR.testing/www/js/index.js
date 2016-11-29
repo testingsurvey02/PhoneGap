@@ -1994,7 +1994,8 @@ function errorCBCustomerListDB(err) {
 		    			}, 2000);
 					}*/
 					//var prodImage = productImageData + '/'+image; // For Production
-					var prodImage = window.appRootDir.fullPath + '/' + gallery_id+'_'+image;
+					//var prodImage = window.appRootDir.fullPath + '/' + gallery_id+'_'+image;
+					var prodImage = 'file:///storage/sdcard0/'+ 'tailorrani/' + gallery_id+'_'+image;
 					console.log('prodImage' +prodImage);
 					//var prodImage = 'img/product'+indexObj+'.jpg'; // For Testing
 					//initToCheckTheFile(image, productImageData);
@@ -2082,7 +2083,8 @@ function errorCBCustomerListDB(err) {
 							}
 							*/
 							
-							var prodImageSrc = window.appRootDir.fullPath + '/' + galId+'_'+image;
+							//var prodImageSrc = window.appRootDir.fullPath + '/' + galId+'_'+image;
+							var prodImageSrc = 'file:///storage/sdcard0/'+ 'tailorrani/' + galId+'_'+image;
 							console.log('prodImageSrc ' +prodImageSrc);
 							//var prodImageSrc = productImageData + '/'+image; // For Production
 							//initToCheckTheFile(image, productImageData);
@@ -2175,7 +2177,8 @@ function errorCBCustomerListDB(err) {
 				    				//$('#please-wait-modal').modal('hide');
 				    			}, 2000);
 							}*/
-							var optionImages = window.appRootDir.fullPath + '/' + optionId+'_'+optionImg;
+							//var optionImages = window.appRootDir.fullPath + '/' + optionId+'_'+optionImg;
+							var optionImages = 'file:///storage/sdcard0/'+ 'tailorrani/' + optionId+'_'+optionImg;
 							console.log('optionImages' + optionImages);
 							//var optionImages = attributeImageData + '/'+optionImg; // For Production
 							//var optionImages = 'img/attr'+index2+'.png'; // For Testing
@@ -2742,7 +2745,7 @@ function errorCBCustomerListDB(err) {
         	filePath = '/' + imageId +'_' + imageName;
         }
         fileTransfer.download(
-        url, 'file://'+ window.appRootDir.fullPath + filePath, function(entry) {
+        url, 'file:///storage/sdcard0/'+ 'tailorrani/' + filePath, function(entry) {
             console.log("download complete: " + entry.toURI());
         }, function(error) {
         	console.log("download error : " + error.source);
