@@ -2145,6 +2145,7 @@ function errorCBCustomerListDB(err) {
 				});
 			}
 		});
+		dataIsFromServer = 1;
 	}
 	
 	function appendAttrDataByArraysAndIds(prodAttrArr, attrArr, catId, prodId){
@@ -2203,7 +2204,7 @@ function errorCBCustomerListDB(err) {
 		});
 		$('.selMenu-bar').remove();
 		$('.optMenu-bar').remove();
-		dataIsFromServer = 1;
+
 		$( attributeDiv ).insertBefore( ".selection-menu .selection-menu-ul .measurementDivShow" );
 		//$('.selection-menu').append(attributeDiv);
 		$('.attr-option-div').append(optionMainDiv);
