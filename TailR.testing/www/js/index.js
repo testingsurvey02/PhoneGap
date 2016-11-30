@@ -2004,7 +2004,7 @@ function errorCBCustomerListDB(err) {
 						console.log('Updated successfully product details');
 					});
 				}
-			}errorCB);
+			},errorCB);
 		}, errorUpdateProductFn, successUpdateProdFn);
 	}
 	
