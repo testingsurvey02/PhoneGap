@@ -2000,7 +2000,7 @@ function errorCBCustomerListDB(err) {
 				console.log('value["gallery"] updateProductForGallery : '+value["gallery"]);
 				var productServerId = value['server_prod_id'];
 				if(value['gallery'] != ''){
-					tx.executeSql('update product_details set gallery="'+galleryToUpdateObj+' where server_prod_id = '+productServerId +,[],function(tx,results){
+					tx.executeSql('update product_details set gallery="'+galleryToUpdateObj+' where server_prod_id = '+productServerId ,[],function(tx,results){
 						console.log('Updated successfully product details');
 					});
 				}
