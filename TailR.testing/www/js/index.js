@@ -2007,7 +2007,7 @@ function errorCBCustomerListDB(err) {
 					}*/
 					//var prodImage = productImageData + '/'+image; // For Production
 					//var prodImage = window.appRootDir.fullPath + '/' + gallery_id+'_'+image;
-					var prodImage = cordova.file.dataDirectory; + "/" + 'gallery'+ '/' + image;
+					var prodImage = cordova.file.dataDirectory + "/" + 'gallery'+ '/' + image;
 					console.log('prodImage : '+prodImage);
 					//var prodImage = 'img/product'+indexObj+'.jpg'; // For Testing
 					//initToCheckTheFile(image, productImageData);
