@@ -2007,7 +2007,7 @@ function errorCBCustomerListDB(err) {
 					}*/
 					//var prodImage = productImageData + '/'+image; // For Production
 					//var prodImage = window.appRootDir.fullPath + '/' + gallery_id+'_'+image;
-					var prodImage = store + "/" + 'gallery'+ '/' + image;
+					var prodImage = cordova.file.dataDirectory; + "/" + 'gallery'+ '/' + image;
 					console.log('prodImage : '+prodImage);
 					//var prodImage = 'img/product'+indexObj+'.jpg'; // For Testing
 					//initToCheckTheFile(image, productImageData);
@@ -2766,7 +2766,6 @@ function errorCBCustomerListDB(err) {
 	
 	//First step check parameters mismatch and checking network connection if available call    download function
 	function downloadFileValidatorFn(URL, Folder_Name, File_Name) {
-		var localPath = '';
 		//Parameters mismatch check
 		if (URL == null && Folder_Name == null && File_Name == null) {
 			return;
@@ -2777,16 +2776,13 @@ function errorCBCustomerListDB(err) {
 				return;
 			}
 			else {
-				localPath = downloadFileFn(URL, Folder_Name, File_Name); //If available download function call
-				console.log('localPath downloadFileValidatorFn '+localPath);
+				downloadFileFn(URL, Folder_Name, File_Name); //If available download function call
 			}
 		}
-		return localPath;
 	}
 	var folderPath = '';
 	// 2nd Step 
 	function downloadFileFn(URL, Folder_Name, File_Name) {
-		var localPath = '';
 		//step to request a file system 
 		window.requestFileSystem(LocalFileSystem.PERSISTENT, 0, fileSystemSuccess, fileSystemFail);
 
@@ -2811,9 +2807,7 @@ function errorCBCustomerListDB(err) {
 
 			fp = folderPath + File_Name; // fullpath and name of the file which we want to give
 			// download function call
-			localPath = filetransferFn(download_link, fp);
-			console.log('localPath downloadFileFn '+localPath);
-			return localPath;
+			filetransferFn(download_link, fp);
 		}
 
 		function onDirectorySuccess(parent) {
@@ -2834,7 +2828,6 @@ function errorCBCustomerListDB(err) {
 	
 	// 3rd Step 
 	function filetransferFn(download_link, fp) {
-		var localPath = '';
 		var fileTransfer = new FileTransfer();
 		console.log(fp);
 		// File download function with URL and local path
@@ -2842,7 +2835,6 @@ function errorCBCustomerListDB(err) {
 				function (entry) {
 			localPath = entry.toURI();
 			console.log("download toURI: " + entry.toURI());
-			return localPath;
 		},
 		function (error) {
 			//Download abort errors or download failed errors
