@@ -2795,7 +2795,7 @@ function errorCBCustomerListDB(err) {
 		function fileSystemSuccess(fileSystem) {
 			var download_link = encodeURI(URL);
 			ext = download_link.substr(download_link.lastIndexOf('.') + 1); //Get extension of URL
-			downloadLinkGlobalTest = downloadLink;
+			downloadLinkGlobalTest = download_link;
 			var rootdir11 = fileSystem.root;
 			console.log(fileSystem.root + " -- fileSystem.root --");
 			console.log(rootdir11.fullPath + " -- rootdir11.fullPath --");
