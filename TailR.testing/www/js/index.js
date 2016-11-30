@@ -1805,7 +1805,7 @@ function errorCBCustomerListDB(err) {
 	var measurementTypeId = 0;
 	var productImageData = 'http:\/\/tailorraniapp.stavyah.com\/images\/Products\/product_image';
 	var attributeImageData = 'http:\/\/tailorraniapp.stavyah.com\/images\/Attributes\/attribute_image';
-	var localPath = 'file:///storage/sdcard0/Android/data/com.stavyah.tailorrani/files/';
+	var localPath = 'file:///data/data/com.stavyah.tailorrani/files/';
 
 	function getCategoriesDataFromServer(){
 		var dataToSend = {};
