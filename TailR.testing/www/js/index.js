@@ -1986,7 +1986,8 @@ function errorCBCustomerListDB(err) {
 			i = parseInt(i) + 1;
 		});
 		if(i == prodArrDataToDownload.length){
-			
+			productDetailsArrSession = prodArrDataToDownload;
+			updateProductForGallery();
 		}
 	}
 	
