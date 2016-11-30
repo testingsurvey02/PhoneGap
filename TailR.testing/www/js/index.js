@@ -2895,7 +2895,7 @@ function errorCBCustomerListDB(err) {
 				function (entry) {
 			localPath = entry.toURI();
 			console.log("download toURI: " + entry.toURI());
-			window.resolveLocalFileSystemURL(entry.toURI(), appStart, downloadAsset);
+			//window.resolveLocalFileSystemURL(entry.toURI(), appStart, downloadAsset);
 			//checkIfFileExists(entry.toURI());
 			//count = parseInt(count)+1;
 		},
