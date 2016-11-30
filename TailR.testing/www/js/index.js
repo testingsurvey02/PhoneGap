@@ -1958,64 +1958,26 @@ function errorCBCustomerListDB(err) {
 		prodArrDataToDownload = productDetailsArrSession;
 		var i = 0;
 		var folder = 'gallery';
-		var productPath = cordova.file.externalDataDirectory;
-		var galleryArrObject = new Array();
 		jQuery.each(prodArrDataToDownload, function(index,value) {
 			var jsonObj=value;
 			var galleryObj = '';
 			galleryObj = jQuery.parseJSON(jsonObj['gallery']);
 			if(jsonObj['gallery'] != ''){
+				var galleryObject = new Object();
 				jQuery.each(galleryObj , function(indexObj,valueObj) {
-					var galleryObject = new Object();
+					var galleryArrObject = new Array();
 					var gallery_id = valueObj['id'];
 					var image = valueObj["image"];
 					//downloadFile(gallery_id, image, 'product');
 					var downloadFileUrl = productImageData + '/' + image;
 					downloadFileValidatorFn(downloadFileUrl, folder, image);
-					galleryObject['id'] = gallery_id;
-					galleryObject['pdt_id'] = valueObj["pdt_id"];
-					galleryObject['image'] = valueObj["image"];
-					galleryObject['created_at'] = valueObj["created_at"];
-					galleryObject['updated_at'] = valueObj["updated_at"];
-					galleryObject['localFilePath'] = productPath + '/'+folder+'/'+image;
-					galleryArrObject.push(galleryObject);
 				});
-				value['gallery'] = galleryArrObject;
 			}
-			
 			i = parseInt(i) + 1;
 		});
 		if(i == prodArrDataToDownload.length){
-			productDetailsArrSession = prodArrDataToDownload;
-			updateProductForGallery();
+			appendProdListDB(productDetailsArrSession);
 		}
-	}
-	
-	function updateProductForGallery(){
-		db.transaction(	function (tx){
-			jQuery.each(productDetailsArrSession, function(index,value) {
-				var galleryObj = '';
-				galleryObj = jQuery.parseJSON(value['gallery']);
-				var galleryToUpdateObj = value['gallery'];
-				console.log('galleryObj updateProductForGallery : '+galleryObj);
-				console.log('value["gallery"] updateProductForGallery : '+value["gallery"]);
-				var productServerId = value['server_prod_id'];
-				if(value['gallery'] != ''){
-					tx.executeSql('update product_details set gallery="'+galleryToUpdateObj+' where server_prod_id = '+productServerId ,[],function(tx,results){
-						console.log('Updated successfully product details');
-					});
-				}
-			},errorCB);
-		}, errorUpdateProductFn, successUpdateProdFn);
-	}
-	
-	function successUpdateProdFn(){
-		appendProdListDB(productDetailsArrSession);
-	}
-	
-	function errorUpdateProductFn(err){
-		console.log('errorUpdateProductFn : '+err.code);
-		console.log('errorUpdateProductFn : '+err.message);
 	}
 	
 	function appendProdListDB(prodArrData) {
@@ -2036,7 +1998,7 @@ function errorCBCustomerListDB(err) {
 			if(jsonObj['gallery'] != ''){
 				jQuery.each(galleryObj , function(indexObj,valueObj) {
 					var gallery_id = valueObj['id'];
-					var image = valueObj["localFilePath"];
+					var image = valueObj["image"];
 					/*if(parseInt(dataIsFromServer) == 0){
 						downloadFile(gallery_id, image, 'product');
 						setTimeout(function() {
@@ -2045,8 +2007,7 @@ function errorCBCustomerListDB(err) {
 					}*/
 					//var prodImage = productImageData + '/'+image; // For Production
 					//var prodImage = window.appRootDir.fullPath + '/' + gallery_id+'_'+image;
-					//var prodImage = cordova.file.externalDataDirectory + "/" + 'gallery'+ '/' + image;
-					var prodImage = image;
+					var prodImage = cordova.file.externalDataDirectory + "/" + 'gallery'+ '/' + image;
 					console.log('prodImage : '+prodImage);
 					//var prodImage = 'img/product'+indexObj+'.jpg'; // For Testing
 					//initToCheckTheFile(image, productImageData);
@@ -2835,34 +2796,12 @@ function errorCBCustomerListDB(err) {
 			ext = download_link.substr(download_link.lastIndexOf('.') + 1); //Get extension of URL
 			downloadLinkGlobalTest = download_link;
 			var rootdir11 = fileSystem.root;
-			console.log(fileSystem.root + " -- fileSystem.root --");
-			console.log(rootdir11.fullPath + " -- rootdir11.fullPath --");
 			
 			var directoryEntry = fileSystem.root; // to get root path of directory
 			directoryEntry.getDirectory(Folder_Name, { create: true, exclusive: false }, onDirectorySuccess, onDirectoryFail); // creating folder in sdcard
 			
 			store = cordova.file.externalDataDirectory;
-			console.log('cordova.file.externalDataDirectory --  ' + store);
 			
-			
-			/*var appDirStore;
-			var appStoDirStore;
-			var extAppStoDirStore;
-			
-			appStoDirStore = cordova.file.applicationStorageDirectory;
-			console.log('appStoDirStore '+appStoDirStore);
-			
-			extAppStoDirStore = cordova.file.externalApplicationStorageDirectory;
-			console.log('extAppStoDirStore '+extAppStoDirStore);
-			//cordova.file.dataDirectory
-			appDirStore = cordova.file.applicationDirectory;
-			console.log('appDirStore '+appDirStore);
-			
-			
-			storeExternal = cordova.file.externalDataDirectory;
-			console.log('storeExternal '+storeExternal);*/
-			
-			//var rootdir = fileSystem.root;
 			//var fp = rootdir.fullPath; // Returns Fulpath of local directory
 			folderAndPath = Folder_Name + '/' + File_Name;
 			var fileDataDirect = store + "/" + folderAndPath; // fullpath and name of the file which we want to give
@@ -2895,7 +2834,6 @@ function errorCBCustomerListDB(err) {
 				function (entry) {
 			localPath = entry.toURI();
 			console.log("download toURI: " + entry.toURI());
-			//window.resolveLocalFileSystemURL(entry.toURI(), appStart, downloadAsset);
 			//checkIfFileExists(entry.toURI());
 			//count = parseInt(count)+1;
 		},
@@ -2908,43 +2846,7 @@ function errorCBCustomerListDB(err) {
 		);
 	}
 	
-	function checkIfFileExists(path){
-	    window.requestFileSystem(LocalFileSystem.PERSISTENT, 0, function(fileSystem){
-	        fileSystem.root.getFile(path, { create: false }, fileExists, fileDoesNotExist);
-	    }, getFSFail); //of requestFileSystem
-	}
-	function fileExists(fileEntry){
-	    console.log("File " + fileEntry.fullPath + " exists!");
-	   // appDirStoreFn();
-	}
-	function fileDoesNotExist(){
-		console.log("file does not exist");
-	  //  appDirStoreFn();
-	}
-	function getFSFail(evt) {
-	    console.log(evt.target.error.code);
-	  //  appDirStoreFn();
-	}
+
 	
-	/*function appDirStoreFn(){
-		var appDirStore;
-		if(count == 1){
-			appDirStore = cordova.file.applicationDirectory;
-			console.log('cordova.file.applicationDirectory' + appDirStore);
-		}else if(count == 2){
-			appDirStore = cordova.file.applicationStorageDirectory;
-			console.log('cordova.file.applicationStorageDirectory' + appDirStore);
-		}else if(count == 3){
-			appDirStore = cordova.file.externalApplicationStorageDirectory;
-			console.log('cordova.file.externalApplicationStorageDirectory' + appDirStore);
-		}else if(count == 4){
-			appDirStore = cordova.file.externalDataDirectory;
-			console.log('cordova.file.externalDataDirectory' + appDirStore);
-		}
-		
-		console.log('appDirStore '+appDirStore);
-		var fileDataDirect = appDirStore + "/" + folderAndPath; // fullpath and name of the file which we want to give
-		// download function call
-		filetransferFn(downloadLinkGlobalTest, fileDataDirect, folderAndPath);
-	}*/
+	
 	
