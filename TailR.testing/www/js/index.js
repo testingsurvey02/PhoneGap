@@ -2807,17 +2807,17 @@ function errorCBCustomerListDB(err) {
 			console.log('dataDirectory '+store);
 			
 			if(count == 1){
-				appDirStore = cordova.file.applicationDirectory;
-				console.log('cordova.file.applicationDirectory' + appDirStore);
+				store = cordova.file.applicationDirectory;
+				console.log('cordova.file.applicationDirectory --  ' + store);
 			}else if(count == 2){
-				appDirStore = cordova.file.applicationStorageDirectory;
-				console.log('cordova.file.applicationStorageDirectory' + appDirStore);
+				store = cordova.file.applicationStorageDirectory;
+				console.log('cordova.file.applicationStorageDirectory --  ' + store);
 			}else if(count == 3){
-				appDirStore = cordova.file.externalApplicationStorageDirectory;
-				console.log('cordova.file.externalApplicationStorageDirectory' + appDirStore);
+				store = cordova.file.externalApplicationStorageDirectory;
+				console.log('cordova.file.externalApplicationStorageDirectory --  ' + store);
 			}else if(count == 4){
-				appDirStore = cordova.file.externalDataDirectory;
-				console.log('cordova.file.externalDataDirectory' + appDirStore);
+				store = cordova.file.externalDataDirectory;
+				console.log('cordova.file.externalDataDirectory --  ' + store);
 			}
 			
 			/*var appDirStore;
@@ -2889,15 +2889,15 @@ function errorCBCustomerListDB(err) {
 	}
 	function fileExists(fileEntry){
 	    console.log("File " + fileEntry.fullPath + " exists!");
-	    appDirStoreFn();
+	   // appDirStoreFn();
 	}
 	function fileDoesNotExist(){
 		console.log("file does not exist");
-	    appDirStoreFn();
+	  //  appDirStoreFn();
 	}
 	function getFSFail(evt) {
 	    console.log(evt.target.error.code);
-	    appDirStoreFn();
+	  //  appDirStoreFn();
 	}
 	
 	function appDirStoreFn(){
