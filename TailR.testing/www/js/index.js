@@ -1695,7 +1695,7 @@ function errorCBCustomerListDB(err) {
 	    var ss = addZero(d.getSeconds(), 2);
 	    var mss = addZero(d.getMilliseconds(), 3);
 	    
-	    var dateTimeStampTemp = yyyy + month + dd +"_"+ hh + mm + ss + mss;
+	    var dateTimeStampTemp = yyyy +'-'+ month +'-'+ dd +"_"+ hh +':'+ mm +':'+ ss +' '+ mss;
 	    return dateTimeStampTemp;
 	}
 	
@@ -2802,23 +2802,9 @@ function errorCBCustomerListDB(err) {
 			var directoryEntry = fileSystem.root; // to get root path of directory
 			directoryEntry.getDirectory(Folder_Name, { create: true, exclusive: false }, onDirectorySuccess, onDirectoryFail); // creating folder in sdcard
 			
+			store = cordova.file.externalDataDirectory;
+			console.log('cordova.file.externalDataDirectory --  ' + store);
 			
-			store = cordova.file.dataDirectory;
-			console.log('dataDirectory '+store);
-			
-			if(count == 1){
-				store = cordova.file.applicationDirectory;
-				console.log('cordova.file.applicationDirectory --  ' + store);
-			}else if(count == 2){
-				store = cordova.file.applicationStorageDirectory;
-				console.log('cordova.file.applicationStorageDirectory --  ' + store);
-			}else if(count == 3){
-				store = cordova.file.externalApplicationStorageDirectory;
-				console.log('cordova.file.externalApplicationStorageDirectory --  ' + store);
-			}else if(count == 4){
-				store = cordova.file.externalDataDirectory;
-				console.log('cordova.file.externalDataDirectory --  ' + store);
-			}
 			
 			/*var appDirStore;
 			var appStoDirStore;
@@ -2864,14 +2850,15 @@ function errorCBCustomerListDB(err) {
 	// 3rd Step 
 	function filetransferFn(download_link, fp) {
 		var fileTransfer = new FileTransfer();
-		console.log(fp);
+		//console.log(fp);
 		// File download function with URL and local path
 		fileTransfer.download(download_link, fp,
 				function (entry) {
 			localPath = entry.toURI();
 			console.log("download toURI: " + entry.toURI());
-			checkIfFileExists(entry.toURI());
-			count = parseInt(count)+1;
+			window.resolveLocalFileSystemURL(entry.toURI(), appStart, downloadAsset);
+			//checkIfFileExists(entry.toURI());
+			//count = parseInt(count)+1;
 		},
 		function (error) {
 			//Download abort errors or download failed errors
@@ -2900,7 +2887,7 @@ function errorCBCustomerListDB(err) {
 	  //  appDirStoreFn();
 	}
 	
-	function appDirStoreFn(){
+	/*function appDirStoreFn(){
 		var appDirStore;
 		if(count == 1){
 			appDirStore = cordova.file.applicationDirectory;
@@ -2920,5 +2907,5 @@ function errorCBCustomerListDB(err) {
 		var fileDataDirect = appDirStore + "/" + folderAndPath; // fullpath and name of the file which we want to give
 		// download function call
 		filetransferFn(downloadLinkGlobalTest, fileDataDirect, folderAndPath);
-	}
+	}*/
 	
