@@ -2833,7 +2833,7 @@ function errorCBCustomerListDB(err) {
 		// File download function with URL and local path
 		fileTransfer.download(download_link, fp,
 				function (entry) {
-			localPath = entry.toURI();
+			//localPath = entry.toURI();
 			console.log("download toURI: " + entry.toURI());
 			window.resolveLocalFileSystemURL(entry.toURI(), fileExist, fileNotExist);
 			//checkIfFileExists(entry.toURI());
