@@ -1956,15 +1956,21 @@ function errorCBCustomerListDB(err) {
 	function downloadImagesOfProduct(prodArrDataToDownload){
 		prodArrDataToDownload = productDetailsArrSession;
 		var i = 0;
+		var folder = 'gallery';
 		jQuery.each(prodArrDataToDownload, function(index,value) {
 			var jsonObj=value;
 			var galleryObj = '';
 			galleryObj = jQuery.parseJSON(jsonObj['gallery']);
 			if(jsonObj['gallery'] != ''){
+				var galleryObject = new Object();
 				jQuery.each(galleryObj , function(indexObj,valueObj) {
+					var galleryArrObject = new Array();
 					var gallery_id = valueObj['id'];
 					var image = valueObj["image"];
-					downloadFile(gallery_id, image, 'product');
+					//downloadFile(gallery_id, image, 'product');
+					var downloadFileUrl = productImageData + '/' + image;
+					var generatedPath = downloadFileValidatorFn(downloadFileUrl, folder, image);
+					console.log('generatedPath : '+ generatedPath);
 				});
 			}
 			i = parseInt(i) + 1;
@@ -2759,6 +2765,7 @@ function errorCBCustomerListDB(err) {
 	
 	//First step check parameters mismatch and checking network connection if available call    download function
 	function downloadFileValidatorFn(URL, Folder_Name, File_Name) {
+		var localPath = '';
 		//Parameters mismatch check
 		if (URL == null && Folder_Name == null && File_Name == null) {
 			return;
@@ -2769,13 +2776,16 @@ function errorCBCustomerListDB(err) {
 				return;
 			}
 			else {
-				downloadFileFn(URL, Folder_Name, File_Name); //If available download function call
+				localPath = downloadFileFn(URL, Folder_Name, File_Name); //If available download function call
+				console.log('localPath downloadFileValidatorFn '+localPath);
 			}
 		}
+		return localPath;
 	}
 	
 	// 2nd Step 
 	function downloadFileFn(URL, Folder_Name, File_Name) {
+		var localPath = '';
 		//step to request a file system 
 		window.requestFileSystem(LocalFileSystem.PERSISTENT, 0, fileSystemSuccess, fileSystemFail);
 
@@ -2799,7 +2809,9 @@ function errorCBCustomerListDB(err) {
 
 			fp = store + "/" + Folder_Name + "/" + File_Name; // fullpath and name of the file which we want to give
 			// download function call
-			filetransferFn(download_link, fp);
+			localPath = filetransferFn(download_link, fp);
+			console.log('localPath downloadFileFn '+localPath);
+			return localPath;
 		}
 
 		function onDirectorySuccess(parent) {
@@ -2820,12 +2832,15 @@ function errorCBCustomerListDB(err) {
 	
 	// 3rd Step 
 	function filetransferFn(download_link, fp) {
+		var localPath = '';
 		var fileTransfer = new FileTransfer();
 		// File download function with URL and local path
 		fileTransfer.download(download_link, fp,
 				function (entry) {
+			localPath = entry.toURI();
 			console.log("download toURI: " + entry.toURI());
 			console.log("download fullPath: " + entry.fullPath + entry.toURI());
+			return localPath;
 		},
 		function (error) {
 			//Download abort errors or download failed errors
