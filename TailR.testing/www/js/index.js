@@ -1995,11 +1995,12 @@ function errorCBCustomerListDB(err) {
 			jQuery.each(productDetailsArrSession, function(index,value) {
 				var galleryObj = '';
 				galleryObj = jQuery.parseJSON(value['gallery']);
+				var galleryToUpdateObj = value['gallery'];
 				console.log('galleryObj updateProductForGallery : '+galleryObj);
 				console.log('value["gallery"] updateProductForGallery : '+value["gallery"]);
 				var productServerId = value['server_prod_id'];
 				if(value['gallery'] != ''){
-					tx.executeSql('update product_details set gallery="'+value['gallery']+' where server_prod_id = '+,[],function(tx,results){
+					tx.executeSql('update product_details set gallery="'+galleryToUpdateObj+' where server_prod_id = '+productServerId +,[],function(tx,results){
 						console.log('Updated successfully product details');
 					});
 				}
