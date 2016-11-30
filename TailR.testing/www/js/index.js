@@ -1342,6 +1342,8 @@ function insertOrderDetails(){
 				});
 			
 		},errorCBInsertOrderDetails, successCBInsertOrderDetails);
+	}else{
+		getOrderListFromLocalDB();
 	}
 }
 
@@ -2534,6 +2536,15 @@ function errorCBCustomerListDB(err) {
 	}
 	
 	function appendOrderAndCustomerDetails(orderArrData, customerArrData){
+		$('#prodHtmlName').val('');
+		$('#prodHtmlId').val('');
+		$('#categoryHtmlId').val('');
+		$('#customerIdInput').val('');
+		$('#newOrderId').val('');
+		$('#customerNameInput').val('');
+		$('#priceInput').val('');
+		$('#contactNumberInput').val('');
+		$('#addressInput').val('');
 		$('#orderReportPageId').find('table tbody').empty();
 		var tableRowMain = '';
 		if(orderArrData != ''){
