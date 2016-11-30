@@ -1333,7 +1333,7 @@ function insertOrderDetails(){
 				var server_prod_name = prodHtmlName;
 				var optionIdsWithArrays = selectedOptionMain;
 				var customer_id = customerIdInput;
-				var status_of_order = 'Order Taken';
+				var status_of_order = 'Pending';
 
 				tx.executeSql('INSERT INTO order_details(server_cat_id, server_prod_id, order_data, update_timestamp, server_prod_name, customer_id, option_selected, status_of_order) VALUES (?,?,?,?,?,?,?,?)',
 							[server_cat_id, server_prod_id, order_data, update_timestamp,server_prod_name, customer_id, optionIdsWithArrays, status_of_order], function(tx, res) {
