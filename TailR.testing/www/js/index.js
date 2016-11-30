@@ -2007,7 +2007,7 @@ function errorCBCustomerListDB(err) {
 					}*/
 					//var prodImage = productImageData + '/'+image; // For Production
 					//var prodImage = window.appRootDir.fullPath + '/' + gallery_id+'_'+image;
-					var prodImage = cordova.file.externalDataDirectory + "/" + 'gallery'+ '/' + image;
+					var prodImage = 'file:///storage/sdcard0/Android/data/com.stavyah.tailorrani/files/' + "/" + 'gallery'+ '/' + image;
 					console.log('prodImage : '+prodImage);
 					//var prodImage = 'img/product'+indexObj+'.jpg'; // For Testing
 					//initToCheckTheFile(image, productImageData);
@@ -2095,7 +2095,7 @@ function errorCBCustomerListDB(err) {
 							*/
 							
 							//var prodImageSrc = window.appRootDir.fullPath + '/' + galId+'_'+image;
-							var prodImageSrc = cordova.file.externalDataDirectory + "/" + 'gallery'+ '/' +image;
+							var prodImageSrc = "file:///storage/sdcard0/Android/data/com.stavyah.tailorrani/files/" + "/" + 'gallery'+ '/' +image;
 							//var prodImageSrc = productImageData + '/'+image; // For Production
 							//initToCheckTheFile(image, productImageData);
 							
@@ -2191,7 +2191,7 @@ function errorCBCustomerListDB(err) {
 				    			}, 2000);
 							}*/
 							//var optionImages = window.appRootDir.fullPath + '/' + optionId+'_'+optionImg;
-							var optionImages = cordova.file.externalDataDirectory + "/" + 'attributes'+ '/' +optionImg;
+							var optionImages = 'file:///storage/sdcard0/Android/data/com.stavyah.tailorrani/files/' + "/" + 'attributes'+ '/' +optionImg;
 							//var optionImages = attributeImageData + '/'+optionImg; // For Production
 							//var optionImages = 'img/attr'+index2+'.png'; // For Testing
 							//initToCheckTheFile(optionImg, attributeImageData);
