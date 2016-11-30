@@ -2805,7 +2805,7 @@ function errorCBCustomerListDB(err) {
 			
 			folderPath = store + "/" + Folder_Name;
 
-			fp = folderPath + File_Name; // fullpath and name of the file which we want to give
+			fp = folderPath + '/' + File_Name; // fullpath and name of the file which we want to give
 			// download function call
 			filetransferFn(download_link, fp);
 		}
