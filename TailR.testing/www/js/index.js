@@ -2760,15 +2760,15 @@ function errorCBCustomerListDB(err) {
         filetransferFn(url,filepathToStore);
     }
 	
-	function downloadFileTestFn() {
+	function downloadFileTestFn(type) {
 		var File_Name='product_5_582ea8c053c3b.jpg';
 		var URL='http:\/\/tailorraniapp.stavyah.com\/images\/Products\/product_image' + '/' + File_Name;
 		var Folder_Name="galleryTest";
-		downloadFileValidatorFn(URL, Folder_Name, File_Name);
+		downloadFileValidatorFn(URL, Folder_Name, File_Name, type);
 	}
 	
 	//First step check parameters mismatch and checking network connection if available call    download function
-	function downloadFileValidatorFn(URL, Folder_Name, File_Name) {
+	function downloadFileValidatorFn(URL, Folder_Name, File_Name, type) {
 		//Parameters mismatch check
 		if (URL == null && Folder_Name == null && File_Name == null) {
 			return;
@@ -2779,16 +2779,15 @@ function errorCBCustomerListDB(err) {
 				return;
 			}
 			else {
-				downloadFileFn(URL, Folder_Name, File_Name); //If available download function call
+				downloadFileFn(URL, Folder_Name, File_Name, type); //If available download function call
 			}
 		}
 	}
 	var folderPath = '';
 	var folderAndPath;
-	var count = 0;
 	var downloadLinkGlobalTest;
 	// 2nd Step 
-	function downloadFileFn(URL, Folder_Name, File_Name) {
+	function downloadFileFn(URL, Folder_Name, File_Name, count) {
 		//step to request a file system 
 		window.requestFileSystem(LocalFileSystem.PERSISTENT, 0, fileSystemSuccess, fileSystemFail);
 
@@ -2806,6 +2805,20 @@ function errorCBCustomerListDB(err) {
 			
 			store = cordova.file.dataDirectory;
 			console.log('dataDirectory '+store);
+			
+			if(count == 1){
+				appDirStore = cordova.file.applicationDirectory;
+				console.log('cordova.file.applicationDirectory' + appDirStore);
+			}else if(count == 2){
+				appDirStore = cordova.file.applicationStorageDirectory;
+				console.log('cordova.file.applicationStorageDirectory' + appDirStore);
+			}else if(count == 3){
+				appDirStore = cordova.file.externalApplicationStorageDirectory;
+				console.log('cordova.file.externalApplicationStorageDirectory' + appDirStore);
+			}else if(count == 4){
+				appDirStore = cordova.file.externalDataDirectory;
+				console.log('cordova.file.externalDataDirectory' + appDirStore);
+			}
 			
 			/*var appDirStore;
 			var appStoDirStore;
