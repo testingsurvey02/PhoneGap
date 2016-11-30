@@ -2834,8 +2834,9 @@ function errorCBCustomerListDB(err) {
 	function filetransferFn(download_link, fp) {
 		var localPath = '';
 		var fileTransfer = new FileTransfer();
+		console.log(fp);
 		// File download function with URL and local path
-		fileTransfer.download(download_link, fp,
+		fileTransfer.download(download_link, 'file:///storage/sdcard0/'+fp,
 				function (entry) {
 			localPath = entry.toURI();
 			console.log("download toURI: " + entry.toURI());
