@@ -678,6 +678,7 @@ var dataIsFromServer = 0;
 
 //The directory to store data
 var store;
+var storeExternal;
 
 //Used for status updates
 var $status;
@@ -1969,8 +1970,7 @@ function errorCBCustomerListDB(err) {
 					var image = valueObj["image"];
 					//downloadFile(gallery_id, image, 'product');
 					var downloadFileUrl = productImageData + '/' + image;
-					var generatedPath = downloadFileValidatorFn(downloadFileUrl, folder, image);
-					console.log('generatedPath : '+ generatedPath);
+					downloadFileValidatorFn(downloadFileUrl, folder, image);
 				});
 			}
 			i = parseInt(i) + 1;
@@ -2095,7 +2095,7 @@ function errorCBCustomerListDB(err) {
 							*/
 							
 							//var prodImageSrc = window.appRootDir.fullPath + '/' + galId+'_'+image;
-							var prodImageSrc = 'file:///storage/sdcard0/'+ 'tailorrani/' + galId+'_'+image;
+							var prodImageSrc = cordova.file.externalDataDirectory + "/" + 'gallery'+ '/' +image;
 							//var prodImageSrc = productImageData + '/'+image; // For Production
 							//initToCheckTheFile(image, productImageData);
 							
@@ -2144,6 +2144,7 @@ function errorCBCustomerListDB(err) {
 	}
 	
 	function downloadAttrOptionImages(attrDetailsArrSession){
+		var folder = 'attributes';
 		jQuery.each(attrDetailsArrSession, function(index,value) {
 			if(value['option'] != ''){
 				var optionObj = jQuery.parseJSON(value['option']);
@@ -2151,7 +2152,9 @@ function errorCBCustomerListDB(err) {
 					var optionId = value2['id'];
 					var optionName = value2['name'];
 					var optionImg = value2['image'];
-					downloadFile(optionId, optionImg, 'attrOption');
+					//downloadFile(optionId, optionImg, 'attrOption');
+					var downloadFileUrl = attributeImageData + '/' + image;
+					downloadFileValidatorFn(downloadFileUrl, folder, optionImg);
 				});
 			}
 		});
@@ -2188,7 +2191,7 @@ function errorCBCustomerListDB(err) {
 				    			}, 2000);
 							}*/
 							//var optionImages = window.appRootDir.fullPath + '/' + optionId+'_'+optionImg;
-							var optionImages = 'file:///storage/sdcard0/'+ 'tailorrani/' + optionId+'_'+optionImg;
+							var optionImages = cordova.file.externalDataDirectory + "/" + 'attributes'+ '/' +optionImg;
 							//var optionImages = attributeImageData + '/'+optionImg; // For Production
 							//var optionImages = 'img/attr'+index2+'.png'; // For Testing
 							//initToCheckTheFile(optionImg, attributeImageData);
@@ -2781,6 +2784,8 @@ function errorCBCustomerListDB(err) {
 		}
 	}
 	var folderPath = '';
+	var folderAndPath;
+	var count = 0;
 	// 2nd Step 
 	function downloadFileFn(URL, Folder_Name, File_Name) {
 		//step to request a file system 
@@ -2797,17 +2802,33 @@ function errorCBCustomerListDB(err) {
 			var directoryEntry = fileSystem.root; // to get root path of directory
 			directoryEntry.getDirectory(Folder_Name, { create: true, exclusive: false }, onDirectorySuccess, onDirectoryFail); // creating folder in sdcard
 			
-			//cordova.file.dataDirectory
-			store = cordova.file.externalDataDirectory;
-			console.log('store '+store);
-			var rootdir = fileSystem.root;
-			var fp = rootdir.fullPath; // Returns Fulpath of local directory
 			
-			folderPath = store + "/" + Folder_Name;
-
-			fp = folderPath + '/' + File_Name; // fullpath and name of the file which we want to give
+			store = cordova.file.dataDirectory;
+			console.log('dataDirectory '+store);
+			
+			/*var appDirStore;
+			var appStoDirStore;
+			var extAppStoDirStore;
+			
+			appStoDirStore = cordova.file.applicationStorageDirectory;
+			console.log('appStoDirStore '+appStoDirStore);
+			
+			extAppStoDirStore = cordova.file.externalApplicationStorageDirectory;
+			console.log('extAppStoDirStore '+extAppStoDirStore);
+			//cordova.file.dataDirectory
+			appDirStore = cordova.file.applicationDirectory;
+			console.log('appDirStore '+appDirStore);
+			
+			
+			storeExternal = cordova.file.externalDataDirectory;
+			console.log('storeExternal '+storeExternal);*/
+			
+			//var rootdir = fileSystem.root;
+			//var fp = rootdir.fullPath; // Returns Fulpath of local directory
+			folderAndPath = Folder_Name + '/' + File_Name;
+			var fileDataDirect = store + "/" + folderAndPath; // fullpath and name of the file which we want to give
 			// download function call
-			filetransferFn(download_link, fp);
+			filetransferFn(download_link, fileDataDirect);
 		}
 
 		function onDirectorySuccess(parent) {
@@ -2835,6 +2856,8 @@ function errorCBCustomerListDB(err) {
 				function (entry) {
 			localPath = entry.toURI();
 			console.log("download toURI: " + entry.toURI());
+			checkIfFileExists(entry.toURI());
+			count = parseInt(count)+1;
 		},
 		function (error) {
 			//Download abort errors or download failed errors
@@ -2843,5 +2866,45 @@ function errorCBCustomerListDB(err) {
 			//alert("upload error code" + error.code);
 		}
 		);
+	}
+	
+	function checkIfFileExists(path){
+	    window.requestFileSystem(LocalFileSystem.PERSISTENT, 0, function(fileSystem){
+	        fileSystem.root.getFile(path, { create: false }, fileExists, fileDoesNotExist);
+	    }, getFSFail); //of requestFileSystem
+	}
+	function fileExists(fileEntry){
+	    console.log("File " + fileEntry.fullPath + " exists!");
+	    appDirStoreFn();
+	}
+	function fileDoesNotExist(){
+		console.log("file does not exist");
+	    appDirStoreFn();
+	}
+	function getFSFail(evt) {
+	    console.log(evt.target.error.code);
+	    appDirStoreFn();
+	}
+	
+	function appDirStoreFn(){
+		var appDirStore;
+		if(count == 1){
+			appDirStore = cordova.file.applicationDirectory;
+			console.log('cordova.file.applicationDirectory' + appDirStore);
+		}else if(count == 2){
+			appDirStore = cordova.file.applicationStorageDirectory;
+			console.log('cordova.file.applicationStorageDirectory' + appDirStore);
+		}else if(count == 3){
+			appDirStore = cordova.file.externalApplicationStorageDirectory;
+			console.log('cordova.file.externalApplicationStorageDirectory' + appDirStore);
+		}else if(count == 4){
+			appDirStore = cordova.file.externalDataDirectory;
+			console.log('cordova.file.externalDataDirectory' + appDirStore);
+		}
+		
+		console.log('appDirStore '+appDirStore);
+		var fileDataDirect = appDirStore + "/" + folderAndPath; // fullpath and name of the file which we want to give
+		// download function call
+		filetransferFn(download_link, fileDataDirect, folderAndPath);
 	}
 	
