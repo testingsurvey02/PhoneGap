@@ -1958,26 +1958,62 @@ function errorCBCustomerListDB(err) {
 		prodArrDataToDownload = productDetailsArrSession;
 		var i = 0;
 		var folder = 'gallery';
+		var productPath = cordova.file.externalDataDirectory;
+		var galleryArrObject = new Array();
 		jQuery.each(prodArrDataToDownload, function(index,value) {
 			var jsonObj=value;
 			var galleryObj = '';
 			galleryObj = jQuery.parseJSON(jsonObj['gallery']);
 			if(jsonObj['gallery'] != ''){
-				var galleryObject = new Object();
 				jQuery.each(galleryObj , function(indexObj,valueObj) {
-					var galleryArrObject = new Array();
+					var galleryObject = new Object();
 					var gallery_id = valueObj['id'];
 					var image = valueObj["image"];
 					//downloadFile(gallery_id, image, 'product');
 					var downloadFileUrl = productImageData + '/' + image;
 					downloadFileValidatorFn(downloadFileUrl, folder, image);
+					galleryObject['id'] = gallery_id;
+					galleryObject['pdt_id'] = valueObj["pdt_id"];
+					galleryObject['image'] = valueObj["image"];
+					galleryObject['created_at'] = valueObj["created_at"];
+					galleryObject['updated_at'] = valueObj["updated_at"];
+					galleryObject['localFilePath'] = productPath + '/'+folder+'/'+image;
+					galleryArrObject.push(galleryObject);
 				});
+				value['gallery'] = galleryArrObject;
 			}
+			
 			i = parseInt(i) + 1;
 		});
 		if(i == prodArrDataToDownload.length){
-			appendProdListDB(productDetailsArrSession);
+			
 		}
+	}
+	
+	function updateProductForGallery(){
+		db.transaction(	function (tx){
+			jQuery.each(productDetailsArrSession, function(index,value) {
+				var galleryObj = '';
+				galleryObj = jQuery.parseJSON(value['gallery']);
+				console.log('galleryObj updateProductForGallery : '+galleryObj);
+				console.log('value["gallery"] updateProductForGallery : '+value["gallery"]);
+				var productServerId = value['server_prod_id'];
+				if(value['gallery'] != ''){
+					tx.executeSql('update product_details set gallery="'+value['gallery']+' where server_prod_id = '+,[],function(tx,results){
+						console.log('Updated successfully product details');
+					});
+				}
+			}errorCB);
+		}, errorUpdateProductFn, successUpdateProdFn);
+	}
+	
+	function successUpdateProdFn(){
+		appendProdListDB(productDetailsArrSession);
+	}
+	
+	function errorUpdateProductFn(err){
+		console.log('errorUpdateProductFn : '+err.code);
+		console.log('errorUpdateProductFn : '+err.message);
 	}
 	
 	function appendProdListDB(prodArrData) {
@@ -1998,7 +2034,7 @@ function errorCBCustomerListDB(err) {
 			if(jsonObj['gallery'] != ''){
 				jQuery.each(galleryObj , function(indexObj,valueObj) {
 					var gallery_id = valueObj['id'];
-					var image = valueObj["image"];
+					var image = valueObj["localFilePath"];
 					/*if(parseInt(dataIsFromServer) == 0){
 						downloadFile(gallery_id, image, 'product');
 						setTimeout(function() {
@@ -2007,7 +2043,8 @@ function errorCBCustomerListDB(err) {
 					}*/
 					//var prodImage = productImageData + '/'+image; // For Production
 					//var prodImage = window.appRootDir.fullPath + '/' + gallery_id+'_'+image;
-					var prodImage = cordova.file.externalDataDirectory + "/" + 'gallery'+ '/' + image;
+					//var prodImage = cordova.file.externalDataDirectory + "/" + 'gallery'+ '/' + image;
+					var prodImage = image;
 					console.log('prodImage : '+prodImage);
 					//var prodImage = 'img/product'+indexObj+'.jpg'; // For Testing
 					//initToCheckTheFile(image, productImageData);
