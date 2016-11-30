@@ -2007,7 +2007,7 @@ function errorCBCustomerListDB(err) {
 					}*/
 					//var prodImage = productImageData + '/'+image; // For Production
 					//var prodImage = window.appRootDir.fullPath + '/' + gallery_id+'_'+image;
-					var prodImage = folderPath+ '/' + image;
+					var prodImage = store + "/" + 'gallery'+ '/' + image;
 					console.log('prodImage : '+prodImage);
 					//var prodImage = 'img/product'+indexObj+'.jpg'; // For Testing
 					//initToCheckTheFile(image, productImageData);
@@ -2809,7 +2809,7 @@ function errorCBCustomerListDB(err) {
 			
 			folderPath = store + "/" + Folder_Name;
 
-			fp = store + "/" + Folder_Name + "/" + File_Name; // fullpath and name of the file which we want to give
+			fp = folderPath + File_Name; // fullpath and name of the file which we want to give
 			// download function call
 			localPath = filetransferFn(download_link, fp);
 			console.log('localPath downloadFileFn '+localPath);
