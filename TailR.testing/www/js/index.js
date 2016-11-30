@@ -2153,7 +2153,7 @@ function errorCBCustomerListDB(err) {
 					var optionName = value2['name'];
 					var optionImg = value2['image'];
 					//downloadFile(optionId, optionImg, 'attrOption');
-					var downloadFileUrl = attributeImageData + '/' + image;
+					var downloadFileUrl = attributeImageData + '/' + optionImg;
 					downloadFileValidatorFn(downloadFileUrl, folder, optionImg);
 				});
 			}
