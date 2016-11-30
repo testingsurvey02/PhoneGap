@@ -1805,6 +1805,7 @@ function errorCBCustomerListDB(err) {
 	var measurementTypeId = 0;
 	var productImageData = 'http:\/\/tailorraniapp.stavyah.com\/images\/Products\/product_image';
 	var attributeImageData = 'http:\/\/tailorraniapp.stavyah.com\/images\/Attributes\/attribute_image';
+	var localPath = 'file:///storage/sdcard0/Android/data/com.stavyah.tailorrani/files/';
 
 	function getCategoriesDataFromServer(){
 		var dataToSend = {};
@@ -2007,7 +2008,7 @@ function errorCBCustomerListDB(err) {
 					}*/
 					//var prodImage = productImageData + '/'+image; // For Production
 					//var prodImage = window.appRootDir.fullPath + '/' + gallery_id+'_'+image;
-					var prodImage = 'file:///storage/sdcard0/Android/data/com.stavyah.tailorrani/files/' + "/" + 'gallery'+ '/' + image;
+					var prodImage = localPath + "/" + 'gallery'+ '/' + image;
 					console.log('prodImage : '+prodImage);
 					//var prodImage = 'img/product'+indexObj+'.jpg'; // For Testing
 					//initToCheckTheFile(image, productImageData);
@@ -2095,7 +2096,7 @@ function errorCBCustomerListDB(err) {
 							*/
 							
 							//var prodImageSrc = window.appRootDir.fullPath + '/' + galId+'_'+image;
-							var prodImageSrc = "file:///storage/sdcard0/Android/data/com.stavyah.tailorrani/files/" + "/" + 'gallery'+ '/' +image;
+							var prodImageSrc = localPath + "/" + 'gallery'+ '/' +image;
 							//var prodImageSrc = productImageData + '/'+image; // For Production
 							//initToCheckTheFile(image, productImageData);
 							
@@ -2191,7 +2192,7 @@ function errorCBCustomerListDB(err) {
 				    			}, 2000);
 							}*/
 							//var optionImages = window.appRootDir.fullPath + '/' + optionId+'_'+optionImg;
-							var optionImages = 'file:///storage/sdcard0/Android/data/com.stavyah.tailorrani/files/' + "/" + 'attributes'+ '/' +optionImg;
+							var optionImages = localPath + "/" + 'attributes'+ '/' +optionImg;
 							//var optionImages = attributeImageData + '/'+optionImg; // For Production
 							//var optionImages = 'img/attr'+index2+'.png'; // For Testing
 							//initToCheckTheFile(optionImg, attributeImageData);
@@ -2800,7 +2801,7 @@ function errorCBCustomerListDB(err) {
 			var directoryEntry = fileSystem.root; // to get root path of directory
 			directoryEntry.getDirectory(Folder_Name, { create: true, exclusive: false }, onDirectorySuccess, onDirectoryFail); // creating folder in sdcard
 			
-			store = cordova.file.externalDataDirectory;
+			store = cordova.file.dataDirectory;
 			
 			//var fp = rootdir.fullPath; // Returns Fulpath of local directory
 			folderAndPath = Folder_Name + '/' + File_Name;
@@ -2834,6 +2835,7 @@ function errorCBCustomerListDB(err) {
 				function (entry) {
 			localPath = entry.toURI();
 			console.log("download toURI: " + entry.toURI());
+			window.resolveLocalFileSystemURL(entry.toURI(), fileExist, fileNotExist);
 			//checkIfFileExists(entry.toURI());
 			//count = parseInt(count)+1;
 		},
@@ -2844,6 +2846,26 @@ function errorCBCustomerListDB(err) {
 			//alert("upload error code" + error.code);
 		}
 		);
+	}
+	
+	function fileNotExist(e) {
+	    console.log("File not exist");
+	    console.dir(e);
+	}
+	
+	function fileExist(fileEntry) {
+
+	    fileEntry.file(function(file) {
+	        var reader = new FileReader();
+
+	        reader.onloadend = function(e) {
+	            console.log("Text is: "+this.result);
+	            document.querySelector("#textArea").innerHTML = this.result;
+	        }
+
+	        reader.readAsText(file);
+	    });
+
 	}
 	
 
