@@ -2007,7 +2007,8 @@ function errorCBCustomerListDB(err) {
 					}*/
 					//var prodImage = productImageData + '/'+image; // For Production
 					//var prodImage = window.appRootDir.fullPath + '/' + gallery_id+'_'+image;
-					var prodImage = 'file:///storage/sdcard0/'+ 'tailorrani/' + gallery_id+'_'+image;
+					var prodImage = folderPath+ '/' + image;
+					console.log('prodImage : '+prodImage);
 					//var prodImage = 'img/product'+indexObj+'.jpg'; // For Testing
 					//initToCheckTheFile(image, productImageData);
 					if(jsonObj['category'] != ''){
@@ -2782,7 +2783,7 @@ function errorCBCustomerListDB(err) {
 		}
 		return localPath;
 	}
-	
+	var folderPath = '';
 	// 2nd Step 
 	function downloadFileFn(URL, Folder_Name, File_Name) {
 		var localPath = '';
@@ -2806,6 +2807,7 @@ function errorCBCustomerListDB(err) {
 			var rootdir = fileSystem.root;
 			var fp = rootdir.fullPath; // Returns Fulpath of local directory
 			
+			folderPath = store + "/" + Folder_Name;
 
 			fp = store + "/" + Folder_Name + "/" + File_Name; // fullpath and name of the file which we want to give
 			// download function call
@@ -2836,11 +2838,10 @@ function errorCBCustomerListDB(err) {
 		var fileTransfer = new FileTransfer();
 		console.log(fp);
 		// File download function with URL and local path
-		fileTransfer.download(download_link, 'file:///storage/sdcard0/'+fp,
+		fileTransfer.download(download_link, fp,
 				function (entry) {
 			localPath = entry.toURI();
 			console.log("download toURI: " + entry.toURI());
-			console.log("download fullPath: " + entry.fullPath + entry.toURI());
 			return localPath;
 		},
 		function (error) {
