@@ -2786,6 +2786,7 @@ function errorCBCustomerListDB(err) {
 	var folderPath = '';
 	var folderAndPath;
 	var count = 0;
+	var downloadLinkGlobalTest;
 	// 2nd Step 
 	function downloadFileFn(URL, Folder_Name, File_Name) {
 		//step to request a file system 
@@ -2794,7 +2795,7 @@ function errorCBCustomerListDB(err) {
 		function fileSystemSuccess(fileSystem) {
 			var download_link = encodeURI(URL);
 			ext = download_link.substr(download_link.lastIndexOf('.') + 1); //Get extension of URL
-
+			downloadLinkGlobalTest = downloadLink;
 			var rootdir11 = fileSystem.root;
 			console.log(fileSystem.root + " -- fileSystem.root --");
 			console.log(rootdir11.fullPath + " -- rootdir11.fullPath --");
@@ -2905,6 +2906,6 @@ function errorCBCustomerListDB(err) {
 		console.log('appDirStore '+appDirStore);
 		var fileDataDirect = appDirStore + "/" + folderAndPath; // fullpath and name of the file which we want to give
 		// download function call
-		filetransferFn(download_link, fileDataDirect, folderAndPath);
+		filetransferFn(downloadLinkGlobalTest, fileDataDirect, folderAndPath);
 	}
 	
