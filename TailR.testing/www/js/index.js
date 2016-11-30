@@ -2854,18 +2854,7 @@ function errorCBCustomerListDB(err) {
 	}
 	
 	function fileExist(fileEntry) {
-
-	    fileEntry.file(function(file) {
-	        var reader = new FileReader();
-
-	        reader.onloadend = function(e) {
-	            console.log("Text is: "+this.result);
-	            document.querySelector("#textArea").innerHTML = this.result;
-	        }
-
-	        reader.readAsText(file);
-	    });
-
+		console.log('File Exist');
 	}
 	
 
