@@ -26,6 +26,7 @@ $( document ).on( "mobileinit", function() {
 var connectionType;
 var appName='Tailor Rani';
 var testingInBrowser=false;// For Testing
+var loginUserId;
 
 var rightPanelObj = '<div id="menu-wrapper">'+
 							'<div class="menu-title">'+
@@ -367,6 +368,16 @@ function logout() {
 	$(".schoolCodeContainer").hide();
 	$(".loginFormContainer").show();
 	$.mobile.changePage('#login-page','slide');
+}
+
+function loginFn(){
+	loginUserId = $('#username').val();
+	console.log(loginUserId);
+	if(loginUserId == 'undefined' || loginUserId == ''){
+		alert('Sorry please login with User Id');
+	}else if(loginUserId != 'undefined'){
+		loadDataFromServer();
+	}
 }
 
 function gotoHome(){
@@ -799,7 +810,7 @@ function getTailorDetailsFromLocal(){
 	
 	db.transaction(	function (tx){
 		var len = 0;
-			tx.executeSql('select * from tailor_details where secret_key="4TPD6PI91" ',[],function(tx,results){
+			tx.executeSql('select * from tailor_details ',[],function(tx,results){
 					len = results.rows.length;
 					if(len>0){
 						tailorDetailsSession = {};
@@ -916,11 +927,6 @@ function getCategoriesListFromLocal(){
 		var subCatArrSessionData='[{"id":2,"server_cat_id":2,"parent_id":"1","name":"SHIRT","description":"description02","image":"","sort_order":"1","status":"1"},{"id":3,"server_cat_id":3,"parent_id":"1","name":"PANT","description":"description03","image":"","sort_order":"2","status":"1"},{"id":2,"server_cat_id":5,"parent_id":"4","name":"KURTA","description":"description02","image":"","sort_order":"1","status":"1"},{"id":3,"server_cat_id":6,"parent_id":"4","name":"SKUT","description":"description03","image":"","sort_order":"2","status":"1"},{"id":2,"server_cat_id":8,"parent_id":"7","name":"T-Shirt","description":"description02","image":"","sort_order":"1","status":"1"},{"id":3,"server_cat_id":9,"parent_id":"7","name":"Chaddi","description":"description03","image":"","sort_order":"2","status":"1"}]';
 		subCatArrSession=jQuery.parseJSON(subCatArrSessionData);
 		
-		/*var catArrSessionData='[{"id":1,"server_cat_id":4,"parent_id":"","name":"Women","description":"","image":"","sort_order":"1","status":"1"}]';
-		catArrSession=jQuery.parseJSON(catArrSessionData);
-		
-		var subCatArrSessionData='[{"id":2,"server_cat_id":5,"parent_id":"4","name":"KURTHA","description":"description02","image":"","sort_order":"1","status":"1"},{"id":3,"server_cat_id":6,"parent_id":"4","name":"SHORTS","description":"description03","image":"","sort_order":"2","status":"1"}]';
-		subCatArrSession=jQuery.parseJSON(subCatArrSessionData);*/
 		
 		appendCatListDB(catArrSession, subCatArrSession);
 		return;
@@ -1035,10 +1041,7 @@ function getProductsListFromLocal(){
 	if(testingInBrowser){
 		if(appendCount==1){
 			appendCount=2;
-			//appendCatListDB(catArrSession, subCatArrSession);
 		}
-		
-		//var productDetailsArrSessionData = '[{"id":1,"server_prod_id":1, "prod_name":"SHIRT - FULL SLEEVE","prod_description":"Fabric: Cotton Linen Blend Slim Fit, Full Sleeve Collar Type: Regular Pattern: Checkered Set of 1","measurement_typeid":"1","prod_status":"1","attribute_details":[{"id":59,"pdt_id":"1","attr_id":"2","created_at":"2016-11-21 06:02:58","updated_at":"2016-11-21 06:02:58"}],"category":[{"id":40,"pdt_id":"1","cat_id":"1","created_at":"2016-11-21 06:02:58","updated_at":"2016-11-21 06:02:58"}],"gallery":[{"id":9,"pdt_id":"1","image":"product_5_582ea8c053c3b.jpg","created_at":"2016-11-18 07:07:44","updated_at":"2016-11-18 07:07:44"}]}]';
 		
 		var myArr= new Array();
 		var myObject = new Object();
@@ -1267,8 +1270,6 @@ function insertMeasurementsDetails(tx) {
 
 function getMeasumentListFromLocal(){
 	if(testingInBrowser){
-		//var measurementArrSessionData = '[{"id":1,"server_measurement_id":1,"measurement_name":"Mens","status":"1", "group_data":[{"id":1,"name":"Shirts","status":"1","measurement_type_id":"1","created_at":"2016-11-02 23:28:53","updated_at":"2016-11-03 00:00:31","measurements":[{"id":1,"name":"Shirt collar1","status":"1","measurement_group_id":"1","created_at":"2016-11-02 23:28:53","updated_at":"2016-11-03 00:00:31"},{"id":2,"name":"shirt neck2","status":"1","measurement_group_id":"1","created_at":"2016-11-02 23:28:53","updated_at":"2016-11-03 00:00:31"}]},{"id":3,"name":"tee shirt","status":"1","measurement_type_id":"1","created_at":"2016-11-03 00:22:40","updated_at":"2016-11-03 00:22:40","measurements":[{"id":7,"name":"round neck","status":"1","measurement_group_id":"3","created_at":"2016-11-03 00:22:40","updated_at":"2016-11-03 00:22:40"},{"id":8,"name":"with collar","status":"1","measurement_group_id":"3","created_at":"2016-11-03 00:22:40","updated_at":"2016-11-03 00:22:40"}]},{"id":4,"name":"shorts","status":"1","measurement_type_id":"1","created_at":"2016-11-08 18:32:49","updated_at":"2016-11-08 18:32:49","measurements":[{"id":9,"name":"elbow length","status":"1","measurement_group_id":"4","created_at":"2016-11-08 18:32:49","updated_at":"2016-11-17 07:50:56"},{"id":16,"name":"back","status":"1","measurement_group_id":"4","created_at":"2016-11-17 07:50:56","updated_at":"2016-11-17 07:50:56"},{"id":17,"name":"front","status":"1","measurement_group_id":"4","created_at":"2016-11-17 07:50:56","updated_at":"2016-11-17 07:50:56"}]}]}]';
-		//measurementArrSession=jQuery.parseJSON(measurementArrSessionData);
 		var myArr= new Array();
 		var myObject = new Object();
 		myObject.id = 1;
@@ -1366,15 +1367,12 @@ function customerAndOrderDetailFn(){
 
 function getOrderListFromLocalDB(){
 	if(testingInBrowser){
-		//var measurementArrSessionData = '[{"id":1,"server_measurement_id":1,"measurement_name":"Mens","status":"1", "group_data":[{"id":1,"name":"Shirts","status":"1","measurement_type_id":"1","created_at":"2016-11-02 23:28:53","updated_at":"2016-11-03 00:00:31","measurements":[{"id":1,"name":"Shirt collar1","status":"1","measurement_group_id":"1","created_at":"2016-11-02 23:28:53","updated_at":"2016-11-03 00:00:31"},{"id":2,"name":"shirt neck2","status":"1","measurement_group_id":"1","created_at":"2016-11-02 23:28:53","updated_at":"2016-11-03 00:00:31"}]},{"id":3,"name":"tee shirt","status":"1","measurement_type_id":"1","created_at":"2016-11-03 00:22:40","updated_at":"2016-11-03 00:22:40","measurements":[{"id":7,"name":"round neck","status":"1","measurement_group_id":"3","created_at":"2016-11-03 00:22:40","updated_at":"2016-11-03 00:22:40"},{"id":8,"name":"with collar","status":"1","measurement_group_id":"3","created_at":"2016-11-03 00:22:40","updated_at":"2016-11-03 00:22:40"}]},{"id":4,"name":"shorts","status":"1","measurement_type_id":"1","created_at":"2016-11-08 18:32:49","updated_at":"2016-11-08 18:32:49","measurements":[{"id":9,"name":"elbow length","status":"1","measurement_group_id":"4","created_at":"2016-11-08 18:32:49","updated_at":"2016-11-17 07:50:56"},{"id":16,"name":"back","status":"1","measurement_group_id":"4","created_at":"2016-11-17 07:50:56","updated_at":"2016-11-17 07:50:56"},{"id":17,"name":"front","status":"1","measurement_group_id":"4","created_at":"2016-11-17 07:50:56","updated_at":"2016-11-17 07:50:56"}]}]}]';
-		//measurementArrSession=jQuery.parseJSON(measurementArrSessionData);
 		
 		var myArr= new Array();
 		var myObject = new Object();
 		myObject.id = 1;
 		myObject.server_cat_id = 1;
 		myObject.server_prod_id = 2;
-		// childObject.measPKId = measPKId;		childObject.measName = measName;		childObject.inputValue = inputValue;
 		myObject.order_data = '[{"measPKId":18, "measName":"RoundNeck", "inputValue":"25"},{"measPKId":19, "measName":"VShape", "inputValue":"30"},{"measPKId":20, "measName":"Chest", "inputValue":"45"},{"measPKId":21, "measName":"Arms", "inputValue":"20"}]';
 		myObject.server_prod_name = 'Shirt';
 		myObject.update_timestamp = '12-11-2016 13:15:15';
@@ -1386,7 +1384,6 @@ function getOrderListFromLocalDB(){
 		myObject.id = 1;
 		myObject.server_cat_id = 1;
 		myObject.server_prod_id = 3;
-		// childObject.measPKId = measPKId;		childObject.measName = measName;		childObject.inputValue = inputValue;
 		myObject.order_data = '[{"measPKId":18, "measName":"RoundNeck", "inputValue":"25"},{"measPKId":19, "measName":"VShape", "inputValue":"30"},{"measPKId":20, "measName":"Chest", "inputValue":"45"},{"measPKId":21, "measName":"Arms", "inputValue":"20"}]';
 		myObject.server_prod_name = 'T-Shirt';
 		myObject.update_timestamp = '12-11-2016 13:15:15';
@@ -1398,7 +1395,6 @@ function getOrderListFromLocalDB(){
 		myObject.id = 1;
 		myObject.server_cat_id = 1;
 		myObject.server_prod_id = 3;
-		// childObject.measPKId = measPKId;		childObject.measName = measName;		childObject.inputValue = inputValue;
 		myObject.order_data = '[{"measPKId":18, "measName":"RoundNeck", "inputValue":"25"},{"measPKId":19, "measName":"VShape", "inputValue":"30"},{"measPKId":20, "measName":"Chest", "inputValue":"45"},{"measPKId":21, "measName":"Arms", "inputValue":"20"}]';
 		myObject.server_prod_name = 'Pant';
 		myObject.update_timestamp = '12-11-2016 13:15:15';
@@ -1410,7 +1406,6 @@ function getOrderListFromLocalDB(){
 		myObject.id = 1;
 		myObject.server_cat_id = 1;
 		myObject.server_prod_id = 2;
-		// childObject.measPKId = measPKId;		childObject.measName = measName;		childObject.inputValue = inputValue;
 		myObject.order_data = '[{"measPKId":18, "measName":"RoundNeck", "inputValue":"25"},{"measPKId":19, "measName":"VShape", "inputValue":"30"},{"measPKId":20, "measName":"Chest", "inputValue":"45"},{"measPKId":21, "measName":"Arms", "inputValue":"20"}]';
 		myObject.server_prod_name = 'Chaddi';
 		myObject.update_timestamp = '12-11-2016 13:15:15';
@@ -1427,7 +1422,6 @@ function getOrderListFromLocalDB(){
 	
 	db.transaction(	function (tx){
 		var len = 0;
-		//server_cat_id, server_prod_id, order_data, update_timestamp, server_prod_name, customer_id, option_selected, status_of_order
 			tx.executeSql('select * from order_details ',[],function(tx,results){
 					len = results.rows.length;
 					if(len>0){
@@ -1473,7 +1467,6 @@ function takeCustomerDetailsFn(){
 	var priceInput = $('#priceInput').val();
 	var contactNumber = $('#contactNumberInput').val();
 	var address_details = $('#addressInput').val();
-	//var orderId = $('#newOrderId').val();
 	var customerIdInput = $('#customerIdInput').val();
 	if(customerIdInput == '' || customerIdInput == undefined){
 		db.transaction(function(tx) {
@@ -1495,10 +1488,6 @@ function takeCustomerDetailsFn(){
 }
 
 function successCBInsertCustomerDetails() {
-	//getOrderListFromLocalDB();
-	//gotoOrderPageDiv();
-	
-	//function sendCustomerDetailsToServer();
 	
 	insertOrderDetails();
 }	
@@ -1509,8 +1498,6 @@ function errorCBInsertCustomerDetails(err) {
 
 function getCustomerListFromLocalDB(){
 	if(testingInBrowser){
-		//var measurementArrSessionData = '[{"id":1,"server_measurement_id":1,"measurement_name":"Mens","status":"1", "group_data":[{"id":1,"name":"Shirts","status":"1","measurement_type_id":"1","created_at":"2016-11-02 23:28:53","updated_at":"2016-11-03 00:00:31","measurements":[{"id":1,"name":"Shirt collar1","status":"1","measurement_group_id":"1","created_at":"2016-11-02 23:28:53","updated_at":"2016-11-03 00:00:31"},{"id":2,"name":"shirt neck2","status":"1","measurement_group_id":"1","created_at":"2016-11-02 23:28:53","updated_at":"2016-11-03 00:00:31"}]},{"id":3,"name":"tee shirt","status":"1","measurement_type_id":"1","created_at":"2016-11-03 00:22:40","updated_at":"2016-11-03 00:22:40","measurements":[{"id":7,"name":"round neck","status":"1","measurement_group_id":"3","created_at":"2016-11-03 00:22:40","updated_at":"2016-11-03 00:22:40"},{"id":8,"name":"with collar","status":"1","measurement_group_id":"3","created_at":"2016-11-03 00:22:40","updated_at":"2016-11-03 00:22:40"}]},{"id":4,"name":"shorts","status":"1","measurement_type_id":"1","created_at":"2016-11-08 18:32:49","updated_at":"2016-11-08 18:32:49","measurements":[{"id":9,"name":"elbow length","status":"1","measurement_group_id":"4","created_at":"2016-11-08 18:32:49","updated_at":"2016-11-17 07:50:56"},{"id":16,"name":"back","status":"1","measurement_group_id":"4","created_at":"2016-11-17 07:50:56","updated_at":"2016-11-17 07:50:56"},{"id":17,"name":"front","status":"1","measurement_group_id":"4","created_at":"2016-11-17 07:50:56","updated_at":"2016-11-17 07:50:56"}]}]}]';
-		//measurementArrSession=jQuery.parseJSON(measurementArrSessionData);
 		
 		var myArr= new Array();
 		var myObject1 = new Object();
@@ -1713,12 +1700,7 @@ function errorCBCustomerListDB(err) {
 /*  ------------------- Module-wise Methods/Function Code Starts ------------------  */	
 	function getCountByTableName(tablename){
 	    var x;
-	    /*db.readTransaction(function (tx) {
-	        tx.executeSql('SELECT COUNT(*) AS c FROM ' + tablename, [], function (tx, r) {
-	           // alert(r.rows[0].c + "rows")
-	            x= r.rows[0].c;
-	        });
-	    });*/
+	   
 	    console.log(tablename);
 	    db.transaction(function(tx) {
 	    	if(tablename == 'tailor_details'){
@@ -1762,32 +1744,12 @@ function errorCBCustomerListDB(err) {
 	}
 	
 	function checkTailorDetailsInLocalDB(){
-		/*var len = 0;
-		len = getCountByTableName("tailor_details");
-		console.log('len..... '+len);
-		if (typeof len === 'undefined') {
-			getTailorDetailsDataFromServer();
-		}else if(len > 0){
-			window.localStorage["dbreadyflag"] = 1;
-			getTailorDetailsFromLocal();
-		}else{
-			getTailorDetailsDataFromServer();
-		}*/
+		
 		getCountByTableName("tailor_details");
 	}
 	
 	function checkCategoryInLocalDB(){
-		/*var len = 0;
-		//console.log(getCountByTableName("category"));
-		len = getCountByTableName("category");
-		if (typeof len === 'undefined') {
-			getCategoriesDataFromServer();
-		}else if(len > 0){
-			window.localStorage["dbreadyflag"] = 1;
-			getCategoriesListFromLocal();
-		}else{
-			getCategoriesDataFromServer();
-		}*/
+		
 		getCountByTableName("category");
 	}
 	
@@ -1868,7 +1830,7 @@ function errorCBCustomerListDB(err) {
 					var child_name = childJsonObj['name'];
 					if(parseInt(server_cat_id) == parseInt(child_parent_id)){
 						isExist = true;
-						subCategoryTempDiv += '<li class="" data-lid="'+primarySCKeyId+
+						subCategoryTempDiv += '<li class="childSubMenuClass" data-lid="'+primarySCKeyId+
 							'" data-parcat_id="'+child_parent_id+'" data-isparent="1" data-cat_id="'+server_cat_child_id+'" onclick="mainGalleryFn(this);"><a href="#">'+ child_name +'</a></li>';
 					}
 				});
@@ -1880,7 +1842,7 @@ function errorCBCustomerListDB(err) {
 				subCategoryDiv += subCategoryTempDiv;
 			}
 		});
-		
+		categoryDiv+='<li class="float-right" onclick="gotoOrderPageDiv();"> <a href="#"> Order Report </a> </li>';
 		categoryDiv+='</ul></div>';
 		$('#mainPageId').empty();
 		$('#mainPageId').append(categoryDiv);
@@ -1893,6 +1855,7 @@ function errorCBCustomerListDB(err) {
 		
 		getProductsListFromLocal();
 		//getAttributeListFromLocal();
+		gotoHome();
 	}
 	
 	// Remaining
@@ -2002,12 +1965,7 @@ function errorCBCustomerListDB(err) {
 				jQuery.each(galleryObj , function(indexObj,valueObj) {
 					var gallery_id = valueObj['id'];
 					var image = valueObj["image"];
-					/*if(parseInt(dataIsFromServer) == 0){
-						downloadFile(gallery_id, image, 'product');
-						setTimeout(function() {
-		    				//$('#please-wait-modal').modal('hide');
-		    			}, 2000);
-					}*/
+				
 					//var prodImage = productImageData + '/'+image; // For Production
 					//var prodImage = window.appRootDir.fullPath + '/' + gallery_id+'_'+image;
 					var prodImage = localPath + "/" + 'gallery'+ '/' + image;
@@ -2086,17 +2044,6 @@ function errorCBCustomerListDB(err) {
 							measurementTypeId = jsonObj['measurement_typeid'];
 							//var prodImageSrc = 'img/product'+indexGal+'.jpg';// For Testing
 							
-							// Not need to download
-							
-							/*
-							if(parseInt(dataIsFromServer) == 0){
-								downloadFile(galId, image, 'product');
-								setTimeout(function() {
-		    						//$('#please-wait-modal').modal('hide');
-		    					}, 2000);
-							}
-							*/
-							
 							//var prodImageSrc = window.appRootDir.fullPath + '/' + galId+'_'+image;
 							var prodImageSrc = localPath + "/" + 'gallery'+ '/' +image;
 							//var prodImageSrc = productImageData + '/'+image; // For Production
@@ -2114,6 +2061,7 @@ function errorCBCustomerListDB(err) {
 				}
 			}
 			
+			//$(".imageAppendSelMea").pinchzoomer();
 			
 			var mainPageCatId = $(currentData).data('cat_id');
 			var mainPageProdId = $(currentData).data('prod_id');
@@ -2333,7 +2281,7 @@ function errorCBCustomerListDB(err) {
 								var measNameForField  = measurementsValue['name'];
 								var measPriKeyForField = measurementsValue['id'];
 								var groupFieldsName = '<tr><td class="measure-inputField">'+measNameForField+'</td>'
-									+'<td class="measure-inputField"><input type="text" class="form-control meas-ind'+i+'" data-meas_name="'+measNameForField+'" data-meas_pkid="'+measPriKeyForField+'" id="measField'+measPriKeyForField+'"'+'name="measField'+measPriKeyForField+'"></td></tr>';
+									+'<td class="measure-inputField"><input type="number" class="form-control meas-ind'+i+'" data-meas_name="'+measNameForField+'" data-meas_pkid="'+measPriKeyForField+'" id="measField'+measPriKeyForField+'"'+'name="measField'+measPriKeyForField+'"></td></tr>';
 								/*var fieldsDiv = '<div class="col-xs-12 col-sm-6 col-md-6 col-lg-6 measure-inputField"> <div class="box start-xs start-sm start-md start-lg"> '
 									+measNameForField+' <input type="text" class="form-control meas-ind'+i+'" data-meas_name="'+measNameForField+'" data-meas_pkid="'+measPriKeyForField+'" id="measField'+measPriKeyForField+'"'+'name="measField'+measPriKeyForField+'"> </div></div>';*/
 								appendMeasurementData += groupFieldsName;
@@ -2359,7 +2307,7 @@ function errorCBCustomerListDB(err) {
 	var measurementsData;
 	function getTailorDetailsDataFromServer(){
 		var dataToSend = {};
-		dataToSend["secret_key"] = '4TPD6PI91';
+		dataToSend["secret_key"] = loginUserId;
 		var apiCallUrl="http://tailorraniapp.stavyah.com/api/tailors/tailorinfoJson"
 		connectionType=checkConnection();
 		if(connectionType=="Unknown connection" || connectionType=="No network connection"){
@@ -2401,6 +2349,7 @@ function errorCBCustomerListDB(err) {
 	function menuCategoryOne(object){
 		$(".main-menu ul li a").removeClass('active');
 		$(object).find('a').addClass('active');
+		$('.childSubMenuClass').removeClass('active');
 		var subMenuId = $(object).data('submenuid');
 		$('#mainPageId').find('.sub-menu').hide();
 		$("."+subMenuId).show();
