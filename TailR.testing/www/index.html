@@ -108,11 +108,14 @@
 								<li class="measurementDivShow" data-submenuid="measurementSelPg" id="measurementSelPg">
 									<a href="#" onclick="showMeasurementDiv()">Measurement</a>
 								</li>
+								<li class="backToHomePage float-right">
+									<a href="#" onclick="gotoHome()">Home Page</a>
+								</li>
 							</ul>
 						</div>
-						<div class="backButton" data-submenuid="backButtonSelPg" id="backButtonSelPg">
+						<!-- <div class="backButton" data-submenuid="backButtonSelPg" id="backButtonSelPg">
 									<button type="button" onclick="gotoHome()">Back</button>
-						</div>
+						</div> -->
 						
 						<div class="row"><hr></div>
 						
@@ -120,10 +123,14 @@
 							<div class="col-xs-12 col-sm-5 col-md-4 col-lg-4 selection-page-leftpane">
 								<div class="box product-selection-details-div">
 									<p class="product-name">Sample</p>
-									<div class="product-image-div">
-										 <img class="imageAppendSelMea" src="img/product/product1.jpg" alt="Sample" > 
-									</div>
 									
+									<a href="#popupPhotoLandscape" data-rel="popup"
+										data-position-to="window"
+										class="galleryImageClass">
+										<img
+										class="imageAppendSelMea" src="img/product/product1.jpg"
+										alt="Sample">
+									</a>
 									<ol class="gallery-images-list">
 										 <li><img src="img/product/product1.jpg" alt="Sample" class="active" ></li>
 									</ol>
@@ -131,7 +138,7 @@
 							</div>
 							
 							<div class="col-xs-12 col-sm-7 col-md-8 col-lg-8 selection-page-rightpane selection-page-options-div">
-								<div class="box">
+								<div class="box appendButton">
 									<div class="row attr-option-div" >
 										
 									</div>
@@ -141,7 +148,19 @@
 					</div>
 				</div>
 			</div>
+			
+			<div data-role="popup"
+				id="popupPhotoLandscape"
+				class="product-image-div-landscape photopopup" data-overlay-theme="a" data-corners="false"
+				data-tolerance="30,15">
+				<a href="#" data-rel="back"
+					class="ui-btn ui-corner-all ui-shadow ui-btn-a ui-icon-delete ui-btn-icon-notext ui-btn-right">Close</a><a
+					href="#">
+					<img class="imageAppendSelMea"
+					src="img/product/product1.jpg" alt="Sample"></a>
+			</div>
 		</div>
+		
 		
 		
 		<!-- Measurement Page -->
@@ -157,22 +176,31 @@
 								<li class="measurementDivShow" data-submenuid="measurementSelPg" id="measurementSelPg">
 									<a href="#" onclick="showMeasurementDiv()">Measurement</a>
 								</li>
+								<li class="backToHomePage float-right">
+									<a href="#" onclick="gotoHome()">Home Page</a>
+								</li>
 							</ul>
 							
 						</div>
-						<div class="backButton" data-submenuid="backButtonSelPg" id="backButtonSelPg">
+						<!-- <div class="backButton" data-submenuid="backButtonSelPg" id="backButtonSelPg">
 							<button type="button" onclick="gotoAttributePageDiv()">Back</button>
-						</div>
+						</div> -->
 						<div class="row">		<hr></div>
 						
 						<div class="row">
 							<div class="col-xs-12 col-sm-5 col-md-4 col-lg-4 selection-page-leftpane">
 								<div class="box product-selection-details-div">
 									<p class="product-name">Sample</p>
-									<div class="product-image-div">
+									<!-- <div class="product-image-div">
 										<img class="imageAppendSelMea" src="img/product/product1.jpg" alt="Sample" >
-									</div>
-									
+									</div> -->
+									<a href="#popupPhotoLandscape2" data-rel="popup"
+										data-position-to="window"
+										class="galleryImageClass">
+										<img
+										class="imageAppendSelMea" src="img/product/product1.jpg"
+										alt="Sample">
+									</a>
 									<ol class="gallery-images-list">
 										<li><img src="img/product/product1.jpg" alt="Sample" class="active" ></li>
 									</ol>
@@ -196,6 +224,16 @@
 					</div>
 				</div>
 			</div>
+			<div data-role="popup"
+				id="popupPhotoLandscape2"
+				class="product-image-div-landscape photopopup" data-overlay-theme="a" data-corners="false"
+				data-tolerance="30,15">
+				<a href="#" data-rel="back"
+					class="ui-btn ui-corner-all ui-shadow ui-btn-a ui-icon-delete ui-btn-icon-notext ui-btn-right">Close</a><a
+					href="#">
+					<img class="imageAppendSelMea"
+					src="img/product/product1.jpg" alt="Sample"></a>
+			</div>
 		</div>
 		
 		
@@ -213,11 +251,14 @@
 								<li class="measurementDivShow" data-submenuid="measurementSelPg" id="measurementSelPg">
 									<a href="#" onclick="showMeasurementDiv()">Measurement</a>
 								</li>
+								<li class="backToHomePage float-right">
+									<a href="#" onclick="gotoHome()">Home Page</a>
+								</li>
 							</ul>
 						</div>
-						<div class="backButton" data-submenuid="backButtonSelPg" id="backButtonSelPg">
+						<!-- <div class="backButton" data-submenuid="backButtonSelPg" id="backButtonSelPg">
 									<button type="button" onclick="gotoMeasurementPageDiv()">Back</button>
-						</div>
+						</div> -->
 						
 						<div class="row">		<hr></div>
 						
@@ -225,9 +266,17 @@
 							<div class="col-xs-12 col-sm-5 col-md-4 col-lg-4 selection-page-leftpane">
 								<div class="box product-selection-details-div">
 									<p class="product-name">Sample</p>
-									<div class="product-image-div">
+									<!-- <div class="product-image-div">
 										<img class="imageAppendSelMea" src="img/product/product1.jpg" alt="Sample" >
-									</div>
+									</div> -->
+									
+									<a href="#popupPhotoLandscape1" data-rel="popup"
+										data-position-to="window"
+										class="galleryImageClass">
+										<img
+										class="imageAppendSelMea" src="img/product/product1.jpg"
+										alt="Sample">
+									</a>
 									
 									<ol class="gallery-images-list">
 										<li><img src="img/product/product1.jpg" alt="Sample" class="active" ></li>
@@ -295,6 +344,16 @@
 					</div>
 				</div>
 			</div>
+			<div data-role="popup"
+				id="popupPhotoLandscape1"
+				class="product-image-div-landscape photopopup" data-overlay-theme="a" data-corners="false"
+				data-tolerance="30,15">
+				<a href="#" data-rel="back"
+					class="ui-btn ui-corner-all ui-shadow ui-btn-a ui-icon-delete ui-btn-icon-notext ui-btn-right">Close</a><a
+					href="#">
+					<img class="imageAppendSelMea"
+					src="img/product/product1.jpg" alt="Sample"></a>
+			</div>
 		</div>
 		
 		
@@ -304,13 +363,23 @@
 			
 			<div class="st-background">
 				<div data-role="content">
-					<div class="backButton float-right" data-submenuid="backButtonSelPg" id="backButtonSelPg">
-									<button type="button" onclick="gotoHome()">HomePage</button>
-					</div>
+					
 					<div id="orderReportPageId" >
 						<div class="row order-report-menu" >
 							<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-								<h3> Order Report </h3>
+								<ul class="topnav main-menu-ul" id="main-menu-ul" style="margin-bottom: 65px;">
+									<li>
+										<h3 style="color: white;"> Order Report </h3>
+									</li>
+									<li class="float-right ">
+										<button class="ui-btn ui-shadow ui-corner-all" type="button" onclick="gotoHome()">Home Page</button>
+									</li>
+								</ul>
+								
+								<div class="backButton " style="margin-top: -55px;" data-submenuid="backButtonSelPg" id="backButtonSelPg">
+									
+								</div>
+								
 								<table class="table table-hover table-striped table-bordered" border="1">
 									<thead>
 										<tr>

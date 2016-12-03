@@ -11,7 +11,7 @@ ul.topnav.sub-menu-ul {
   background-color: #ff3c66;
 }
 
-ul.topnav li {float: left;}
+ul.topnav li {float: left;border-right: 1px solid #333;}
 
 ul.topnav li a {
   display: inline-block;
@@ -29,6 +29,11 @@ ul.topnav.sub-menu-ul li a {
 }
 ul.topnav li a.active {background-color: #ff3c66;}
 ul.topnav.sub-menu-ul li a.active {background-color: #bf1943;}
+
+ul.topnav li a.option-selected{background-color: #c2805a;}
+ul.topnav.sub-menu-ul li a.option-selected {background-color: #c2805a;}
+
+.option-selected {background-color: #c2805a;}
 
 ul.topnav li a:hover{background-color: #555;}
 
@@ -155,5 +160,9 @@ table th {
 img.product-image{}
 
 .ui-page-theme-a a, html .ui-bar-a a, html .ui-body-a a, html body .ui-group-theme-a a {
-    color: #ffcc00 !important;
+    color: #ffffff !important;
+}
+
+.float-right{
+	float: right !important;
 }

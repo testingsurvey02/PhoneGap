@@ -846,7 +846,7 @@ function getTailorDetailsFromLocal(){
 }
 
 function successCBTailorDetailsListDB() {
-	console.log('successCBTailorDetailsListDB');
+	//console.log('successCBTailorDetailsListDB');
 	//console.log(connectionType);
 	/*if(connectionType=="Unknown connection" || connectionType=="No network connection"){
 		console.log('No Connection');
@@ -1343,8 +1343,6 @@ function insertOrderDetails(){
 				});
 			
 		},errorCBInsertOrderDetails, successCBInsertOrderDetails);
-	}else{
-		getOrderListFromLocalDB();
 	}
 }
 
@@ -1363,6 +1361,10 @@ function errorCBInsertOrderDetails(err) {
 
 function customerAndOrderDetailFn(){
 	insertOrderDetails();
+}
+
+function orderPageHtmlButton(){
+	getOrderListFromLocalDB();
 }
 
 function getOrderListFromLocalDB(){
@@ -1842,7 +1844,7 @@ function errorCBCustomerListDB(err) {
 				subCategoryDiv += subCategoryTempDiv;
 			}
 		});
-		categoryDiv+='<li class="float-right" onclick="gotoOrderPageDiv();"> <a href="#"> Order Report </a> </li>';
+		categoryDiv+='<li class="float-right" onclick="orderPageHtmlButton();"> <a href="#"> Order Report </a> </li>';
 		categoryDiv+='</ul></div>';
 		$('#mainPageId').empty();
 		$('#mainPageId').append(categoryDiv);
@@ -1855,7 +1857,8 @@ function errorCBCustomerListDB(err) {
 		
 		getProductsListFromLocal();
 		//getAttributeListFromLocal();
-		gotoHome();
+		//gotoHome();
+		getOrderListFromLocalDB();
 	}
 	
 	// Remaining
@@ -1968,8 +1971,7 @@ function errorCBCustomerListDB(err) {
 				
 					//var prodImage = productImageData + '/'+image; // For Production
 					//var prodImage = window.appRootDir.fullPath + '/' + gallery_id+'_'+image;
-					var prodImage = localPath + "/" + 'gallery'+ '/' + image;
-					console.log('prodImage : '+prodImage);
+					var prodImage = localPath + "/" + 'gallery'+ '/' + image; // For Production
 					//var prodImage = 'img/product'+indexObj+'.jpg'; // For Testing
 					//initToCheckTheFile(image, productImageData);
 					if(jsonObj['category'] != ''){
@@ -2051,7 +2053,8 @@ function errorCBCustomerListDB(err) {
 							
 							var activeClass="";
 							if(galId == gallCurrId){
-								$prodSelDetailsDiv.find('.product-image-div img').attr("src", prodImageSrc);
+								$('.product-image-div-landscape img').attr("src", prodImageSrc);
+								$prodSelDetailsDiv.find('.galleryImageClass img').attr("src", prodImageSrc);
 								activeClass="active";
 							}
 							var liObj='<li class="childGalleryClass"><img src="'+prodImageSrc+'" data-childgalid="'+galId+'" class="'+activeClass+' gallCIndClassId'+galId+'" onclick="changeGallInAttMeaCusFn(this)"></li>';
@@ -2060,7 +2063,6 @@ function errorCBCustomerListDB(err) {
 					}
 				}
 			}
-			
 			//$(".imageAppendSelMea").pinchzoomer();
 			
 			var mainPageCatId = $(currentData).data('cat_id');
@@ -2075,12 +2077,23 @@ function errorCBCustomerListDB(err) {
 							prodAttrIds[indexObj] = paIds;
 							attrIds[indexObj] = attrId;
 						});
-						
-						appendAttrDataByArraysAndIds(prodAttrIds, attrIds, server_cat_id, server_prod_id);
+						if(attrIds.length > 0){
+							appendAttrDataByArraysAndIds(prodAttrIds, attrIds, server_cat_id, server_prod_id);
+						}else{
+							getMeasumentListFromLocal();
+							showMeasurementDiv();
+						}
 					}
 				});
 			}
 		});
+	}
+	
+	function showGalleryImage(){
+		//popupbeforeposition: function() {
+            var maxHeight = $( window ).height() - 60 + "px";
+            $( ".photopopup img" ).css( "max-height", maxHeight );
+      //  }
 	}
 	
 	function changeGallInAttMeaCusFn(dataObj){
@@ -2088,7 +2101,8 @@ function errorCBCustomerListDB(err) {
 		var $galleryImagesList=$prodSelDetailsDiv.find('.gallery-images-list');
 		var srcOfOnClick = $(dataObj).attr('src');
 		var gallCldIndId = $(dataObj).data('childgalid');
-			var imageToActive = $prodSelDetailsDiv.find('.product-image-div img').attr("src", srcOfOnClick);
+			var imageToActive = $prodSelDetailsDiv.find('.galleryImageClass img').attr("src", srcOfOnClick);
+			$('.product-image-div-landscape img').attr("src", srcOfOnClick);
 			var activeClass="active";
 			$galleryImagesList.find('img').removeClass(activeClass);
 			$galleryImagesList.find('.gallCIndClassId'+gallCldIndId).addClass(activeClass);
@@ -2111,11 +2125,13 @@ function errorCBCustomerListDB(err) {
 		});
 		dataIsFromServer = 1;
 	}
-	
+	var attributeForNextIndex = 0;
+	var attriOptionExist = false;
 	function appendAttrDataByArraysAndIds(prodAttrArr, attrArr, catId, prodId){
 		var attributeDiv = '';
 		var optionMainDiv = '';
 		var attrTempId = 0;
+		attributeForNextIndex = 0;
 		jQuery.each(attrDetailsArrSession, function(index,value) {
 			var attrId = value['id'];
 			var server_attr_id = value['server_attr_id'];
@@ -2123,14 +2139,18 @@ function errorCBCustomerListDB(err) {
 			var identifier = value['identifier'];
 			var backend_name = value['backend_name'];
 			var option = value['option'];
+			
 			if(value['option'] != ''){
-				var optionObj = jQuery.parseJSON(option);
 				jQuery.each(attrArr, function(index1,value1) {
 					if(value1 == server_attr_id){
-						var tempAttrDiv = '<li class="selMenu-bar subMen_attrId'+server_attr_id+'" data-cat_id="'+catId+'" data-prod_id="'+prodId+'" data-attrid="'+server_attr_id+'" data-lid="'+attrId+'"><a href="#" onclick="getOptionByAttrId(this);" data-attri_id="'+server_attr_id+'">'+attr_name+'</a></li>';
+						attriOptionExist = true;
+						var optionObj = jQuery.parseJSON(option);
+						
+						var tempAttrDiv = '<li class="selMenu-bar subMen_attrId'+server_attr_id+' main_attr_ind'+attributeForNextIndex+'" data-main_attind="'+attributeForNextIndex+'" data-cat_id="'+catId+'" data-prod_id="'+prodId+'" data-attrid="'+server_attr_id+'" data-lid="'+attrId+'"><a href="#" onclick="getOptionByAttrId(this);" data-attri_id="'+server_attr_id+'">'+attr_name+'</a></li>';
 						if(attributeDiv == ''){
 							attrTempId = server_attr_id;
 						}
+						
 						jQuery.each(optionObj, function(index2,value2) {
 							var optionId = value2['id'];
 							var optionName = value2['name'];
@@ -2146,10 +2166,11 @@ function errorCBCustomerListDB(err) {
 							//var optionImages = attributeImageData + '/'+optionImg; // For Production
 							//var optionImages = 'img/attr'+index2+'.png'; // For Testing
 							//initToCheckTheFile(optionImg, attributeImageData);
-							var tempOptDiv = '<div class="col-xs-6 col-sm-4 col-md-4 col-lg-4 single-option optMenu-bar attrOpt'+server_attr_id+' div_opt_id'+optionId+'" onclick="selectedOptionFn(this)" data-opt_id="'+optionId+'" data-cat_id="'+catId+'" data-prod_id="'+prodId+'" data-attrid="'+server_attr_id+'" data-lid="'+attrId+'"><div class="box"><img class="" src="'+optionImages+'" data-imgt_cat_id="'+catId+'" data-imgt_prod_id="'+prodId+'" data-imgt_attrid="'+server_attr_id+'"  data-imgt_opt_id="'+optionId+'" data-imgt_lid="'+attrId+'" alt="'+optionName+'"></div></div>';
+							var tempOptDiv = '<div class="col-xs-6 col-sm-4 col-md-4 col-lg-4 single-option attrInd'+attributeForNextIndex+' optMenu-bar attrOpt'+server_attr_id+' div_opt_id'+optionId+'" data-attrindex="'+attributeForNextIndex+'" onclick="selectedOptionFn(this)" data-opt_id="'+optionId+'" data-cat_id="'+catId+'" data-prod_id="'+prodId+'" data-attrid="'+server_attr_id+'" data-lid="'+attrId+'"><div class="box"><img class="" src="'+optionImages+'" data-imgt_cat_id="'+catId+'" data-imgt_prod_id="'+prodId+'" data-imgt_attrid="'+server_attr_id+'"  data-imgt_opt_id="'+optionId+'" data-imgt_lid="'+attrId+'" alt="'+optionName+'"></div></div>';
 							optionMainDiv += tempOptDiv;
 						});
 						 attributeDiv += tempAttrDiv;
+						 attributeForNextIndex = parseInt(attributeForNextIndex) + 1;
 					}else{
 						if(parseInt(dataIsFromServer) == 0){
 							jQuery.each(optionObj, function(index2,value2) {
@@ -2165,30 +2186,94 @@ function errorCBCustomerListDB(err) {
 					}
 				});
 			}
+			
 		});
-		$('.selMenu-bar').remove();
-		$('.optMenu-bar').remove();
-		$( attributeDiv ).insertBefore( ".selection-menu .selection-menu-ul .measurementDivShow" );
-		//$('.selection-menu').append(attributeDiv);
-		$('.attr-option-div').append(optionMainDiv);
-		$('.attr-option-div .optMenu-bar').hide();
-		$('.attrOpt'+attrTempId).show();
-		
-		//$('.subMen_attrId'+attrTempId).addClass("active");
-		$('.selection-menu').each(function(index){
-			$(this).find('ul li').removeClass("active").find('a').removeClass("active");
-			$(this).find('ul li.subMen_attrId'+attrTempId).addClass("active").find('a').addClass("active");
-		});
-		
 		getMeasumentListFromLocal();
-		gotoAttributePageDiv();
+		if(!attriOptionExist){
+			showMeasurementDiv();
+		}else{
+			if(attributeForNextIndex > 0){
+				attributeForNextIndex = parseInt(attributeForNextIndex) - 1;
+			}
+			$('.selMenu-bar').remove();
+			$('.optMenu-bar').remove();
+			$('.optionPreNextButton').remove();
+			$( attributeDiv ).insertBefore( ".selection-menu .selection-menu-ul .measurementDivShow" );
+			//$('.selection-menu').append(attributeDiv);
+			$('.attr-option-div').append(optionMainDiv);
+			$('.attr-option-div .optMenu-bar').hide();
+			$('.attrOpt'+attrTempId).show();
+			
+			//$('.subMen_attrId'+attrTempId).addClass("active");
+			$('.selection-menu').each(function(index){
+				$(this).find('ul li').removeClass("active").find('a').removeClass("active");
+				$(this).find('ul li.subMen_attrId'+attrTempId).addClass("active").find('a').addClass("active");
+			});
+			
+			var appendButtons = '<div class="row optionPreNextButton"><div class="col-xs-6 col-sm-6 col-md-6 col-lg-6"><button class="back-button btn btn-primary st-bg-baby-pink ui-btn ui-shadow ui-corner-all" disabled="disabled" onclick="backButton('+attributeForNextIndex+')">Previous</button></div>';
+			if(parseInt(attributeForNextIndex) > 0){
+				appendButtons += '<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6"><button class="btn btn-primary st-bg-baby-pink ui-btn ui-shadow ui-corner-all front-button" onclick="frontButton(1)">Next</button></div>';
+			}else{
+				appendButtons += '<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6"><button class="btn btn-primary st-bg-baby-pink ui-btn ui-shadow ui-corner-all front-button" onclick="showMeasurementDiv()">Next</button></div>';
+			}
+			appendButtons +='</div>';
+			
+			
+			$('.selection-page-options-div .appendButton').append(appendButtons);
+			
+			
+			gotoAttributePageDiv();
+		}
+		
+	}
+	
+	function backButton(index){
+		if(index == 0){
+			$('.back-button').attr('disabled','disabled');
+			//$('.back-button"]').prop('disabled', true);
+			//$('.back-button').attr();
+		}
+		var attrId = $('.main_attr_ind'+index).data('attrid');
+		console.log('attrId  : '+attrId);
+		$('.attr-option-div .optMenu-bar').hide();
+		$('.attrOpt'+attrId).show();
+		$('.selection-menu').find('ul li').removeClass("active").find('a').removeClass("active");
+		$('.selection-menu').find('ul li.subMen_attrId'+attrId).addClass("active").find('a').addClass("active");
+		if(parseInt(index) == parseInt(attributeForNextIndex)){
+			$('.front-button').attr('onclick', 'showMeasurementDiv()');
+		}else{
+			var appendFrontIndex = parseInt(index)+1;
+			$('.front-button').attr('onclick', 'frontButton("'+appendFrontIndex+'")');
+		}
+	}
+	
+	function frontButton(index){
+		$('.back-button').removeAttr('disabled');
+		if(parseInt(index) <= parseInt(attributeForNextIndex)){
+			var attrId = $('.main_attr_ind'+index).data('attrid');
+			console.log('attrId  : '+attrId);
+			$('.attr-option-div .optMenu-bar').hide();
+			$('.attrOpt'+attrId).show();
+			$('.selection-menu').find('ul li').removeClass("active").find('a').removeClass("active");
+			$('.selection-menu').find('ul li.subMen_attrId'+attrId).addClass("active").find('a').addClass("active");
+			var appendBackIndex = parseInt(index) - 1;
+			$('.back-button').attr('onclick', 'backButton("'+appendBackIndex+'")');
+			if(parseInt(index) == parseInt(attributeForNextIndex)){
+				$('.front-button').attr('onclick', 'showMeasurementDiv()');
+			}else{
+				var appendFrontIndex = parseInt(index)+1;
+				$('.front-button').attr('onclick', 'frontButton("'+appendFrontIndex+'")');
+			}
+		}else{
+			showMeasurementDiv();
+		}
 	}
 	
 	var optionArrayToSave = [];
 	var attributeArrayToSave = [];
 	function selectedOptionFn(thisData){
 		var attrId = $(thisData).data('attrid');
-		$('.subMen_attrId'+attrId).css("color","orange");
+		$('.subMen_attrId'+attrId).addClass('option-selected');
 		$('.selection-page-options-div .attr-option-div .attrOpt'+attrId).removeClass('active');
 		$(thisData).addClass("active");
 		
@@ -2216,6 +2301,35 @@ function errorCBCustomerListDB(err) {
 	    	optionArrayToSave.push(optId);
 	    	attributeArrayToSave.push(attrId);
 		$("#customerConfirmationPageId .customerFieldsToAppendSelected .optMenu-bar").show();
+		
+		var $attrIndex = $(thisData).data('attrindex');
+		console.log('$attrIndex ' +$attrIndex);
+		
+		
+		
+		if(parseInt($attrIndex) < parseInt(attributeForNextIndex)){
+			$('.back-button').removeAttr('disabled');
+			$('.back-button').attr('onclick', 'backButton("'+$attrIndex+'")');
+			$attrIndex = $attrIndex + 1;
+			console.log('$attrIndex + 1 : '+$attrIndex);
+			var attrId = $('.attrInd'+$attrIndex).data('attrid');
+			console.log('attrId  : '+attrId);
+			$('.attr-option-div .optMenu-bar').hide();
+			$('.attrOpt'+attrId).show();
+			$('.selection-menu').find('ul li').removeClass("active").find('a').removeClass("active");
+			$('.selection-menu').find('ul li.subMen_attrId'+attrId).addClass("active").find('a').addClass("active");
+			
+			if(parseInt($attrIndex) == parseInt(attributeForNextIndex)){
+				$('.front-button').attr('onclick', 'showMeasurementDiv()');
+			}else{
+				var appendFrontIndex = parseInt($attrIndex)+1;
+				$('.front-button').attr('onclick', 'frontButton("'+appendFrontIndex+'")');
+			}
+			
+		}else{
+			showMeasurementDiv();
+		}
+		
 	}
 
 	var measurementsData;
