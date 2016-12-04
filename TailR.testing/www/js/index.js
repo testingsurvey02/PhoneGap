@@ -1,10 +1,10 @@
 // For Testing in Browser
-/*
+
 $(function() {
 	loadDataFromServer();
 });
 
-*/
+
 $( document ).on( "mobileinit", function() {
     // Make your jQuery Mobile framework configuration changes here!
 	 $.support.cors = true;
@@ -25,7 +25,7 @@ $( document ).on( "mobileinit", function() {
 
 var connectionType;
 var appName='Tailor Rani';
-var testingInBrowser=false;// For Testing
+var testingInBrowser=true;// For Testing
 var loginUserId;
 
 var rightPanelObj = '<div id="menu-wrapper">'+
@@ -685,7 +685,7 @@ var measurementTypeId = '';
 var orderArrSession = [];
 var customerArrSession = [];
 var tailorDetailsSession = {};
-var dataIsFromServer = 0;
+var dataIsFromServer = 1;
 
 //The directory to store data
 var store;
@@ -709,7 +709,7 @@ function initializeDB(tx) {
 	//	tx.executeSql('CREATE TABLE IF NOT EXISTS product_attributes (id integer primary key autoincrement, server_attr_id integer, name text, identifier text, status integer, backend_name text, update_timestamp text, option text)');
 	//	tx.executeSql('CREATE TABLE IF NOT EXISTS measurement_details (id integer primary key autoincrement, name text, server_measurement_id integer, status integer, update_timestamp text, group text, measurement_type_id integer)');
 	
-	//	tx.executeSql(CREATE TABLE IF NOT EXISTS customer_details (id integer primary key autoincrement,name text, price text, update_timestamp text, contact_number text, address_details text)');
+	//	tx.executeSql(CREATE TABLE IF NOT EXISTS customer_details (id integer primary key autoincrement,name text, price text, update_timestamp text, contact_number text, email_id text, country text, state text, city text, pincode text, address_one text, address_two text)');
 	//	tx.executeSql('CREATE TABLE IF NOT EXISTS order_details(id integer primary key autoincrement, server_cat_id integer, server_prod_id integer, order_data text,update_timestamp text, server_prod_name text, customer_id integer)');
 }
 
@@ -717,7 +717,7 @@ function initializeDB(tx) {
 function successCB() {
 	//alert('db transcation success');
 	//console.log('db transcation success');
-	loadDataFromServer();
+	//loadDataFromServer();
 }
 //Transaction error callback
 function errorCB(err) {
@@ -846,8 +846,8 @@ function getTailorDetailsFromLocal(){
 }
 
 function successCBTailorDetailsListDB() {
-	//console.log('successCBTailorDetailsListDB');
-	//console.log(connectionType);
+	console.log('successCBTailorDetailsListDB');
+	console.log(connectionType);
 	/*if(connectionType=="Unknown connection" || connectionType=="No network connection"){
 		console.log('No Connection');
 		checkCategoryInLocalDB();
@@ -1423,7 +1423,6 @@ function getOrderListFromLocalDB(){
 	}
 	
 	db.transaction(	function (tx){
-		tx.executeSql('CREATE TABLE IF NOT EXISTS order_details(id integer primary key autoincrement, server_cat_id integer, server_prod_id integer, order_data text,update_timestamp text, server_prod_name text,customer_id integer, option_selected text, status_of_order text)');
 		var len = 0;
 			tx.executeSql('select * from order_details ',[],function(tx,results){
 					len = results.rows.length;
@@ -1474,11 +1473,11 @@ function takeCustomerDetailsFn(){
 	if(customerIdInput == '' || customerIdInput == undefined){
 		db.transaction(function(tx) {
 			
-			tx.executeSql('CREATE TABLE IF NOT EXISTS customer_details (id integer primary key autoincrement,name text, price text, update_timestamp text, contact_number text, address_details text)');
+			tx.executeSql('CREATE TABLE IF NOT EXISTS customer_details (id integer primary key autoincrement,name text, price text, update_timestamp text, contact_number text, email_id text, country text, state text, city text, pincode text, address_one text, address_two text)');
 			
 				var update_timestamp=currDateTimestamp;
 				
-				tx.executeSql('INSERT INTO customer_details(name, price, update_timestamp, contact_number, address_details) VALUES (?,?,?,?,?)',
+				tx.executeSql('INSERT INTO customer_details(name, price, update_timestamp, contact_number, email_id, country, state, city, pincode, address_one, address_two) VALUES (?,?,?,?,?,?,?,?,?,?,?)',
 							[customerName, priceInput, update_timestamp, contactNumber, address_details], function(tx, res) {
 					//alert("Customer Details insertId: " + res.insertId + " -- res.rowsAffected 1"+res.rowsAffected);
 					$('#customerIdInput').val(res.insertId);
@@ -1528,7 +1527,6 @@ function getCustomerListFromLocalDB(){
 	}
 	
 	db.transaction(	function (tx){
-		tx.executeSql('CREATE TABLE IF NOT EXISTS customer_details (id integer primary key autoincrement,name text, price text, update_timestamp text, contact_number text, address_details text)');
 		var len = 0;
 		//name, price, update_timestamp
 			tx.executeSql('select * from customer_details ',[],function(tx,results){
@@ -1542,7 +1540,14 @@ function getCustomerListFromLocalDB(){
 							jsonCustomerDataObj['price'] = results.rows.item(i)['price'];
 							jsonCustomerDataObj['update_timestamp'] = results.rows.item(i)['update_timestamp'];
 							jsonCustomerDataObj['contact_number'] = results.rows.item(i)['contact_number'];
-							jsonCustomerDataObj['address_details'] = results.rows.item(i)['address_details'];
+							jsonCustomerDataObj['address_one'] = results.rows.item(i)['address_one'];
+							jsonCustomerDataObj['address_two'] = results.rows.item(i)['address_two'];
+							jsonCustomerDataObj['email_id'] = results.rows.item(i)['email_id'];
+							jsonCustomerDataObj['country'] = results.rows.item(i)['country'];
+							jsonCustomerDataObj['state'] = results.rows.item(i)['state'];
+							jsonCustomerDataObj['city'] = results.rows.item(i)['city'];
+							jsonCustomerDataObj['pincode'] = results.rows.item(i)['pincode'];
+							
 							customerArrSession.push(jsonCustomerDataObj);
 						}
 					}
@@ -1973,8 +1978,8 @@ function errorCBCustomerListDB(err) {
 				
 					//var prodImage = productImageData + '/'+image; // For Production
 					//var prodImage = window.appRootDir.fullPath + '/' + gallery_id+'_'+image;
-					var prodImage = localPath + "/" + 'gallery'+ '/' + image; // For Production
-					//var prodImage = 'img/product'+indexObj+'.jpg'; // For Testing
+					//var prodImage = localPath + "/" + 'gallery'+ '/' + image; // For Production
+					var prodImage = 'img/product'+indexObj+'.jpg'; // For Testing
 					//initToCheckTheFile(image, productImageData);
 					if(jsonObj['category'] != ''){
 						jQuery.each(categoryObj, function(indexCat, valueCat){
@@ -2046,10 +2051,10 @@ function errorCBCustomerListDB(err) {
 							var image = valueGal['image'];
 							
 							measurementTypeId = jsonObj['measurement_typeid'];
-							//var prodImageSrc = 'img/product'+indexGal+'.jpg';// For Testing
+							var prodImageSrc = 'img/product'+indexGal+'.jpg';// For Testing
 							
 							//var prodImageSrc = window.appRootDir.fullPath + '/' + galId+'_'+image;
-							var prodImageSrc = localPath + "/" + 'gallery'+ '/' +image;
+							//var prodImageSrc = localPath + "/" + 'gallery'+ '/' +image;
 							//var prodImageSrc = productImageData + '/'+image; // For Production
 							//initToCheckTheFile(image, productImageData);
 							
@@ -2065,20 +2070,26 @@ function errorCBCustomerListDB(err) {
 					}
 				}
 			}
+			console.log('Enter');
 			//$(".imageAppendSelMea").pinchzoomer();
 			
 			var mainPageCatId = $(currentData).data('cat_id');
 			var mainPageProdId = $(currentData).data('prod_id');
 			if(jsonObj.category != ''){
+				console.log('Enter 1111');
 				jQuery.each(categoryObj, function(indexCat, valueCat){
+					console.log('Enter 2222');
 					var server_cat_id = valueCat['cat_id'];
 					if(mainPageCatId == server_cat_id && mainPageProdId == server_prod_id){
+						console.log('Enter 3333');
 						jQuery.each(attributeObj, function(indexObj,valueObj) {
+							console.log('Enter 4444');
 							var paIds = valueObj['id'];
 							var attrId = valueObj['attr_id'];
 							prodAttrIds[indexObj] = paIds;
 							attrIds[indexObj] = attrId;
 						});
+						console.log('attrIds.length : '+attrIds.length);
 						if(attrIds.length > 0){
 							appendAttrDataByArraysAndIds(prodAttrIds, attrIds, server_cat_id, server_prod_id);
 						}else{
@@ -2164,9 +2175,9 @@ function errorCBCustomerListDB(err) {
 				    			}, 2000);
 							}*/
 							//var optionImages = window.appRootDir.fullPath + '/' + optionId+'_'+optionImg;
-							var optionImages = localPath + "/" + 'attributes'+ '/' +optionImg;
+							//var optionImages = localPath + "/" + 'attributes'+ '/' +optionImg;
 							//var optionImages = attributeImageData + '/'+optionImg; // For Production
-							//var optionImages = 'img/attr'+index2+'.png'; // For Testing
+							var optionImages = 'img/attr'+index2+'.png'; // For Testing
 							//initToCheckTheFile(optionImg, attributeImageData);
 							var tempOptDiv = '<div class="col-xs-6 col-sm-4 col-md-4 col-lg-4 attr-opt-hei-wid single-option attrInd'+attributeForNextIndex+' optMenu-bar attrOpt'+server_attr_id+' div_opt_id'+optionId+'" data-attrindex="'+attributeForNextIndex+'" onclick="selectedOptionFn(this)" data-opt_id="'+optionId+'" data-cat_id="'+catId+'" data-prod_id="'+prodId+'" data-attrid="'+server_attr_id+'" data-lid="'+attrId+'"><div class="box"><img class="" src="'+optionImages+'" data-imgt_cat_id="'+catId+'" data-imgt_prod_id="'+prodId+'" data-imgt_attrid="'+server_attr_id+'"  data-imgt_opt_id="'+optionId+'" data-imgt_lid="'+attrId+'" alt="'+optionName+'"></div></div>';
 							optionMainDiv += tempOptDiv;
@@ -2484,6 +2495,24 @@ function errorCBCustomerListDB(err) {
 			$('ul li.subMen_attrId'+attrTempId + ' a').addClass("active");
 		});
 		*/
+		
+		var attrTempIndexId = $(dataObj).data('main_attind');
+		if(attrTempIndexId == 0){
+			$('.back-button').attr('disabled','disabled');
+			$('.back-button').attr('onclick', 'backButton("'+attrTempIndexId+'")');
+		}else if(attrTempIndexId > 0){
+			var appendBackIndex = parseInt(attrTempIndexId) - 1;
+			$('.back-button').attr('onclick', 'backButton("'+appendBackIndex+'")');
+			$('.back-button').removeAttr('disabled');
+		}
+		
+		if(parseInt(attrTempIndexId) >= parseInt(attributeForNextIndex)){
+			$('.front-button').attr('onclick', 'showMeasurementDiv()');
+		}else{
+			var appendFrontIndex = parseInt(index)+1;
+			$('.front-button').attr('onclick', 'frontButton("'+appendFrontIndex+'")');
+		}
+		
 		$('.selection-menu').each(function(index){
 			$(this).find('ul li').removeClass("active").find('a').removeClass("active");
 			$(this).find('ul li.subMen_attrId'+attrTempId).addClass("active").find('a').addClass("active");
