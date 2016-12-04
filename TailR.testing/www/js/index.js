@@ -2070,20 +2070,15 @@ function errorCBCustomerListDB(err) {
 					}
 				}
 			}
-			console.log('Enter');
 			//$(".imageAppendSelMea").pinchzoomer();
 			
 			var mainPageCatId = $(currentData).data('cat_id');
 			var mainPageProdId = $(currentData).data('prod_id');
 			if(jsonObj.category != ''){
-				console.log('Enter 1111');
 				jQuery.each(categoryObj, function(indexCat, valueCat){
-					console.log('Enter 2222');
 					var server_cat_id = valueCat['cat_id'];
 					if(mainPageCatId == server_cat_id && mainPageProdId == server_prod_id){
-						console.log('Enter 3333');
 						jQuery.each(attributeObj, function(indexObj,valueObj) {
-							console.log('Enter 4444');
 							var paIds = valueObj['id'];
 							var attrId = valueObj['attr_id'];
 							prodAttrIds[indexObj] = paIds;
@@ -2159,7 +2154,7 @@ function errorCBCustomerListDB(err) {
 						attriOptionExist = true;
 						var optionObj = jQuery.parseJSON(option);
 						
-						var tempAttrDiv = '<li class="selMenu-bar subMen_attrId'+server_attr_id+' main_attr_ind'+attributeForNextIndex+'" data-main_attind="'+attributeForNextIndex+'" data-cat_id="'+catId+'" data-prod_id="'+prodId+'" data-attrid="'+server_attr_id+'" data-lid="'+attrId+'"><a href="#" onclick="getOptionByAttrId(this);" data-attri_id="'+server_attr_id+'">'+attr_name+'</a></li>';
+						var tempAttrDiv = '<li class="selMenu-bar subMen_attrId'+server_attr_id+' main_attr_ind'+attributeForNextIndex+'" data-main_attind="'+attributeForNextIndex+'" data-cat_id="'+catId+'" data-prod_id="'+prodId+'" data-attrid="'+server_attr_id+'" data-lid="'+attrId+'"><a href="#" onclick="getOptionByAttrId(this);" data-main_attinda="'+attributeForNextIndex+'" data-attri_id="'+server_attr_id+'">'+attr_name+'</a></li>';
 						if(attributeDiv == ''){
 							attrTempId = server_attr_id;
 						}
@@ -2495,12 +2490,11 @@ function errorCBCustomerListDB(err) {
 			$('ul li.subMen_attrId'+attrTempId + ' a').addClass("active");
 		});
 		*/
-		
-		var attrTempIndexId = $(dataObj).data('main_attind');
-		if(attrTempIndexId == 0){
+		var attrTempIndexId = $(dataObj).data('main_attinda');
+		if(parseInt(attrTempIndexId) == 0){
 			$('.back-button').attr('disabled','disabled');
 			$('.back-button').attr('onclick', 'backButton("'+attrTempIndexId+'")');
-		}else if(attrTempIndexId > 0){
+		}else if(parseInt(attrTempIndexId) > 0){
 			var appendBackIndex = parseInt(attrTempIndexId) - 1;
 			$('.back-button').attr('onclick', 'backButton("'+appendBackIndex+'")');
 			$('.back-button').removeAttr('disabled');
@@ -2509,7 +2503,7 @@ function errorCBCustomerListDB(err) {
 		if(parseInt(attrTempIndexId) >= parseInt(attributeForNextIndex)){
 			$('.front-button').attr('onclick', 'showMeasurementDiv()');
 		}else{
-			var appendFrontIndex = parseInt(index)+1;
+			var appendFrontIndex = parseInt(attrTempIndexId)+1;
 			$('.front-button').attr('onclick', 'frontButton("'+appendFrontIndex+'")');
 		}
 		
