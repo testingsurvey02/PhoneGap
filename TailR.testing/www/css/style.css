@@ -166,3 +166,21 @@ img.product-image{}
 .float-right{
 	float: right !important;
 }
+
+.ui-page-theme-a a, html .ui-bar-a a, html .ui-body-a a, html body .ui-group-theme-a a {
+    color: #ffffff !important;
+}
+
+.float-right{
+	float: right !important;
+}
+.width-product-list{
+	max-width : 32% !important;
+}
+.width-app{
+	width : 100%;
+}
+.attr-opt-hei-wid{
+	width : 200px;
+	height : 200px;
+}
