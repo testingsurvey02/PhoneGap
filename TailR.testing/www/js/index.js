@@ -336,6 +336,7 @@ function checkConnection() {
     states[Connection.CELL_2G]  = 'Cell 2G connection';
     states[Connection.CELL_3G]  = 'Cell 3G connection';
     states[Connection.CELL_4G]  = 'Cell 4G connection';
+    //states[Connection.CELL_5G]  = 'Cell 5G connection';
     states[Connection.CELL]     = 'Cell generic connection';
     states[Connection.NONE]     = 'No network connection';
     return states[networkState];
@@ -383,6 +384,15 @@ function loginFn(){
 
 function gotoHome(){
 	$.mobile.changePage('#home-page','slide');
+	$('#prodHtmlName').val('');
+	$('#prodHtmlId').val('');
+	$('#categoryHtmlId').val('');
+	$('#customerIdInput').val('');
+	$('#newOrderId').val('');
+	$('#customerNameInput').val('');
+	$('#priceInput').val('');
+	$('#contactNumberInput').val('');
+	$('#addressInput').val('');
 }
 
 function gotoAttributePageDiv(){
@@ -2631,7 +2641,8 @@ function errorCBCustomerListDB(err) {
 	}
 	
 	var orderTakenDetails = new Array();
-	var selectedOptionMain = new Array();
+	var selectedOptionMainArray = new Array();
+	var selectedOptionMain = new Object();
 	function orderTakeMeastFn(){
 		var lengthOfOrder = $( "#measurementPageId .measure-inputField" ).length;
 		if(optionArrayToSave.length > 0 && attributeArrayToSave.length > 0 && optionImageName.length > 0){
@@ -2646,7 +2657,13 @@ function errorCBCustomerListDB(err) {
 				childObject.optName = optName;
 				arrObject.push(childObject);
 			}
-			selectedOptionMain = arrObject;
+			selectedOptionMainArray = arrObject;
+			selectedOptionMain.optionArray = selectedOptionMainArray;
+			selectedOptionMain.product_id = $('#prodHtmlId').val();
+			selectedOptionMain.product_name = $('#prodHtmlName').val();
+			selectedOptionMain.gallery_id = galleryIdToSave;
+			selectedOptionMain.gallery_name = galleryNameToSave;
+			console.log('selectedOptionMain : '+selectedOptionMain)
 		}
 			 
 		if(lengthOfOrder > 0){
@@ -2694,7 +2711,7 @@ function errorCBCustomerListDB(err) {
 	}
 	
 	function appendOrderAndCustomerDetails(orderArrData, customerArrData){
-		$('#prodHtmlName').val('');
+		/*$('#prodHtmlName').val('');
 		$('#prodHtmlId').val('');
 		$('#categoryHtmlId').val('');
 		$('#customerIdInput').val('');
@@ -2702,7 +2719,7 @@ function errorCBCustomerListDB(err) {
 		$('#customerNameInput').val('');
 		$('#priceInput').val('');
 		$('#contactNumberInput').val('');
-		$('#addressInput').val('');
+		$('#addressInput').val('');*/
 		$('#orderReportPageId').find('table tbody').empty();
 		var tableRowMain = '';
 		if(orderArrData != ''){
@@ -2744,6 +2761,10 @@ function errorCBCustomerListDB(err) {
 		}
 		$('#orderReportPageId').find('table tbody').append(tableRowMain);
 		gotoOrderPageDiv();
+		connectionType=checkConnection();
+		if(connectionType=="WiFi connection" || connectionType=="Cell 4G connection" || connectionType=="Cell 5G connection" || connectionType=="Cell 3G connection" || connectionType=="Cell 2G connection"){
+			sendCustomerDetailsToSaveInServer();
+		}
 	}
 	
 	// Send Data to Server
@@ -2768,13 +2789,18 @@ function errorCBCustomerListDB(err) {
 				type : ajaxCallType,
 				url: url,
 				data : dataToSend,
-				success: successCBMeasurementsFn,
+				success: successCBCustomerDetailsFn,
 				error: commonErrorCallback
 			});
 		}
 		else{
 			navigator.notification.alert(appRequiresWiFi,alertConfirm,appName,'Ok');
 		}
+	}
+	
+	function successCBCustomerDetailsFn(){
+		console.log('successCBCustomerDetailsFn');
+		sendOrderDetailsToSaveInServer();
 	}
 	
 	function sendCustomerDetailsToUpdateInServer(){
@@ -2799,7 +2825,7 @@ function errorCBCustomerListDB(err) {
 				type : ajaxCallType,
 				url: url,
 				data : dataToSend,
-				success: successCBMeasurementsFn,
+				success: successCBCustomerDetailsFn,
 				error: commonErrorCallback
 			});
 		}
@@ -2830,13 +2856,26 @@ function errorCBCustomerListDB(err) {
 				type : ajaxCallType,
 				url: url,
 				data : dataToSend,
-				success: successCBMeasurementsFn,
+				success: successCBOrderDetailsFn,
 				error: commonErrorCallback
 			});
 		}
 		else{
 			navigator.notification.alert(appRequiresWiFi,alertConfirm,appName,'Ok');
 		}
+	}
+	
+	function successCBOrderDetailsFn(){
+		console.log('successCBOrderDetailsFn');
+		$('#prodHtmlName').val('');
+		$('#prodHtmlId').val('');
+		$('#categoryHtmlId').val('');
+		$('#customerIdInput').val('');
+		$('#newOrderId').val('');
+		$('#customerNameInput').val('');
+		$('#priceInput').val('');
+		$('#contactNumberInput').val('');
+		$('#addressInput').val('');
 	}
 	
 	function sendOrderDetailsToUpdateInServer(){
@@ -2862,7 +2901,7 @@ function errorCBCustomerListDB(err) {
 				type : ajaxCallType,
 				url: url,
 				data : dataToSend,
-				success: successCBMeasurementsFn,
+				success: successCBOrderDetailsFn,
 				error: commonErrorCallback
 			});
 		}
