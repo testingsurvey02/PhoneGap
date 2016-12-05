@@ -27,6 +27,7 @@ var connectionType;
 var appName='Tailor Rani';
 var testingInBrowser=false;// For Testing
 var loginUserId;
+var dataIsFromServer = 0;
 
 var rightPanelObj = '<div id="menu-wrapper">'+
 							'<div class="menu-title">'+
@@ -685,7 +686,6 @@ var measurementTypeId = '';
 var orderArrSession = [];
 var customerArrSession = [];
 var tailorDetailsSession = {};
-var dataIsFromServer = 0;
 
 //The directory to store data
 var store;
@@ -1983,10 +1983,15 @@ function errorCBCustomerListDB(err) {
 				jQuery.each(galleryObj , function(indexObj,valueObj) {
 					var gallery_id = valueObj['id'];
 					var image = valueObj["image"];
-				
+					var prodImage = '';
 					//var prodImage = productImageData + '/'+image; // Direct Hitting to server URL
 					//var prodImage = window.appRootDir.fullPath + '/' + gallery_id+'_'+image;
-					var prodImage = localPath + "/" + 'gallery'+ '/' + image; // For Production
+					if(testingInBrowser){
+						prodImage = 'img/product'+indexObj+'.jpg'; // For Testing
+					}else{
+						prodImage = localPath + "/" + 'gallery'+ '/' + image; // For Production
+					}
+					//var prodImage = localPath + "/" + 'gallery'+ '/' + image; // For Production
 					//var prodImage = 'img/product'+indexObj+'.jpg'; // For Testing
 					if(jsonObj['category'] != ''){
 						jQuery.each(categoryObj, function(indexCat, valueCat){
@@ -2058,10 +2063,16 @@ function errorCBCustomerListDB(err) {
 							var image = valueGal['image'];
 							
 							measurementTypeId = jsonObj['measurement_typeid'];
+							var prodImageSrc = '';
+							if(testingInBrowser){
+								prodImageSrc = 'img/product'+indexGal+'.jpg';// For Testing
+							}else{
+								prodImageSrc = localPath + "/" + 'gallery'+ '/' +image;// For Production
+							}
 							//var prodImageSrc = 'img/product'+indexGal+'.jpg';// For Testing
 							
 							//var prodImageSrc = window.appRootDir.fullPath + '/' + galId+'_'+image;
-							var prodImageSrc = localPath + "/" + 'gallery'+ '/' +image;
+							//var prodImageSrc = localPath + "/" + 'gallery'+ '/' +image;
 							//var prodImageSrc = productImageData + '/'+image; // Direct Hitting to server URL
 							//initToCheckTheFile(image, productImageData);
 							
@@ -2176,8 +2187,14 @@ function errorCBCustomerListDB(err) {
 				    			}, 2000);
 							}*/
 							//var optionImages = window.appRootDir.fullPath + '/' + optionId+'_'+optionImg;
-							var optionImages = localPath + "/" + 'attributes'+ '/' +optionImg;
+							//var optionImages = localPath + "/" + 'attributes'+ '/' +optionImg; // For Production
 							//var optionImages = attributeImageData + '/'+optionImg; // Direct Hitting to server URL
+							var optionImages = '';
+							if(testingInBrowser){
+								optionImages = 'img/attr'+index2+'.png'; // For Testing
+							}else{
+								optionImages = localPath + "/" + 'attributes'+ '/' +optionImg; // For Production
+							}
 							//var optionImages = 'img/attr'+index2+'.png'; // For Testing
 							//initToCheckTheFile(optionImg, attributeImageData);
 							var tempOptDiv = '<div class="col-xs-6 col-sm-4 col-md-4 col-lg-4 attr-opt-hei-wid single-option attrInd'+attributeForNextIndex+' optMenu-bar attrOpt'+server_attr_id+' div_opt_id'+optionId+'" data-attrindex="'+attributeForNextIndex+'" onclick="selectedOptionFn(this)" data-opt_id="'+optionId+'" data-cat_id="'+catId+'" data-prod_id="'+prodId+'" data-attrid="'+server_attr_id+'" data-lid="'+attrId+'"><div class="box"><img class="" src="'+optionImages+'" data-imgt_cat_id="'+catId+'" data-imgt_prod_id="'+prodId+'" data-imgt_attrid="'+server_attr_id+'"  data-imgt_opt_id="'+optionId+'" data-imgt_lid="'+attrId+'" alt="'+optionName+'"></div></div>';
