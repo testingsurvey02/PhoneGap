@@ -2658,7 +2658,7 @@ function errorCBCustomerListDB(err) {
 		$('#priceInput').val('');
 		$('#contactNumberInput').val('');
 		$('#addressInput').val('');
-		$('#orderReportPageId').find('.orderTable table tbody').empty();
+		$('#orderReportPageId').find('table tbody').empty();
 		var tableRowMain = '';
 		if(orderArrData != ''){
 			jQuery.each(orderArrData, function(index,value) {
@@ -2697,7 +2697,7 @@ function errorCBCustomerListDB(err) {
 		}else{
 			tableRowMain += '<tr><td colspan="6">No data found.</td></tr>'
 		}
-		$('#orderReportPageId').find('.orderTable table tbody').append(tableRowMain);
+		$('#orderReportPageId').find('table tbody').append(tableRowMain);
 		gotoOrderPageDiv();
 	}
 	
