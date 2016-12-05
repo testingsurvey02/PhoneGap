@@ -2533,6 +2533,8 @@ function errorCBCustomerListDB(err) {
 	}
 	
 	function getOptionByAttrId(dataObj){
+		$('.galleryTag').hide();
+		$('.attributeTag').show();
 		var attrTempId = $(dataObj).data('attri_id');
 		/*
 		$('.selection-menu').each(function(index){
