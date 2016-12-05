@@ -809,6 +809,7 @@ function getTailorDetailsFromLocal(){
 	}
 	
 	db.transaction(	function (tx){
+		tx.executeSql('CREATE TABLE IF NOT EXISTS tailor_details (id integer primary key autoincrement, server_td_id integer, first_name text, middle_name text, last_name text, business_title text, address1 text, address2 text, email text, contact1 text, contact2 text, secret_key text, tailor_status integer, city text, pincode text, state_id integer, country_id integer, state_name text, country_name text, update_timestamp text)');
 		var len = 0;
 			tx.executeSql('select * from tailor_details ',[],function(tx,results){
 					len = results.rows.length;
@@ -2657,7 +2658,7 @@ function errorCBCustomerListDB(err) {
 		$('#priceInput').val('');
 		$('#contactNumberInput').val('');
 		$('#addressInput').val('');
-		$('#orderReportPageId').find('table tbody').empty();
+		$('#orderReportPageId').find('.orderTable table tbody').empty();
 		var tableRowMain = '';
 		if(orderArrData != ''){
 			jQuery.each(orderArrData, function(index,value) {
@@ -2696,7 +2697,7 @@ function errorCBCustomerListDB(err) {
 		}else{
 			tableRowMain += '<tr><td colspan="6">No data found.</td></tr>'
 		}
-		$('#orderReportPageId').find('table tbody').append(tableRowMain);
+		$('#orderReportPageId').find('.orderTable table tbody').append(tableRowMain);
 		gotoOrderPageDiv();
 	}
 	
