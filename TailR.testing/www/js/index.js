@@ -2846,7 +2846,7 @@ function errorCBCustomerListDB(err) {
 	
 	function sendOrderDetailsToSaveInServer(){
 		var dataToSend = {};
-		
+		console.log('sendOrderDetailsToSaveInServer');
 		dataToSend["secret_key"] = tailorDetailsObj.secret_key;
 		dataToSend["tailor_id"] = tailorDetailsObj.tailor_details_id;
 		dataToSend["customer_id"] = $('#customerIdInput').val();
