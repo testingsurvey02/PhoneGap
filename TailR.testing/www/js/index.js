@@ -717,7 +717,7 @@ function initializeDB(tx) {
 function successCB() {
 	//alert('db transcation success');
 	//console.log('db transcation success');
-	//loadDataFromServer();
+	loadDataFromServer();
 }
 //Transaction error callback
 function errorCB(err) {
@@ -1468,7 +1468,13 @@ function takeCustomerDetailsFn(){
 	var customerName = $('#customerNameInput').val();
 	var priceInput = $('#priceInput').val();
 	var contactNumber = $('#contactNumberInput').val();
-	var address_details = $('#addressInput').val();
+	var address1Input = $('#address1Input').val();
+	var address2Input = $('#address2Input').val();
+	var emailIdInput = $('#emailIdInput').val();
+	var countryInput = $('#countryInput').val();
+	var stateInput = $('#stateInput').val();
+	var cityInput = $('#cityInput').val();
+	var pincodeInput = $('#pincodeInput').val();
 	var customerIdInput = $('#customerIdInput').val();
 	if(customerIdInput == '' || customerIdInput == undefined){
 		db.transaction(function(tx) {
@@ -1478,7 +1484,7 @@ function takeCustomerDetailsFn(){
 				var update_timestamp=currDateTimestamp;
 				
 				tx.executeSql('INSERT INTO customer_details(name, price, update_timestamp, contact_number, email_id, country, state, city, pincode, address_one, address_two) VALUES (?,?,?,?,?,?,?,?,?,?,?)',
-							[customerName, priceInput, update_timestamp, contactNumber, address_details], function(tx, res) {
+							[customerName, priceInput, currDateTimestamp, contactNumber, emailIdInput, countryInput, stateInput, cityInput, pincodeInput, address1Input, address2Input], function(tx, res) {
 					//alert("Customer Details insertId: " + res.insertId + " -- res.rowsAffected 1"+res.rowsAffected);
 					$('#customerIdInput').val(res.insertId);
 				});
@@ -2491,6 +2497,7 @@ function errorCBCustomerListDB(err) {
 		});
 		*/
 		var attrTempIndexId = $(dataObj).data('main_attinda');
+		//alert(attrTempIndexId);
 		if(parseInt(attrTempIndexId) == 0){
 			$('.back-button').attr('disabled','disabled');
 			$('.back-button').attr('onclick', 'backButton("'+attrTempIndexId+'")');

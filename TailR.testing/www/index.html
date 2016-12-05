@@ -288,27 +288,41 @@
 								<div class="box">
 									<input type="hidden" id="customerIdInput" name="customerIdInput"/>
 									<div class="row customerFieldsToAppendSelected" style="width: 100%">
-										<div class="col-xs-12 col-sm-6 col-md-6 col-lg-6 customerNameField width-app">
+										<table>
+											<tr><td>Customer Name</td><td><input type="text" id="customerNameInput" name="customerNameInput" class="form-control"/></td></tr>
+											<tr><td>Price</td><td><input type="text" id="priceInput" name="priceInput" class="form-control"/></td></tr>
+											<tr><td>Contact Number</td><td><input type="text" id="contactNumberInput" name="contactNumberInput" class="form-control"/></td></tr>
+											<tr><td>EmailId</td><td><input type="text" id="emailIdInput" name="emailIdInput" class="form-control"/></td></tr>
+											<tr><td>Address One</td><td><textarea id="address1Input" name="address1Input" class="form-control" rows="3" cols="1000"> </textarea></td></tr>
+											<tr><td>Address Two</td><td><textarea id="address2Input" name="address2Input" class="form-control" rows="3" cols="1000"> </textarea></td></tr>
+											<tr><td>Country</td><td><input type="text" id="countryInput" name="countryInput" class="form-control"/></td></tr>
+											<tr><td>State</td><td><input type="text" id="stateInput" name="stateInput" class="form-control"/></td></tr>
+											<tr><td>City</td><td><input type="text" id="cityInput" name="cityInput" class="form-control"/></td></tr>
+											<tr><td>Pin code</td><td><input type="text" id="pincodeInput" name="pincodeInput" class="form-control"/></td></tr>
+											
+										</table>
+									
+										<!-- <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6 customerNameField width-app">
 											<div class="box start-xs start-sm start-md start-lg">
 												Customer Name <input type="text" id="customerNameInput" name="customerNameInput" class="form-control"/> 
 											</div>
-										</div>
-										<div class="col-xs-12 col-sm-6 col-md-6 col-lg-6 customerPriceField width-app" >
+										</div> -->
+										<!-- <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6 customerPriceField width-app" >
 											<div class="box start-xs start-sm start-md start-lg">
 												Price <input type="text" id="priceInput" name="priceInput" class="form-control"/> 
 											</div>
-										</div>
-										<div class="col-xs-12 col-sm-6 col-md-6 col-lg-6 customerNameField width-app">
+										</div> -->
+										<!-- <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6 customerNameField width-app">
 											<div class="box start-xs start-sm start-md start-lg">
 												Contact Number <input type="text" id="contactNumberInput" name="contactNumberInput" class="form-control"/> 
 											</div>
-										</div>
-										<div class="col-xs-12 col-sm-6 col-md-6 col-lg-6 customerNameField width-app">
+										</div> -->
+										<!-- <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6 customerNameField width-app">
 											<div class="box start-xs start-sm start-md start-lg">
 												EmailId <input type="text" id="emailIdInput" name="emailIdInput" class="form-control"/> 
 											</div>
-										</div>
-										<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 customerPriceField width-app" >
+										</div> -->
+										<!-- <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 customerPriceField width-app" >
 											<div class="box start-xs start-sm start-md start-lg">
 												Address One <textarea id="address1Input" name="address1Input" class="form-control" rows="3" cols="1000"> </textarea>
 											</div>
@@ -317,18 +331,18 @@
 											<div class="box start-xs start-sm start-md start-lg">
 												Address Two <textarea id="address2Input" name="address2Input" class="form-control" rows="3" cols="1000"> </textarea>
 											</div>
-										</div>
-										<div class="col-xs-12 col-sm-6 col-md-6 col-lg-6 customerNameField width-app">
+										</div> -->
+										<!-- <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6 customerNameField width-app">
 											<div class="box start-xs start-sm start-md start-lg">
 												Country <input type="text" id="countryInput" name="countryInput" class="form-control"/> 
 											</div>
-										</div>
-										<div class="col-xs-12 col-sm-6 col-md-6 col-lg-6 customerNameField width-app">
+										</div> -->
+										<!-- <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6 customerNameField width-app">
 											<div class="box start-xs start-sm start-md start-lg">
 												State <input type="text" id="stateInput" name="stateInput" class="form-control"/> 
 											</div>
-										</div>
-										<div class="col-xs-12 col-sm-6 col-md-6 col-lg-6 customerNameField width-app">
+										</div> -->
+										<!-- <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6 customerNameField width-app">
 											<div class="box start-xs start-sm start-md start-lg">
 												City <input type="text" id="cityInput" name="cityInput" class="form-control"/> 
 											</div>
@@ -337,7 +351,7 @@
 											<div class="box start-xs start-sm start-md start-lg">
 												Pincode <input type="text" id="pincodeInput" name="pincodeInput" class="form-control"/> 
 											</div>
-										</div>
+										</div> -->
 										<br/>
 									</div>
 									
@@ -396,7 +410,7 @@
 					
 					<div id="orderReportPageId" >
 						<div class="row order-report-menu" >
-							<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+							<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 width-app">
 								<ul class="topnav main-menu-ul" id="main-menu-ul" style="margin-bottom: 65px;">
 									<li>
 										<h3 style="color: white;"> Order Report </h3>
@@ -405,7 +419,8 @@
 										<button class="ui-btn ui-shadow ui-corner-all" type="button" onclick="gotoHome()">Home Page</button>
 									</li>
 								</ul>
-								
+							</div>
+							<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 width-app">
 								<table class="table table-hover table-striped table-bordered" border="1">
 									<thead>
 										<tr>
