@@ -710,7 +710,7 @@ function initializeDB(tx) {
 	//	tx.executeSql('CREATE TABLE IF NOT EXISTS measurement_details (id integer primary key autoincrement, name text, server_measurement_id integer, status integer, update_timestamp text, group text, measurement_type_id integer)');
 	
 	//	tx.executeSql(CREATE TABLE IF NOT EXISTS customer_details (id integer primary key autoincrement,name text, price text, update_timestamp text, contact_number text, email_id text, country text, state text, city text, pincode text, address_one text, address_two text)');
-	//	tx.executeSql('CREATE TABLE IF NOT EXISTS order_details(id integer primary key autoincrement, server_cat_id integer, server_prod_id integer, order_data text,update_timestamp text, server_prod_name text, customer_id integer)');
+	//	tx.executeSql('CREATE TABLE IF NOT EXISTS order_details(id integer primary key autoincrement, server_cat_id integer, server_prod_id integer, order_data text,update_timestamp text, server_prod_name text,customer_id integer, option_selected text, status_of_order text, gallery_id integer, gallery_name text)');
 }
 
 // Common Transaction success callback
@@ -1326,7 +1326,7 @@ function insertOrderDetails(){
 	if(newOrderId == '' || newOrderId == undefined){
 		db.transaction(function(tx) {
 			
-			tx.executeSql('CREATE TABLE IF NOT EXISTS order_details(id integer primary key autoincrement, server_cat_id integer, server_prod_id integer, order_data text,update_timestamp text, server_prod_name text,customer_id integer, option_selected text, status_of_order text)');
+			tx.executeSql('CREATE TABLE IF NOT EXISTS order_details(id integer primary key autoincrement, server_cat_id integer, server_prod_id integer, order_data text,update_timestamp text, server_prod_name text,customer_id integer, option_selected text, status_of_order text, gallery_id integer, gallery_name text)');
 			
 				var server_cat_id = categoryHtmlId;
 				var server_prod_id = productHTMLId;
@@ -1336,9 +1336,9 @@ function insertOrderDetails(){
 				var optionIdsWithArrays = selectedOptionMain;
 				var customer_id = customerIdInput;
 				var status_of_order = 'Pending';
-
-				tx.executeSql('INSERT INTO order_details(server_cat_id, server_prod_id, order_data, update_timestamp, server_prod_name, customer_id, option_selected, status_of_order) VALUES (?,?,?,?,?,?,?,?)',
-							[server_cat_id, server_prod_id, order_data, update_timestamp,server_prod_name, customer_id, optionIdsWithArrays, status_of_order], function(tx, res) {
+				
+				tx.executeSql('INSERT INTO order_details(server_cat_id, server_prod_id, order_data, update_timestamp, server_prod_name, customer_id, option_selected, status_of_order, gallery_id, gallery_name) VALUES (?,?,?,?,?,?,?,?,?,?)',
+							[server_cat_id, server_prod_id, order_data, update_timestamp,server_prod_name, customer_id, optionIdsWithArrays, status_of_order, galleryIdToSave, galleryNameToSave], function(tx, res) {
 					//alert("Order Data insertId: " + res.insertId + " -- res.rowsAffected 1"+res.rowsAffected);
 					$('#newOrderId').val(res.insertId);
 				});
@@ -1424,7 +1424,7 @@ function getOrderListFromLocalDB(){
 	}
 	
 	db.transaction(	function (tx){
-		tx.executeSql('CREATE TABLE IF NOT EXISTS order_details(id integer primary key autoincrement, server_cat_id integer, server_prod_id integer, order_data text,update_timestamp text, server_prod_name text,customer_id integer, option_selected text, status_of_order text)');
+		tx.executeSql('CREATE TABLE IF NOT EXISTS order_details(id integer primary key autoincrement, server_cat_id integer, server_prod_id integer, order_data text,update_timestamp text, server_prod_name text,customer_id integer, option_selected text, status_of_order text, gallery_id integer, gallery_name text)');
 		var len = 0;
 			tx.executeSql('select * from order_details ',[],function(tx,results){
 					len = results.rows.length;
@@ -2020,6 +2020,8 @@ function errorCBCustomerListDB(err) {
 		getAttributeListFromLocal();
 	}
 
+	var galleryIdToSave = '';
+	var galleryNameToSave = '';
 	function goToAttributeDiv(currentData){
 		$('.selection-menu').each(function(index){
 			$(this).find('ul li').removeClass("active").find('a').removeClass("active");
@@ -2079,11 +2081,13 @@ function errorCBCustomerListDB(err) {
 							
 							var activeClass="";
 							if(galId == gallCurrId){
+								galleryIdToSave = gallCurrId;
+								galleryNameToSave = image;
 								$('.product-image-div-landscape img').attr("src", prodImageSrc);
 								$prodSelDetailsDiv.find('.galleryImageClass img').attr("src", prodImageSrc);
 								activeClass="active";
 							}
-							var liObj='<li class="childGalleryClass"><img src="'+prodImageSrc+'" data-childgalid="'+galId+'" class="'+activeClass+' gallCIndClassId'+galId+'" onclick="changeGallInAttMeaCusFn(this)"></li>';
+							var liObj='<li class="childGalleryClass"><img src="'+prodImageSrc+'" data-childgalid="'+galId+'" data-gallname="'+image+'" class="'+activeClass+' gallCIndClassId'+galId+'" onclick="changeGallInAttMeaCusFn(this)"></li>';
 							$galleryImagesList.append(liObj);
 						});
 					}
@@ -2127,6 +2131,9 @@ function errorCBCustomerListDB(err) {
 		var $galleryImagesList=$prodSelDetailsDiv.find('.gallery-images-list');
 		var srcOfOnClick = $(dataObj).attr('src');
 		var gallCldIndId = $(dataObj).data('childgalid');
+		galleryIdToSave = gallCldIndId;
+		var gallName = $(dataObj).data('gallname');
+		galleryNameToSave = gallName;
 			var imageToActive = $prodSelDetailsDiv.find('.galleryImageClass img').attr("src", srcOfOnClick);
 			$('.product-image-div-landscape img').attr("src", srcOfOnClick);
 			var activeClass="active";
@@ -2198,7 +2205,7 @@ function errorCBCustomerListDB(err) {
 							}
 							//var optionImages = 'img/attr'+index2+'.png'; // For Testing
 							//initToCheckTheFile(optionImg, attributeImageData);
-							var tempOptDiv = '<div class="col-xs-6 col-sm-4 col-md-4 col-lg-4 attr-opt-hei-wid single-option attrInd'+attributeForNextIndex+' optMenu-bar attrOpt'+server_attr_id+' div_opt_id'+optionId+'" data-attrindex="'+attributeForNextIndex+'" onclick="selectedOptionFn(this)" data-opt_id="'+optionId+'" data-cat_id="'+catId+'" data-prod_id="'+prodId+'" data-attrid="'+server_attr_id+'" data-lid="'+attrId+'"><div class="box"><img class="" src="'+optionImages+'" data-imgt_cat_id="'+catId+'" data-imgt_prod_id="'+prodId+'" data-imgt_attrid="'+server_attr_id+'"  data-imgt_opt_id="'+optionId+'" data-imgt_lid="'+attrId+'" alt="'+optionName+'"></div></div>';
+							var tempOptDiv = '<div class="col-xs-6 col-sm-4 col-md-4 col-lg-4 attr-opt-hei-wid single-option attrInd'+attributeForNextIndex+' optMenu-bar attrOpt'+server_attr_id+' div_opt_id'+optionId+'" data-optname="'+optionName+'" data-attrindex="'+attributeForNextIndex+'" onclick="selectedOptionFn(this)" data-opt_id="'+optionId+'" data-cat_id="'+catId+'" data-prod_id="'+prodId+'" data-attrid="'+server_attr_id+'" data-lid="'+attrId+'"><div class="box"><img class="" src="'+optionImages+'" data-imgt_cat_id="'+catId+'" data-imgt_prod_id="'+prodId+'" data-imgt_attrid="'+server_attr_id+'"  data-imgt_opt_id="'+optionId+'" data-imgt_lid="'+attrId+'" alt="'+optionName+'"></div></div>';
 							optionMainDiv += tempOptDiv;
 						});
 						 attributeDiv += tempAttrDiv;
@@ -2303,8 +2310,10 @@ function errorCBCustomerListDB(err) {
 	
 	var optionArrayToSave = [];
 	var attributeArrayToSave = [];
+	var optionImageName = [];
 	function selectedOptionFn(thisData){
 		var attrId = $(thisData).data('attrid');
+		var optName = $(thisData).data('optname');
 		$('.subMen_attrId'+attrId).addClass('option-selected');
 		$('.selection-page-options-div .attr-option-div .attrOpt'+attrId).removeClass('active');
 		$(thisData).addClass("active");
@@ -2315,10 +2324,12 @@ function errorCBCustomerListDB(err) {
 		if(indexOfAttr >= 0){
 			var tempAttrArray = [];
 			var tempOptionArray = [];
+			var tempOptionName = [];
 			for(var i = 0 ;i <=attributeArrayToSave.length; i++){
 				if(attrId != attributeArrayToSave[i]){
 					tempAttrArray.push(attributeArrayToSave[i]);
 					tempOptionArray.push(optionArrayToSave[i]);
+					tempOptionName.push(optionImageName[i]);
 				}
 			}
 			optionArrayToSave = tempOptionArray;
@@ -2332,6 +2343,7 @@ function errorCBCustomerListDB(err) {
 	   // }
 	    	optionArrayToSave.push(optId);
 	    	attributeArrayToSave.push(attrId);
+	    	optionImageName.push(optName);
 		$("#customerConfirmationPageId .customerFieldsToAppendSelected .optMenu-bar").show();
 		
 		var $attrIndex = $(thisData).data('attrindex');
@@ -2591,14 +2603,16 @@ function errorCBCustomerListDB(err) {
 	var selectedOptionMain = new Array();
 	function orderTakeMeastFn(){
 		var lengthOfOrder = $( "#measurementPageId .measure-inputField" ).length;
-		if(optionArrayToSave.length > 0 && attributeArrayToSave.length > 0){
+		if(optionArrayToSave.length > 0 && attributeArrayToSave.length > 0 && optionImageName.length > 0){
 			var arrObject = new Array();
 			for(var i = 0; i< optionArrayToSave.length; i++){
 				var childObject = new Object();
 				var optionId = optionArrayToSave[i];
 				var attrId = attributeArrayToSave[i];
+				var optName = optionImageName[i];
 				childObject.optionId = optionId;
 				childObject.attrId = attrId;
+				childObject.optName = optName;
 				arrObject.push(childObject);
 			}
 			selectedOptionMain = arrObject;
