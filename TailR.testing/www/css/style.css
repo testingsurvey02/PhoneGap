@@ -94,7 +94,7 @@ ul.topnav li a:hover{background-color: #555;}
 .product-selection-details-div .gallery-images-list li {
     float: left;
     margin: 0 10px 10px 0;
-    min-width: 24.2%;
+ /*    min-width: 24.2%; */
     max-width: 24%;
     display: inline-block;
 }
@@ -174,8 +174,8 @@ img.product-image{}
 .width-app{
 	width : 100%;
 }
-/*
+
 .attr-opt-hei-wid{
 	width : 200px;
 	height : 200px;
-}*/
+}

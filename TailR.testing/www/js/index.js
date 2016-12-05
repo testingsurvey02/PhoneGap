@@ -1469,13 +1469,13 @@ function takeCustomerDetailsFn(){
 	currDateTimestamp=dateTimestamp();
 	var customerName = $('#customerNameInput').val();
 	var totalPriceInput = $('#totalPriceInput').val();
-	var advancePriceInput = $('#advancePriceInput').val();
-	var balancePriceInput = $('#balancePriceInput').val();
+	var advancePriceInput = '';
+	var balancePriceInput = '';
 	var contactNumber = $('#contactNumberInput').val();
 	var address1Input = $('#address1Input').val();
 	var address2Input = $('#address2Input').val();
 	var emailIdInput = $('#emailIdInput').val();
-	var countryInput = $('#countryInput').val();
+	var countryInput = '';
 	var stateInput = $('#stateInput').val();
 	var cityInput = $('#cityInput').val();
 	var pincodeInput = $('#pincodeInput').val();
@@ -1488,7 +1488,7 @@ function takeCustomerDetailsFn(){
 				var update_timestamp=currDateTimestamp;
 				
 				tx.executeSql('INSERT INTO customer_details(name, total_price, advance_price, balance_price, update_timestamp, contact_number, email_id, country, state, city, pincode, address_one, address_two) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?)',
-							[customerName, totalPriceInput, advancePriceInput, balancePriceInput, update_timestamp, contactNumber, emailIdInput, countryInput, stateInput, cityInput, pincodeInput, address1Input, address2Input], function(tx, res) {
+						[customerName, totalPriceInput, advancePriceInput, balancePriceInput, update_timestamp, contactNumber, emailIdInput, countryInput, stateInput, cityInput, pincodeInput, address1Input, address2Input], function(tx, res) {
 					//alert("Customer Details insertId: " + res.insertId + " -- res.rowsAffected 1"+res.rowsAffected);
 					$('#customerIdInput').val(res.insertId);
 				});
@@ -2091,7 +2091,7 @@ function errorCBCustomerListDB(err) {
 								$prodSelDetailsDiv.find('.galleryImageClass img').attr("src", prodImageSrc);
 								activeClass="active";
 							}
-							var liObj='<li class="childGalleryClass"><img src="'+prodImageSrc+'" data-childgalid="'+galId+'" data-gallname="'+image+'" class="'+activeClass+' gallCIndClassId'+galId+'" onclick="changeGallInAttMeaCusFn(this)"></li>';
+							var liObj='<li class="childGalleryClass"><img src="'+prodImageSrc+'" data-childgalid="'+galId+'" data-gallname="'+image+'" class="'+activeClass+' gallCIndClassId'+galId+'" style="width: 200px;" onclick="changeGallInAttMeaCusFn(this)"></li>';
 							$galleryImagesList.append(liObj);
 						});
 					}
@@ -2116,6 +2116,7 @@ function errorCBCustomerListDB(err) {
 						}else{
 							getMeasumentListFromLocal();
 							showMeasurementDiv();
+							showGalleryDivTag();
 						}
 					}
 				});
@@ -2241,7 +2242,9 @@ function errorCBCustomerListDB(err) {
 			$('.selMenu-bar').remove();
 			$('.optMenu-bar').remove();
 			$('.optionPreNextButton').remove();
-			$( attributeDiv ).insertBefore( ".selection-menu .selection-menu-ul .measurementDivShow" );
+			$( attributeDiv ).insertBefore( ".selection-menu .selection-menu-ul .galleryDivTag" );
+			$('.galleryTag').hide();
+			$('.attributeTag').show();
 			//$('.selection-menu').append(attributeDiv);
 			$('.attr-option-div').append(optionMainDiv);
 			$('.attr-option-div .optMenu-bar').hide();
@@ -2253,11 +2256,11 @@ function errorCBCustomerListDB(err) {
 				$(this).find('ul li.subMen_attrId'+attrTempId).addClass("active").find('a').addClass("active");
 			});
 			
-			var appendButtons = '<div class="row optionPreNextButton"><div class="col-xs-6 col-sm-6 col-md-6 col-lg-6"><button class="back-button btn btn-primary st-bg-baby-pink ui-btn ui-shadow ui-corner-all" disabled="disabled" onclick="backButton('+attributeForNextIndex+')">Previous</button></div>';
+			var appendButtons = '<div class="row optionPreNextButton" style="margin-top: 25px;"><div class="col-xs-6 col-sm-6 col-md-6 col-lg-6"><button class="back-button btn btn-primary st-bg-baby-pink ui-btn ui-shadow ui-corner-all" disabled="disabled" onclick="backButton('+attributeForNextIndex+')">Previous</button></div>';
 			if(parseInt(attributeForNextIndex) > 0){
 				appendButtons += '<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6"><button class="btn btn-primary st-bg-baby-pink ui-btn ui-shadow ui-corner-all front-button" onclick="frontButton(1)">Next</button></div>';
 			}else{
-				appendButtons += '<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6"><button class="btn btn-primary st-bg-baby-pink ui-btn ui-shadow ui-corner-all front-button" onclick="showMeasurementDiv()">Next</button></div>';
+				appendButtons += '<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6 float-right"><button class="btn btn-primary st-bg-baby-pink ui-btn ui-shadow ui-corner-all front-button" disabled="disabled" onclick="showMeasurementDiv()">Next</button></div>';
 			}
 			appendButtons +='</div>';
 			
@@ -2277,6 +2280,8 @@ function errorCBCustomerListDB(err) {
 			//$('.back-button').attr();
 		}
 		var attrId = $('.main_attr_ind'+index).data('attrid');
+		$('.galleryTag').hide();
+		$('.attributeTag').show();
 		console.log('attrId  : '+attrId);
 		$('.attr-option-div .optMenu-bar').hide();
 		$('.attrOpt'+attrId).show();
@@ -2284,6 +2289,7 @@ function errorCBCustomerListDB(err) {
 		$('.selection-menu').find('ul li.subMen_attrId'+attrId).addClass("active").find('a').addClass("active");
 		if(parseInt(index) == parseInt(attributeForNextIndex)){
 			$('.front-button').attr('onclick', 'showMeasurementDiv()');
+			$('.front-button').attr('disabled','disabled');
 		}else{
 			var appendFrontIndex = parseInt(index)+1;
 			$('.front-button').attr('onclick', 'frontButton("'+appendFrontIndex+'")');
@@ -2291,6 +2297,8 @@ function errorCBCustomerListDB(err) {
 	}
 	
 	function frontButton(index){
+		$('.galleryTag').hide();
+		$('.attributeTag').show();
 		$('.back-button').removeAttr('disabled');
 		if(parseInt(index) <= parseInt(attributeForNextIndex)){
 			var attrId = $('.main_attr_ind'+index).data('attrid');
@@ -2303,6 +2311,7 @@ function errorCBCustomerListDB(err) {
 			$('.back-button').attr('onclick', 'backButton("'+appendBackIndex+'")');
 			if(parseInt(index) == parseInt(attributeForNextIndex)){
 				$('.front-button').attr('onclick', 'showMeasurementDiv()');
+				$('.front-button').attr('disabled','disabled');
 			}else{
 				var appendFrontIndex = parseInt(index)+1;
 				$('.front-button').attr('onclick', 'frontButton("'+appendFrontIndex+'")');
@@ -2316,6 +2325,8 @@ function errorCBCustomerListDB(err) {
 	var attributeArrayToSave = [];
 	var optionImageName = [];
 	function selectedOptionFn(thisData){
+		$('.galleryTag').hide();
+		$('.attributeTag').show();
 		var attrId = $(thisData).data('attrid');
 		var optName = $(thisData).data('optname');
 		$('.subMen_attrId'+attrId).addClass('option-selected');
@@ -2355,7 +2366,7 @@ function errorCBCustomerListDB(err) {
 		
 		
 		
-		if(parseInt($attrIndex) < parseInt(attributeForNextIndex)){
+		/*if(parseInt($attrIndex) < parseInt(attributeForNextIndex)){
 			$('.back-button').removeAttr('disabled');
 			$('.back-button').attr('onclick', 'backButton("'+$attrIndex+'")');
 			$attrIndex = $attrIndex + 1;
@@ -2376,7 +2387,7 @@ function errorCBCustomerListDB(err) {
 			
 		}else{
 			showMeasurementDiv();
-		}
+		}*/
 		
 	}
 
@@ -2430,6 +2441,8 @@ function errorCBCustomerListDB(err) {
 				var groupJsonData = jQuery.parseJSON(value['group_data']);
 				jQuery.each(groupJsonData, function(groupIndex,groupValue) {
 					var groupMeasurementTypeId = groupValue['measurement_type_id'];
+					console.log('groupMeasurementTypeId : ' +groupMeasurementTypeId);
+					console.log('measurementTypeId : ' +measurementTypeId);
 					if(groupMeasurementTypeId == measurementTypeId){
 						var groupName = groupValue['name'];
 						if(groupValue['measurements'] != ''){
@@ -2579,7 +2592,18 @@ function errorCBCustomerListDB(err) {
 			$(this).find('ul li').removeClass("active").find('a').removeClass("active");
 			$(this).find('ul li.measurementDivShow').addClass("active").find('a').addClass("active");
 		});
+		$('.galleryTag').hide();
+		$('.attributeTag').show();
 		gotoMeasurementPageDiv();
+	}
+	
+	function showGalleryDivTag(){
+		$('.selection-menu').each(function(index){
+			$(this).find('ul li').removeClass("active").find('a').removeClass("active");
+			$(this).find('ul li.galleryDivTag').addClass("active").find('a').addClass("active");
+		});
+		$('.galleryTag').show();
+		$('.attributeTag').hide();
 	}
 	
 	function dataTypeCheckJSON(someobj) {

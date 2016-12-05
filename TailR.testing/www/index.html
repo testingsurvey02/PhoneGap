@@ -105,6 +105,9 @@
 						<div class="row selection-menu selection-menu-div" id="selection-menu-div">
 							
 							<ul class="topnav selection-menu-ul" id="main-menu-ul">
+								<li class="galleryDivTag" data-submenuid="galleryDivTag" id="galleryDivTag">
+									<a href="#" onclick="showGalleryDivTag()">Gallery</a>
+								</li>
 								<li class="measurementDivShow" data-submenuid="measurementSelPg" id="measurementSelPg">
 									<a href="#" onclick="showMeasurementDiv()">Measurement</a>
 								</li>
@@ -120,7 +123,7 @@
 						<div class="row"><hr></div>
 						
 						<div class="row">
-							<div class="col-xs-12 col-sm-5 col-md-4 col-lg-4 selection-page-leftpane width-app">
+							<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 selection-page-leftpane galleryTag width-app" style="display: none;">
 								<div class="box product-selection-details-div width-app">
 									<p class="product-name">Sample</p>
 									
@@ -131,13 +134,13 @@
 										class="imageAppendSelMea" src="img/product/product1.jpg"
 										alt="Sample">
 									</a>
-									<ol class="gallery-images-list">
+									<ol class="gallery-images-list" style="margin-bottom: 40px;">
 										 <li><img src="img/product/product1.jpg" alt="Sample" class="active" ></li>
 									</ol>
 								</div>
 							</div>
 							
-							<div class="col-xs-12 col-sm-7 col-md-8 col-lg-8 selection-page-rightpane selection-page-options-div width-app" >
+							<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 selection-page-rightpane attributeTag selection-page-options-div width-app" >
 								<div class="box appendButton width-app">
 									<div class="row attr-option-div width-app" >
 										
@@ -173,6 +176,9 @@
 						
 						<div class="row measurement-menu selection-menu selection-menu-div" id="selection-menu-div">
 							<ul class="topnav selection-menu-ul" id="main-menu-ul">
+								<li class="galleryDivTag" data-submenuid="galleryDivTag" id="galleryDivTag">
+									<a href="#" onclick="showGalleryDivTag()">Gallery</a>
+								</li>
 								<li class="measurementDivShow" data-submenuid="measurementSelPg" id="measurementSelPg">
 									<a href="#" onclick="showMeasurementDiv()">Measurement</a>
 								</li>
@@ -188,7 +194,7 @@
 						<div class="row">		<hr></div>
 						
 						<div class="row">
-							<div class="col-xs-12 col-sm-5 col-md-4 col-lg-4 selection-page-leftpane">
+							<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 selection-page-leftpane galleryTag"  style="display: none;">
 								<div class="box product-selection-details-div">
 									<p class="product-name">Sample</p>
 									<!-- <div class="product-image-div">
@@ -201,14 +207,14 @@
 										class="imageAppendSelMea" src="img/product/product1.jpg"
 										alt="Sample">
 									</a>
-									<ol class="gallery-images-list">
+									<ol class="gallery-images-list" style="margin-bottom: 40px;">
 										<li><img src="img/product/product1.jpg" alt="Sample" class="active" ></li>
 									</ol>
 								</div>
 							</div>
 							
 							
-							<div class="col-xs-12 col-sm-7 col-md-8 col-lg-8 selection-page-rightpane">
+							<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 selection-page-rightpane attributeTag">
 								<div class="box">
 							        
 									<form id="measurementForm">
@@ -248,6 +254,9 @@
 						<div class="row customerConfirmation-menu selection-menu selection-menu-div" id="selection-menu-div">
 						
 							<ul class="topnav selection-menu-ul" id="main-menu-ul">
+								<li class="galleryDivTag" data-submenuid="galleryDivTag" id="galleryDivTag">
+									<a href="#" onclick="showGalleryDivTag()">Gallery</a>
+								</li>
 								<li class="measurementDivShow" data-submenuid="measurementSelPg" id="measurementSelPg">
 									<a href="#" onclick="showMeasurementDiv()">Measurement</a>
 								</li>
@@ -263,7 +272,7 @@
 						<div class="row">		<hr></div>
 						
 						<div class="row">
-							<div class="col-xs-12 col-sm-5 col-md-4 col-lg-4 selection-page-leftpane">
+							<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 selection-page-leftpane galleryTag" style="display: none;">
 								<div class="box product-selection-details-div">
 									<p class="product-name">Sample</p>
 									<!-- <div class="product-image-div">
@@ -278,26 +287,26 @@
 										alt="Sample">
 									</a>
 									
-									<ol class="gallery-images-list">
+									<ol class="gallery-images-list" style="margin-bottom: 40px;">
 										<li><img src="img/product/product1.jpg" alt="Sample" class="active" ></li>
 									</ol>
 								</div>
 							</div>
 							
-							<div class="col-xs-12 col-sm-7 col-md-8 col-lg-8 selection-page-rightpane measurement-input-fields-div">
+							<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 selection-page-rightpane attributeTag measurement-input-fields-div">
 								<div class="box">
 									<input type="hidden" id="customerIdInput" name="customerIdInput"/>
 									<div class="row customerFieldsToAppendSelected" style="width: 100%">
 										<table>
 											<tr><td>Customer Name</td><td><input type="text" id="customerNameInput" name="customerNameInput" class="form-control"/></td></tr>
-											<tr><td>Total Amount</td><td><input type="text" id="totalPriceInput" name="totalPriceInput" class="form-control"/></td></tr>
-											<tr><td>Advance Amount</td><td><input type="text" id="advancePriceInput" name="advancePriceInput" class="form-control"/></td></tr>
-											<tr><td>Balance Amount</td><td><input type="text" id="balancePriceInput" name="balancePriceInput" class="form-control"/></td></tr>
+											<tr><td>Price</td><td><input type="text" id="totalPriceInput" name="totalPriceInput" class="form-control"/></td></tr>
+											<!-- <tr><td>Advance Amount</td><td><input type="text" id="advancePriceInput" name="advancePriceInput" class="form-control"/></td></tr>
+											<tr><td>Balance Amount</td><td><input type="text" id="balancePriceInput" name="balancePriceInput" class="form-control"/></td></tr> -->
 											<tr><td>Contact Number</td><td><input type="text" id="contactNumberInput" name="contactNumberInput" class="form-control"/></td></tr>
-											<tr><td>EmailId</td><td><input type="text" id="emailIdInput" name="emailIdInput" class="form-control"/></td></tr>
-											<tr><td>Address One</td><td><textarea id="address1Input" name="address1Input" class="form-control" rows="3" cols="1000"> </textarea></td></tr>
-											<tr><td>Address Two</td><td><textarea id="address2Input" name="address2Input" class="form-control" rows="3" cols="1000"> </textarea></td></tr>
-											<tr><td>Country</td><td><input type="text" id="countryInput" name="countryInput" class="form-control"/></td></tr>
+											<tr><td>Email Id</td><td><input type="text" id="emailIdInput" name="emailIdInput" class="form-control"/></td></tr>
+											<tr><td>Address Line 1</td><td><textarea id="address1Input" name="address1Input" class="form-control" rows="3" cols="1000"> </textarea></td></tr>
+											<tr><td>Address Line 2</td><td><textarea id="address2Input" name="address2Input" class="form-control" rows="3" cols="1000"> </textarea></td></tr>
+											<!-- <tr><td>Country</td><td><input type="text" id="countryInput" name="countryInput" class="form-control"/></td></tr> -->
 											<tr><td>State</td><td><input type="text" id="stateInput" name="stateInput" class="form-control"/></td></tr>
 											<tr><td>City</td><td><input type="text" id="cityInput" name="cityInput" class="form-control"/></td></tr>
 											<tr><td>Pin code</td><td><input type="text" id="pincodeInput" name="pincodeInput" class="form-control"/></td></tr>
