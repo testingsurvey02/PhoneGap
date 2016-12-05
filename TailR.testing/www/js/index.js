@@ -2763,9 +2763,9 @@ function errorCBCustomerListDB(err) {
 		connectionType=checkConnection();
 		if(connectionType=="WiFi connection" || connectionType=="Cell 4G connection" || connectionType=="Cell 5G connection" || connectionType=="Cell 3G connection" || connectionType=="Cell 2G connection"){
 			console.log('connectionType'+connectionType);
-			console.log("$('customerNameInput').val() :"+$('customerNameInput').val());
-			console.log("$('newOrderId').val() :"+$('newOrderId').val());
-			if(((typeof $('customerNameInput').val() != 'undefined') && $('customerNameInput').val() != '') && ($('#newOrderId').val() != '' && (typeof $('newOrderId').val() != 'undefined'))){
+			console.log("$('#customerNameInput').val() :"+$('#customerNameInput').val());
+			console.log("$('#newOrderId').val() :"+$('#newOrderId').val());
+			if(((typeof $('#customerNameInput').val() != 'undefined') && $('#customerNameInput').val() != '') && ($('#newOrderId').val() != '' && (typeof $('#newOrderId').val() != 'undefined'))){
 				console.log('Came to inside if');
 				sendCustomerDetailsToSaveInServer();
 			}else{
@@ -2782,7 +2782,7 @@ function errorCBCustomerListDB(err) {
 		var dataToSend = {};
 		console.log('sendCustomerDetailsToSaveInServer');
 		dataToSend["secret_key"] = tailorDetailsObj.secret_key;
-		dataToSend["name"] = $('customerNameInput').val();
+		dataToSend["name"] = $('#customerNameInput').val();
 		dataToSend["tailor_id"] = tailorDetailsObj.tailor_details_id;
 		dataToSend["customer_id"] = $('#customerIdInput').val();
 		dataToSend["contact"] = $('#contactNumberInput').val();
@@ -2817,8 +2817,8 @@ function errorCBCustomerListDB(err) {
 		var dataToSend = {};
 		
 		dataToSend["secret_key"] = tailorDetailsObj.secret_key;
-    	dataToSend["id"] = 0;
-		dataToSend["name"] = $('customerNameInput').val();
+    	dataToSend["id"] = $('#customerIdInput').val();
+		dataToSend["name"] = $('#customerNameInput').val();
 		dataToSend["tailor_id"] = tailorDetailsObj.tailor_details_id;
 		dataToSend["customer_id"] = $('#customerIdInput').val();
 		dataToSend["contact"] = "";
@@ -2876,7 +2876,7 @@ function errorCBCustomerListDB(err) {
 	
 	function successCBOrderDetailsFn(){
 		console.log('successCBOrderDetailsFn');
-		$('#prodHtmlName').val('');
+		/*$('#prodHtmlName').val('');
 		$('#prodHtmlId').val('');
 		$('#categoryHtmlId').val('');
 		$('#customerIdInput').val('');
@@ -2884,7 +2884,7 @@ function errorCBCustomerListDB(err) {
 		$('#customerNameInput').val('');
 		$('#priceInput').val('');
 		$('#contactNumberInput').val('');
-		$('#addressInput').val('');
+		$('#addressInput').val('');*/
 		gotoOrderPageDiv();
 	}
 	
