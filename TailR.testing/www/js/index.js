@@ -848,7 +848,8 @@ function getTailorDetailsFromLocal(){
 
 function successCBTailorDetailsListDB() {
 	console.log('successCBTailorDetailsListDB');
-	console.log(connectionType);
+	connectionType=checkConnection();
+	console.log('connection type : '+connectionType);
 	/*if(connectionType=="Unknown connection" || connectionType=="No network connection"){
 		console.log('No Connection');
 		checkCategoryInLocalDB();
