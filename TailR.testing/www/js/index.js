@@ -2779,8 +2779,8 @@ function errorCBCustomerListDB(err) {
 		dataToSend["name"] = $('customerNameInput').val();
 		dataToSend["tailor_id"] = tailorDetailsObj.tailor_details_id;
 		dataToSend["customer_id"] = $('#customerIdInput').val();
-		dataToSend["contact"] = "";
-		dataToSend["email"] = "";
+		dataToSend["contact"] = $('#contactNumberInput').val();
+		dataToSend["email"] = $('#emailIdInput').val();
 		dataToSend["status"] = 1;
 		
 		var appurltemps="http://tailorraniapp.stavyah.com/api/customers/storejson"
@@ -2791,7 +2791,7 @@ function errorCBCustomerListDB(err) {
 		else if(connectionType=="WiFi connection" || connectionType=="Cell 4G connection" || connectionType=="Cell 3G connection" || connectionType=="Cell 2G connection"){
 			$.ajax({
 				type : ajaxCallType,
-				url: url,
+				url: appurltemps,
 				data : dataToSend,
 				success: successCBCustomerDetailsFn,
 				error: commonErrorCallback
@@ -2827,7 +2827,7 @@ function errorCBCustomerListDB(err) {
 		else if(connectionType=="WiFi connection" || connectionType=="Cell 4G connection" || connectionType=="Cell 3G connection" || connectionType=="Cell 2G connection"){
 			$.ajax({
 				type : ajaxCallType,
-				url: url,
+				url: appurltemps,
 				data : dataToSend,
 				success: successCBCustomerDetailsFn,
 				error: commonErrorCallback
@@ -2847,9 +2847,8 @@ function errorCBCustomerListDB(err) {
 		dataToSend["order_id"] = $('#newOrderId').val();
 		dataToSend["order_price"] = $('#priceInput').val();
 		dataToSend["status"] = 1;
-		dataToSend["order_attributes"] = JSON.stringify(selectedOptionMain);
-		dataToSend["order_measurements"] = JSON.stringify(orderTakenDetails);
-		
+		dataToSend["order_attributes"] = selectedOptionMain;
+		dataToSend["order_measurements"] = orderTakenDetails;
 		var appurltemps="http://tailorraniapp.stavyah.com/api/orders/storejson"
 		connectionType=checkConnection();
 		if(connectionType=="Unknown connection" || connectionType=="No network connection"){
@@ -2858,7 +2857,7 @@ function errorCBCustomerListDB(err) {
 		else if(connectionType=="WiFi connection" || connectionType=="Cell 4G connection" || connectionType=="Cell 3G connection" || connectionType=="Cell 2G connection"){
 			$.ajax({
 				type : ajaxCallType,
-				url: url,
+				url: appurltemps,
 				data : dataToSend,
 				success: successCBOrderDetailsFn,
 				error: commonErrorCallback
@@ -2893,8 +2892,8 @@ function errorCBCustomerListDB(err) {
 		dataToSend["order_id"] = $('#newOrderId').val();
 		dataToSend["order_price"] = $('#priceInput').val();
 		dataToSend["status"] = 1;
-		dataToSend["order_attributes"] = JSON.stringify(selectedOptionMain);
-		dataToSend["order_measurements"] = JSON.stringify(orderTakenDetails);
+		dataToSend["order_attributes"] = selectedOptionMain;
+		dataToSend["order_measurements"] = orderTakenDetails;
 		
 		var appurltemps="http://tailorraniapp.stavyah.com/api/orders/updateJson"
 		connectionType=checkConnection();
@@ -2904,7 +2903,7 @@ function errorCBCustomerListDB(err) {
 		else if(connectionType=="WiFi connection" || connectionType=="Cell 4G connection" || connectionType=="Cell 3G connection" || connectionType=="Cell 2G connection"){
 			$.ajax({
 				type : ajaxCallType,
-				url: url,
+				url: appurltemps,
 				data : dataToSend,
 				success: successCBOrderDetailsFn,
 				error: commonErrorCallback
