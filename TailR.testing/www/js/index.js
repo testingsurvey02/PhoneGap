@@ -1423,6 +1423,7 @@ function getOrderListFromLocalDB(){
 	}
 	
 	db.transaction(	function (tx){
+		tx.executeSql('CREATE TABLE IF NOT EXISTS order_details(id integer primary key autoincrement, server_cat_id integer, server_prod_id integer, order_data text,update_timestamp text, server_prod_name text,customer_id integer, option_selected text, status_of_order text)');
 		var len = 0;
 			tx.executeSql('select * from order_details ',[],function(tx,results){
 					len = results.rows.length;
@@ -1484,7 +1485,7 @@ function takeCustomerDetailsFn(){
 				var update_timestamp=currDateTimestamp;
 				
 				tx.executeSql('INSERT INTO customer_details(name, price, update_timestamp, contact_number, email_id, country, state, city, pincode, address_one, address_two) VALUES (?,?,?,?,?,?,?,?,?,?,?)',
-							[customerName, priceInput, currDateTimestamp, contactNumber, emailIdInput, countryInput, stateInput, cityInput, pincodeInput, address1Input, address2Input], function(tx, res) {
+							[customerName, priceInput, update_timestamp, contactNumber, emailIdInput, countryInput, stateInput, cityInput, pincodeInput, address1Input, address2Input], function(tx, res) {
 					//alert("Customer Details insertId: " + res.insertId + " -- res.rowsAffected 1"+res.rowsAffected);
 					$('#customerIdInput').val(res.insertId);
 				});
@@ -1533,6 +1534,7 @@ function getCustomerListFromLocalDB(){
 	}
 	
 	db.transaction(	function (tx){
+		tx.executeSql('CREATE TABLE IF NOT EXISTS customer_details (id integer primary key autoincrement,name text, price text, update_timestamp text, contact_number text, email_id text, country text, state text, city text, pincode text, address_one text, address_two text)');
 		var len = 0;
 		//name, price, update_timestamp
 			tx.executeSql('select * from customer_details ',[],function(tx,results){
