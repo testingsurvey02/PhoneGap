@@ -2235,7 +2235,6 @@ function errorCBCustomerListDB(err) {
 		getMeasumentListFromLocal();
 		if(!attriOptionExist){
 			showMeasurementDiv();
-			showGalleryDivTag();
 		}else{
 			if(attributeForNextIndex > 0){
 				attributeForNextIndex = parseInt(attributeForNextIndex) - 1;
@@ -2270,9 +2269,8 @@ function errorCBCustomerListDB(err) {
 			
 			
 			gotoAttributePageDiv();
-			showGalleryDivTag();
 		}
-		
+		showGalleryDivTag();
 	}
 	
 	function backButton(index){
@@ -2558,7 +2556,7 @@ function errorCBCustomerListDB(err) {
 			$('.back-button').removeAttr('disabled');
 		}
 		
-		if(parseInt(attrTempIndexId) >= parseInt(attributeForNextIndex)){
+		if(parseInt(attrTempIndexId) == parseInt(attributeForNextIndex)){
 			$('.front-button').attr('onclick', 'showMeasurementDiv()');
 		}else{
 			var appendFrontIndex = parseInt(attrTempIndexId)+1;
