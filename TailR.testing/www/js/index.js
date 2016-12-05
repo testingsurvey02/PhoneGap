@@ -2762,8 +2762,14 @@ function errorCBCustomerListDB(err) {
 		$('#orderReportPageId').find('table tbody').append(tableRowMain);
 		connectionType=checkConnection();
 		if(connectionType=="WiFi connection" || connectionType=="Cell 4G connection" || connectionType=="Cell 5G connection" || connectionType=="Cell 3G connection" || connectionType=="Cell 2G connection"){
-			if($('customerNameInput').val() != undefined && $('customerNameInput').val() != '' && $('#newOrderId').val() != '' && $('#newOrderId').val() != undefined){
+			console.log('connectionType'+connectionType);
+			console.log("$('customerNameInput').val() :"+$('customerNameInput').val());
+			console.log("$('newOrderId').val() :"+$('newOrderId').val());
+			if(((typeof $('customerNameInput').val() != 'undefined') && $('customerNameInput').val() != '') && ($('#newOrderId').val() != '' && (typeof $('newOrderId').val() != 'undefined'))){
+				console.log('Came to inside if');
 				sendCustomerDetailsToSaveInServer();
+			}else{
+				console.log('Came to if else block');
 			}
 			
 		}
@@ -2792,7 +2798,7 @@ function errorCBCustomerListDB(err) {
 			$.ajax({
 				type : ajaxCallType,
 				url: appurltemps,
-				data : dataToSend,
+				data : JSON.stringify(dataToSend),
 				success: successCBCustomerDetailsFn,
 				error: commonErrorCallback
 			});
@@ -2828,7 +2834,7 @@ function errorCBCustomerListDB(err) {
 			$.ajax({
 				type : ajaxCallType,
 				url: appurltemps,
-				data : dataToSend,
+				data : JSON.stringify(dataToSend),
 				success: successCBCustomerDetailsFn,
 				error: commonErrorCallback
 			});
@@ -2858,7 +2864,7 @@ function errorCBCustomerListDB(err) {
 			$.ajax({
 				type : ajaxCallType,
 				url: appurltemps,
-				data : dataToSend,
+				data : JSON.stringify(dataToSend),
 				success: successCBOrderDetailsFn,
 				error: commonErrorCallback
 			});
@@ -2904,7 +2910,7 @@ function errorCBCustomerListDB(err) {
 			$.ajax({
 				type : ajaxCallType,
 				url: appurltemps,
-				data : dataToSend,
+				data : JSON.stringify(dataToSend),
 				success: successCBOrderDetailsFn,
 				error: commonErrorCallback
 			});
