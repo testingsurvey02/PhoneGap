@@ -2242,7 +2242,7 @@ function errorCBCustomerListDB(err) {
 			$('.selMenu-bar').remove();
 			$('.optMenu-bar').remove();
 			$('.optionPreNextButton').remove();
-			$( attributeDiv ).insertBefore( ".selection-menu .selection-menu-ul .galleryDivTag" );
+			$( attributeDiv ).insertAfter( ".selection-menu .selection-menu-ul .galleryDivTag" );
 			$('.galleryTag').hide();
 			$('.attributeTag').show();
 			//$('.selection-menu').append(attributeDiv);
