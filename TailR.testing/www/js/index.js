@@ -2760,11 +2760,12 @@ function errorCBCustomerListDB(err) {
 			tableRowMain += '<tr><td colspan="6">No data found.</td></tr>'
 		}
 		$('#orderReportPageId').find('table tbody').append(tableRowMain);
-		gotoOrderPageDiv();
 		connectionType=checkConnection();
 		if(connectionType=="WiFi connection" || connectionType=="Cell 4G connection" || connectionType=="Cell 5G connection" || connectionType=="Cell 3G connection" || connectionType=="Cell 2G connection"){
 			sendCustomerDetailsToSaveInServer();
 		}
+		gotoOrderPageDiv();
+		
 	}
 	
 	// Send Data to Server
@@ -2876,6 +2877,7 @@ function errorCBCustomerListDB(err) {
 		$('#priceInput').val('');
 		$('#contactNumberInput').val('');
 		$('#addressInput').val('');
+		gotoOrderPageDiv();
 	}
 	
 	function sendOrderDetailsToUpdateInServer(){
