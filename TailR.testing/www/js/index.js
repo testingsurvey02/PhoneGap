@@ -1984,11 +1984,10 @@ function errorCBCustomerListDB(err) {
 					var gallery_id = valueObj['id'];
 					var image = valueObj["image"];
 				
-					//var prodImage = productImageData + '/'+image; // For Production
+					//var prodImage = productImageData + '/'+image; // Direct Hitting to server URL
 					//var prodImage = window.appRootDir.fullPath + '/' + gallery_id+'_'+image;
 					var prodImage = localPath + "/" + 'gallery'+ '/' + image; // For Production
 					//var prodImage = 'img/product'+indexObj+'.jpg'; // For Testing
-					//initToCheckTheFile(image, productImageData);
 					if(jsonObj['category'] != ''){
 						jQuery.each(categoryObj, function(indexCat, valueCat){
 							var server_cat_id = valueCat['cat_id'];
@@ -2063,7 +2062,7 @@ function errorCBCustomerListDB(err) {
 							
 							//var prodImageSrc = window.appRootDir.fullPath + '/' + galId+'_'+image;
 							var prodImageSrc = localPath + "/" + 'gallery'+ '/' +image;
-							//var prodImageSrc = productImageData + '/'+image; // For Production
+							//var prodImageSrc = productImageData + '/'+image; // Direct Hitting to server URL
 							//initToCheckTheFile(image, productImageData);
 							
 							var activeClass="";
@@ -2092,7 +2091,6 @@ function errorCBCustomerListDB(err) {
 							prodAttrIds[indexObj] = paIds;
 							attrIds[indexObj] = attrId;
 						});
-						console.log('attrIds.length : '+attrIds.length);
 						if(attrIds.length > 0){
 							appendAttrDataByArraysAndIds(prodAttrIds, attrIds, server_cat_id, server_prod_id);
 						}else{
@@ -2179,7 +2177,7 @@ function errorCBCustomerListDB(err) {
 							}*/
 							//var optionImages = window.appRootDir.fullPath + '/' + optionId+'_'+optionImg;
 							var optionImages = localPath + "/" + 'attributes'+ '/' +optionImg;
-							//var optionImages = attributeImageData + '/'+optionImg; // For Production
+							//var optionImages = attributeImageData + '/'+optionImg; // Direct Hitting to server URL
 							//var optionImages = 'img/attr'+index2+'.png'; // For Testing
 							//initToCheckTheFile(optionImg, attributeImageData);
 							var tempOptDiv = '<div class="col-xs-6 col-sm-4 col-md-4 col-lg-4 attr-opt-hei-wid single-option attrInd'+attributeForNextIndex+' optMenu-bar attrOpt'+server_attr_id+' div_opt_id'+optionId+'" data-attrindex="'+attributeForNextIndex+'" onclick="selectedOptionFn(this)" data-opt_id="'+optionId+'" data-cat_id="'+catId+'" data-prod_id="'+prodId+'" data-attrid="'+server_attr_id+'" data-lid="'+attrId+'"><div class="box"><img class="" src="'+optionImages+'" data-imgt_cat_id="'+catId+'" data-imgt_prod_id="'+prodId+'" data-imgt_attrid="'+server_attr_id+'"  data-imgt_opt_id="'+optionId+'" data-imgt_lid="'+attrId+'" alt="'+optionName+'"></div></div>';
