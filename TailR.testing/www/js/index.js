@@ -2235,6 +2235,7 @@ function errorCBCustomerListDB(err) {
 		getMeasumentListFromLocal();
 		if(!attriOptionExist){
 			showMeasurementDiv();
+			showGalleryDivTag();
 		}else{
 			if(attributeForNextIndex > 0){
 				attributeForNextIndex = parseInt(attributeForNextIndex) - 1;
@@ -2269,6 +2270,7 @@ function errorCBCustomerListDB(err) {
 			
 			
 			gotoAttributePageDiv();
+			showGalleryDivTag();
 		}
 		
 	}
@@ -2289,7 +2291,7 @@ function errorCBCustomerListDB(err) {
 		$('.selection-menu').find('ul li.subMen_attrId'+attrId).addClass("active").find('a').addClass("active");
 		if(parseInt(index) == parseInt(attributeForNextIndex)){
 			$('.front-button').attr('onclick', 'showMeasurementDiv()');
-			$('.front-button').attr('disabled','disabled');
+			//$('.front-button').attr('disabled','disabled');
 		}else{
 			var appendFrontIndex = parseInt(index)+1;
 			$('.front-button').attr('onclick', 'frontButton("'+appendFrontIndex+'")');
@@ -2311,7 +2313,7 @@ function errorCBCustomerListDB(err) {
 			$('.back-button').attr('onclick', 'backButton("'+appendBackIndex+'")');
 			if(parseInt(index) == parseInt(attributeForNextIndex)){
 				$('.front-button').attr('onclick', 'showMeasurementDiv()');
-				$('.front-button').attr('disabled','disabled');
+				//$('.front-button').attr('disabled','disabled');
 			}else{
 				var appendFrontIndex = parseInt(index)+1;
 				$('.front-button').attr('onclick', 'frontButton("'+appendFrontIndex+'")');
