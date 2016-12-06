@@ -386,7 +386,7 @@ function loginFn(){
 	if(loginUserId == 'undefined' || loginUserId == ''){
 		alert('Sorry please login with User Id');
 	}else if(loginUserId != 'undefined'){
-		loadDataFromServer();
+		getTailorDetailsDataFromServer();
 	}
 }
 
@@ -1765,6 +1765,7 @@ function errorCBCustomerListDB(err) {
 	        		  console.log('getTailorDetailsDataFromServer');
 	        		  if(loginUserId == 'undefined' || loginUserId == ''){
 	        				//alert('Sorry please login with User Id');
+	        			  gotoHome();
 	        			}else if(loginUserId != 'undefined'){
 	        				getTailorDetailsDataFromServer();
 	        			}
