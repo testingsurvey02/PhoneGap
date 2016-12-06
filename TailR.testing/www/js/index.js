@@ -1763,7 +1763,11 @@ function errorCBCustomerListDB(err) {
 	          }else if(parseInt(recordCount) == 0){
 	        	  if(tablename == 'tailor_details'){
 	        		  console.log('getTailorDetailsDataFromServer');
-	        		  getTailorDetailsDataFromServer();
+	        		  if(loginUserId == 'undefined' || loginUserId == ''){
+	        				//alert('Sorry please login with User Id');
+	        			}else if(loginUserId != 'undefined'){
+	        				getTailorDetailsDataFromServer();
+	        			}
 	        	  }else if(tablename == 'category'){
 	        		  console.log('getTailorDetailsDataFromServer');
 	        		  getCategoriesDataFromServer();
