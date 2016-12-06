@@ -30,6 +30,12 @@ var loginUserId;
 var dataIsFromServer = 0;
 var measurementTypeDiv = 0;
 var customerTypeDiv = 0;
+var tailorDetailsJsonData;
+var categoriesJsonData;
+var attributeJsonData;
+var productJsonData;
+var measurementJsonData;
+var measurementTypeId = 0;
 
 var rightPanelObj = '<div id="menu-wrapper">'+
 							'<div class="menu-title">'+
@@ -1793,12 +1799,7 @@ function errorCBCustomerListDB(err) {
 		checkTailorDetailsInLocalDB();
 	}
 	
-	var tailorDetailsJsonData;
-	var categoriesJsonData;
-	var attributeJsonData;
-	var productJsonData;
-	var measurementJsonData;
-	var measurementTypeId = 0;
+	
 	var productImageData = 'http:\/\/tailorapp.tailorrani.com\/images\/Products\/product_image';
 	var attributeImageData = 'http:\/\/tailorapp.tailorrani.com\/images\/Attributes\/attribute_image';
 	var localPath = 'file:///data/data/com.stavyah.tailorrani/files/';
