@@ -28,6 +28,8 @@ var appName='Tailor Rani';
 var testingInBrowser=false;// For Testing
 var loginUserId;
 var dataIsFromServer = 0;
+var measurementTypeDiv = 0;
+var customerTypeDiv = 0;
 
 var rightPanelObj = '<div id="menu-wrapper">'+
 							'<div class="menu-title">'+
@@ -384,15 +386,6 @@ function loginFn(){
 
 function gotoHome(){
 	$.mobile.changePage('#home-page','slide');
-	$('#prodHtmlName').val('');
-	$('#prodHtmlId').val('');
-	$('#categoryHtmlId').val('');
-	$('#customerIdInput').val('');
-	$('#newOrderId').val('');
-	$('#customerNameInput').val('');
-	$('#priceInput').val('');
-	$('#contactNumberInput').val('');
-	$('#addressInput').val('');
 }
 
 function gotoAttributePageDiv(){
@@ -409,6 +402,15 @@ function gotoCustomerPageDiv(){
 }
 
 function gotoOrderPageDiv(){
+	$('#prodHtmlName').val('');
+	$('#prodHtmlId').val('');
+	$('#categoryHtmlId').val('');
+	$('#customerIdInput').val('');
+	$('#newOrderId').val('');
+	$('#customerNameInput').val('');
+	$('#priceInput').val('');
+	$('#contactNumberInput').val('');
+	$('#addressInput').val('');
 	$.mobile.changePage('#order-report-page','slide');
 }
 
@@ -789,7 +791,6 @@ function insertTailorDetailsDetails(tx) {
 }
 
 function getTailorDetailsFromLocal(){
-	console.log('getTailorDetailsFromLocal opened');
 	if(testingInBrowser){
 		var tailorDetailsObj={};
 		tailorDetailsObj.id = 1;
@@ -858,8 +859,8 @@ function getTailorDetailsFromLocal(){
 
 function successCBTailorDetailsListDB() {
 	console.log('successCBTailorDetailsListDB');
-	connectionType=checkConnection();
-	console.log('connection type : '+connectionType);
+	//connectionType=checkConnection();
+	//console.log('connection type : '+connectionType);
 	/*if(connectionType=="Unknown connection" || connectionType=="No network connection"){
 		console.log('No Connection');
 		checkCategoryInLocalDB();
@@ -1426,10 +1427,7 @@ function getOrderListFromLocalDB(){
 		myObject.status_of_order = '';
 		myObject.customer_id = 2;
 		myArr.push(myObject);
-		
-		
 		orderArrSession=myArr;
-		console.log('orderArrSession ' +orderArrSession);
 		getCustomerListFromLocalDB();
 		return;
 	}
@@ -1542,7 +1540,6 @@ function getCustomerListFromLocalDB(){
 		myArr.push(myObject2);
 				
 		customerArrSession=myArr;
-		console.log('getCustomerListFromLocalDB customerArrSession ');
 		appendOrderAndCustomerDetails(orderArrSession, customerArrSession);
 		return;
 	}
@@ -1800,14 +1797,14 @@ function errorCBCustomerListDB(err) {
 	var productJsonData;
 	var measurementJsonData;
 	var measurementTypeId = 0;
-	var productImageData = 'http:\/\/tailorraniapp.stavyah.com\/images\/Products\/product_image';
-	var attributeImageData = 'http:\/\/tailorraniapp.stavyah.com\/images\/Attributes\/attribute_image';
+	var productImageData = 'http:\/\/tailorapp.tailorrani.com\/images\/Products\/product_image';
+	var attributeImageData = 'http:\/\/tailorapp.tailorrani.com\/images\/Attributes\/attribute_image';
 	var localPath = 'file:///data/data/com.stavyah.tailorrani/files/';
 
 	function getCategoriesDataFromServer(){
 		var dataToSend = {};
 		dataToSend["secret_key"] = tailorDetailsSession.secret_key;
-		var apiCallUrl="http://tailorraniapp.stavyah.com/api/categories/categoriesJson"
+		var apiCallUrl="http://tailorapp.tailorrani.com/api/categories/categoriesJson"
 		connectionType=checkConnection();
 		if(connectionType=="Unknown connection" || connectionType=="No network connection"){
 			navigator.notification.alert(appRequiresWiFi,alertConfirm,appName,'Ok');
@@ -1896,7 +1893,7 @@ function errorCBCustomerListDB(err) {
 	function getProductDataFromServer(){
 		var dataToSend = {};
 		dataToSend["secret_key"] = tailorDetailsSession.secret_key;
-		var apiCallUrl="http://tailorraniapp.stavyah.com/api/products/productsJson"
+		var apiCallUrl="http://tailorapp.tailorrani.com/api/products/productsJson"
 		connectionType=checkConnection();
 		if(connectionType=="Unknown connection" || connectionType=="No network connection"){
 			navigator.notification.alert(appRequiresWiFi,alertConfirm,appName,'Ok');
@@ -1927,7 +1924,7 @@ function errorCBCustomerListDB(err) {
 	function getAttributesDataFromServer(){
 		var dataToSend = {};
 		dataToSend["secret_key"] = tailorDetailsSession.secret_key;
-		var apiCallUrl="http://tailorraniapp.stavyah.com/api/attributes/attributesJson"
+		var apiCallUrl="http://tailorapp.tailorrani.com/api/attributes/attributesJson"
 		connectionType=checkConnection();
 		if(connectionType=="Unknown connection" || connectionType=="No network connection"){
 			navigator.notification.alert(appRequiresWiFi,alertConfirm,appName,'Ok');
@@ -2365,7 +2362,7 @@ function errorCBCustomerListDB(err) {
 	       // alert('Found with Length '+$( ".div_opt_id"+optId ).length);
 	        $('.customerFieldsToAppendSelected .attrOpt'+attrId).remove();
 	    //}else{
-	    	$( ".div_opt_id"+optId ).clone().appendTo( "#customerConfirmationPageId .customerFieldsToAppendSelected" );
+	    	$( ".div_opt_id"+optId ).clone().appendTo( "#customerConfirmationPageId .hrClassForOptions" );
 	   // }
 	    	optionArrayToSave.push(optId);
 	    	attributeArrayToSave.push(attrId);
@@ -2406,7 +2403,7 @@ function errorCBCustomerListDB(err) {
 	function getMeasurementsDataFromServer(){
 		var dataToSend = {};
 		dataToSend["secret_key"] = tailorDetailsSession.secret_key;
-		var apiCallUrl="http://tailorraniapp.stavyah.com/api/measurements/measurementsJson"
+		var apiCallUrl="http://tailorapp.tailorrani.com/api/measurements/measurementsJson"
 		connectionType=checkConnection();
 		if(connectionType=="Unknown connection" || connectionType=="No network connection"){
 			navigator.notification.alert(appRequiresWiFi,alertConfirm,appName,'Ok');
@@ -2440,6 +2437,7 @@ function errorCBCustomerListDB(err) {
 	}
 	
 	function appendMeasurementDataInDiv(measurementArrData){
+		$('#measurementPageId').find('.measurement-input-fields-div').empty();
 		var appendMeasurementData = '<table> <tbody>';
 		var i = 0;
 		jQuery.each(measurementArrData, function(index,value) {
@@ -2452,8 +2450,6 @@ function errorCBCustomerListDB(err) {
 				var groupJsonData = jQuery.parseJSON(value['group_data']);
 				jQuery.each(groupJsonData, function(groupIndex,groupValue) {
 					var groupMeasurementTypeId = groupValue['measurement_type_id'];
-					console.log('groupMeasurementTypeId : ' +groupMeasurementTypeId);
-					console.log('measurementTypeId : ' +measurementTypeId);
 					if(groupMeasurementTypeId == measurementTypeId){
 						var groupName = groupValue['name'];
 						if(groupValue['measurements'] != ''){
@@ -2467,7 +2463,17 @@ function errorCBCustomerListDB(err) {
 								var measNameForField  = measurementsValue['name'];
 								var measPriKeyForField = measurementsValue['id'];
 								var groupFieldsName = '<tr><td class="measure-inputField">'+measNameForField+'</td>'
-									+'<td class="measure-inputField"><input type="number" class="form-control meas-ind'+i+'" data-meas_name="'+measNameForField+'" data-meas_pkid="'+measPriKeyForField+'" id="measField'+measPriKeyForField+'"'+'name="measField'+measPriKeyForField+'"></td></tr>';
+									+'<td class="measure-inputField">';
+								console.log(measurementTypeDiv);
+								if(parseInt(measurementTypeDiv) != 0){
+									console.log(measurementTypeDiv);
+									groupFieldsName += '<div class="ui-input-text ui-body-inherit ui-corner-all ui-shadow-inset">';
+								}
+								groupFieldsName +='<input type="number" class="form-control meas-ind'+i+'" data-meas_name="'+measNameForField+'" data-meas_pkid="'+measPriKeyForField+'" id="measField'+measPriKeyForField+'"'+'name="measField'+measPriKeyForField+'">';
+								if(parseInt(measurementTypeDiv) != 0){
+									groupFieldsName += '</div>';
+								}
+								groupFieldsName += '</td></tr>';
 								/*var fieldsDiv = '<div class="col-xs-12 col-sm-6 col-md-6 col-lg-6 measure-inputField"> <div class="box start-xs start-sm start-md start-lg"> '
 									+measNameForField+' <input type="text" class="form-control meas-ind'+i+'" data-meas_name="'+measNameForField+'" data-meas_pkid="'+measPriKeyForField+'" id="measField'+measPriKeyForField+'"'+'name="measField'+measPriKeyForField+'"> </div></div>';*/
 								appendMeasurementData += groupFieldsName;
@@ -2479,8 +2485,14 @@ function errorCBCustomerListDB(err) {
 			}
 			//}
 		});
-		appendMeasurementData += '<tr><td colspan="2"><button type="button" name="bookOrder" id="bookOrder" onclick="orderTakeMeastFn()" class="btn btn-primary st-bg-baby-pink"> Book Order </button></td></tr></tbody></table>'
-		$('#measurementPageId').find('.measurement-input-fields-div').empty();
+		
+		if(parseInt(measurementTypeDiv) != 0){
+			appendMeasurementData += '<tr><td colspan="2"><button type="button" name="bookOrder" id="bookOrder" onclick="orderTakeMeastFn()" class="btn btn-primary st-bg-baby-pink ui-btn ui-shadow ui-corner-all"> Book Order </button></td></tr></tbody></table>';
+		}else{
+			appendMeasurementData += '<tr><td colspan="2"><button type="button" name="bookOrder" id="bookOrder" onclick="orderTakeMeastFn()" class="btn btn-primary st-bg-baby-pink"> Book Order </button></td></tr></tbody></table>';
+		}
+			measurementTypeDiv++;
+		//$('#measurementPageId').find('.measurement-input-fields-div').empty();
 		$('#measurementPageId').find('.measurement-input-fields-div').append(appendMeasurementData);
 		//$('#measurementPageId').find('.h3Measure').remove();
 		//$('#measurementPageId').find('.measureHr').remove();
@@ -2494,7 +2506,7 @@ function errorCBCustomerListDB(err) {
 	function getTailorDetailsDataFromServer(){
 		var dataToSend = {};
 		dataToSend["secret_key"] = loginUserId;
-		var apiCallUrl="http://tailorraniapp.stavyah.com/api/tailors/tailorinfoJson"
+		var apiCallUrl="http://tailorapp.tailorrani.com/api/tailors/tailorinfoJson"
 		connectionType=checkConnection();
 		if(connectionType=="Unknown connection" || connectionType=="No network connection"){
 			navigator.notification.alert(appRequiresWiFi,alertConfirm,appName,'Ok');
@@ -2760,19 +2772,15 @@ function errorCBCustomerListDB(err) {
 			tableRowMain += '<tr><td colspan="6">No data found.</td></tr>'
 		}
 		$('#orderReportPageId').find('table tbody').append(tableRowMain);
-		connectionType=checkConnection();
+		/*connectionType=checkConnection();
 		if(connectionType=="WiFi connection" || connectionType=="Cell 4G connection" || connectionType=="Cell 5G connection" || connectionType=="Cell 3G connection" || connectionType=="Cell 2G connection"){
-			console.log('connectionType'+connectionType);
-			console.log("$('#customerNameInput').val() :"+$('#customerNameInput').val());
-			console.log("$('#newOrderId').val() :"+$('#newOrderId').val());
 			if(((typeof $('#customerNameInput').val() != 'undefined') && $('#customerNameInput').val() != '') && ($('#newOrderId').val() != '' && (typeof $('#newOrderId').val() != 'undefined'))){
-				console.log('Came to inside if');
+				gotoOrderPageDiv();
 				sendCustomerDetailsToSaveInServer();
 			}else{
 				console.log('Came to if else block');
 			}
-			
-		}
+		}*/
 		gotoOrderPageDiv();
 		
 	}
@@ -2780,16 +2788,15 @@ function errorCBCustomerListDB(err) {
 	// Send Data to Server
 	function sendCustomerDetailsToSaveInServer(){
 		var dataToSend = {};
-		console.log('sendCustomerDetailsToSaveInServer');
 		dataToSend["secret_key"] = tailorDetailsObj.secret_key;
-		dataToSend["name"] = $('#customerNameInput').val();
+		dataToSend["name"] = $('customerNameInput').val();
 		dataToSend["tailor_id"] = tailorDetailsObj.tailor_details_id;
 		dataToSend["customer_id"] = $('#customerIdInput').val();
 		dataToSend["contact"] = $('#contactNumberInput').val();
 		dataToSend["email"] = $('#emailIdInput').val();
 		dataToSend["status"] = 1;
 		
-		var appurltemps="http://tailorraniapp.stavyah.com/api/customers/storejson"
+		var appurltemps="http://tailorapp.tailorrani.com/api/customers/storejson"
 		connectionType=checkConnection();
 		if(connectionType=="Unknown connection" || connectionType=="No network connection"){
 			navigator.notification.alert(appRequiresWiFi,alertConfirm,appName,'Ok');
@@ -2798,7 +2805,7 @@ function errorCBCustomerListDB(err) {
 			$.ajax({
 				type : ajaxCallType,
 				url: appurltemps,
-				data : JSON.stringify(dataToSend),
+				data : dataToSend,
 				success: successCBCustomerDetailsFn,
 				error: commonErrorCallback
 			});
@@ -2817,15 +2824,15 @@ function errorCBCustomerListDB(err) {
 		var dataToSend = {};
 		
 		dataToSend["secret_key"] = tailorDetailsObj.secret_key;
-    	dataToSend["id"] = $('#customerIdInput').val();
-		dataToSend["name"] = $('#customerNameInput').val();
+    	dataToSend["id"] = 0;
+		dataToSend["name"] = $('customerNameInput').val();
 		dataToSend["tailor_id"] = tailorDetailsObj.tailor_details_id;
 		dataToSend["customer_id"] = $('#customerIdInput').val();
 		dataToSend["contact"] = "";
 		dataToSend["email"] = "";
 		dataToSend["status"] = 0;
 		
-		var appurltemps="http://tailorraniapp.stavyah.com/api/customers/updateJson"
+		var appurltemps="http://tailorapp.tailorrani.com/api/customers/updateJson"
 		connectionType=checkConnection();
 		if(connectionType=="Unknown connection" || connectionType=="No network connection"){
 			navigator.notification.alert(appRequiresWiFi,alertConfirm,appName,'Ok');
@@ -2834,7 +2841,7 @@ function errorCBCustomerListDB(err) {
 			$.ajax({
 				type : ajaxCallType,
 				url: appurltemps,
-				data : JSON.stringify(dataToSend),
+				data : dataToSend,
 				success: successCBCustomerDetailsFn,
 				error: commonErrorCallback
 			});
@@ -2846,7 +2853,7 @@ function errorCBCustomerListDB(err) {
 	
 	function sendOrderDetailsToSaveInServer(){
 		var dataToSend = {};
-		console.log('sendOrderDetailsToSaveInServer');
+		
 		dataToSend["secret_key"] = tailorDetailsObj.secret_key;
 		dataToSend["tailor_id"] = tailorDetailsObj.tailor_details_id;
 		dataToSend["customer_id"] = $('#customerIdInput').val();
@@ -2855,7 +2862,7 @@ function errorCBCustomerListDB(err) {
 		dataToSend["status"] = 1;
 		dataToSend["order_attributes"] = selectedOptionMain;
 		dataToSend["order_measurements"] = orderTakenDetails;
-		var appurltemps="http://tailorraniapp.stavyah.com/api/orders/storejson"
+		var appurltemps="http://tailorapp.tailorrani.com/api/orders/storejson"
 		connectionType=checkConnection();
 		if(connectionType=="Unknown connection" || connectionType=="No network connection"){
 			navigator.notification.alert(appRequiresWiFi,alertConfirm,appName,'Ok');
@@ -2864,7 +2871,7 @@ function errorCBCustomerListDB(err) {
 			$.ajax({
 				type : ajaxCallType,
 				url: appurltemps,
-				data : JSON.stringify(dataToSend),
+				data : dataToSend,
 				success: successCBOrderDetailsFn,
 				error: commonErrorCallback
 			});
@@ -2876,7 +2883,7 @@ function errorCBCustomerListDB(err) {
 	
 	function successCBOrderDetailsFn(){
 		console.log('successCBOrderDetailsFn');
-		/*$('#prodHtmlName').val('');
+		$('#prodHtmlName').val('');
 		$('#prodHtmlId').val('');
 		$('#categoryHtmlId').val('');
 		$('#customerIdInput').val('');
@@ -2884,7 +2891,7 @@ function errorCBCustomerListDB(err) {
 		$('#customerNameInput').val('');
 		$('#priceInput').val('');
 		$('#contactNumberInput').val('');
-		$('#addressInput').val('');*/
+		$('#addressInput').val('');
 		gotoOrderPageDiv();
 	}
 	
@@ -2901,7 +2908,7 @@ function errorCBCustomerListDB(err) {
 		dataToSend["order_attributes"] = selectedOptionMain;
 		dataToSend["order_measurements"] = orderTakenDetails;
 		
-		var appurltemps="http://tailorraniapp.stavyah.com/api/orders/updateJson"
+		var appurltemps="http://tailorapp.tailorrani.com/api/orders/updateJson"
 		connectionType=checkConnection();
 		if(connectionType=="Unknown connection" || connectionType=="No network connection"){
 			navigator.notification.alert(appRequiresWiFi,alertConfirm,appName,'Ok');
@@ -2910,7 +2917,7 @@ function errorCBCustomerListDB(err) {
 			$.ajax({
 				type : ajaxCallType,
 				url: appurltemps,
-				data : JSON.stringify(dataToSend),
+				data : dataToSend,
 				success: successCBOrderDetailsFn,
 				error: commonErrorCallback
 			});

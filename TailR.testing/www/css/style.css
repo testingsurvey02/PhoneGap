@@ -49,7 +49,7 @@ ul.topnav li a:hover{background-color: #555;}
 
 .measurement-input-fields-div{
 	background: #ebebeb;
-	padding: 10px;
+	padding: 0 25px;
 }
 .st-bg-baby-pink{color:#fff !important;background: #ff5f89 !important;}
 
@@ -178,4 +178,10 @@ img.product-image{}
 .attr-opt-hei-wid{
 	width : 150px;
 	height : 150px;
+}
+.table-padding-order{
+	padding : 0 10px
+}
+.float-left{
+	float: left !important;
 }
