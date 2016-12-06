@@ -2555,9 +2555,10 @@ function errorCBCustomerListDB(err) {
 		alert('responseMessage from server Tailor Details : '+responseJson['error']);
 		console.log(responseJson);
 		alert('responseJson');
-		alert(tailorDetailsJsonData);
+		
 		tailorDetailsJsonData = responseJson["result"];
 		alert(tailorDetailsJsonData);
+		alert('dataparse : '+$.parseJSON(tailorDetailsJsonData));
 		//alert('tailorDetailsJsonData : '+tailorDetailsJsonData);
 		// FIXME CHECK JSON DATA
 		db.transaction(insertTailorDetailsDetails, errorCBInsertTailorDetailsDetails, successCBInsertTailorDetailsDetails);
