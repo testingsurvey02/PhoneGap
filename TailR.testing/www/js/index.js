@@ -1768,6 +1768,7 @@ function errorCBCustomerListDB(err) {
 	          }else if(parseInt(recordCount) == 0){
 	        	  if(tablename == 'tailor_details'){
 	        		  console.log('getTailorDetailsDataFromServer');
+	        		  console.log(loginUserId);
 	        		  if(loginUserId == 'undefined' || loginUserId == ''){
 	        				//alert('Sorry please login with User Id');
 	        			  gotoHome();
