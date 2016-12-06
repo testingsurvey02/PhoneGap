@@ -1768,12 +1768,15 @@ function errorCBCustomerListDB(err) {
 	          }else if(parseInt(recordCount) == 0){
 	        	  if(tablename == 'tailor_details'){
 	        		  alert('getTailorDetailsDataFromServer');
-	        		  if(loginUserId == 'undefined' || loginUserId == ''){
+	        		  if(loginUserId == undefined || loginUserId == ''){
 	        			  gotoLoginPage();
-	        			}else if(loginUserId != 'undefined' && loginUserId != ''){
+	        			}else if(loginUserId != undefined){
 	        				alert('Server called');
 	        				alert(loginUserId);
-	        				getTailorDetailsDataFromServer();
+	        				if(loginUserId != ''){
+	        					getTailorDetailsDataFromServer();
+	        				}
+	        				
 	        			}
 	        		  
 	        	  }else if(tablename == 'category'){
@@ -2551,7 +2554,10 @@ function errorCBCustomerListDB(err) {
 		console.log('responseMessage from server Tailor Details : '+responseJson['error']);
 		alert('responseMessage from server Tailor Details : '+responseJson['error']);
 		console.log(responseJson);
+		alert('responseJson');
+		alert(tailorDetailsJsonData);
 		tailorDetailsJsonData = responseJson["result"];
+		alert(tailorDetailsJsonData);
 		//alert('tailorDetailsJsonData : '+tailorDetailsJsonData);
 		// FIXME CHECK JSON DATA
 		db.transaction(insertTailorDetailsDetails, errorCBInsertTailorDetailsDetails, successCBInsertTailorDetailsDetails);
