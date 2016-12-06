@@ -26,7 +26,7 @@ $( document ).on( "mobileinit", function() {
 var connectionType;
 var appName='Tailor Rani';
 var testingInBrowser=false;// For Testing
-var loginUserId;
+var loginUserId = '';
 var dataIsFromServer = 0;
 var measurementTypeDiv = 0;
 var customerTypeDiv = 0;
@@ -385,7 +385,7 @@ function loginFn(){
 	console.log(loginUserId);
 	if(loginUserId == 'undefined' || loginUserId == ''){
 		alert('Sorry please login with User Id');
-	}else if(loginUserId != 'undefined'){
+	}else if(loginUserId != 'undefined' && loginUserId != ''){
 		getTailorDetailsDataFromServer();
 	}
 }
@@ -1766,7 +1766,8 @@ function errorCBCustomerListDB(err) {
 	        		  if(loginUserId == 'undefined' || loginUserId == ''){
 	        				//alert('Sorry please login with User Id');
 	        			  gotoHome();
-	        			}else if(loginUserId != 'undefined'){
+	        			}else if(loginUserId != 'undefined' && loginUserId != ''){
+	        				console.log(loginUserId);
 	        				getTailorDetailsDataFromServer();
 	        			}
 	        	  }else if(tablename == 'category'){
