@@ -2525,7 +2525,7 @@ function errorCBCustomerListDB(err) {
 	}
 
 	function successCBTailorDetailsFn(data){
-		var responseJson = jQuery.parseJSON(data);
+		var responseJson = $.parseJSON(JSON.stringify(data));
 		tailorDetailsJsonData = responseJson["result"];
 		//alert('tailorDetailsJsonData : '+tailorDetailsJsonData);
 		// FIXME CHECK JSON DATA
