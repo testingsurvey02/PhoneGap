@@ -2804,7 +2804,7 @@ function errorCBCustomerListDB(err) {
 			$.ajax({
 				type : ajaxCallType,
 				url: appurltemps,
-				data : dataToSend,
+				data : JSON.stringify(dataToSend),
 				success: successCBCustomerDetailsFn,
 				error: commonErrorCallback
 			});
@@ -2823,7 +2823,7 @@ function errorCBCustomerListDB(err) {
 		var dataToSend = {};
 		
 		dataToSend["secret_key"] = tailorDetailsObj.secret_key;
-    	dataToSend["id"] = 0;
+    	dataToSend["id"] = $('#customerIdInput').val();;
 		dataToSend["name"] = $('customerNameInput').val();
 		dataToSend["tailor_id"] = tailorDetailsObj.tailor_details_id;
 		dataToSend["customer_id"] = $('#customerIdInput').val();
@@ -2840,7 +2840,7 @@ function errorCBCustomerListDB(err) {
 			$.ajax({
 				type : ajaxCallType,
 				url: appurltemps,
-				data : dataToSend,
+				data : JSON.stringify(dataToSend),
 				success: successCBCustomerDetailsFn,
 				error: commonErrorCallback
 			});
@@ -2870,7 +2870,7 @@ function errorCBCustomerListDB(err) {
 			$.ajax({
 				type : ajaxCallType,
 				url: appurltemps,
-				data : dataToSend,
+				data : JSON.stringify(dataToSend),
 				success: successCBOrderDetailsFn,
 				error: commonErrorCallback
 			});
@@ -2916,7 +2916,7 @@ function errorCBCustomerListDB(err) {
 			$.ajax({
 				type : ajaxCallType,
 				url: appurltemps,
-				data : dataToSend,
+				data : JSON.stringify(dataToSend),
 				success: successCBOrderDetailsFn,
 				error: commonErrorCallback
 			});
