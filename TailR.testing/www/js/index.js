@@ -1767,10 +1767,12 @@ function errorCBCustomerListDB(err) {
 	        	  }
 	          }else if(parseInt(recordCount) == 0){
 	        	  if(tablename == 'tailor_details'){
-	        		  console.log('getTailorDetailsDataFromServer');
+	        		  alert('getTailorDetailsDataFromServer');
 	        		  if(loginUserId == 'undefined' || loginUserId == ''){
 	        			  gotoLoginPage();
 	        			}else if(loginUserId != 'undefined' && loginUserId != ''){
+	        				alert('Server called');
+	        				alert(loginUserId);
 	        				getTailorDetailsDataFromServer();
 	        			}
 	        		  
@@ -2545,7 +2547,9 @@ function errorCBCustomerListDB(err) {
 	function successCBTailorDetailsFn(data){
 		console.log(data);
 		var responseJson = $.parseJSON(JSON.stringify(data));
-		console.log('responseMessage from server Tailor Details : 'responseJson['error']);
+		alert(data);
+		console.log('responseMessage from server Tailor Details : '+responseJson['error']);
+		alert('responseMessage from server Tailor Details : '+responseJson['error']);
 		console.log(responseJson);
 		tailorDetailsJsonData = responseJson["result"];
 		//alert('tailorDetailsJsonData : '+tailorDetailsJsonData);
@@ -2557,6 +2561,7 @@ function errorCBCustomerListDB(err) {
 		getTailorDetailsFromLocal();
 	}	
 	function errorCBInsertTailorDetailsDetails(err) {
+		alert("errorCBInsertTailorDetailsDetails : "+err.message);
 		console.log("errorCBInsertTailorDetailsDetails : "+err.message);
 	}
 	
