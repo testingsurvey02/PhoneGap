@@ -768,8 +768,8 @@ function errorCB(err) {
 function insertTailorDetailsDetails(tx) {
 	var currDateTimestamp="";
 	currDateTimestamp=dateTimestamp();
-	
-	tx.executeSql('CREATE TABLE IF NOT EXISTS tailor_details (id integer primary key autoincrement, server_td_id integer, first_name text, middle_name text, last_name text, business_title text, address1 text, address2 text, email text, contact1 text, contact2 text, secret_key text, tailor_status integer, city text, pincode text, state_id integer, country_id integer, state_name text, country_name text, update_timestamp text)');
+	alert('insertTailorDetailsDetails' + tailorDetailsJsonData);
+	//tx.executeSql('CREATE TABLE IF NOT EXISTS tailor_details (id integer primary key autoincrement, server_td_id integer, first_name text, middle_name text, last_name text, business_title text, address1 text, address2 text, email text, contact1 text, contact2 text, secret_key text, tailor_status integer, city text, pincode text, state_id integer, country_id integer, state_name text, country_name text, update_timestamp text)');
 	console.log('insertTailorDetailsDetails tailorDetailsJsonData '+tailorDetailsJsonData);	
 	var jsonTempData = tailorDetailsJsonData;
 		var tailor_details_id = jsonTempData["id"];
@@ -797,7 +797,7 @@ function insertTailorDetailsDetails(tx) {
 		tx.executeSql('INSERT INTO tailor_details(server_td_id, first_name, middle_name, last_name, business_title, address1, address2, email, contact1, contact2, secret_key, tailor_status, city, pincode, state_id, country_id, state_name, country_name, update_timestamp) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)',
    	    			[tailor_details_id, first_name,last_name, middle_name, business_title, address1, address2, tailemail, contact1, contact2, secret_key, tailor_status, city, pincode, state_id, country_id, state_name, country_name, update_timestamp], function(tx, res) {
 	   	         //alert("Tailor Details Data insertId: " + res.insertId + " -- res.rowsAffected 1"+res.rowsAffected);
-			console.log('Tailor Details Data insertId: '+res.insertId);
+			alert('Tailor Details Data insertId: '+res.insertId);
   	    });
 	
 }
@@ -832,10 +832,12 @@ function getTailorDetailsFromLocal(){
 	}
 	
 	db.transaction(	function (tx){
-		tx.executeSql('CREATE TABLE IF NOT EXISTS tailor_details (id integer primary key autoincrement, server_td_id integer, first_name text, middle_name text, last_name text, business_title text, address1 text, address2 text, email text, contact1 text, contact2 text, secret_key text, tailor_status integer, city text, pincode text, state_id integer, country_id integer, state_name text, country_name text, update_timestamp text)');
+		//tx.executeSql('CREATE TABLE IF NOT EXISTS tailor_details (id integer primary key autoincrement, server_td_id integer, first_name text, middle_name text, last_name text, business_title text, address1 text, address2 text, email text, contact1 text, contact2 text, secret_key text, tailor_status integer, city text, pincode text, state_id integer, country_id integer, state_name text, country_name text, update_timestamp text)');
 		var len = 0;
+		alert('calling inside db');
 			tx.executeSql('select * from tailor_details ',[],function(tx,results){
 					len = results.rows.length;
+					alert(len);
 					if(len>0){
 						tailorDetailsSession = {};
 						for (var i = 0; i < len; i++) {
@@ -852,6 +854,7 @@ function getTailorDetailsFromLocal(){
 							tailorDetailsObj.contact1 = results.rows.item(i)['contact1'];
 							tailorDetailsObj.contact2 = results.rows.item(i)['contact2'];
 							tailorDetailsObj.secret_key = results.rows.item(i)['secret_key'];
+							alert(results.rows.item(i)['secret_key']);
 							tailorDetailsObj.tailor_status = results.rows.item(i)['tailor_status'];
 							tailorDetailsObj.city = results.rows.item(i)['city'];
 							tailorDetailsObj.pincode = results.rows.item(i)['pincode'];
@@ -870,7 +873,7 @@ function getTailorDetailsFromLocal(){
 }
 
 function successCBTailorDetailsListDB() {
-	console.log('successCBTailorDetailsListDB');
+	alert('successCBTailorDetailsListDB');
 	//connectionType=checkConnection();
 	//console.log('connection type : '+connectionType);
 	/*if(connectionType=="Unknown connection" || connectionType=="No network connection"){
