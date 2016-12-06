@@ -2987,7 +2987,7 @@ function errorCBCustomerListDB(err) {
 	
 	function downloadFileTestFn(type) {
 		var File_Name='product_5_582ea8c053c3b.jpg';
-		var URL='http:\/\/tailorraniapp.stavyah.com\/images\/Products\/product_image' + '/' + File_Name;
+		var URL='http://tailorapp.tailorrani.com/images\/Products\/product_image' + '/' + File_Name;
 		var Folder_Name="galleryTest";
 		downloadFileValidatorFn(URL, Folder_Name, File_Name, type);
 	}
