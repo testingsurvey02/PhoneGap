@@ -760,25 +760,26 @@ function insertTailorDetailsDetails(tx) {
 	currDateTimestamp=dateTimestamp();
 	
 	tx.executeSql('CREATE TABLE IF NOT EXISTS tailor_details (id integer primary key autoincrement, server_td_id integer, first_name text, middle_name text, last_name text, business_title text, address1 text, address2 text, email text, contact1 text, contact2 text, secret_key text, tailor_status integer, city text, pincode text, state_id integer, country_id integer, state_name text, country_name text, update_timestamp text)');
-		var value = tailorDetailsJsonData;
-		var tailor_details_id = value["id"];
-		var first_name = value["first_name"];
-		var last_name = value["last_name"];
-		var middle_name = value["middle_name"];
-		var business_title = value["business_title"];
-		var address1 = value["address1"];
-		var address2 = value["address2"];
-		var tailemail = value["email"];
-		var contact1 = value["contact1"];
-		var contact2 = value["contact2"];
-		var secret_key = value["secret_key"];
-		var tailor_status = value["status"];
-		var city = value["city"];
-		var pincode = value["pincode"];
-		var state_id = value["state_id"];
-		var country_id = value["country_id"];
-		var state_name = value["state_name"];
-		var country_name = value["country_name"];
+	console.log('insertTailorDetailsDetails tailorDetailsJsonData '+tailorDetailsJsonData);	
+	var jsonTempData = tailorDetailsJsonData;
+		var tailor_details_id = jsonTempData["id"];
+		var first_name = jsonTempData["first_name"];
+		var last_name = jsonTempData["last_name"];
+		var middle_name = jsonTempData["middle_name"];
+		var business_title = jsonTempData["business_title"];
+		var address1 = jsonTempData["address1"];
+		var address2 = jsonTempData["address2"];
+		var tailemail = jsonTempData["email"];
+		var contact1 = jsonTempData["contact1"];
+		var contact2 = jsonTempData["contact2"];
+		var secret_key = jsonTempData["secret_key"];
+		var tailor_status = jsonTempData["status"];
+		var city = jsonTempData["city"];
+		var pincode = jsonTempData["pincode"];
+		var state_id = jsonTempData["state_id"];
+		var country_id = jsonTempData["country_id"];
+		var state_name = jsonTempData["state_name"];
+		var country_name = jsonTempData["country_name"];
 		var update_timestamp = currDateTimestamp;
 		//server_td_id, first_name, middle_name, last_name, business_title, address1, address2, email, contact1, contact2, secret_key, status, city, pincode, state_id, country_id, state_name, country_name, update_timestamp
 
@@ -2424,7 +2425,7 @@ function errorCBCustomerListDB(err) {
 	}
 
 	function successCBMeasurementsFn(data){
-		var responseJson = data;
+		var responseJson = $.parseJSON(JSON.stringify(data));
 		measurementJsonData = responseJson["result"];
 		// FIXME CHECK JSON DATA
 		db.transaction(insertMeasurementsDetails, errorCBInsertMeasurementDetails, successCBInsertMeasurementDetails);
@@ -2527,7 +2528,9 @@ function errorCBCustomerListDB(err) {
 	}
 
 	function successCBTailorDetailsFn(data){
-		var responseJson = data;
+		console.log(data);
+		var responseJson = $.parseJSON(JSON.stringify(data));
+		console.log(responseJson);
 		tailorDetailsJsonData = responseJson["result"];
 		//alert('tailorDetailsJsonData : '+tailorDetailsJsonData);
 		// FIXME CHECK JSON DATA
@@ -2989,7 +2992,7 @@ function errorCBCustomerListDB(err) {
 	
 	function downloadFileTestFn(type) {
 		var File_Name='product_5_582ea8c053c3b.jpg';
-		var URL='http:\/\/tailorraniapp.stavyah.com\/images\/Products\/product_image' + '/' + File_Name;
+		var URL='http://tailorapp.tailorrani.com/images\/Products\/product_image' + '/' + File_Name;
 		var Folder_Name="galleryTest";
 		downloadFileValidatorFn(URL, Folder_Name, File_Name, type);
 	}
