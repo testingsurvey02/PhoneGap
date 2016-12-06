@@ -2548,6 +2548,7 @@ function errorCBCustomerListDB(err) {
 	function successCBTailorDetailsFn(data){
 		console.log(data);
 		var responseJson = $.parseJSON(JSON.stringify(data));
+		console.log('responseMessage :' +responseJson['error']);
 		console.log(responseJson);
 		tailorDetailsJsonData = responseJson["result"];
 		//alert('tailorDetailsJsonData : '+tailorDetailsJsonData);
