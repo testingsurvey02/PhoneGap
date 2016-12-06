@@ -390,6 +390,10 @@ function loginFn(){
 	}
 }
 
+function gotoLoginPage(){
+	$.mobile.changePage('#login-page','slide');
+	
+}
 function gotoHome(){
 	$.mobile.changePage('#home-page','slide');
 }
