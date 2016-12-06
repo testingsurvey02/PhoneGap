@@ -793,6 +793,7 @@ function insertTailorDetailsDetails(tx) {
 		tx.executeSql('INSERT INTO tailor_details(server_td_id, first_name, middle_name, last_name, business_title, address1, address2, email, contact1, contact2, secret_key, tailor_status, city, pincode, state_id, country_id, state_name, country_name, update_timestamp) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)',
    	    			[tailor_details_id, first_name,last_name, middle_name, business_title, address1, address2, tailemail, contact1, contact2, secret_key, tailor_status, city, pincode, state_id, country_id, state_name, country_name, update_timestamp], function(tx, res) {
 	   	         //alert("Tailor Details Data insertId: " + res.insertId + " -- res.rowsAffected 1"+res.rowsAffected);
+			console.log('Tailor Details Data insertId: '+res.insertId);
   	    });
 	
 }
@@ -1843,12 +1844,14 @@ function errorCBCustomerListDB(err) {
 	function appendCatListDB(catArrData, subCatArrData) {
 		//$("#mainPageId").find('.main-menu').remove();
 		//$("#mainPageId").find('.sub-menu').remove();
-		
+		console.log('catArrData : '+catArrData);
+		console.log('subCatArrData : '+subCatArrData);
 		var categoryDiv = '<div class="row main-menu main-menu-div" id="main-menu-div" ><ul class="topnav main-menu-ul" id="main-menu-ul">';
 		var subCategoryDiv = "";
 		$('#newOrderId').val('');
 		$('#customerIdInput').val('');
 		jQuery.each(catArrData, function(index,value) {
+			console.log('subCategoryDiv : '+catArrData);
 			var jsonObj=value;
 			var primaryCKeyId=jsonObj["id"];
 			var server_cat_id=jsonObj["server_cat_id"];
@@ -1862,6 +1865,7 @@ function errorCBCustomerListDB(err) {
 				var subCategoryTempDiv="";
 				var isExist = false;
 				jQuery.each(subCatArrData, function(indexObj,valueObj) {
+					console.log('subCatArrData : '+subCatArrData);
 					var childJsonObj = valueObj;
 					var child_parent_id = childJsonObj["parent_id"];
 					var primarySCKeyId = childJsonObj["id"];
@@ -1879,6 +1883,7 @@ function errorCBCustomerListDB(err) {
 					subCategoryTempDiv = subCategoryDivFirst + subCategoryTempDiv + '</ul></div>';
 				}
 				subCategoryDiv += subCategoryTempDiv;
+				console.log('subCategoryDiv : '+subCategoryDiv);
 			}
 		});
 		categoryDiv+='<li class="float-right" onclick="orderPageHtmlButton();"> <a href="#"> Order Report </a> </li>';
