@@ -2424,7 +2424,7 @@ function errorCBCustomerListDB(err) {
 	}
 
 	function successCBMeasurementsFn(data){
-		var responseJson = data;
+		var responseJson = $.parseJSON(JSON.stringify(data));
 		measurementJsonData = responseJson["result"];
 		// FIXME CHECK JSON DATA
 		db.transaction(insertMeasurementsDetails, errorCBInsertMeasurementDetails, successCBInsertMeasurementDetails);
@@ -2527,7 +2527,7 @@ function errorCBCustomerListDB(err) {
 	}
 
 	function successCBTailorDetailsFn(data){
-		var responseJson = data;
+		var responseJson = $.parseJSON(JSON.stringify(data));
 		tailorDetailsJsonData = responseJson["result"];
 		//alert('tailorDetailsJsonData : '+tailorDetailsJsonData);
 		// FIXME CHECK JSON DATA
