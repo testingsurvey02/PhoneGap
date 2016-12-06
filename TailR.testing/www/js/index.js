@@ -1805,7 +1805,7 @@ function errorCBCustomerListDB(err) {
 	function getCategoriesDataFromServer(){
 		var dataToSend = {};
 		dataToSend["secret_key"] = tailorDetailsSession.secret_key;
-		var apiCallUrl="http:\/\/tailorraniapp.stavyah.com\/api/categories/categoriesJson"
+		var apiCallUrl="http://tailorapp.tailorrani.com/api/categories/categoriesJson"
 		connectionType=checkConnection();
 		if(connectionType=="Unknown connection" || connectionType=="No network connection"){
 			navigator.notification.alert(appRequiresWiFi,alertConfirm,appName,'Ok');
@@ -1894,7 +1894,7 @@ function errorCBCustomerListDB(err) {
 	function getProductDataFromServer(){
 		var dataToSend = {};
 		dataToSend["secret_key"] = tailorDetailsSession.secret_key;
-		var apiCallUrl="http:\/\/tailorraniapp.stavyah.com\/api/products/productsJson"
+		var apiCallUrl="http://tailorapp.tailorrani.com/api/products/productsJson"
 		connectionType=checkConnection();
 		if(connectionType=="Unknown connection" || connectionType=="No network connection"){
 			navigator.notification.alert(appRequiresWiFi,alertConfirm,appName,'Ok');
@@ -1925,7 +1925,7 @@ function errorCBCustomerListDB(err) {
 	function getAttributesDataFromServer(){
 		var dataToSend = {};
 		dataToSend["secret_key"] = tailorDetailsSession.secret_key;
-		var apiCallUrl="http:\/\/tailorraniapp.stavyah.com\/api/attributes/attributesJson"
+		var apiCallUrl="http://tailorapp.tailorrani.com/api/attributes/attributesJson"
 		connectionType=checkConnection();
 		if(connectionType=="Unknown connection" || connectionType=="No network connection"){
 			navigator.notification.alert(appRequiresWiFi,alertConfirm,appName,'Ok');
@@ -2404,7 +2404,7 @@ function errorCBCustomerListDB(err) {
 	function getMeasurementsDataFromServer(){
 		var dataToSend = {};
 		dataToSend["secret_key"] = tailorDetailsSession.secret_key;
-		var apiCallUrl="http:\/\/tailorraniapp.stavyah.com\/api/measurements/measurementsJson"
+		var apiCallUrl="http://tailorapp.tailorrani.com/api/measurements/measurementsJson"
 		connectionType=checkConnection();
 		if(connectionType=="Unknown connection" || connectionType=="No network connection"){
 			navigator.notification.alert(appRequiresWiFi,alertConfirm,appName,'Ok');
@@ -2424,7 +2424,7 @@ function errorCBCustomerListDB(err) {
 	}
 
 	function successCBMeasurementsFn(data){
-		var responseJson = $.parseJSON(JSON.stringify(data));
+		var responseJson = data;
 		measurementJsonData = responseJson["result"];
 		// FIXME CHECK JSON DATA
 		db.transaction(insertMeasurementsDetails, errorCBInsertMeasurementDetails, successCBInsertMeasurementDetails);
@@ -2507,7 +2507,7 @@ function errorCBCustomerListDB(err) {
 	function getTailorDetailsDataFromServer(){
 		var dataToSend = {};
 		dataToSend["secret_key"] = loginUserId;
-		var apiCallUrl="http:\/\/tailorraniapp.stavyah.com\/api/tailors/tailorinfoJson"
+		var apiCallUrl="http://tailorapp.tailorrani.com/api/tailors/tailorinfoJson"
 		connectionType=checkConnection();
 		if(connectionType=="Unknown connection" || connectionType=="No network connection"){
 			navigator.notification.alert(appRequiresWiFi,alertConfirm,appName,'Ok');
@@ -2527,7 +2527,7 @@ function errorCBCustomerListDB(err) {
 	}
 
 	function successCBTailorDetailsFn(data){
-		var responseJson = $.parseJSON(JSON.stringify(data));
+		var responseJson = data;
 		tailorDetailsJsonData = responseJson["result"];
 		//alert('tailorDetailsJsonData : '+tailorDetailsJsonData);
 		// FIXME CHECK JSON DATA
@@ -2797,7 +2797,7 @@ function errorCBCustomerListDB(err) {
 		dataToSend["email"] = $('#emailIdInput').val();
 		dataToSend["status"] = 1;
 		
-		var appurltemps="http:\/\/tailorraniapp.stavyah.com\/api/customers/storejson"
+		var appurltemps="http://tailorapp.tailorrani.com/api/customers/storejson"
 		connectionType=checkConnection();
 		if(connectionType=="Unknown connection" || connectionType=="No network connection"){
 			navigator.notification.alert(appRequiresWiFi,alertConfirm,appName,'Ok');
@@ -2833,7 +2833,7 @@ function errorCBCustomerListDB(err) {
 		dataToSend["email"] = "";
 		dataToSend["status"] = 0;
 		
-		var appurltemps="http:\/\/tailorraniapp.stavyah.com\/api/customers/updateJson"
+		var appurltemps="http://tailorapp.tailorrani.com/api/customers/updateJson"
 		connectionType=checkConnection();
 		if(connectionType=="Unknown connection" || connectionType=="No network connection"){
 			navigator.notification.alert(appRequiresWiFi,alertConfirm,appName,'Ok');
@@ -2863,7 +2863,7 @@ function errorCBCustomerListDB(err) {
 		dataToSend["status"] = 1;
 		dataToSend["order_attributes"] = selectedOptionMain;
 		dataToSend["order_measurements"] = orderTakenDetails;
-		var appurltemps="http:\/\/tailorraniapp.stavyah.com\/api/orders/storejson"
+		var appurltemps="http://tailorapp.tailorrani.com/api/orders/storejson"
 		connectionType=checkConnection();
 		if(connectionType=="Unknown connection" || connectionType=="No network connection"){
 			navigator.notification.alert(appRequiresWiFi,alertConfirm,appName,'Ok');
@@ -2909,7 +2909,7 @@ function errorCBCustomerListDB(err) {
 		dataToSend["order_attributes"] = selectedOptionMain;
 		dataToSend["order_measurements"] = orderTakenDetails;
 		
-		var appurltemps="http:\/\/tailorraniapp.stavyah.com\/api/orders/updateJson"
+		var appurltemps="http://tailorapp.tailorrani.com/api/orders/updateJson"
 		connectionType=checkConnection();
 		if(connectionType=="Unknown connection" || connectionType=="No network connection"){
 			navigator.notification.alert(appRequiresWiFi,alertConfirm,appName,'Ok');
