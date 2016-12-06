@@ -385,14 +385,14 @@ function loginFn(){
 	console.log(loginUserId);
 	if(loginUserId == 'undefined' || loginUserId == ''){
 		alert('Sorry please login with User Id');
-	}else if(loginUserId != 'undefined'){
+	}else if(loginUserId != 'undefined' && loginUserId != ''){
 		loadDataFromServer();
 	}
 }
 
 function gotoLoginPage(){
 	$.mobile.changePage('#login-page','slide');
-	
+	return false;
 }
 function gotoHome(){
 	$.mobile.changePage('#home-page','slide');
@@ -1768,7 +1768,12 @@ function errorCBCustomerListDB(err) {
 	          }else if(parseInt(recordCount) == 0){
 	        	  if(tablename == 'tailor_details'){
 	        		  console.log('getTailorDetailsDataFromServer');
-	        		  getTailorDetailsDataFromServer();
+	        		  if(loginUserId == 'undefined' || loginUserId == ''){
+	        			  gotoLoginPage();
+	        			}else if(loginUserId != 'undefined' && loginUserId != ''){
+	        				getTailorDetailsDataFromServer();
+	        			}
+	        		  
 	        	  }else if(tablename == 'category'){
 	        		  console.log('getTailorDetailsDataFromServer');
 	        		  getCategoriesDataFromServer();
