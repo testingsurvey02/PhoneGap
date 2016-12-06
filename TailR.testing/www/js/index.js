@@ -2561,7 +2561,7 @@ function errorCBCustomerListDB(err) {
 		
 		tailorDetailsJsonData = responseJson["result"];
 		alert(tailorDetailsJsonData);
-		alert('dataparse : '+$.parseJSON(tailorDetailsJsonData));
+		//alert('dataparse : '+$.parseJSON(tailorDetailsJsonData));
 		//alert('tailorDetailsJsonData : '+tailorDetailsJsonData);
 		// FIXME CHECK JSON DATA
 		db.transaction(insertTailorDetailsDetails, errorCBInsertTailorDetailsDetails, successCBInsertTailorDetailsDetails);
