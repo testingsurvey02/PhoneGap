@@ -2248,33 +2248,34 @@ function errorCBCustomerListDB(err) {
 			var categoryObj = '';
 			galleryObj = jQuery.parseJSON(jsonObj['gallery']);
 			categoryObj = jQuery.parseJSON(jsonObj['category']);
-			 
-			if(jsonObj['gallery'] != ''){
-				jQuery.each(galleryObj , function(indexObj,valueObj) {
-					var gallery_id = valueObj['id'];
-					var image = valueObj["image"];
-					var prodImage = '';
-					//var prodImage = productImageData + '/'+image; // Direct Hitting to server URL
-					//var prodImage = window.appRootDir.fullPath + '/' + gallery_id+'_'+image;
-					if(testingInBrowser){
-						prodImage = 'img/product'+indexObj+'.jpg'; // For Testing
-					}else{
-						prodImage = localPath + "/" + 'gallery'+ '/' + image; // For Production
-					}
-					//var prodImage = localPath + "/" + 'gallery'+ '/' + image; // For Production
-					//var prodImage = 'img/product'+indexObj+'.jpg'; // For Testing
-					if(jsonObj['category'] != ''){
-						jQuery.each(categoryObj, function(indexCat, valueCat){
-							var server_cat_id = valueCat['cat_id'];
-							var galleryImage = '<div class="col-xs-6 col-sm-4 col-md-4 width-product-list col-lg-4 galleriesClass gallcatid'+server_cat_id+'" data-gall_id="'+gallery_id+'" data-cat_id="'+server_cat_id+'" '+
-									'data-prod_id="'+server_prod_id+'" data-pro_index="'+index+'" data-prod_name="'+prod_name+'" data-lid="'+local_db_id+'" onclick="goToAttributeDiv(this)">';
-									
-							galleryImage+= '<img class="product-image" src="'+prodImage+'" style="width:300px; height:400px;" alt="'+prod_name+'" />'
-							galleryImage+= '<p>'+prod_name+'</p>';
-							galleryImage+= '</div>';
-							
-							mainPageGallery += galleryImage;
-							
+			if(jsonObj['category'] != ''){
+				jQuery.each(categoryObj, function(indexCat, valueCat){
+					if(jsonObj['gallery'] != ''){
+						jQuery.each(galleryObj , function(indexObj,valueObj) {
+							if(indexObj == 0){
+								var gallery_id = valueObj['id'];
+								var image = valueObj["image"];
+								var prodImage = '';
+								//var prodImage = productImageData + '/'+image; // Direct Hitting to server URL
+								//var prodImage = window.appRootDir.fullPath + '/' + gallery_id+'_'+image;
+								if(testingInBrowser){
+									prodImage = 'img/product'+indexObj+'.jpg'; // For Testing
+								}else{
+									prodImage = localPath + "/" + 'gallery'+ '/' + image; // For Production
+								}
+								//var prodImage = localPath + "/" + 'gallery'+ '/' + image; // For Production
+								//var prodImage = 'img/product'+indexObj+'.jpg'; // For Testing
+						
+								var server_cat_id = valueCat['cat_id'];
+								var galleryImage = '<div class="col-xs-6 col-sm-4 col-md-4 width-product-list col-lg-4 galleriesClass gallcatid'+server_cat_id+'" data-gall_id="'+gallery_id+'" data-cat_id="'+server_cat_id+'" '+
+										'data-prod_id="'+server_prod_id+'" data-pro_index="'+index+'" data-prod_name="'+prod_name+'" data-lid="'+local_db_id+'" onclick="goToAttributeDiv(this)">';
+										
+								galleryImage+= '<img class="product-image" src="'+prodImage+'" style="width:300px; height:400px;" alt="'+prod_name+'" />'
+								galleryImage+= '<p>'+prod_name+'</p>';
+								galleryImage+= '</div>';
+								
+								mainPageGallery += galleryImage;
+							}
 						});
 					}
 				});
@@ -3028,7 +3029,7 @@ function errorCBCustomerListDB(err) {
 				tableRow += '<td> '+arr[0]+' </td>';
 				tableRow += '<td> '+status_of_order+' </td>';
 				/*tableRow += '<td> Edit </td></tr>';*/
-				connectionType=checkConnection();
+				/*connectionType=checkConnection();
 				if(connectionType=="WiFi connection" || connectionType=="Cell 4G connection" || connectionType=="Cell 5G connection" || connectionType=="Cell 3G connection" || connectionType=="Cell 2G connection"){
 					var currDateTimestamp="";
 					currDateTimestamp=dateTimestamp();
@@ -3095,7 +3096,7 @@ function errorCBCustomerListDB(err) {
 						}
 					});
 					
-				}
+				}*/
 				
 				tableRowMain += tableRow;
 			});
