@@ -333,8 +333,10 @@ function onBackKeyDown() {
 
 function checkConnection() {
 	
-	//connectionType="WiFi connection";//For Testing
-	//return connectionType;
+	if(testingInBrowser){
+		connectionType="WiFi connection";//For Testing
+		return connectionType;
+	}
 	
     var networkState = navigator.connection.type;
     var states = {};
