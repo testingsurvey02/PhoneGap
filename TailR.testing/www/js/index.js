@@ -2270,7 +2270,7 @@ function errorCBCustomerListDB(err) {
 								var galleryImage = '<div class="col-xs-6 col-sm-4 col-md-4 width-product-list col-lg-4 galleriesClass gallcatid'+server_cat_id+'" data-gall_id="'+gallery_id+'" data-cat_id="'+server_cat_id+'" '+
 										'data-prod_id="'+server_prod_id+'" data-pro_index="'+index+'" data-prod_name="'+prod_name+'" data-lid="'+local_db_id+'" onclick="goToAttributeDiv(this)">';
 										
-								galleryImage+= '<img class="product-image" src="'+prodImage+'" style="width:300px; height:400px;" alt="'+prod_name+'" />'
+								galleryImage+= '<img class="product-image" src="'+prodImage+'" style="width:250px; height:350px;" alt="'+prod_name+'" />'
 								galleryImage+= '<p>'+prod_name+'</p>';
 								galleryImage+= '</div>';
 								
