@@ -934,10 +934,11 @@ function insertCategories(arrData) {
 						if(description != ''){
 							localDB_description = description;
 						}
-						
-						tx.executeSql("UPDATE category SET name = " + localDB_name + ", description = " + localDB_description + ", update_timestamp = "+update_timestamp+" WHERE id = " + localDB_id + "");
+						console.log('update');
+						tx.executeSql("UPDATE category SET name = '" + localDB_name + "', description = '" + localDB_description + "', update_timestamp = '"+update_timestamp+"' WHERE id = " + localDB_id + "");
 					}
 				}else{
+					console.log('insert');
 					tx.executeSql('INSERT INTO category(server_cat_id, parent_id, name, update_timestamp, description, catImage, catStatus, children) VALUES (?,?,?,?,?,?,?,?)',
 							[server_cat_id, parent_id, name, update_timestamp,description, catImage, catStatus, childExist], function(tx, res) {
 					//alert(server_cat_id, name, childExist);
@@ -973,10 +974,11 @@ function insertCategories(arrData) {
 								if(description != ''){
 									localDB_description = description;
 								}
-								
-								tx.executeSql("UPDATE category SET name = " + localDB_name + ", description = " + localDB_description + ", update_timestamp = "+update_timestamp+" WHERE id = " + localDB_id + "");
+								console.log('update Child');
+								tx.executeSql("UPDATE category SET name = '" + localDB_name + "', description = '" + localDB_description + "', update_timestamp = '"+update_timestamp+"' WHERE id = " + localDB_id + "");
 							}
 						}else{
+							console.log('insert Child');
 							tx.executeSql('INSERT INTO category(server_cat_id, parent_id, name, update_timestamp, description, catImage, catStatus, children) VALUES (?,?,?,?,?,?,?,?)',
 									[server_cat_id_child, parent_id_child, name_child, update_timestamp,description_child, catImage_child, catStatus_child, childrenArrString], function(tx, res) {
 								//alert(server_cat_id_child, parent_id_child, name_child);
@@ -1119,11 +1121,12 @@ function insertProductDetails(tx) {
 					if(galleryJson != ''){
 						local_DB_category =  categoryJson;
 					}
-					
-					tx.executeSql("UPDATE product_details SET name = " + localDB_name + ", description = " + localDB_description + ", update_timestamp = "+update_timestamp+", attribute_details = "+local_DB_attributeJson+", status = "+local_DB_prod_status+", measurement_typeid = "+local_DB_measurement_typeid+", gallery = "+local_DB_gallery+", category = "+local_DB_category+" WHERE id = " + localDB_id + "");
+					console.log('update product');
+					tx.executeSql("UPDATE product_details SET name = '" + localDB_name + "', description = '" + localDB_description + "', update_timestamp = '"+update_timestamp+"', attribute_details = '"+local_DB_attributeJson+"', status = "+local_DB_prod_status+", measurement_typeid = "+local_DB_measurement_typeid+", gallery = '"+local_DB_gallery+"', category = '"+local_DB_category+"' WHERE id = " + localDB_id + "");
 				}
 				
 			}else{
+				console.log('insert product');
 				tx.executeSql('INSERT INTO product_details (server_prod_id, name, description, update_timestamp, measurement_typeid, status, attribute_details, gallery, category) VALUES (?,?,?,?,?,?,?,?,?)',
 	   	    			[server_prod_id, name, description, update_timestamp, measurement_typeid, prod_status, attributeJson, galleryJson, categoryJson], function(tx, res) {
 				console.log("PD insertId: " + res.insertId );
@@ -1295,11 +1298,12 @@ function insertAttributesDetails(tx) {
 					if(optionJson != ''){
 						local_DB_option = optionJson;
 					}
-					
-					tx.executeSql("UPDATE product_attributes SET name = " + localDB_name + ", identifier = " + localDB_identifier + ", update_timestamp = "+update_timestamp+", status = "+local_DB_status+", backend_name = "+local_DB_backend_name+", option = "+local_DB_option+" WHERE id = " + localDB_id + "");
+					console.log('update product_attributes');
+					tx.executeSql("UPDATE product_attributes SET name = '" + localDB_name + "', identifier = '" + localDB_identifier + "', update_timestamp = '"+update_timestamp+"', status = "+local_DB_status+", backend_name = '"+local_DB_backend_name+"', option = '"+local_DB_option+"' WHERE id = " + localDB_id + "");
 				}
 				
 			}else{
+				console.log('insert product_attributes');
 				tx.executeSql('INSERT INTO product_attributes(server_attr_id, name, identifier, status, backend_name, update_timestamp, option) VALUES (?,?,?,?,?,?,?)',
 	   	    			[server_attr_id, name,identifier, attr_status, backend_name, update_timestamp, optionJson], function(tx, res) {
 		   	         console.log("Attribute Data insertId: " + res.insertId + " -- res.rowsAffected 1"+res.rowsAffected);
@@ -1445,10 +1449,11 @@ function insertMeasurementsDetails(tx) {
 					if(groupJson != ''){
 						localDB_group_data = groupJson;
 					}
-					
-					tx.executeSql("UPDATE measurement_details SET name = " + localDB_name + ", update_timestamp = "+update_timestamp+", status = "+localDB_status+", group_data = "+localDB_group_data+" WHERE id = " + localDB_id + "");
+					console.log('update measurement_details');
+					tx.executeSql("UPDATE measurement_details SET name = '" + localDB_name + "', update_timestamp = '"+update_timestamp+"', status = "+localDB_status+", group_data = '"+localDB_group_data+"' WHERE id = " + localDB_id + "");
 				}
 			}else{
+				console.log('INSERT measurement_details');
 				tx.executeSql('INSERT INTO measurement_details(name, server_measurement_id, status, update_timestamp, group_data) VALUES (?,?,?,?,?)',
 	   	    			[name, server_measurement_id,meas_status, update_timestamp, groupJson], function(tx, res) {
 					console.log("Measurement Data insertId: " + res.insertId + " -- res.rowsAffected 1"+res.rowsAffected);
