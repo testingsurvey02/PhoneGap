@@ -2278,7 +2278,7 @@ function errorCBCustomerListDB(err) {
 				$(this).find('ul li.subMen_attrId'+attrTempId).addClass("active").find('a').addClass("active");
 			});
 			
-			var appendButtons = '<div class="row optionPreNextButton" style="margin-top: 25px; padding: 0px 0px 0px 25%;"><div class="col-xs-6 col-sm-6 col-md-6 col-lg-6"><button class="back-button btn btn-primary st-bg-baby-pink ui-btn ui-shadow ui-corner-all" disabled="disabled" onclick="backButton('+attributeForNextIndex+')">Previous</button></div>';
+			var appendButtons = '<div class="row optionPreNextButton" style="margin-top: 25px;"><div class="col-xs-6 col-sm-6 col-md-6 col-lg-6"><button class="back-button btn btn-primary st-bg-baby-pink ui-btn ui-shadow ui-corner-all" disabled="disabled" onclick="backButton('+attributeForNextIndex+')">Previous</button></div>';
 			if(parseInt(attributeForNextIndex) > 0){
 				appendButtons += '<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6"><button class="btn btn-primary st-bg-baby-pink ui-btn ui-shadow ui-corner-all front-button" onclick="frontButton(1)">Next</button></div>';
 			}else{
