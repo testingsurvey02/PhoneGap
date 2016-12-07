@@ -2311,6 +2311,9 @@ function errorCBCustomerListDB(err) {
 		var selectMeasBarPageDiv = '';
 		var attrMeasPageGallery = '';
 		var attrIds = []; var prodAttrIds = [];
+		$('.selMenu-bar').remove();
+		$('.optMenu-bar').remove();
+		$('.optionPreNextButton').remove();
 		jQuery.each(productDataForAttr, function(index,value) {
 			
 			var jsonObj = value;
