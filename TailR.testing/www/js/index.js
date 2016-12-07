@@ -921,7 +921,7 @@ function insertCategories(arrData) {
 			tx.executeSql('select * from category where server_cat_id ='+server_cat_id ,[],function(tx,results){
 				var len = 0;
 				len = results.rows.length;
-				count('len'+len);
+				console.log('len'+len);
 				if(len > 0){
 					for (var i = 0; i < len; i++) {
 						var localDB_id = results.rows.item(i)['id'];
