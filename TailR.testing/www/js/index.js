@@ -921,12 +921,15 @@ function insertCategories(arrData) {
 			tx.executeSql('select * from category where server_cat_id ='+server_cat_id ,[],function(tx,results){
 				var len = 0;
 				len = results.rows.length;
+				count('len'+len);
 				if(len > 0){
 					for (var i = 0; i < len; i++) {
 						var localDB_id = results.rows.item(i)['id'];
 						var localDB_server_cat_id=results.rows.item(i)['server_cat_id'];
 						var localDB_parent_id=results.rows.item(i)['parent_id'];
 						var localDB_name=results.rows.item(i)['name'];
+						console.log('localDB_server_cat_id : '+ localDB_server_cat_id);
+						console.log('localDB_name : '+ localDB_name);
 						if(name != ''){
 							localDB_name = name;
 						}
@@ -934,8 +937,16 @@ function insertCategories(arrData) {
 						if(description != ''){
 							localDB_description = description;
 						}
+						var localDB_catStatus = results.rows.item(i)['catStatus'];
+						if(catStatus != ''){
+							localDB_catStatus = catStatus;
+						}
+						var localDB_catImage = results.rows.item(i)['catStatus'];
+						if(catImage != ''){
+							localDB_catImage = catImage;
+						}
 						console.log('update');
-						tx.executeSql("UPDATE category SET name = '" + localDB_name + "', description = '" + localDB_description + "', update_timestamp = '"+update_timestamp+"' WHERE id = " + localDB_id + "");
+						tx.executeSql("UPDATE category SET name = '" + localDB_name + "', description = '" + localDB_description + "', update_timestamp = '"+update_timestamp+"', catImage ='"+localDB_catImage+"', catStatus ='"+localDB_catStatus+"' WHERE id = " + localDB_id + "");
 					}
 				}else{
 					console.log('insert');
@@ -966,16 +977,27 @@ function insertCategories(arrData) {
 								var localDB_id = results.rows.item(i)['id'];
 								var localDB_server_cat_id=results.rows.item(i)['server_cat_id'];
 								var localDB_parent_id=results.rows.item(i)['parent_id'];
+								if(parent_id_child != ''){
+									localDB_parent_id = parent_id_child;
+								}
 								var localDB_name=results.rows.item(i)['name'];
 								if(name != ''){
-									localDB_name = name;
+									localDB_name = name_child;
 								}
 								var localDB_description=results.rows.item(i)['description'];
 								if(description != ''){
-									localDB_description = description;
+									localDB_description = description_child;
+								}
+								var localDB_catImage = results.rows.item(i)['catImage'];
+								if(catImage_child != ''){
+									localDB_catImage = catImage_child;
+								}
+								var localDB_catStatus = results.rows.item(i)['catStatus'];
+								if(catStatus_child != ''){
+									localDB_catStatus = catStatus_child;
 								}
 								console.log('update Child');
-								tx.executeSql("UPDATE category SET name = '" + localDB_name + "', description = '" + localDB_description + "', update_timestamp = '"+update_timestamp+"' WHERE id = " + localDB_id + "");
+								tx.executeSql("UPDATE category SET name = '" + localDB_name + "', description = '" + localDB_description + "', update_timestamp = '"+update_timestamp+"', catImage ='"+localDB_catImage+"', catStatus ='"+localDB_catStatus+"', parent_id = "+localDB_parent_id+" WHERE id = " + localDB_id + "");
 							}
 						}else{
 							console.log('insert Child');
