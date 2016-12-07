@@ -1,6 +1,10 @@
 // For Testing in Browser
 /*
 $(function() {
+	getTailorDetailsDataFromServer();
+	getCategoriesDataFromServer();
+	getProductDataFromServer();
+	getAttributesDataFromServer();
 	loadDataFromServer();
 });
 
@@ -36,6 +40,23 @@ var attributeJsonData;
 var productJsonData;
 var measurementJsonData;
 var measurementTypeId = 0;
+//Variables Declarations
+var catArrSession=[];
+var subCatArrSession=[];
+var productDetailsArrSession = [];
+var attrDetailsArrSession = [];
+var measurementArrSession = [];
+var measurementTypeId = '';
+var orderArrSession = [];
+var customerArrSession = [];
+var tailorDetailsSession = {};
+var dataSyncTypeTailor = 1;
+var dataSyncTypeCategory = 2;
+var dataSyncTypeProduct = 3;
+var dataSyncTypeAttribute = 4;
+var dataSyncTypeMeasurement = 5;
+var dataSyncTypeCustomer = 6;
+var dataSyncTypeOrder = 7;
 
 var rightPanelObj = '<div id="menu-wrapper">'+
 							'<div class="menu-title">'+
@@ -699,18 +720,6 @@ function calculateDateTimeDiff(old_date,new_date) {
      return totalSeconds;
 }
 
-
-// Variables Declarations
-var catArrSession=[];
-var subCatArrSession=[];
-var productDetailsArrSession = [];
-var attrDetailsArrSession = [];
-var measurementArrSession = [];
-var measurementTypeId = '';
-var orderArrSession = [];
-var customerArrSession = [];
-var tailorDetailsSession = {};
-
 //The directory to store data
 var store;
 var storeExternal;
@@ -733,8 +742,8 @@ function initializeDB(tx) {
 	//	tx.executeSql('CREATE TABLE IF NOT EXISTS product_attributes (id integer primary key autoincrement, server_attr_id integer, name text, identifier text, status integer, backend_name text, update_timestamp text, option text)');
 	//	tx.executeSql('CREATE TABLE IF NOT EXISTS measurement_details (id integer primary key autoincrement, name text, server_measurement_id integer, status integer, update_timestamp text, group text, measurement_type_id integer)');
 	
-	//	tx.executeSql(CREATE TABLE IF NOT EXISTS customer_details (id integer primary key autoincrement,name text, total_price text, advance_price text, balance_price text, update_timestamp text, contact_number text, email_id text, country text, state text, city text, pincode text, address_one text, address_two text)');
-	//	tx.executeSql('CREATE TABLE IF NOT EXISTS order_details(id integer primary key autoincrement, server_cat_id integer, server_prod_id integer, order_data text,update_timestamp text, server_prod_name text,customer_id integer, option_selected text, status_of_order text, gallery_id integer, gallery_name text)');
+	//	tx.executeSql(CREATE TABLE IF NOT EXISTS customer_details (id integer primary key autoincrement,name text, total_price text, advance_price text, balance_price text, update_timestamp text, contact_number text, email_id text, country text, state text, city text, pincode text, address_one text, address_two text, sync_date text)');
+	//	tx.executeSql('CREATE TABLE IF NOT EXISTS order_details(id integer primary key autoincrement, server_cat_id integer, server_prod_id integer, order_data text,update_timestamp text, server_prod_name text,customer_id integer, option_selected text, status_of_order text, gallery_id integer, gallery_name text, sync_date text)');
 }
 
 // Common Transaction success callback
@@ -908,11 +917,34 @@ function insertCategories(arrData) {
 			if(childrenArr != ''){
 				childExist = '1';
 			}
-			tx.executeSql('INSERT INTO category(server_cat_id, parent_id, name, update_timestamp, description, catImage, catStatus, children) VALUES (?,?,?,?,?,?,?,?)',
-						[server_cat_id, parent_id, name, update_timestamp,description, catImage, catStatus, childExist], function(tx, res) {
-				//alert(server_cat_id, name, childExist);
-				console.log(' Parent Category ');
+			
+			tx.executeSql('select * from category where server_cat_id ='+server_cat_id ,[],function(tx,results){
+				var len = 0;
+				len = results.rows.length;
+				if(len > 0){
+					var localDB_id = results.rows.item(i)['id'];
+					var localDB_server_cat_id=results.rows.item(i)['server_cat_id'];
+					var localDB_parent_id=results.rows.item(i)['parent_id'];
+					var localDB_name=results.rows.item(i)['name'];
+					if(name != ''){
+						localDB_name = name;
+					}
+					var localDB_description=results.rows.item(i)['description'];
+					if(description != ''){
+						localDB_description = description;
+					}
+					
+					tx.executeSql("UPDATE category SET name = " + localDB_name + ", description = " + localDB_description + ", update_timestamp = "+update_timestamp+" WHERE id = " + localDB_id + "");
+				}else{
+					tx.executeSql('INSERT INTO category(server_cat_id, parent_id, name, update_timestamp, description, catImage, catStatus, children) VALUES (?,?,?,?,?,?,?,?)',
+							[server_cat_id, parent_id, name, update_timestamp,description, catImage, catStatus, childExist], function(tx, res) {
+					//alert(server_cat_id, name, childExist);
+					//console.log(' Parent Category ');
+				});
+				}
 			});
+			
+			
 			
 			if(childExist == '1'){
 				jQuery.each(childrenArr, function(index1,value1) { 
@@ -923,11 +955,34 @@ function insertCategories(arrData) {
 					var catImage_child = value1["image"];
 					var catStatus_child = value1["status"];
 			
-					tx.executeSql('INSERT INTO category(server_cat_id, parent_id, name, update_timestamp, description, catImage, catStatus, children) VALUES (?,?,?,?,?,?,?,?)',
-							[server_cat_id_child, parent_id_child, name_child, update_timestamp,description_child, catImage_child, catStatus_child, childrenArrString], function(tx, res) {
-						//alert(server_cat_id_child, parent_id_child, name_child);
-						console.log(' Child Category ');
-					});	
+					tx.executeSql('select * from category where server_cat_id ='+server_cat_id_child ,[],function(tx,results){
+						var len = 0;
+						len = results.rows.length;
+						if(len > 0){
+							var localDB_id = results.rows.item(i)['id'];
+							var localDB_server_cat_id=results.rows.item(i)['server_cat_id'];
+							var localDB_parent_id=results.rows.item(i)['parent_id'];
+							var localDB_name=results.rows.item(i)['name'];
+							if(name != ''){
+								localDB_name = name;
+							}
+							var localDB_description=results.rows.item(i)['description'];
+							if(description != ''){
+								localDB_description = description;
+							}
+							
+							tx.executeSql("UPDATE category SET name = " + localDB_name + ", description = " + localDB_description + ", update_timestamp = "+update_timestamp+" WHERE id = " + localDB_id + "");
+						}else{
+							tx.executeSql('INSERT INTO category(server_cat_id, parent_id, name, update_timestamp, description, catImage, catStatus, children) VALUES (?,?,?,?,?,?,?,?)',
+									[server_cat_id_child, parent_id_child, name_child, update_timestamp,description_child, catImage_child, catStatus_child, childrenArrString], function(tx, res) {
+								//alert(server_cat_id_child, parent_id_child, name_child);
+								//console.log(' Child Category ');
+							});	
+						}
+					});
+					
+					
+					
 				});
 			}
 		});
@@ -1025,10 +1080,49 @@ function insertProductDetails(tx) {
 		var categoryJson = JSON.stringify(value['category']);
 		var galleryJson = JSON.stringify(value['gallary']);
 		
-		tx.executeSql('INSERT INTO product_details (server_prod_id, name, description, update_timestamp, measurement_typeid, status, attribute_details, gallery, category) VALUES (?,?,?,?,?,?,?,?,?)',
-   	    			[server_prod_id, name, description, update_timestamp, measurement_typeid, prod_status, attributeJson, galleryJson, categoryJson], function(tx, res) {
-			console.log("PD insertId: " + res.insertId );
-  	    });
+		tx.executeSql('select * from product_details where server_prod_id ='+server_prod_id ,[],function(tx,results){
+			var len = 0;
+			len = results.rows.length;
+			if(len > 0){
+				var localDB_id = results.rows.item(i)['id'];
+				var localDB_server_prod_id=results.rows.item(i)['server_prod_id'];
+				var localDB_name=results.rows.item(i)['name'];
+				if(name != ''){
+					localDB_name = name;
+				}
+				var localDB_description=results.rows.item(i)['description'];
+				if(description != ''){
+					localDB_description = description;
+				}
+				var local_DB_attributeJson = results.rows.item(i)['attribute_details'];
+				if(attributeJson != ''){
+					local_DB_attributeJson = attributeJson;
+				}
+				var local_DB_prod_status = results.rows.item(i)['status'];
+				if(prod_status != ''){
+					local_DB_prod_status = prod_status;
+				}
+				var local_DB_measurement_typeid = results.rows.item(i)['measurement_typeid'];
+				if(measurement_typeid != ''){
+					local_DB_measurement_typeid = measurement_typeid;
+				}
+				var local_DB_gallery = results.rows.item(i)['gallery'];
+				if(galleryJson != ''){
+					local_DB_gallery =  galleryJson;
+				}
+				var local_DB_category = results.rows.item(i)['category'];
+				if(galleryJson != ''){
+					local_DB_category =  categoryJson;
+				}
+				
+				tx.executeSql("UPDATE product_details SET name = " + localDB_name + ", description = " + localDB_description + ", update_timestamp = "+update_timestamp+", attribute_details = "+local_DB_attributeJson+", status = "+local_DB_prod_status+", measurement_typeid = "+local_DB_measurement_typeid+", gallery = "+local_DB_gallery+", category = "+local_DB_category+" WHERE id = " + localDB_id + "");
+			}else{
+				tx.executeSql('INSERT INTO product_details (server_prod_id, name, description, update_timestamp, measurement_typeid, status, attribute_details, gallery, category) VALUES (?,?,?,?,?,?,?,?,?)',
+	   	    			[server_prod_id, name, description, update_timestamp, measurement_typeid, prod_status, attributeJson, galleryJson, categoryJson], function(tx, res) {
+				console.log("PD insertId: " + res.insertId );
+				});
+			}
+		});
 	});
 }
 
@@ -1166,10 +1260,44 @@ function insertAttributesDetails(tx) {
 		var backend_name = value['backend_name'];
 		var optionJson = JSON.stringify(value['option']);
 		var update_timestamp = currDateTimestamp;
-		tx.executeSql('INSERT INTO product_attributes(server_attr_id, name, identifier, status, backend_name, update_timestamp, option) VALUES (?,?,?,?,?,?,?)',
-   	    			[server_attr_id, name,identifier, attr_status, backend_name, update_timestamp, optionJson], function(tx, res) {
-	   	         console.log("Attribute Data insertId: " + res.insertId + " -- res.rowsAffected 1"+res.rowsAffected);
-  	    });
+		
+		tx.executeSql('select * from product_attributes where server_attr_id ='+server_attr_id ,[],function(tx,results){
+			var len = 0;
+			len = results.rows.length;
+			if(len > 0){
+				var localDB_id = results.rows.item(i)['id'];
+				var localDB_server_attr_id=results.rows.item(i)['server_attr_id'];
+				var localDB_name=results.rows.item(i)['name'];
+				if(name != ''){
+					localDB_name = name;
+				}
+				var localDB_identifier=results.rows.item(i)['identifier'];
+				if(name != ''){
+					localDB_identifier = identifier;
+				}
+				var local_DB_status = results.rows.item(i)['status'];
+				if(attr_status != ''){
+					local_DB_status = attr_status;
+				}
+				var local_DB_backend_name = results.rows.item(i)['backend_name'];
+				if(backend_name != ''){
+					local_DB_backend_name =  backend_name;
+				}
+				var local_DB_option = results.rows.item(i)['option'];
+				if(optionJson != ''){
+					local_DB_option = optionJson;
+				}
+				
+				tx.executeSql("UPDATE product_attributes SET name = " + localDB_name + ", identifier = " + localDB_identifier + ", update_timestamp = "+update_timestamp+", status = "+local_DB_status+", backend_name = "+local_DB_backend_name+", option = "+local_DB_option+" WHERE id = " + localDB_id + "");
+			}else{
+				tx.executeSql('INSERT INTO product_attributes(server_attr_id, name, identifier, status, backend_name, update_timestamp, option) VALUES (?,?,?,?,?,?,?)',
+	   	    			[server_attr_id, name,identifier, attr_status, backend_name, update_timestamp, optionJson], function(tx, res) {
+		   	         console.log("Attribute Data insertId: " + res.insertId + " -- res.rowsAffected 1"+res.rowsAffected);
+				});
+			}
+		});
+		
+		
 	});
 }
 
@@ -1287,10 +1415,36 @@ function insertMeasurementsDetails(tx) {
 			groupJson = JSON.stringify(value["group"]);
 		}
 		var update_timestamp = currDateTimestamp;
-		tx.executeSql('INSERT INTO measurement_details(name, server_measurement_id, status, update_timestamp, group_data) VALUES (?,?,?,?,?)',
-   	    			[name, server_measurement_id,meas_status, update_timestamp, groupJson], function(tx, res) {
-			console.log("Measurement Data insertId: " + res.insertId + " -- res.rowsAffected 1"+res.rowsAffected);
-  	    });
+		
+		tx.executeSql('select * from measurement_details where server_measurement_id ='+server_measurement_id ,[],function(tx,results){
+			var len = 0;
+			len = results.rows.length;
+			if(len > 0){
+				var localDB_id = results.rows.item(i)['id'];
+				var localDB_server_measurement_id = results.rows.item(i)['server_measurement_id'];
+				var localDB_name = results.rows.item(i)['name'];
+				if(name != ''){
+					localDB_name = name;
+				}
+				var localDB_status = results.rows.item(i)['status'];
+				if(meas_status != ''){
+					localDB_status = meas_status;
+				}
+				var localDB_group_data = results.rows.item(i)['group_data'];
+				if(groupJson != ''){
+					localDB_group_data = groupJson;
+				}
+				
+				tx.executeSql("UPDATE measurement_details SET name = " + localDB_name + ", update_timestamp = "+update_timestamp+", status = "+localDB_status+", group_data = "+localDB_group_data+" WHERE id = " + localDB_id + "");
+			}else{
+				tx.executeSql('INSERT INTO measurement_details(name, server_measurement_id, status, update_timestamp, group_data) VALUES (?,?,?,?,?)',
+	   	    			[name, server_measurement_id,meas_status, update_timestamp, groupJson], function(tx, res) {
+					console.log("Measurement Data insertId: " + res.insertId + " -- res.rowsAffected 1"+res.rowsAffected);
+				});
+			}
+		});
+		
+		
 	});
 }
 
@@ -1351,7 +1505,7 @@ function insertOrderDetails(){
 	if(newOrderId == '' || newOrderId == undefined){
 		db.transaction(function(tx) {
 			
-			tx.executeSql('CREATE TABLE IF NOT EXISTS order_details(id integer primary key autoincrement, server_cat_id integer, server_prod_id integer, order_data text,update_timestamp text, server_prod_name text,customer_id integer, option_selected text, status_of_order text, gallery_id integer, gallery_name text)');
+			tx.executeSql('CREATE TABLE IF NOT EXISTS order_details(id integer primary key autoincrement, server_cat_id integer, server_prod_id integer, order_data text,update_timestamp text, server_prod_name text,customer_id integer, option_selected text, status_of_order text, gallery_id integer, gallery_name text, sync_date text)');
 			
 				var server_cat_id = categoryHtmlId;
 				var server_prod_id = productHTMLId;
@@ -1361,9 +1515,10 @@ function insertOrderDetails(){
 				var optionIdsWithArrays = selectedOptionMain;
 				var customer_id = customerIdInput;
 				var status_of_order = 'Pending';
+				var syncOrderDate = '';
 				
-				tx.executeSql('INSERT INTO order_details(server_cat_id, server_prod_id, order_data, update_timestamp, server_prod_name, customer_id, option_selected, status_of_order, gallery_id, gallery_name) VALUES (?,?,?,?,?,?,?,?,?,?)',
-							[server_cat_id, server_prod_id, order_data, update_timestamp,server_prod_name, customer_id, optionIdsWithArrays, status_of_order, galleryIdToSave, galleryNameToSave], function(tx, res) {
+				tx.executeSql('INSERT INTO order_details(server_cat_id, server_prod_id, order_data, update_timestamp, server_prod_name, customer_id, option_selected, status_of_order, gallery_id, gallery_name, sync_date) VALUES (?,?,?,?,?,?,?,?,?,?,?)',
+							[server_cat_id, server_prod_id, order_data, update_timestamp,server_prod_name, customer_id, optionIdsWithArrays, status_of_order, galleryIdToSave, galleryNameToSave, syncOrderDate], function(tx, res) {
 					//alert("Order Data insertId: " + res.insertId + " -- res.rowsAffected 1"+res.rowsAffected);
 					$('#newOrderId').val(res.insertId);
 				});
@@ -1502,15 +1657,16 @@ function takeCustomerDetailsFn(){
 	var cityInput = $('#cityInput').val();
 	var pincodeInput = $('#pincodeInput').val();
 	var customerIdInput = $('#customerIdInput').val();
+	var syncCustomerDate = '';
 	if(customerIdInput == '' || customerIdInput == undefined){
 		db.transaction(function(tx) {
 			
-			tx.executeSql('CREATE TABLE IF NOT EXISTS customer_details (id integer primary key autoincrement,name text, total_price text, advance_price text, balance_price text, update_timestamp text, contact_number text, email_id text, country text, state text, city text, pincode text, address_one text, address_two text)');
+			tx.executeSql('CREATE TABLE IF NOT EXISTS customer_details (id integer primary key autoincrement,name text, total_price text, advance_price text, balance_price text, update_timestamp text, contact_number text, email_id text, country text, state text, city text, pincode text, address_one text, address_two text, sync_date text)');
 			
 				var update_timestamp=currDateTimestamp;
 				
-				tx.executeSql('INSERT INTO customer_details(name, total_price, advance_price, balance_price, update_timestamp, contact_number, email_id, country, state, city, pincode, address_one, address_two) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?)',
-						[customerName, totalPriceInput, advancePriceInput, balancePriceInput, update_timestamp, contactNumber, emailIdInput, countryInput, stateInput, cityInput, pincodeInput, address1Input, address2Input], function(tx, res) {
+				tx.executeSql('INSERT INTO customer_details(name, total_price, advance_price, balance_price, update_timestamp, contact_number, email_id, country, state, city, pincode, address_one, address_two, sync_date) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?)',
+						[customerName, totalPriceInput, advancePriceInput, balancePriceInput, update_timestamp, contactNumber, emailIdInput, countryInput, stateInput, cityInput, pincodeInput, address1Input, address2Input, syncCustomerDate], function(tx, res) {
 					//alert("Customer Details insertId: " + res.insertId + " -- res.rowsAffected 1"+res.rowsAffected);
 					$('#customerIdInput').val(res.insertId);
 				});
@@ -1558,7 +1714,7 @@ function getCustomerListFromLocalDB(){
 	}
 	
 	db.transaction(	function (tx){
-		tx.executeSql('CREATE TABLE IF NOT EXISTS customer_details (id integer primary key autoincrement,name text, total_price text, advance_price text, balance_price text, update_timestamp text, contact_number text, email_id text, country text, state text, city text, pincode text, address_one text, address_two text)');
+		tx.executeSql('CREATE TABLE IF NOT EXISTS customer_details (id integer primary key autoincrement,name text, total_price text, advance_price text, balance_price text, update_timestamp text, contact_number text, email_id text, country text, state text, city text, pincode text, address_one text, address_two text, sync_date text)');
 		var len = 0;
 		//name, price, update_timestamp
 			tx.executeSql('select * from customer_details ',[],function(tx,results){
@@ -1769,12 +1925,12 @@ function errorCBCustomerListDB(err) {
 	        	  if(tablename == 'tailor_details'){
 	        		  if(loginUserId == undefined || loginUserId == ''){
 	        			  gotoLoginPage();
-	        			}else if(loginUserId != undefined){
-	        				if(loginUserId != ''){
-	        					getTailorDetailsDataFromServer();
-	        				}
+	        		  }else if(loginUserId != undefined){
+	        			  if(loginUserId != ''){
+	        				  getTailorDetailsDataFromServer();
+	        			  }
 	        				
-	        			}
+	        		  }
 	        		  
 	        	  }else if(tablename == 'category'){
 	        		  //console.log('getCategoriesDataFromServer');
@@ -1788,6 +1944,33 @@ function errorCBCustomerListDB(err) {
 	    return x;
 	}
 	
+	function insertAndUpdateDataFromServer(type){
+		connectionType=checkConnection();
+		if(connectionType=="Unknown connection" || connectionType=="No network connection"){
+			if(type == dataSyncTypeTailor){
+				getTailorDetailsFromLocal();
+			}else if(type == dataSyncTypeCategory){
+				getCategoriesListFromLocal();
+			}
+		}
+		else if(connectionType=="WiFi connection" || connectionType=="Cell 4G connection" || connectionType=="Cell 3G connection" || connectionType=="Cell 2G connection"){
+			
+			
+			
+			if(type == dataSyncTypeTailor){
+				if(loginUserId == undefined || loginUserId == ''){
+					gotoLoginPage();
+      		  	}else if(loginUserId != undefined){
+      		  		if(loginUserId != ''){
+      		  			getTailorDetailsDataFromServer();
+      			  	}
+      		  	}
+			}else if(type == dataSyncTypeCategory){
+				getCategoriesDataFromServer();
+			}
+		}
+	}
+	
 	function errorCountDBFn(err){
 		console.log('errorCountDBFn : '+err.message);
 		console.log('errorCountDBFn : '+err.code);
@@ -1795,12 +1978,14 @@ function errorCBCustomerListDB(err) {
 	
 	function checkTailorDetailsInLocalDB(){
 		
-		getCountByTableName("tailor_details");
+		//getCountByTableName("tailor_details");
+		insertAndUpdateDataFromServer(dataSyncTypeTailor);
 	}
 	
 	function checkCategoryInLocalDB(){
 		
-		getCountByTableName("category");
+		//getCountByTableName("category");
+		insertAndUpdateDataFromServer(dataSyncTypeCategory);
 	}
 	
 	function loadDataFromServer(){
@@ -1818,7 +2003,7 @@ function errorCBCustomerListDB(err) {
 
 	function getCategoriesDataFromServer(){
 		var dataToSend = {};
-		dataToSend["secret_key"] = tailorDetailsSession.secret_key;
+		dataToSend["secret_key"] = 'ABCDEFGH';
 		var apiCallUrl="http://tailorapp.tailorrani.com/api/categories/categoriesJson"
 		connectionType=checkConnection();
 		if(connectionType=="Unknown connection" || connectionType=="No network connection"){
@@ -1907,7 +2092,7 @@ function errorCBCustomerListDB(err) {
 	// Remaining
 	function getProductDataFromServer(){
 		var dataToSend = {};
-		dataToSend["secret_key"] = tailorDetailsSession.secret_key;
+		dataToSend["secret_key"] = 'ABCDEFGH';
 		var apiCallUrl="http://tailorapp.tailorrani.com/api/products/productsJson"
 		connectionType=checkConnection();
 		if(connectionType=="Unknown connection" || connectionType=="No network connection"){
@@ -1937,7 +2122,7 @@ function errorCBCustomerListDB(err) {
 	
 	function getAttributesDataFromServer(){
 		var dataToSend = {};
-		dataToSend["secret_key"] = tailorDetailsSession.secret_key;
+		dataToSend["secret_key"] = 'ABCDEFGH';
 		var apiCallUrl="http://tailorapp.tailorrani.com/api/attributes/attributesJson"
 		connectionType=checkConnection();
 		if(connectionType=="Unknown connection" || connectionType=="No network connection"){
@@ -2519,7 +2704,7 @@ function errorCBCustomerListDB(err) {
 	var measurementsData;
 	function getTailorDetailsDataFromServer(){
 		var dataToSend = {};
-		dataToSend["secret_key"] = loginUserId;
+		dataToSend["secret_key"] = 'ABCDEFGH';
 		var apiCallUrl="http://tailorapp.tailorrani.com/api/tailors/tailorinfoJson"
 		connectionType=checkConnection();
 		if(connectionType=="Unknown connection" || connectionType=="No network connection"){
@@ -2540,7 +2725,7 @@ function errorCBCustomerListDB(err) {
 	}
 
 	function successCBTailorDetailsFn(data){
-		console.log(data);
+		//console.log(data);
 		var responseJson = $.parseJSON(JSON.stringify(data));
 		
 		tailorDetailsJsonData = responseJson["result"];
@@ -2845,9 +3030,9 @@ function errorCBCustomerListDB(err) {
 		dataToSend["name"] = $('customerNameInput').val();
 		dataToSend["tailor_id"] = tailorDetailsObj.tailor_details_id;
 		dataToSend["customer_id"] = $('#customerIdInput').val();
-		dataToSend["contact"] = "";
-		dataToSend["email"] = "";
-		dataToSend["status"] = 0;
+		dataToSend["contact"] = $('#contactNumberInput').val();
+		dataToSend["email"] = $('#emailIdInput').val();
+		dataToSend["status"] = 1;
 		
 		var appurltemps="http://tailorapp.tailorrani.com/api/customers/updateJson"
 		connectionType=checkConnection();
