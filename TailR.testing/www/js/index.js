@@ -941,7 +941,7 @@ function insertCategories(arrData) {
 						if(catStatus != ''){
 							localDB_catStatus = catStatus;
 						}
-						var localDB_catImage = results.rows.item(i)['catStatus'];
+						var localDB_catImage = results.rows.item(i)['catImage'];
 						if(catImage != ''){
 							localDB_catImage = catImage;
 						}
