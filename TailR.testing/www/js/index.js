@@ -922,19 +922,21 @@ function insertCategories(arrData) {
 				var len = 0;
 				len = results.rows.length;
 				if(len > 0){
-					var localDB_id = results.rows.item(i)['id'];
-					var localDB_server_cat_id=results.rows.item(i)['server_cat_id'];
-					var localDB_parent_id=results.rows.item(i)['parent_id'];
-					var localDB_name=results.rows.item(i)['name'];
-					if(name != ''){
-						localDB_name = name;
+					for (var i = 0; i < len; i++) {
+						var localDB_id = results.rows.item(i)['id'];
+						var localDB_server_cat_id=results.rows.item(i)['server_cat_id'];
+						var localDB_parent_id=results.rows.item(i)['parent_id'];
+						var localDB_name=results.rows.item(i)['name'];
+						if(name != ''){
+							localDB_name = name;
+						}
+						var localDB_description=results.rows.item(i)['description'];
+						if(description != ''){
+							localDB_description = description;
+						}
+						
+						tx.executeSql("UPDATE category SET name = " + localDB_name + ", description = " + localDB_description + ", update_timestamp = "+update_timestamp+" WHERE id = " + localDB_id + "");
 					}
-					var localDB_description=results.rows.item(i)['description'];
-					if(description != ''){
-						localDB_description = description;
-					}
-					
-					tx.executeSql("UPDATE category SET name = " + localDB_name + ", description = " + localDB_description + ", update_timestamp = "+update_timestamp+" WHERE id = " + localDB_id + "");
 				}else{
 					tx.executeSql('INSERT INTO category(server_cat_id, parent_id, name, update_timestamp, description, catImage, catStatus, children) VALUES (?,?,?,?,?,?,?,?)',
 							[server_cat_id, parent_id, name, update_timestamp,description, catImage, catStatus, childExist], function(tx, res) {
@@ -959,19 +961,21 @@ function insertCategories(arrData) {
 						var len = 0;
 						len = results.rows.length;
 						if(len > 0){
-							var localDB_id = results.rows.item(i)['id'];
-							var localDB_server_cat_id=results.rows.item(i)['server_cat_id'];
-							var localDB_parent_id=results.rows.item(i)['parent_id'];
-							var localDB_name=results.rows.item(i)['name'];
-							if(name != ''){
-								localDB_name = name;
+							for (var i = 0; i < len; i++) {
+								var localDB_id = results.rows.item(i)['id'];
+								var localDB_server_cat_id=results.rows.item(i)['server_cat_id'];
+								var localDB_parent_id=results.rows.item(i)['parent_id'];
+								var localDB_name=results.rows.item(i)['name'];
+								if(name != ''){
+									localDB_name = name;
+								}
+								var localDB_description=results.rows.item(i)['description'];
+								if(description != ''){
+									localDB_description = description;
+								}
+								
+								tx.executeSql("UPDATE category SET name = " + localDB_name + ", description = " + localDB_description + ", update_timestamp = "+update_timestamp+" WHERE id = " + localDB_id + "");
 							}
-							var localDB_description=results.rows.item(i)['description'];
-							if(description != ''){
-								localDB_description = description;
-							}
-							
-							tx.executeSql("UPDATE category SET name = " + localDB_name + ", description = " + localDB_description + ", update_timestamp = "+update_timestamp+" WHERE id = " + localDB_id + "");
 						}else{
 							tx.executeSql('INSERT INTO category(server_cat_id, parent_id, name, update_timestamp, description, catImage, catStatus, children) VALUES (?,?,?,?,?,?,?,?)',
 									[server_cat_id_child, parent_id_child, name_child, update_timestamp,description_child, catImage_child, catStatus_child, childrenArrString], function(tx, res) {
@@ -1084,38 +1088,41 @@ function insertProductDetails(tx) {
 			var len = 0;
 			len = results.rows.length;
 			if(len > 0){
-				var localDB_id = results.rows.item(i)['id'];
-				var localDB_server_prod_id=results.rows.item(i)['server_prod_id'];
-				var localDB_name=results.rows.item(i)['name'];
-				if(name != ''){
-					localDB_name = name;
-				}
-				var localDB_description=results.rows.item(i)['description'];
-				if(description != ''){
-					localDB_description = description;
-				}
-				var local_DB_attributeJson = results.rows.item(i)['attribute_details'];
-				if(attributeJson != ''){
-					local_DB_attributeJson = attributeJson;
-				}
-				var local_DB_prod_status = results.rows.item(i)['status'];
-				if(prod_status != ''){
-					local_DB_prod_status = prod_status;
-				}
-				var local_DB_measurement_typeid = results.rows.item(i)['measurement_typeid'];
-				if(measurement_typeid != ''){
-					local_DB_measurement_typeid = measurement_typeid;
-				}
-				var local_DB_gallery = results.rows.item(i)['gallery'];
-				if(galleryJson != ''){
-					local_DB_gallery =  galleryJson;
-				}
-				var local_DB_category = results.rows.item(i)['category'];
-				if(galleryJson != ''){
-					local_DB_category =  categoryJson;
+				for (var i = 0; i < len; i++) {
+					var localDB_id = results.rows.item(i)['id'];
+					var localDB_server_prod_id=results.rows.item(i)['server_prod_id'];
+					var localDB_name=results.rows.item(i)['name'];
+					if(name != ''){
+						localDB_name = name;
+					}
+					var localDB_description=results.rows.item(i)['description'];
+					if(description != ''){
+						localDB_description = description;
+					}
+					var local_DB_attributeJson = results.rows.item(i)['attribute_details'];
+					if(attributeJson != ''){
+						local_DB_attributeJson = attributeJson;
+					}
+					var local_DB_prod_status = results.rows.item(i)['status'];
+					if(prod_status != ''){
+						local_DB_prod_status = prod_status;
+					}
+					var local_DB_measurement_typeid = results.rows.item(i)['measurement_typeid'];
+					if(measurement_typeid != ''){
+						local_DB_measurement_typeid = measurement_typeid;
+					}
+					var local_DB_gallery = results.rows.item(i)['gallery'];
+					if(galleryJson != ''){
+						local_DB_gallery =  galleryJson;
+					}
+					var local_DB_category = results.rows.item(i)['category'];
+					if(galleryJson != ''){
+						local_DB_category =  categoryJson;
+					}
+					
+					tx.executeSql("UPDATE product_details SET name = " + localDB_name + ", description = " + localDB_description + ", update_timestamp = "+update_timestamp+", attribute_details = "+local_DB_attributeJson+", status = "+local_DB_prod_status+", measurement_typeid = "+local_DB_measurement_typeid+", gallery = "+local_DB_gallery+", category = "+local_DB_category+" WHERE id = " + localDB_id + "");
 				}
 				
-				tx.executeSql("UPDATE product_details SET name = " + localDB_name + ", description = " + localDB_description + ", update_timestamp = "+update_timestamp+", attribute_details = "+local_DB_attributeJson+", status = "+local_DB_prod_status+", measurement_typeid = "+local_DB_measurement_typeid+", gallery = "+local_DB_gallery+", category = "+local_DB_category+" WHERE id = " + localDB_id + "");
 			}else{
 				tx.executeSql('INSERT INTO product_details (server_prod_id, name, description, update_timestamp, measurement_typeid, status, attribute_details, gallery, category) VALUES (?,?,?,?,?,?,?,?,?)',
 	   	    			[server_prod_id, name, description, update_timestamp, measurement_typeid, prod_status, attributeJson, galleryJson, categoryJson], function(tx, res) {
@@ -1265,30 +1272,33 @@ function insertAttributesDetails(tx) {
 			var len = 0;
 			len = results.rows.length;
 			if(len > 0){
-				var localDB_id = results.rows.item(i)['id'];
-				var localDB_server_attr_id=results.rows.item(i)['server_attr_id'];
-				var localDB_name=results.rows.item(i)['name'];
-				if(name != ''){
-					localDB_name = name;
-				}
-				var localDB_identifier=results.rows.item(i)['identifier'];
-				if(name != ''){
-					localDB_identifier = identifier;
-				}
-				var local_DB_status = results.rows.item(i)['status'];
-				if(attr_status != ''){
-					local_DB_status = attr_status;
-				}
-				var local_DB_backend_name = results.rows.item(i)['backend_name'];
-				if(backend_name != ''){
-					local_DB_backend_name =  backend_name;
-				}
-				var local_DB_option = results.rows.item(i)['option'];
-				if(optionJson != ''){
-					local_DB_option = optionJson;
+				for (var i = 0; i < len; i++) {
+					var localDB_id = results.rows.item(i)['id'];
+					var localDB_server_attr_id=results.rows.item(i)['server_attr_id'];
+					var localDB_name=results.rows.item(i)['name'];
+					if(name != ''){
+						localDB_name = name;
+					}
+					var localDB_identifier=results.rows.item(i)['identifier'];
+					if(name != ''){
+						localDB_identifier = identifier;
+					}
+					var local_DB_status = results.rows.item(i)['status'];
+					if(attr_status != ''){
+						local_DB_status = attr_status;
+					}
+					var local_DB_backend_name = results.rows.item(i)['backend_name'];
+					if(backend_name != ''){
+						local_DB_backend_name =  backend_name;
+					}
+					var local_DB_option = results.rows.item(i)['option'];
+					if(optionJson != ''){
+						local_DB_option = optionJson;
+					}
+					
+					tx.executeSql("UPDATE product_attributes SET name = " + localDB_name + ", identifier = " + localDB_identifier + ", update_timestamp = "+update_timestamp+", status = "+local_DB_status+", backend_name = "+local_DB_backend_name+", option = "+local_DB_option+" WHERE id = " + localDB_id + "");
 				}
 				
-				tx.executeSql("UPDATE product_attributes SET name = " + localDB_name + ", identifier = " + localDB_identifier + ", update_timestamp = "+update_timestamp+", status = "+local_DB_status+", backend_name = "+local_DB_backend_name+", option = "+local_DB_option+" WHERE id = " + localDB_id + "");
 			}else{
 				tx.executeSql('INSERT INTO product_attributes(server_attr_id, name, identifier, status, backend_name, update_timestamp, option) VALUES (?,?,?,?,?,?,?)',
 	   	    			[server_attr_id, name,identifier, attr_status, backend_name, update_timestamp, optionJson], function(tx, res) {
@@ -1420,22 +1430,24 @@ function insertMeasurementsDetails(tx) {
 			var len = 0;
 			len = results.rows.length;
 			if(len > 0){
-				var localDB_id = results.rows.item(i)['id'];
-				var localDB_server_measurement_id = results.rows.item(i)['server_measurement_id'];
-				var localDB_name = results.rows.item(i)['name'];
-				if(name != ''){
-					localDB_name = name;
+				for (var i = 0; i < len; i++) {
+					var localDB_id = results.rows.item(i)['id'];
+					var localDB_server_measurement_id = results.rows.item(i)['server_measurement_id'];
+					var localDB_name = results.rows.item(i)['name'];
+					if(name != ''){
+						localDB_name = name;
+					}
+					var localDB_status = results.rows.item(i)['status'];
+					if(meas_status != ''){
+						localDB_status = meas_status;
+					}
+					var localDB_group_data = results.rows.item(i)['group_data'];
+					if(groupJson != ''){
+						localDB_group_data = groupJson;
+					}
+					
+					tx.executeSql("UPDATE measurement_details SET name = " + localDB_name + ", update_timestamp = "+update_timestamp+", status = "+localDB_status+", group_data = "+localDB_group_data+" WHERE id = " + localDB_id + "");
 				}
-				var localDB_status = results.rows.item(i)['status'];
-				if(meas_status != ''){
-					localDB_status = meas_status;
-				}
-				var localDB_group_data = results.rows.item(i)['group_data'];
-				if(groupJson != ''){
-					localDB_group_data = groupJson;
-				}
-				
-				tx.executeSql("UPDATE measurement_details SET name = " + localDB_name + ", update_timestamp = "+update_timestamp+", status = "+localDB_status+", group_data = "+localDB_group_data+" WHERE id = " + localDB_id + "");
 			}else{
 				tx.executeSql('INSERT INTO measurement_details(name, server_measurement_id, status, update_timestamp, group_data) VALUES (?,?,?,?,?)',
 	   	    			[name, server_measurement_id,meas_status, update_timestamp, groupJson], function(tx, res) {
