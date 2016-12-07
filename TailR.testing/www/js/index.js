@@ -768,7 +768,6 @@ function errorCB(err) {
 function insertTailorDetailsDetails(tx) {
 	var currDateTimestamp="";
 	currDateTimestamp=dateTimestamp();
-	alert('insertTailorDetailsDetails' + tailorDetailsJsonData);
 	//tx.executeSql('CREATE TABLE IF NOT EXISTS tailor_details (id integer primary key autoincrement, server_td_id integer, first_name text, middle_name text, last_name text, business_title text, address1 text, address2 text, email text, contact1 text, contact2 text, secret_key text, tailor_status integer, city text, pincode text, state_id integer, country_id integer, state_name text, country_name text, update_timestamp text)');
 	console.log('insertTailorDetailsDetails tailorDetailsJsonData '+tailorDetailsJsonData);	
 	var jsonTempData = tailorDetailsJsonData;
@@ -797,7 +796,6 @@ function insertTailorDetailsDetails(tx) {
 		tx.executeSql('INSERT INTO tailor_details(server_td_id, first_name, middle_name, last_name, business_title, address1, address2, email, contact1, contact2, secret_key, tailor_status, city, pincode, state_id, country_id, state_name, country_name, update_timestamp) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)',
    	    			[tailor_details_id, first_name,last_name, middle_name, business_title, address1, address2, tailemail, contact1, contact2, secret_key, tailor_status, city, pincode, state_id, country_id, state_name, country_name, update_timestamp], function(tx, res) {
 	   	         //alert("Tailor Details Data insertId: " + res.insertId + " -- res.rowsAffected 1"+res.rowsAffected);
-			alert('Tailor Details Data insertId: '+res.insertId);
   	    });
 	
 }
@@ -834,10 +832,8 @@ function getTailorDetailsFromLocal(){
 	db.transaction(	function (tx){
 		//tx.executeSql('CREATE TABLE IF NOT EXISTS tailor_details (id integer primary key autoincrement, server_td_id integer, first_name text, middle_name text, last_name text, business_title text, address1 text, address2 text, email text, contact1 text, contact2 text, secret_key text, tailor_status integer, city text, pincode text, state_id integer, country_id integer, state_name text, country_name text, update_timestamp text)');
 		var len = 0;
-		alert('calling inside db');
 			tx.executeSql('select * from tailor_details ',[],function(tx,results){
 					len = results.rows.length;
-					alert(len);
 					if(len>0){
 						tailorDetailsSession = {};
 						for (var i = 0; i < len; i++) {
@@ -854,7 +850,6 @@ function getTailorDetailsFromLocal(){
 							tailorDetailsObj.contact1 = results.rows.item(i)['contact1'];
 							tailorDetailsObj.contact2 = results.rows.item(i)['contact2'];
 							tailorDetailsObj.secret_key = results.rows.item(i)['secret_key'];
-							alert(results.rows.item(i)['secret_key']);
 							tailorDetailsObj.tailor_status = results.rows.item(i)['tailor_status'];
 							tailorDetailsObj.city = results.rows.item(i)['city'];
 							tailorDetailsObj.pincode = results.rows.item(i)['pincode'];
@@ -873,7 +868,6 @@ function getTailorDetailsFromLocal(){
 }
 
 function successCBTailorDetailsListDB() {
-	alert('successCBTailorDetailsListDB');
 	//connectionType=checkConnection();
 	//console.log('connection type : '+connectionType);
 	/*if(connectionType=="Unknown connection" || connectionType=="No network connection"){
@@ -915,7 +909,7 @@ function insertCategories(arrData) {
 			tx.executeSql('INSERT INTO category(server_cat_id, parent_id, name, update_timestamp, description, catImage, catStatus, children) VALUES (?,?,?,?,?,?,?,?)',
 						[server_cat_id, parent_id, name, update_timestamp,description, catImage, catStatus, childExist], function(tx, res) {
 				//alert(server_cat_id, name, childExist);
-				alert(' Parent Category ');
+				console.log(' Parent Category ');
 			});
 			
 			if(childExist == '1'){
@@ -930,7 +924,7 @@ function insertCategories(arrData) {
 					tx.executeSql('INSERT INTO category(server_cat_id, parent_id, name, update_timestamp, description, catImage, catStatus, children) VALUES (?,?,?,?,?,?,?,?)',
 							[server_cat_id_child, parent_id_child, name_child, update_timestamp,description_child, catImage_child, catStatus_child, childrenArrString], function(tx, res) {
 						//alert(server_cat_id_child, parent_id_child, name_child);
-						alert(' Child Category ');
+						console.log(' Child Category ');
 					});	
 				});
 			}
@@ -939,7 +933,7 @@ function insertCategories(arrData) {
 }
 
 function successCBInsertCategories() {
-	alert(' category Successfully Inserted ');
+	console.log(' category Successfully Inserted ');
 	getProductDataFromServer();
 }	
 
@@ -961,7 +955,7 @@ function getCategoriesListFromLocal(){
 	}
 	
 	db.transaction(	function (tx){
-		alert('getCategoriesListFromLocal');
+		console.log('getCategoriesListFromLocal');
 			tx.executeSql('select * from category',[],function(tx,results){
 					var len = results.rows.length;
 					if(len>0){
@@ -990,8 +984,6 @@ function getCategoriesListFromLocal(){
 }
 
 function successCBCatListDB() {
-	alert('catArrSession ' +catArrSession);
-	alert('subCatArrSession ' +catArrSession);
 	appendCatListDB(catArrSession, subCatArrSession);
 }	
 
@@ -1033,7 +1025,7 @@ function insertProductDetails(tx) {
 		
 		tx.executeSql('INSERT INTO product_details (server_prod_id, name, description, update_timestamp, measurement_typeid, status, attribute_details, gallery, category) VALUES (?,?,?,?,?,?,?,?,?)',
    	    			[server_prod_id, name, description, update_timestamp, measurement_typeid, prod_status, attributeJson, galleryJson, categoryJson], function(tx, res) {
-	   	         alert("PD insertId: " + res.insertId );
+			console.log("PD insertId: " + res.insertId );
   	    });
 	});
 }
@@ -1060,7 +1052,6 @@ function errorCBProdLocalDB(err) {
 }
 
 function successCBInsertProductDetails() {
-	alert('successCBInsertProductDetails');
 	 getAttributesDataFromServer();
 }
 
@@ -1175,7 +1166,7 @@ function insertAttributesDetails(tx) {
 		var update_timestamp = currDateTimestamp;
 		tx.executeSql('INSERT INTO product_attributes(server_attr_id, name, identifier, status, backend_name, update_timestamp, option) VALUES (?,?,?,?,?,?,?)',
    	    			[server_attr_id, name,identifier, attr_status, backend_name, update_timestamp, optionJson], function(tx, res) {
-	   	         alert("Attribute Data insertId: " + res.insertId + " -- res.rowsAffected 1"+res.rowsAffected);
+	   	         console.log("Attribute Data insertId: " + res.insertId + " -- res.rowsAffected 1"+res.rowsAffected);
   	    });
 	});
 }
@@ -1191,7 +1182,6 @@ function errorCBAttrListDB(err) {
 }
 
 function successCBInsertAttributeDetails() {
-	alert('successCBInsertAttributeDetails');
 	 getMeasurementsDataFromServer();
 	    
 }	
@@ -1297,7 +1287,7 @@ function insertMeasurementsDetails(tx) {
 		var update_timestamp = currDateTimestamp;
 		tx.executeSql('INSERT INTO measurement_details(name, server_measurement_id, status, update_timestamp, group_data) VALUES (?,?,?,?,?)',
    	    			[name, server_measurement_id,meas_status, update_timestamp, groupJson], function(tx, res) {
-	   	         alert("Measurement Data insertId: " + res.insertId + " -- res.rowsAffected 1"+res.rowsAffected);
+			console.log("Measurement Data insertId: " + res.insertId + " -- res.rowsAffected 1"+res.rowsAffected);
   	    });
 	});
 }
@@ -1482,7 +1472,7 @@ function getOrderListFromLocalDB(){
 }
 
 function successCBOrderListDB() {
-	console.log('successCBOrderListDB');
+	//console.log('successCBOrderListDB');
 	getCustomerListFromLocalDB();
 }	
 
@@ -1767,20 +1757,17 @@ function errorCBCustomerListDB(err) {
 	          if(parseInt(recordCount) > 0){
 	        	  dataIsFromServer = 1;
 	        	  if(tablename == 'tailor_details'){
-	        		  console.log('getTailorDetailsFromLocal');
+	        		  //console.log('getTailorDetailsFromLocal');
 	        		  getTailorDetailsFromLocal();
 	        	  }else if(tablename == 'category'){
-	        		  console.log('getCategoriesListFromLocal');
+	        		 // console.log('getCategoriesListFromLocal');
 	        		  getCategoriesListFromLocal();
 	        	  }
 	          }else if(parseInt(recordCount) == 0){
 	        	  if(tablename == 'tailor_details'){
-	        		  alert('getTailorDetailsDataFromServer');
 	        		  if(loginUserId == undefined || loginUserId == ''){
 	        			  gotoLoginPage();
 	        			}else if(loginUserId != undefined){
-	        				alert('Server called');
-	        				alert(loginUserId);
 	        				if(loginUserId != ''){
 	        					getTailorDetailsDataFromServer();
 	        				}
@@ -1788,7 +1775,7 @@ function errorCBCustomerListDB(err) {
 	        			}
 	        		  
 	        	  }else if(tablename == 'category'){
-	        		  console.log('getTailorDetailsDataFromServer');
+	        		  //console.log('getCategoriesDataFromServer');
 	        		  getCategoriesDataFromServer();
 	        	  }
 	          }
@@ -1829,7 +1816,6 @@ function errorCBCustomerListDB(err) {
 
 	function getCategoriesDataFromServer(){
 		var dataToSend = {};
-		alert('getCategoriesDataFromServer '+tailorDetailsSession.secret_key);
 		dataToSend["secret_key"] = tailorDetailsSession.secret_key;
 		var apiCallUrl="http://tailorapp.tailorrani.com/api/categories/categoriesJson"
 		connectionType=checkConnection();
@@ -1853,7 +1839,6 @@ function errorCBCustomerListDB(err) {
 	function successCBServerCatFn(data){
 		var responseJson = $.parseJSON(JSON.stringify(data));
 		categoriesJsonData = responseJson["result"];
-		alert(categoriesJsonData);
 		// FIXME CHECK JSON DATA
 		insertCategories(categoriesJsonData);
 	}
@@ -1861,14 +1846,12 @@ function errorCBCustomerListDB(err) {
 	function appendCatListDB(catArrData, subCatArrData) {
 		//$("#mainPageId").find('.main-menu').remove();
 		//$("#mainPageId").find('.sub-menu').remove();
-		alert('catArrData : '+catArrData);
-		alert('subCatArrData : '+subCatArrData);
 		var categoryDiv = '<div class="row main-menu main-menu-div" id="main-menu-div" ><ul class="topnav main-menu-ul" id="main-menu-ul">';
 		var subCategoryDiv = "";
 		$('#newOrderId').val('');
 		$('#customerIdInput').val('');
 		jQuery.each(catArrData, function(index,value) {
-			console.log('subCategoryDiv : '+catArrData);
+			//console.log('subCategoryDiv : '+catArrData);
 			var jsonObj=value;
 			var primaryCKeyId=jsonObj["id"];
 			var server_cat_id=jsonObj["server_cat_id"];
@@ -1882,7 +1865,7 @@ function errorCBCustomerListDB(err) {
 				var subCategoryTempDiv="";
 				var isExist = false;
 				jQuery.each(subCatArrData, function(indexObj,valueObj) {
-					console.log('subCatArrData : '+subCatArrData);
+					//console.log('subCatArrData : '+subCatArrData);
 					var childJsonObj = valueObj;
 					var child_parent_id = childJsonObj["parent_id"];
 					var primarySCKeyId = childJsonObj["id"];
@@ -1900,7 +1883,6 @@ function errorCBCustomerListDB(err) {
 					subCategoryTempDiv = subCategoryDivFirst + subCategoryTempDiv + '</ul></div>';
 				}
 				subCategoryDiv += subCategoryTempDiv;
-				alert('subCategoryDiv : '+subCategoryDiv);
 			}
 		});
 		categoryDiv+='<li class="float-right" onclick="orderPageHtmlButton();"> <a href="#"> Order Report </a> </li>';
@@ -1947,7 +1929,6 @@ function errorCBCustomerListDB(err) {
 		var responseJson = $.parseJSON(JSON.stringify(data));
 		productJsonData = responseJson["result"];
 		productImageData = responseJson['image_url'];
-		alert('calling insertProductDetails');
 		// FIXME CHECK JSON DATA
 		db.transaction(insertProductDetails, errorCBInsertProductDetails, successCBInsertProductDetails);
 	}
@@ -1979,7 +1960,6 @@ function errorCBCustomerListDB(err) {
 		attributeJsonData = responseJson["result"];
 		attributeImageData = responseJson['image_url'];
 		// FIXME CHECK JSON DATA
-		alert('attributeJsonData ' +attributeJsonData);
 		db.transaction(insertAttributesDetails, errorCBInsertAttributeDetails, successCBInsertAttributeDetails);
 	}
 	
@@ -2457,13 +2437,11 @@ function errorCBCustomerListDB(err) {
 	function successCBMeasurementsFn(data){
 		var responseJson = $.parseJSON(JSON.stringify(data));
 		measurementJsonData = responseJson["result"];
-		alert('successCBMeasurementsFn '+measurementJsonData);
 		// FIXME CHECK JSON DATA
 		db.transaction(insertMeasurementsDetails, errorCBInsertMeasurementDetails, successCBInsertMeasurementDetails);
 	}
 	
 	function successCBInsertMeasurementDetails() {
-		alert('successCBInsertMeasurementDetails');
 		getCategoriesListFromLocal();
 	}	
 	function errorCBInsertMeasurementDetails(err) {
@@ -2562,14 +2540,8 @@ function errorCBCustomerListDB(err) {
 	function successCBTailorDetailsFn(data){
 		console.log(data);
 		var responseJson = $.parseJSON(JSON.stringify(data));
-		alert(data);
-		console.log('responseMessage from server Tailor Details : '+responseJson['error']);
-		alert('responseMessage from server Tailor Details : '+responseJson['error']);
-		console.log(responseJson);
-		alert('responseJson');
 		
 		tailorDetailsJsonData = responseJson["result"];
-		alert(tailorDetailsJsonData);
 		//alert('dataparse : '+$.parseJSON(tailorDetailsJsonData));
 		//alert('tailorDetailsJsonData : '+tailorDetailsJsonData);
 		// FIXME CHECK JSON DATA
@@ -2580,7 +2552,6 @@ function errorCBCustomerListDB(err) {
 		getTailorDetailsFromLocal();
 	}	
 	function errorCBInsertTailorDetailsDetails(err) {
-		alert("errorCBInsertTailorDetailsDetails : "+err.message);
 		console.log("errorCBInsertTailorDetailsDetails : "+err.message);
 	}
 	
