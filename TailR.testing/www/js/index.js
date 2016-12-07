@@ -1640,7 +1640,7 @@ function getOrderListFromLocalDB(){
 	}
 	
 	db.transaction(	function (tx){
-		tx.executeSql('CREATE TABLE IF NOT EXISTS order_details(id integer primary key autoincrement, server_cat_id integer, server_prod_id integer, order_data text,update_timestamp text, server_prod_name text,customer_id integer, option_selected text, status_of_order text, gallery_id integer, gallery_name text)');
+		tx.executeSql('CREATE TABLE IF NOT EXISTS order_details(id integer primary key autoincrement, server_cat_id integer, server_prod_id integer, order_data text,update_timestamp text, server_prod_name text,customer_id integer, option_selected text, status_of_order text, gallery_id integer, gallery_name text, sync_date text)');
 		var len = 0;
 			tx.executeSql('select * from order_details ',[],function(tx,results){
 					len = results.rows.length;
@@ -3126,6 +3126,7 @@ function errorCBCustomerListDB(err) {
 		dataToSend["status"] = 1;
 		dataToSend["order_attributes"] = selectedOptionMain;
 		dataToSend["order_measurements"] = orderTakenDetails;
+		dataToSend["product_name"] = $('#prodHtmlName').val();
 		var appurltemps="http://tailorapp.tailorrani.com/api/orders/storejson"
 		connectionType=checkConnection();
 		if(connectionType=="Unknown connection" || connectionType=="No network connection"){
@@ -3171,7 +3172,7 @@ function errorCBCustomerListDB(err) {
 		dataToSend["status"] = 1;
 		dataToSend["order_attributes"] = selectedOptionMain;
 		dataToSend["order_measurements"] = orderTakenDetails;
-		
+		dataToSend["product_name"] = $('#prodHtmlName').val();
 		var appurltemps="http://tailorapp.tailorrani.com/api/orders/updateJson"
 		connectionType=checkConnection();
 		if(connectionType=="Unknown connection" || connectionType=="No network connection"){
