@@ -1987,8 +1987,15 @@ function errorCBCustomerListDB(err) {
 		connectionType=checkConnection();
 		if(connectionType=="Unknown connection" || connectionType=="No network connection"){
 			if(type == dataSyncTypeTailor){
+				db.transaction(function(tx) {
+					tx.executeSql('CREATE TABLE IF NOT EXISTS tailor_details (id integer primary key autoincrement, server_td_id integer, first_name text, middle_name text, last_name text, business_title text, address1 text, address2 text, email text, contact1 text, contact2 text, secret_key text, tailor_status integer, city text, pincode text, state_id integer, country_id integer, state_name text, country_name text, update_timestamp text)');
+				});
 				getTailorDetailsFromLocal();
 			}else if(type == dataSyncTypeCategory){
+				db.transaction(function(tx) {
+					tx.executeSql('CREATE TABLE IF NOT EXISTS category(id integer primary key autoincrement, server_cat_id integer, parent_id integer,name text,update_timestamp text, description text, catImage text, catStatus integer, children text)');
+				});
+				
 				getCategoriesListFromLocal();
 			}
 		}
