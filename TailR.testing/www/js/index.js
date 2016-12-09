@@ -2457,7 +2457,7 @@ function errorCBCustomerListDB(err) {
 						if(attributeDiv == ''){
 							attrTempId = server_attr_id;
 						}
-						
+						var i = 0;
 						jQuery.each(optionObj, function(index2,value2) {
 							var optionId = value2['id'];
 							var optionName = value2['name'];
@@ -2477,10 +2477,19 @@ function errorCBCustomerListDB(err) {
 							}else{
 								optionImages = localPath + "/" + 'attributes'+ '/' +optionImg; // For Production
 							}
+							
+							if(parseInt(i) % 4 == 0){
+								optionMainDiv += '<div class="col-xs-12 col-xs-6">';
+							}
+							
 							//var optionImages = 'img/attr'+index2+'.png'; // For Testing
 							//initToCheckTheFile(optionImg, attributeImageData);
-							var tempOptDiv = '<div class="col-xs-6 col-sm-2 col-md-2 col-lg-2 single-option attrInd'+attributeForNextIndex+' optMenu-bar attrOpt'+server_attr_id+' div_opt_id'+optionId+'" data-optname="'+optionName+'" data-attrindex="'+attributeForNextIndex+'" style="text-align: center;" onclick="selectedOptionFn(this)" data-opt_id="'+optionId+'" data-cat_id="'+catId+'" data-prod_id="'+prodId+'" data-attrid="'+server_attr_id+'" data-lid="'+attrId+'"><div class="box"><img class="attr-opt-hei-wid" src="'+optionImages+'" data-imgt_cat_id="'+catId+'" data-imgt_prod_id="'+prodId+'" data-imgt_attrid="'+server_attr_id+'"  data-imgt_opt_id="'+optionId+'" data-imgt_lid="'+attrId+'" alt="'+optionName+'"></div></div>';
+							var tempOptDiv = '<div class="col-xs-6 col-sm-3 col-md-2 col-lg-2 single-option attrInd'+attributeForNextIndex+' optMenu-bar attrOpt'+server_attr_id+' div_opt_id'+optionId+'" data-optname="'+optionName+'" data-attrindex="'+attributeForNextIndex+'" style="text-align: center;" onclick="selectedOptionFn(this)" data-opt_id="'+optionId+'" data-cat_id="'+catId+'" data-prod_id="'+prodId+'" data-attrid="'+server_attr_id+'" data-lid="'+attrId+'"><div class="box"><img class="attr-opt-hei-wid" src="'+optionImages+'" data-imgt_cat_id="'+catId+'" data-imgt_prod_id="'+prodId+'" data-imgt_attrid="'+server_attr_id+'"  data-imgt_opt_id="'+optionId+'" data-imgt_lid="'+attrId+'" alt="'+optionName+'"></div></div>';
 							optionMainDiv += tempOptDiv;
+							if(parseInt(i) % 4 == 0){
+								optionMainDiv += '</div>';
+							}
+							i = parseInt(i)+1;
 						});
 						 attributeDiv += tempAttrDiv;
 						 attributeForNextIndex = parseInt(attributeForNextIndex) + 1;
