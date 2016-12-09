@@ -1,14 +1,14 @@
 // For Testing in Browser
 
-
+/*
 $(function() {
 	//getTailorDetailsDataFromServer();
 	//getCategoriesDataFromServer();
 	//getProductDataFromServer();
 	//getAttributesDataFromServer();
-	//loadDataFromServer();
+	loadDataFromServer();
 });
-
+*/
 
 $( document ).on( "mobileinit", function() {
     // Make your jQuery Mobile framework configuration changes here!
@@ -2458,7 +2458,7 @@ function errorCBCustomerListDB(err) {
 						if(attributeDiv == ''){
 							attrTempId = server_attr_id;
 						}
-						
+						var i = 0;
 						jQuery.each(optionObj, function(index2,value2) {
 							var optionId = value2['id'];
 							var optionName = value2['name'];
@@ -2480,8 +2480,15 @@ function errorCBCustomerListDB(err) {
 							}
 							//var optionImages = 'img/attr'+index2+'.png'; // For Testing
 							//initToCheckTheFile(optionImg, attributeImageData);
-							var tempOptDiv = '<div class="col-xs-6 col-sm-2 col-md-2 col-lg-2 single-option attrInd'+attributeForNextIndex+' optMenu-bar attrOpt'+server_attr_id+' div_opt_id'+optionId+'" data-optname="'+optionName+'" data-attrindex="'+attributeForNextIndex+'" style="text-align: center;" onclick="selectedOptionFn(this)" data-opt_id="'+optionId+'" data-cat_id="'+catId+'" data-prod_id="'+prodId+'" data-attrid="'+server_attr_id+'" data-lid="'+attrId+'"><div class="box"><img class="attr-opt-hei-wid" src="'+optionImages+'" data-imgt_cat_id="'+catId+'" data-imgt_prod_id="'+prodId+'" data-imgt_attrid="'+server_attr_id+'"  data-imgt_opt_id="'+optionId+'" data-imgt_lid="'+attrId+'" alt="'+optionName+'"></div></div>';
+							if(i % 2 == 0){
+								optionMainDiv += '<div class="col-sm-3 col-md-3"><div class="box"><div class="row">';
+							}
+							var tempOptDiv = '<div class="col-xs-6 col-sm-6 col-md-2 col-lg-2 single-option attrInd'+attributeForNextIndex+' optMenu-bar attrOpt'+server_attr_id+' div_opt_id'+optionId+'" data-optname="'+optionName+'" data-attrindex="'+attributeForNextIndex+'" style="text-align: center;" onclick="selectedOptionFn(this)" data-opt_id="'+optionId+'" data-cat_id="'+catId+'" data-prod_id="'+prodId+'" data-attrid="'+server_attr_id+'" data-lid="'+attrId+'"><div class="box"><img class="attr-opt-hei-wid" src="'+optionImages+'" data-imgt_cat_id="'+catId+'" data-imgt_prod_id="'+prodId+'" data-imgt_attrid="'+server_attr_id+'"  data-imgt_opt_id="'+optionId+'" data-imgt_lid="'+attrId+'" alt="'+optionName+'"></div></div>';
 							optionMainDiv += tempOptDiv;
+							i = parseInt(i) + 1;
+							if(i % 2 == 0){
+								optionMainDiv += '</div></div></div>';
+							}
 						});
 						 attributeDiv += tempAttrDiv;
 						 attributeForNextIndex = parseInt(attributeForNextIndex) + 1;
