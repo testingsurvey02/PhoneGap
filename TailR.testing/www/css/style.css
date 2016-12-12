@@ -85,7 +85,7 @@ ul.topnav li a:hover{background-color: #555;}
 }
 
 .product-selection-details-div .gallery-images-list{
-	margin: 10px 0 0;
+	margin: 10px 0 0 !important;
     overflow: hidden;
     position: static;
 	padding: 0;
@@ -93,9 +93,9 @@ ul.topnav li a:hover{background-color: #555;}
 
 .product-selection-details-div .gallery-images-list li {
     float: left;
-    margin: 0 10px 10px 0;
+    margin: 0 15px 10px 0;
  /*    min-width: 24.2%; */
-    max-width: 24%;
+    max-width: 26%;
     display: inline-block;
 }
 
@@ -184,4 +184,8 @@ img.product-image{}
 }
 .float-left{
 	float: left !important;
+}
+
+.text-align-class{
+	text-align: center;
 }
