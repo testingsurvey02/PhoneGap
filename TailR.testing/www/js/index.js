@@ -59,8 +59,8 @@ var dataSyncTypeMeasurement = 5;
 var dataSyncTypeCustomer = 6;
 var dataSyncTypeOrder = 7;
 var measurementsData;
-var deleteRecordsInLocalDBJonData;
-var needToDeleteInJSonArray = [];
+var deleteRecordsInLocalDBJsonData;
+var needToDeleteInJSonArrayMeasuGroup = [];
 var deleteRecordStatus = 0;
 var sendCustomerDataToSaveInServer = [];
 var sendCustomerDataToUpdateInServer = [];
@@ -1571,7 +1571,7 @@ function errorCBMeasurementListDB(err) {
 
 function deleteRecordsFromLocalDB(){
 	db.transaction(function(tx) {
-		jQuery.each(deleteRecordsInLocalDBJonData, function(index,value) {
+		jQuery.each(deleteRecordsInLocalDBJsonData, function(index,value) {
 			var tableType = value['type'];
 			var tableIndexId = value['type_id'];
 			var tableName = '';
@@ -1592,7 +1592,7 @@ function deleteRecordsFromLocalDB(){
 				tableName = 'measurement_details';
 				columnName = 'server_measurement_id';
 			}else if(tableType == 'measurementgroup'){
-				needToDeleteInJSonArray.push(value); 
+				needToDeleteInJSonArrayMeasuGroup.push(value); 
 			}
 			tx.executeSql('select count(*) as mycount from '+tablename+' where '+ columnName + '='+tableIndexId+', [], function(tx, rs) {
 		          console.log('Record count (expected to be 1): ' + rs.rows.item(0).mycount);
@@ -2942,7 +2942,7 @@ function successCBUpdateCustomerSyncDB(){
 	function successCBDeleteInDBFromServerFn(data){
 		deleteRecordStatus = 1;
 		var responseJson = $.parseJSON(JSON.stringify(data));
-		deleteRecordsInLocalDBJonData = responseJson["result"];
+		deleteRecordsInLocalDBJsonData = responseJson["result"];
 		deleteRecordsFromLocalDB();
 	}
 	
@@ -3623,7 +3623,7 @@ function successCBUpdateCustomerSyncDB(){
 			tx.executeSql("UPDATE customer_details SET name = '" + customerName + ", update_timestamp = '"+currDateTimestamp+"', address_two = '"+address2Order+"', address_one = '"+address1Order+"', sync_status = 2', pincode = '"+pincodeOrder+"', city = '"+cityOrder+"', state = '"+stateOrder+"', total_price = '"+totalPriceOrder+"', balance_price = '"+balancePriceOrder+"', contact_number = '"+contactNumberOrder+"', email_id = '"+emailIdOrder+"'  WHERE id = " + customerIdToUpdate + "");
 			tx.executeSql("UPDATE order_details SET order_data = '" + updateMeasurementData + ", update_timestamp = '"+currDateTimestamp+"', sync_status = 2 WHERE id = " + orderIdToUpdate + "");
 		});*/
-		showModal();
+		//showModal();
 		orderPageHtmlButton();
 		//gotoProductPage();
 		updateCustomerDetailsInLocalDB(customerDetailsJson);
