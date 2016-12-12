@@ -61,6 +61,8 @@ var dataSyncTypeOrder = 7;
 var measurementsData;
 var deleteRecordsInLocalDBJsonData;
 var needToDeleteInJSonArrayMeasuGroup = [];
+var needToDeleteInJsonArrayProductGall = [];
+var needToDeleteInJsonArrayAttrOptions = [];
 var deleteRecordStatus = 0;
 var sendCustomerDataToSaveInServer = [];
 var sendCustomerDataToUpdateInServer = [];
@@ -1593,15 +1595,21 @@ function deleteRecordsFromLocalDB(){
 				columnName = 'server_measurement_id';
 			}else if(tableType == 'measurementgroup'){
 				needToDeleteInJSonArrayMeasuGroup.push(value); 
+			}else if(tableType == 'product gallary'){
+				needToDeleteInJsonArrayProductGall.push(value);
+			}else if(tableType == 'attribute_option'){
+				needToDeleteInJsonArrayAttrOptions.push(value);
 			}
-			tx.executeSql('select count(*) as mycount from '+tablename+' where '+ columnName + '='+tableIndexId+', [], function(tx, rs) {
-		          console.log('Record count (expected to be 1): ' + rs.rows.item(0).mycount);
-		          var recordCount = 0;
-		          recordCount = rs.rows.item(0).mycount;
-		          if(recordCount > 0){
-		        	  tx.executeSql('DELETE FROM '+tableName+' WHERE '+ columnName + '='+tableIndexId+'', errorDeleteRecordsCB); 
-		          }
-			});
+			if(tableName != '' && columnName != '' && tableIndexId != ''){
+				tx.executeSql('select count(*) as mycount from '+tablename+' where '+ columnName + '='+tableIndexId+'', [], function(tx, rs) {
+			          console.log('Record count (expected to be 1): ' + rs.rows.item(0).mycount);
+			          var recordCount = 0;
+			          recordCount = rs.rows.item(0).mycount;
+			          if(recordCount > 0){
+			        	  tx.executeSql('DELETE FROM '+tableName+' WHERE '+ columnName + '='+tableIndexId+'', errorDeleteRecordsCB); 
+			          }
+				});
+			}
 		});
 	},errorCBDeleteDataInLocalDB, successCBDeleteDataInLocalDB);
 }
