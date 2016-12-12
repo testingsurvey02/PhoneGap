@@ -1594,8 +1594,8 @@ function deleteRecordsFromLocalDB(){
 			}else if(tableType == 'measurementgroup'){
 				needToDeleteInJSonArray.push(value); 
 			}
-			tx.executeSql('select count(*) as mycount from '+tablename+' where '+ columnName + ' = '+tableIndexId+', [], function(tx, rs) {
-		          console.log('Record count (expected to be 2): ' + rs.rows.item(0).mycount);
+			tx.executeSql('select count(*) as mycount from '+tablename+' where '+ columnName + '='+tableIndexId+', [], function(tx, rs) {
+		          console.log('Record count (expected to be 1): ' + rs.rows.item(0).mycount);
 		          var recordCount = 0;
 		          recordCount = rs.rows.item(0).mycount;
 		          if(recordCount > 0){
@@ -2187,10 +2187,10 @@ function successCBUpdateCustomerSyncDB(){
 				}
 			}
 			else if(connectionType=="WiFi connection" || connectionType=="Cell 4G connection" || connectionType=="Cell 3G connection" || connectionType=="Cell 2G connection"){
-				/*if(deleteRecordStatus == 0){
+				if(deleteRecordStatus == 0){
 					getDataToDeleteInLocalDBFromServer();
 					return false;
-				}*/
+				}
 				
 				if(type == dataSyncTypeTailor){
 					db.transaction(function(tx) {
