@@ -759,13 +759,13 @@ function closeDatabase() {
 }
 // InitializeDB the database 
 function initializeDB(tx) {
-	tx.executeSql('CREATE TABLE IF NOT EXISTS category(id integer primary key autoincrement, server_cat_id integer, parent_id integer,name text,update_timestamp text, description text, catImage text, catStatus integer, children text)');
-	tx.executeSql('CREATE TABLE IF NOT EXISTS product_details (id integer primary key autoincrement, server_prod_id integer, name text, description text, update_timestamp text, measurement_typeid integer, status integer, attribute_details text, gallery text, category text)');
-	tx.executeSql('CREATE TABLE IF NOT EXISTS product_attributes (id integer primary key autoincrement, server_attr_id integer, name text, identifier text, status integer, backend_name text, update_timestamp text, option text)');
-	tx.executeSql('CREATE TABLE IF NOT EXISTS measurement_details (id integer primary key autoincrement, name text, server_measurement_id integer, status integer, update_timestamp text, group_data text)');
-	tx.executeSql('CREATE TABLE IF NOT EXISTS customer_details (id integer primary key autoincrement,name text, total_price text, advance_price text, balance_price text, update_timestamp text, contact_number text, email_id text, country text, state text, city text, pincode text, address_one text, address_two text, sync_date text, sync_status integer, cust_server_id integer)');
-	tx.executeSql('CREATE TABLE IF NOT EXISTS order_details(id integer primary key autoincrement, server_cat_id integer, cat_name text, server_prod_id integer, order_data text,update_timestamp text, server_prod_name text,customer_id integer, option_selected text, status_of_order text, gallery_id integer, gallery_name text, sync_date text, sync_status integer, order_server_id integer)');
-	tx.executeSql('CREATE TABLE IF NOT EXISTS tailor_details (id integer primary key autoincrement, server_td_id integer, first_name text, middle_name text, last_name text, business_title text, address1 text, address2 text, email text, contact1 text, contact2 text, secret_key text, tailor_status integer, city text, pincode text, state_id integer, country_id integer, state_name text, country_name text, update_timestamp text)');
+	//tx.executeSql('CREATE TABLE IF NOT EXISTS category(id integer primary key autoincrement, server_cat_id integer, parent_id integer,name text,update_timestamp text, description text, catImage text, catStatus integer, children text)');
+	//tx.executeSql('CREATE TABLE IF NOT EXISTS product_details (id integer primary key autoincrement, server_prod_id integer, name text, description text, update_timestamp text, measurement_typeid integer, status integer, attribute_details text, gallery text, category text)');
+	//tx.executeSql('CREATE TABLE IF NOT EXISTS product_attributes (id integer primary key autoincrement, server_attr_id integer, name text, identifier text, status integer, backend_name text, update_timestamp text, option text)');
+	//tx.executeSql('CREATE TABLE IF NOT EXISTS measurement_details (id integer primary key autoincrement, name text, server_measurement_id integer, status integer, update_timestamp text, group_data text)');
+	//tx.executeSql('CREATE TABLE IF NOT EXISTS customer_details (id integer primary key autoincrement,name text, total_price text, advance_price text, balance_price text, update_timestamp text, contact_number text, email_id text, country text, state text, city text, pincode text, address_one text, address_two text, sync_date text, sync_status integer, cust_server_id integer)');
+	//tx.executeSql('CREATE TABLE IF NOT EXISTS order_details(id integer primary key autoincrement, server_cat_id integer, cat_name text, server_prod_id integer, order_data text,update_timestamp text, server_prod_name text,customer_id integer, option_selected text, status_of_order text, gallery_id integer, gallery_name text, sync_date text, sync_status integer, order_server_id integer)');
+	//tx.executeSql('CREATE TABLE IF NOT EXISTS tailor_details (id integer primary key autoincrement, server_td_id integer, first_name text, middle_name text, last_name text, business_title text, address1 text, address2 text, email text, contact1 text, contact2 text, secret_key text, tailor_status integer, city text, pincode text, state_id integer, country_id integer, state_name text, country_name text, update_timestamp text)');
 }
 
 // Common Transaction success callback
@@ -1600,7 +1600,7 @@ function deleteRecordsFromLocalDB(){
 			}else if(tableType == 'attribute_option'){
 				needToDeleteInJsonArrayAttrOptions.push(value);
 			}
-			if(tableName != '' && columnName != '' && tableIndexId != ''){
+			if(tableName != ''){
 				tx.executeSql('select count(*) as mycount from '+tablename+' where '+ columnName + '='+tableIndexId+'', [], function(tx, rs) {
 			          console.log('Record count (expected to be 1): ' + rs.rows.item(0).mycount);
 			          var recordCount = 0;
@@ -2140,6 +2140,7 @@ function successCBUpdateCustomerSyncDB(){
 	          }else if(parseInt(recordCount) == 0){
 	        	  if(tablename == 'tailor_details'){
 	        		  if(loginUserId == undefined || loginUserId == ''){
+	        			  hideModal();
 	        			  gotoLoginPage();
 	        		  }else if(loginUserId != undefined){
 	        			  if(loginUserId != ''){
@@ -2195,10 +2196,10 @@ function successCBUpdateCustomerSyncDB(){
 				}
 			}
 			else if(connectionType=="WiFi connection" || connectionType=="Cell 4G connection" || connectionType=="Cell 3G connection" || connectionType=="Cell 2G connection"){
-				if(deleteRecordStatus == 0){
+				/*if(deleteRecordStatus == 0){
 					getDataToDeleteInLocalDBFromServer();
 					return false;
-				}
+				}*/
 				
 				if(type == dataSyncTypeTailor){
 					db.transaction(function(tx) {
@@ -2209,6 +2210,8 @@ function successCBUpdateCustomerSyncDB(){
 					          if(parseInt(recordCount) > 0){
 					        	  getTailorDetailsFromLocal();
 					          }else{
+					        	  loginUserId = $('#username').val();
+					        	  console.log('Test LOGIN ID : '+loginUserId);
 					        	  if(loginUserId == undefined || loginUserId == ''){
 					        		  hideModal();
 					        		  gotoLoginPage();
