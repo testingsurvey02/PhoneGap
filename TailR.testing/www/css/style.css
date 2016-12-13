@@ -146,11 +146,8 @@ table th {
 }
 
 .product-list .galleriesClass {
-	margin-left: 5px;
-}
-
-.product-list .galleriesClass {
-	margin-left: 10px;
+/* 	margin-left: 5px; */
+text-align: center;
 }
 
 .product-list .galleriesClass p{
@@ -177,7 +174,7 @@ img.product-image{}
 
 .attr-opt-hei-wid{
 	width : 100px;
-	height : 90px;
+	height : 120px;
 }
 .table-padding-order{
 	padding : 0 10px

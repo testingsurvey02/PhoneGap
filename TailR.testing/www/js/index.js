@@ -2698,7 +2698,7 @@ function successCBUpdateCustomerSyncDB(){
 								//var prodImage = 'img/product'+indexObj+'.jpg'; // For Testing
 						
 								var server_cat_id = valueCat['cat_id'];
-								var galleryImage = '<div class="box"><div class="row"><div class="col-xs-6 col-sm-4 col-md-4 width-product-list col-lg-4 galleriesClass gallcatid'+server_cat_id+'" data-gall_id="'+gallery_id+'" data-cat_id="'+server_cat_id+'" '+
+								var galleryImage = '<div class="box"><div class="row"><div class="col-xs-6 col-sm-4 col-md-4 col-lg-4 galleriesClass gallcatid'+server_cat_id+'" data-gall_id="'+gallery_id+'" data-cat_id="'+server_cat_id+'" '+
 										'data-prod_id="'+server_prod_id+'" data-pro_index="'+index+'" data-prod_name="'+prod_name+'" data-lid="'+local_db_id+'" onclick="goToAttributeDiv(this)">';
 										
 								galleryImage+= '<img class="product-image" src="'+prodImage+'" style="width:250px; height:350px;" alt="'+prod_name+'" />'
@@ -4078,7 +4078,7 @@ function successCBUpdateCustomerSyncDB(){
 			for(var i = 0; i <= serverOrderIdArray.length; i++){
 				var orderId = localOrderIdArray[i];
 				var serverOrderId = serverOrderIdArray[i];
-				tx.executeSql("UPDATE order_details SET update_timestamp='"+currDateTimestamp+"', sync_date = '" + currDateTimestamp + ", sync_status = 1', order_server_id = "+serverOrderId+" WHERE id = " + orderId + "");
+				tx.executeSql("UPDATE order_details SET update_timestamp='"+currDateTimestamp+"', sync_date='"+currDateTimestamp+"', sync_status=1, order_server_id="+serverOrderId+" WHERE id="+orderId+"");
 			}
 		}else{
 			alert('Please contact your administrator');
