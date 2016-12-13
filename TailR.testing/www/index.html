@@ -479,8 +479,10 @@
 											style="margin-top: 15px;"></div>
 									</div>
 									<div class="row width-app"></div>
-									<div class="row col-xs-12 col-sm-12 col-md-12 col-lg-12 width-app">
-										<div class="box table-container">
+									<!-- <div class="row width-app">
+										<div class="box table-container"> -->
+									<div class="" style="padding: 10px 40px;" >
+									<div class="table-container table-padding-order">
 											<label>Measurement Details</label>
 											<table class="table">
 												<tbody class="appendMeasuOrderList">
@@ -531,6 +533,8 @@
 									<li>
 										<h3 style="color: white;">Order Report</h3>
 									</li>
+									<li class="float-right "><a href="#aboutUs-page">Home
+											Page</a></li>
 									<li class="float-right "><a href="#product-page">Product
 											Page</a></li>
 								</ul>
@@ -574,10 +578,9 @@
 							<li>
 								<h3 style="color: white;">View Order Details</h3>
 							</li>
-							<li class="float-right "><a href="#"
-								onclick="orderPageHtmlButton()">Back</a></li>
-							<li class="float-right "><a href="#product-page">Product
-									Page</a></li>
+							<li class="float-right "><a href="#" onclick="orderPageHtmlButton()">Back</a></li>
+							<li class="float-right "><a href="#aboutUs-page">Home Page</a></li>
+							<li class="float-right "><a href="#product-page">Product Page</a></li>
 						</ul>
 						<!-- </div> -->
 						<!-- <h3>
@@ -650,9 +653,22 @@
 											<td><input type="text" id="pincodeOrderInput"
 												name="pincodeOrderInput" class="form-control" /></td>
 										</tr>
+										<tr>
+											<td style="width: 30%;">Order Status</td>
+											<td><select id="orderStatusIdInput"
+														name="orderStatusIdInput" class="form-control" >
+													<option value="pending">pending</option>
+													<option value="completed">completed</option>
+												</select></td>
+										</tr>
 									</table>
 								</div>
 
+							</div>
+							
+							<div class="row width-app" style="margin-top: 15px;"></div>
+							<div id="appendOptionInEditPage" style="padding: 10px 40px;">
+								
 							</div>
 							
 							
