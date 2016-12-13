@@ -2665,7 +2665,7 @@ function successCBUpdateCustomerSyncDB(){
 	
 	function appendProdListDB(prodArrData) {
 		prodArrData = productDetailsArrSession;
-		var mainPageGallery = '<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">';
+		var mainPageGallery = '';
 		var attrMeasPageGallery = '';
 		jQuery.each(prodArrData, function(index,value) {
 			var jsonObj=value;
@@ -2698,12 +2698,12 @@ function successCBUpdateCustomerSyncDB(){
 								//var prodImage = 'img/product'+indexObj+'.jpg'; // For Testing
 						
 								var server_cat_id = valueCat['cat_id'];
-								var galleryImage = '<div class="box"><div class="row"><div class="col-xs-6 col-sm-4 col-md-4 col-lg-4 galleriesClass gallcatid'+server_cat_id+'" data-gall_id="'+gallery_id+'" data-cat_id="'+server_cat_id+'" '+
+								var galleryImage = '<div class="col-xs-6 col-sm-4 col-md-4 col-lg-4 galleriesClass gallcatid'+server_cat_id+'" data-gall_id="'+gallery_id+'" data-cat_id="'+server_cat_id+'" '+
 										'data-prod_id="'+server_prod_id+'" data-pro_index="'+index+'" data-prod_name="'+prod_name+'" data-lid="'+local_db_id+'" onclick="goToAttributeDiv(this)">';
 										
 								galleryImage+= '<img class="product-image" src="'+prodImage+'" style="width:250px; height:350px;" alt="'+prod_name+'" />'
 								galleryImage+= '<p>'+prod_name+'</p>';
-								galleryImage+= '</div></div></div>';
+								galleryImage+= '</div>';
 								
 								mainPageGallery += galleryImage;
 							}
@@ -2713,7 +2713,7 @@ function successCBUpdateCustomerSyncDB(){
 			}
 			
 		});
-		mainPageGallery += '</div>';
+		mainPageGallery += '';
 		$("#mainPageId").find('.galleriesClass').remove();
 		$("#mainPageId").find('.product-list').append(mainPageGallery);
 		$('#mainPageId .product-list').find('.galleriesClass').hide();
