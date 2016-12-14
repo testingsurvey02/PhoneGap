@@ -1626,14 +1626,14 @@ function deleteRecordsFromLocalDB(){
 
 function errorDeleteRecordsCB(err){
 	hideModal();
-	alert('errorDeleteRecordsCB : '+err.code);
-	alert('errorDeleteRecordsCB : '+err.message);
+	console.log('errorDeleteRecordsCB : '+err.code);
+	console.log('errorDeleteRecordsCB : '+err.message);
 }
 
 function errorCBDeleteDataInLocalDB(er){
 	hideModal();
-	alert('errorCBDeleteDataInLocalDB : '+er.code);
-	alert('errorCBDeleteDataInLocalDB : '+er.message);
+	console.log('errorCBDeleteDataInLocalDB : '+er.code);
+	console.log('errorCBDeleteDataInLocalDB : '+er.message);
 }
 
 function successCBDeleteDataInLocalDB(){
