@@ -4004,13 +4004,23 @@ function successCBUpdateCustomerSyncDB(){
 		if(sendCustomerDataToSaveInServer.length > 0){
 			sendCustomerDetailsToSaveInServer();
 		}else if(sendCustomerDataToUpdateInServer.length > 0){
+			sendCustomerDataToSaveInServer = [];
 			sendCustomerDetailsToUpdateInServer();
 		}else if(sendOrderDataToSaveInServer.length > 0){
+			sendCustomerDataToUpdateInServer = [];
+			sendCustomerDataToSaveInServer = [];
 			sendOrderDetailsToSaveInServer();
 		}else if(sendOrderDataToUpdateInServer.length > 0){
+			sendCustomerDataToUpdateInServer = [];
+			sendCustomerDataToSaveInServer = [];
+			sendOrderDataToSaveInServer = [];
 			sendOrderDetailsToUpdateInServer();
 		}else if(sendOrderDataToSaveInServer.length == 0 && sendOrderDataToUpdateInServer.length == 0 && sendCustomerDataToSaveInServer.length == 0
 				&& sendCustomerDataToUpdateInServer.length == 0){
+			sendCustomerDataToUpdateInServer = [];
+			sendCustomerDataToSaveInServer = [];
+			sendOrderDataToSaveInServer = [];
+			sendOrderDataToUpdateInServer = [];
 			sendDataToServerStatus = false;
 		}
 	}
