@@ -3644,9 +3644,8 @@ function successCBUpdateCustomerSyncDB(){
 				if(testingInBrowser){
 					connectionType = 'abcde';
 				}
-				sendDataToServerStatus = false;
 				if(connectionType=="WiFi connection" || connectionType=="Cell 4G connection" || connectionType=="Cell 5G connection" || connectionType=="Cell 3G connection" || connectionType=="Cell 2G connection"){
-					if(sendDataToServerStatus == false){
+					//if(sendDataToServerStatus == false){
 						var currDateTimestamp="";
 						currDateTimestamp=dateTimestamp();
 						if(sync_status_customer != 1){
@@ -3698,7 +3697,7 @@ function successCBUpdateCustomerSyncDB(){
 							}
 							//sendOrderDataToServer.push(dataToSendOrder);
 						}
-					}
+					//}
 					
 					
 					/*var appurltempsCustomer = '';
@@ -3785,7 +3784,7 @@ function successCBUpdateCustomerSyncDB(){
 		console.log(connectionType);
 		if(connectionType=="WiFi connection" || connectionType=="Cell 4G connection" || connectionType=="Cell 5G connection" || connectionType=="Cell 3G connection" || connectionType=="Cell 2G connection"){
 			sendDataToServer();
-			sendDataToServerStatus = true;
+			//sendDataToServerStatus = true;
 		}
 	}
 	
@@ -4028,7 +4027,7 @@ function successCBUpdateCustomerSyncDB(){
 			sendCustomerDataToSaveInServer = [];
 			sendOrderDataToSaveInServer = [];
 			sendOrderDataToUpdateInServer = [];
-			sendDataToServerStatus = false;
+			//sendDataToServerStatus = false;
 		}
 	}
 	
@@ -4135,7 +4134,7 @@ function successCBUpdateCustomerSyncDB(){
 	}
 	
 	function errorCBCustomerDetails(err){
-		sendDataToServerStatus = false;
+		//sendDataToServerStatus = false;
 		console.log('errorCBCustomerDetails : '+err.code);
 		console.log('errorCBCustomerDetails : '+err.message);
 	}
@@ -4211,7 +4210,7 @@ function successCBUpdateCustomerSyncDB(){
 	}
 	
 	function errorCBOrderDetails(err){
-		sendDataToServerStatus = false;
+		//sendDataToServerStatus = false;
 		console.log('errorCBOrderDetails : '+err.code);
 		console.log('errorCBOrderDetails : '+err.message);
 	}
