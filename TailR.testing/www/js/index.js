@@ -4001,15 +4001,14 @@ function successCBUpdateCustomerSyncDB(){
 	}*/
 	
 	function sendDataToServer(){
-		
-		if(sendOrderDataToSaveInServer.length > 0){
-			sendOrderDetailsToSaveInServer();
-		}else if(sendOrderDataToUpdateInServer.length > 0){
-			sendOrderDetailsToUpdateInServer();
-		}else if(sendCustomerDataToSaveInServer.length > 0){
+		if(sendCustomerDataToSaveInServer.length > 0){
 			sendCustomerDetailsToSaveInServer();
 		}else if(sendCustomerDataToUpdateInServer.length > 0){
 			sendCustomerDetailsToUpdateInServer();
+		}else if(sendOrderDataToSaveInServer.length > 0){
+			sendOrderDetailsToSaveInServer();
+		}else if(sendOrderDataToUpdateInServer.length > 0){
+			sendOrderDetailsToUpdateInServer();
 		}else if(sendOrderDataToSaveInServer.length == 0 && sendOrderDataToUpdateInServer.length == 0 && sendCustomerDataToSaveInServer.length == 0
 				&& sendCustomerDataToUpdateInServer.length == 0){
 			sendDataToServerStatus = false;
