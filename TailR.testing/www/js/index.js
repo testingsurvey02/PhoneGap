@@ -1645,6 +1645,10 @@ function successCBDeleteDataInLocalDB(){
 }
 
 function deleteChildArraysByMethods(){
+	console.log('needToDeleteInJSonArrayMeasuGroup  '+needToDeleteInJSonArrayMeasuGroup.length);
+	console.log('needToDeleteInJsonArrayProductGall  '+needToDeleteInJsonArrayProductGall.length);
+	console.log('needToDeleteInJsonArrayAttrOptions  '+needToDeleteInJsonArrayAttrOptions.length);
+	console.log('needToDeleteInJSonArrayMeasurements  '+needToDeleteInJSonArrayMeasurements.length);
 	if(needToDeleteInJSonArrayMeasuGroup.length > 0){
 		deleteRecordsFromMeasurementGroup();
 	}else if(needToDeleteInJsonArrayProductGall.length > 0){
