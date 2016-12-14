@@ -1680,7 +1680,7 @@ function deleteRecordsFromProductGallery(){
 				var len = 0;
 				len = results.rows.length;
 				if(len > 0){
-					var local_DB_gallery = results.rows.item(i)['gallery'];
+					var local_DB_gallery = results.rows.item(0)['gallery'];
 					var galleryObj = jQuery.parseJSON(local_DB_gallery);
 					var newGalleryObjArr = [];
 					jQuery.each(galleryObj, function(index,value) {
@@ -1726,7 +1726,7 @@ function deleteRecordsFromAttributeOption(){
 				var len = 0;
 				len = results.rows.length;
 				if(len > 0){
-					var local_DB_option = results.rows.item(i)['option'];
+					var local_DB_option = results.rows.item(0)['option'];
 					var optionObj = jQuery.parseJSON(local_DB_option);
 					var newOptionObjArr = [];
 					jQuery.each(optionObj, function(index,value) {
@@ -1772,18 +1772,18 @@ function deleteRecordsFromMeasurementGroup(){
 				var len = 0;
 				len = results.rows.length;
 				if(len > 0){
-					var local_DB_group_data = results.rows.item(i)['group_data'];
+					var local_DB_group_data = results.rows.item(0)['group_data'];
 					var groupObj = jQuery.parseJSON(local_DB_group_data);
 					var newGroupObjArr = [];
-					jQuery.each(groupObj, function(index,value) {
+					jQuery.each(groupObj, function(indexObj,valueObj) {
 						var groupObject = new Object();
-						var measurement_group_id = value['id'];
+						var measurement_group_id = valueObj['id'];
 						if(measurement_group_id != measurementGroupId){
 							/*galleryObject['id'] = gallery_id;
 							galleryObject['pdt_id'] = valueObj['pdt_id'];
 							galleryObject['image'] = valueObj['image'];
 							*/
-							groupObject = value;
+							groupObject = valueObj;
 							newGroupObjArr.push(groupObject);
  						}
 					});
@@ -1818,21 +1818,21 @@ function deleteRecordsFromMeasurements(){
 				var len = 0;
 				len = results.rows.length;
 				if(len > 0){
-					var local_DB_group_data = results.rows.item(i)['group_data'];
+					var local_DB_group_data = results.rows.item(0)['group_data'];
 					var groupObj = jQuery.parseJSON(local_DB_group_data);
 					var newGroupObjArr = [];
 					
-					jQuery.each(groupObj, function(index,value) {
-						var measurement_group_id = value['id'];
+					jQuery.each(groupObj, function(indexGP,valueGP) {
+						var measurement_group_id = valueGP['id'];
 						if(measurement_group_id != measurementGroupId){
-							newGroupObjArr.push(value);
+							newGroupObjArr.push(valueGP);
  						}else{
- 							groupObject['id'] = value['id'];
- 							groupObject['name'] = value['name'];
- 							groupObject['status'] = value['status'];
- 							groupObject['measurement_type_id'] = value['measurement_type_id'];
- 							groupObject['created_at'] = value['created_at'];
- 							groupObject['updated_at'] = value['updated_at'];
+ 							groupObject['id'] = valueGP['id'];
+ 							groupObject['name'] = valueGP['name'];
+ 							groupObject['status'] = valueGP['status'];
+ 							groupObject['measurement_type_id'] = valueGP['measurement_type_id'];
+ 							groupObject['created_at'] = valueGP['created_at'];
+ 							groupObject['updated_at'] = valueGP['updated_at'];
  							var needToDeleteArrayObject = [];
  							jQuery.each(value['measurements'], function(indexObj,valueObj){
  								if(measurementId != valueObj['id']){
