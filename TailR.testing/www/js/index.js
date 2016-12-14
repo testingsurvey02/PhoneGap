@@ -1688,7 +1688,7 @@ function deleteRecordsFromProductGallery(){
 						var gallery_id = value['id'];
 						console.log('gallery_id : '+gallery_id);
 						console.log("galleryId : "+galleryId);
-						if(gallery_id != galleryId){
+						if(parseInt(gallery_id) != parseInt(galleryId)){
 							galleryObject = value;
 							newGalleryObjArr.push(galleryObject);
 							console.log('gallery_id Inserted : '+gallery_id);
@@ -1733,7 +1733,7 @@ function deleteRecordsFromAttributeOption(){
 						var option_id = value['id'];
 						console.log('optionId : '+measurementId);
 						console.log("option_id : "+option_id);
-						if(optionId != option_id){
+						if(parseInt(optionId) != parseInt(option_id)){
 							console.log("option_id Inserted : "+option_id);
 							optionObject = value;
 							newOptionObjArr.push(optionObject);
@@ -1778,7 +1778,7 @@ function deleteRecordsFromMeasurementGroup(){
 						var measurement_group_id = valueObj['id'];
 						console.log('measurement_group_id : '+measurement_group_id);
 						console.log('measurementGroupId : '+measurementGroupId);
-						if(measurement_group_id != measurementGroupId){
+						if(parseInt(measurementGroupId) != parseInt(measurement_group_id)){
 							groupObject = valueObj;
 							newGroupObjArr.push(groupObject);
 							console.log('measurement_group_id : Inserted '+measurement_group_id);
@@ -1821,7 +1821,7 @@ function deleteRecordsFromMeasurements(){
 					
 					jQuery.each(groupObj, function(indexGP,valueGP) {
 						var measurement_group_id = valueGP['id'];
-						if(measurement_group_id != measurementGroupId){
+						if(parseInt(measurementGroupId) != parseInt(measurement_group_id)){
 							newGroupObjArr.push(valueGP);
  						}else{
  							groupObject['id'] = valueGP['id'];
@@ -1834,7 +1834,7 @@ function deleteRecordsFromMeasurements(){
  							jQuery.each(value['measurements'], function(indexObj,valueObj){
  								console.log('measurementId : '+measurementId);
  								console.log("valueObj['id'] : "+valueObj['id']);
- 								if(measurementId != valueObj['id']){
+ 								if(parseInt(measurementId) != parseInt(valueObj['id'])){
  									var measuObject = new Object();
  									console.log("valueObj['id'] Inserted : "+valueObj['id']);
  									measuObject = valueObj;
