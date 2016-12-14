@@ -3217,10 +3217,10 @@ function successCBUpdateCustomerSyncDB(){
 	
 	function successCBInsertMeasurementDetails() {
 		/*if(deleteRecordStatus == 0){*/
-			getDataToDeleteInLocalDBFromServer();
+			//getDataToDeleteInLocalDBFromServer();
 			/*return false;
 		}else{*/
-			
+		getCategoriesListFromLocal();
 		//}
 		
 	}	
