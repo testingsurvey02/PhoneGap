@@ -1642,6 +1642,7 @@ function errorCBDeleteDataInLocalDB(er){
 
 function successCBDeleteDataInLocalDB(){
 	deleteChildArraysByMethods();
+	callCategoryFunctionIndex = 0;
 }
 
 var callCategoryFunctionIndex = 0;
@@ -3643,6 +3644,7 @@ function successCBUpdateCustomerSyncDB(){
 				if(testingInBrowser){
 					connectionType = 'abcde';
 				}
+				sendDataToServerStatus = true;
 				if(connectionType=="WiFi connection" || connectionType=="Cell 4G connection" || connectionType=="Cell 5G connection" || connectionType=="Cell 3G connection" || connectionType=="Cell 2G connection"){
 					if(sendDataToServerStatus == false){
 						var currDateTimestamp="";
@@ -4047,7 +4049,7 @@ function successCBUpdateCustomerSyncDB(){
 			$.ajax({
 				type : ajaxCallPost,
 				url: appurltemps,
-				data : JSON.stringify(dataToSend),
+				data : dataToSend,
 				success: successCBCustomerDetailsSaveFn,
 				error: commonErrorCallback
 			});
@@ -4110,7 +4112,7 @@ function successCBUpdateCustomerSyncDB(){
 			$.ajax({
 				type : ajaxCallPost,
 				url: appurltemps,
-				data : JSON.stringify(dataToSend),
+				data : dataToSend,
 				success: successCBCustomerDetailsUpdateFn,
 				error: commonErrorCallback
 			});
@@ -4156,8 +4158,8 @@ function successCBUpdateCustomerSyncDB(){
 		
 		var serverCustomerIdArray = [];
 		var localCustomerIdArray = [];
-		serverCustomerIdArray = updateCustomerDetailsForSavedData['last_insert_id'];
-		localCustomerIdArray = updateCustomerDetailsForSavedData['app_customer_id'];
+		serverCustomerIdArray = updateCustomerDetailsForUpdatedData['last_insert_id'];
+		localCustomerIdArray = updateCustomerDetailsForUpdatedData['app_customer_id'];
 		if(serverCustomerIdArray.length == localCustomerIdArray.length){
 			for(var i = 0; i < serverCustomerIdArray.length; i++){
 				var customerIdObject = localCustomerIdArray[i];
