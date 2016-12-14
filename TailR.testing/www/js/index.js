@@ -1682,6 +1682,7 @@ function deleteRecordsFromProductGallery(){
 				if(len > 0){
 					var local_DB_gallery = results.rows.item(0)['gallery'];
 					var galleryObj = jQuery.parseJSON(local_DB_gallery);
+					console.log(galleryObj);
 					var newGalleryObjArr = [];
 					jQuery.each(galleryObj, function(index,value) {
 						var galleryObject = new Object();
@@ -1695,7 +1696,7 @@ function deleteRecordsFromProductGallery(){
  						}
 					});
 					var galleryJsonObj = JSON.stringify(newGalleryObjArr);
-					tx.executeSql("UPDATE product_details SET update_timestamp='"+update_timestamp+"', gallery='"+galleryJsonObj+"' WHERE server_prod_id="+server_prod_id+"");
+					tx.executeSql("UPDATE product_details SET update_timestamp='"+update_timestamp+"', gallery='"+galleryJsonObj+"' WHERE server_prod_id="+prodId+"");
 				}
 			});
 		}, errorCBDelRecdsProdGalFn, successCBDelRecdsProdGalFn);
@@ -1731,7 +1732,7 @@ function deleteRecordsFromAttributeOption(){
 					jQuery.each(optionObj, function(index,value) {
 						var optionObject = new Object();
 						var option_id = value['id'];
-						console.log('optionId : '+measurementId);
+						console.log('optionId : '+optionId);
 						console.log("option_id : "+option_id);
 						if(parseInt(optionId) != parseInt(option_id)){
 							console.log("option_id Inserted : "+option_id);
