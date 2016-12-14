@@ -3839,7 +3839,7 @@ function successCBUpdateCustomerSyncDB(){
 					$('#view-order-details-Page #stateOrderInput').val(state);
 					$('#view-order-details-Page #cityOrderInput').val(city);
 					$('#view-order-details-Page #pincodeOrderInput').val(pincode);
-					$("#view-order-details-Page #orderStatusIdInput option[value='"+orderStatusOfPurchase+"']").prop('selected', true);
+					$("#view-order-details-Page #orderStatusIdInput").val(orderStatusOfPurchase);
 					
 					//console.log('orderViewId : '+$('#view-order-details-Page #orderViewId').val());
 					//console.log('customerViewId : '+$('#view-order-details-Page #customerViewId').val());
@@ -3935,7 +3935,7 @@ function successCBUpdateCustomerSyncDB(){
 		//console.log('cityOrder '+cityOrder);
 		
 		var pincodeOrder = $('#pincodeOrderInput').val();
-		selectedStatusOfOrder = $('#orderStatusIdInput:selected').val();
+		selectedStatusOfOrder = $('#orderStatusIdInput').val();
 		//console.log('pincodeOrder '+pincodeOrder);
 		
 		customerDetailsJson['customerId'] = customerIdToUpdate;
