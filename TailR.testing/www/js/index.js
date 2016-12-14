@@ -2180,9 +2180,9 @@ function updateOrderDetailsInLocalDB(orderJson){
 				for (var i = 0; i < len; i++) {
 					var syncStatus = results.rows.item(0)['sync_status'];
 					if(syncStatus == 1){
-						tx.executeSql("UPDATE order_details SET order_data='" + measurementData + "', update_timestamp='"+currDateTimestamp+"', sync_status=2 WHERE id=" + orderId + "");
+						tx.executeSql("UPDATE order_details SET order_data='" + measurementData + "', status_of_order='"+selectedStatusOfOrder+"', update_timestamp='"+currDateTimestamp+"', sync_status=2 WHERE id=" + orderId + "");
 					}else{
-						tx.executeSql("UPDATE order_details SET order_data='" + measurementData + "', update_timestamp='"+currDateTimestamp+"', sync_status=0 WHERE id=" + orderId + "");
+						tx.executeSql("UPDATE order_details SET order_data='" + measurementData + "', status_of_order='"+selectedStatusOfOrder+"', update_timestamp='"+currDateTimestamp+"', sync_status=0 WHERE id=" + orderId + "");
 					}
 				}
 			}
@@ -3899,6 +3899,7 @@ function successCBUpdateCustomerSyncDB(){
 	
 	var customerDetailsJson = new Object();
 	var orderDetailsJson = new Object();
+	var selectedStatusOfOrder = '';
 	function updateCustomerOrderDetails(){
 		var updateMeasurementData = [];
 		var orderIdToUpdate = $('#orderViewId').val();
@@ -3927,6 +3928,7 @@ function successCBUpdateCustomerSyncDB(){
 		//console.log('cityOrder '+cityOrder);
 		
 		var pincodeOrder = $('#pincodeOrderInput').val();
+		selectedStatusOfOrder = $('#orderStatusIdInput:selected').val();
 		//console.log('pincodeOrder '+pincodeOrder);
 		
 		customerDetailsJson['customerId'] = customerIdToUpdate;
