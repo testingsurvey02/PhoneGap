@@ -1846,6 +1846,7 @@ function deleteRecordsFromMeasurements(){
 						if(parseInt(measurementGroupId) != parseInt(measurement_group_id)){
 							newGroupObjArr.push(valueGP);
  						}else{
+ 							var groupObject = {};
  							groupObject['id'] = valueGP['id'];
  							groupObject['name'] = valueGP['name'];
  							groupObject['status'] = valueGP['status'];
