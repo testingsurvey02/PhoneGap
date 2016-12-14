@@ -4042,7 +4042,7 @@ function successCBUpdateCustomerSyncDB(){
 			$.ajax({
 				type : ajaxCallPost,
 				url: appurltemps,
-				data : dataToSend,
+				data : JSON.stringify(dataToSend),
 				success: successCBCustomerDetailsSaveFn,
 				error: commonErrorCallback
 			});
@@ -4076,7 +4076,7 @@ function successCBUpdateCustomerSyncDB(){
 		serverCustomerIdArray = updateCustomerDetailsForSavedData['last_insert_id'];
 		localCustomerIdArray = updateCustomerDetailsForSavedData['app_customer_id'];
 		if(serverCustomerIdArray.length == localCustomerIdArray.length){
-			for(var i = 0; i <= serverCustomerIdArray.length; i++){
+			for(var i = 0; i < serverCustomerIdArray.length; i++){
 				var customerIdObject = localCustomerIdArray[i];
 				var serverCustomerIdObject = serverCustomerIdArray[i];
 				var customer_id = customerIdObject['app_customer_id'];
@@ -4105,7 +4105,7 @@ function successCBUpdateCustomerSyncDB(){
 			$.ajax({
 				type : ajaxCallPost,
 				url: appurltemps,
-				data : dataToSend,
+				data : JSON.stringify(dataToSend),
 				success: successCBCustomerDetailsUpdateFn,
 				error: commonErrorCallback
 			});
@@ -4154,7 +4154,7 @@ function successCBUpdateCustomerSyncDB(){
 		serverCustomerIdArray = updateCustomerDetailsForSavedData['last_insert_id'];
 		localCustomerIdArray = updateCustomerDetailsForSavedData['app_customer_id'];
 		if(serverCustomerIdArray.length == localCustomerIdArray.length){
-			for(var i = 0; i <= serverCustomerIdArray.length; i++){
+			for(var i = 0; i < serverCustomerIdArray.length; i++){
 				var customerIdObject = localCustomerIdArray[i];
 				var serverCustomerIdObject = serverCustomerIdArray[i];
 				var customer_id = customerIdObject['app_customer_id'];
@@ -4182,7 +4182,7 @@ function successCBUpdateCustomerSyncDB(){
 			$.ajax({
 				type : ajaxCallPost,
 				url: appurltemps,
-				data : dataToSend,
+				data : JSON.stringify(dataToSend),
 				success: successCBOrderDetailsSaveFn,
 				error: commonErrorCallback
 			});
@@ -4229,7 +4229,7 @@ function successCBUpdateCustomerSyncDB(){
 		serverOrderIdArray = updateOrderDetailsForSavedData['last_insert_id'];
 		localOrderIdArray = updateOrderDetailsForSavedData['app_order_id'];
 		if(serverOrderIdArray.length == localOrderIdArray.length){
-			for(var i = 0; i <= serverOrderIdArray.length; i++){
+			for(var i = 0; i < serverOrderIdArray.length; i++){
 				var orderIdObject = localOrderIdArray[i];
 				var serverOrderIdObject = serverOrderIdArray[i];
 				var orderId = orderIdObject['app_order_id'];
@@ -4268,7 +4268,7 @@ function successCBUpdateCustomerSyncDB(){
 		dataToSend["tailor_id"] = tailorDetailsSession.tailor_details_id;
 		dataToSend["orders"] = JSON.stringify(sendOrderDataToUpdateInServer);
 		console.log('sendOrderDetailsToUpdateInServer data '+sendOrderDataToUpdateInServer);
-		console.log('dataToSend Order '+dataToSend);
+		console.log('dataToSend Order '+JSON.stringify(dataToSend));
 		
 		/*dataToSend["customer_id"] = $('#customerIdInput').val();
 		dataToSend["order_id"] = $('#newOrderId').val();
@@ -4286,7 +4286,7 @@ function successCBUpdateCustomerSyncDB(){
 			$.ajax({
 				type : ajaxCallPost,
 				url: appurltemps,
-				data : dataToSend,
+				data : JSON.stringify(dataToSend),
 				success: successCBOrderDetailsUpdatedFn,
 				error: commonErrorCallback
 			});
@@ -4315,7 +4315,7 @@ function successCBUpdateCustomerSyncDB(){
 		serverOrderIdArray = updateOrderDetailsForUpdatedData['last_insert_id'];
 		localOrderIdArray = updateOrderDetailsForUpdatedData['app_order_id'];
 		if(serverOrderIdArray.length == localOrderIdArray.length){
-			for(var i = 0; i <= serverOrderIdArray.length; i++){
+			for(var i = 0; i < serverOrderIdArray.length; i++){
 				var orderIdObject = localOrderIdArray[i];
 				var serverOrderIdObject = serverOrderIdArray[i];
 				var orderId = orderIdObject['app_order_id'];
