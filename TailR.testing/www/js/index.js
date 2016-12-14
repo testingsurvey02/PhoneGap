@@ -1612,7 +1612,7 @@ function deleteRecordsFromLocalDB(){
 					needToDeleteInJSonArrayMeasurements.push(measuObj);
 				}
 				if(tableName != ''){
-					tx.executeSql('select count(*) as mycount from '+tablename+' where '+ columnName + '='+tableIndexId+'', [], function(tx, rs) {
+					tx.executeSql('select count(*) as mycount from '+tableName+' where '+ columnName + '='+tableIndexId+'', [], function(tx, rs) {
 				          console.log('Record count (expected to be 1): ' + rs.rows.item(0).mycount);
 				          var recordCount = 0;
 				          recordCount = rs.rows.item(0).mycount;
