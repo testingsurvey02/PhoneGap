@@ -1584,28 +1584,28 @@ function deleteRecordsFromLocalDB(){
 				}else if(tableType == 'measurementgroup'){
 					var measuObj = new Object();
 					var array = [];
-					array = value['tableIndexId'].split(':');
+					array = tableIndexId.split(':');
 					measuObj['measType'] = array[0];
 					measuObj['measGroup'] = array[1];
 					needToDeleteInJSonArrayMeasuGroup.push(measuObj); 
 				}else if(tableType == 'product gallary'){
 					var prodObj = new Object();
 					var array = [];
-					array = value['tableIndexId'].split(':');
+					array = tableIndexId.split(':');
 					prodObj['prodId'] = array[0];
 					prodObj['galleryId'] = array[1];
 					needToDeleteInJsonArrayProductGall.push(prodObj);
 				}else if(tableType == 'attribute_option'){
 					var attrObj = new Object();
 					var array = [];
-					array = value['tableIndexId'].split(':');
+					array = tableIndexId.split(':');
 					attrObj['attrId'] = array[0];
 					attrObj['optionId'] = array[1];
 					needToDeleteInJsonArrayAttrOptions.push(attrObj);
 				}else if(tableType == 'measurements'){
 					var measuObj = new Object();
 					var array = [];
-					array = value['tableIndexId'].split(':');
+					array = tableIndexId.split(':');
 					measuObj['measType'] = array[0];
 					measuObj['measGroup'] = array[1];
 					measuObj['measurementId'] = array[2];
