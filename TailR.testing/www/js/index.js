@@ -3644,7 +3644,7 @@ function successCBUpdateCustomerSyncDB(){
 				if(testingInBrowser){
 					connectionType = 'abcde';
 				}
-				sendDataToServerStatus = true;
+				sendDataToServerStatus = false;
 				if(connectionType=="WiFi connection" || connectionType=="Cell 4G connection" || connectionType=="Cell 5G connection" || connectionType=="Cell 3G connection" || connectionType=="Cell 2G connection"){
 					if(sendDataToServerStatus == false){
 						var currDateTimestamp="";
