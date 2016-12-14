@@ -2138,7 +2138,8 @@ function updateCustomerDetailsInLocalDB(customerObject){
 			if(len > 0){
 				for (var i = 0; i < len; i++) {
 					var syncStatus = results.rows.item(0)['sync_status'];
-					if(syncStatus == 1){
+					var syncDate = results.rows.item(0)['sync_date'];
+					if(syncDate != ''){
 						tx.executeSql("UPDATE customer_details SET name='" + customerName + "', update_timestamp='"+currDateTimestamp+"', address_two='"+address2+"', address_one='"+address1+"', sync_status= 2, pincode='"+pincode+"', city='"+city+"', state='"+state+"', total_price='"+totalPrice+"', balance_price='"+balancePrice+"', contact_number='"+contactNumber+"', email_id='"+emailId+"'  WHERE id=" + customerId + "");
 					}else{
 						tx.executeSql("UPDATE customer_details SET name='" + customerName + "', update_timestamp='"+currDateTimestamp+"', address_two='"+address2+"', address_one='"+address1+"', sync_status= 0, pincode='"+pincode+"', city='"+city+"', state='"+state+"', total_price='"+totalPrice+"', balance_price='"+balancePrice+"', contact_number='"+contactNumber+"', email_id='"+emailId+"'  WHERE id=" + customerId + "");
@@ -2179,10 +2180,11 @@ function updateOrderDetailsInLocalDB(orderJson){
 			if(len > 0){
 				for (var i = 0; i < len; i++) {
 					var syncStatus = results.rows.item(0)['sync_status'];
-					if(syncStatus == 1){
-						tx.executeSql("UPDATE order_details SET order_data='" + measurementData + "', status_of_order='"+selectedStatusOfOrder+"', update_timestamp='"+currDateTimestamp+"', sync_status=2 WHERE id=" + orderId + "");
+					var syncDate = results.rows.item(0)['sync_date'];
+					if(syncDate != ''){
+						tx.executeSql("UPDATE order_details SET order_data='"+ measurementData+"', status_of_order='"+selectedStatusOfOrder+"', update_timestamp='"+currDateTimestamp+"', sync_status=2 WHERE id=" + orderId + "");
 					}else{
-						tx.executeSql("UPDATE order_details SET order_data='" + measurementData + "', status_of_order='"+selectedStatusOfOrder+"', update_timestamp='"+currDateTimestamp+"', sync_status=0 WHERE id=" + orderId + "");
+						tx.executeSql("UPDATE order_details SET order_data='"+ measurementData+"', status_of_order='"+selectedStatusOfOrder+"', update_timestamp='"+currDateTimestamp+"', sync_status=0 WHERE id=" + orderId + "");
 					}
 				}
 			}
