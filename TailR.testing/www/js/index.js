@@ -1628,12 +1628,14 @@ function deleteRecordsFromLocalDB(){
 
 function errorDeleteRecordsCB(err){
 	hideModal();
+	getCategoriesListFromLocal();
 	console.log('errorDeleteRecordsCB : '+err.code);
 	console.log('errorDeleteRecordsCB : '+err.message);
 }
 
 function errorCBDeleteDataInLocalDB(er){
 	hideModal();
+	getCategoriesListFromLocal();
 	console.log('errorCBDeleteDataInLocalDB : '+er.code);
 	console.log('errorCBDeleteDataInLocalDB : '+er.message);
 }
@@ -1698,6 +1700,7 @@ function deleteRecordsFromProductGallery(){
 function errorCBDelRecdsProdGalFn(err){
 	console.log('errorCBDelRecdsProdGalFn : '+ err.code);
 	console.log('errorCBDelRecdsProdGalFn : '+ err.message);
+	getCategoriesListFromLocal();
 }
 
 function successCBDelRecdsProdGalFn(){
@@ -1743,6 +1746,7 @@ function deleteRecordsFromAttributeOption(){
 function errorCBDelRecdsAttrOptionFn(err){
 	console.log('errorCBDelRecdsAttrOptionFn : '+ err.code);
 	console.log('errorCBDelRecdsAttrOptionFn : '+ err.message);
+	getCategoriesListFromLocal();
 }
 
 function successCBDelRecdsAttrOptionFn(){
@@ -1788,6 +1792,7 @@ function deleteRecordsFromMeasurementGroup(){
 function errorCBDelRecdsMeasGroupFn(err){
 	console.log('errorCBDelRecdsMeasGroupFn : '+ err.code);
 	console.log('errorCBDelRecdsMeasGroupFn : '+ err.message);
+	getCategoriesListFromLocal();
 }
 
 function successCBDelRecdsMeasGroupFn(){
@@ -1845,6 +1850,7 @@ function deleteRecordsFromMeasurements(){
 function errorCBDelRecdsMeasurementsFn(err){
 	console.log('errorCBDelRecdsMeasurementsFn : '+ err.code);
 	console.log('errorCBDelRecdsMeasurementsFn : '+ err.message);
+	getCategoriesListFromLocal();
 }
 
 function successCBDelRecdsMeasurementsFn(){
@@ -3210,11 +3216,11 @@ function successCBUpdateCustomerSyncDB(){
 	}
 	
 	function successCBInsertMeasurementDetails() {
-		/*if(deleteRecordStatus == 0){
+		/*if(deleteRecordStatus == 0){*/
 			getDataToDeleteInLocalDBFromServer();
-			return false;
+			/*return false;
 		}else{*/
-			getCategoriesListFromLocal();
+			
 		//}
 		
 	}	
@@ -3248,14 +3254,15 @@ function successCBUpdateCustomerSyncDB(){
 	function successCBDeleteInDBFromServerFn(data){
 		deleteRecordStatus = 1;
 		var responseJson = $.parseJSON(JSON.stringify(data));
-		console.log(data);
-		console.log(responseJson);
 		deleteRecordsInLocalDBJsonData = responseJson["result"];
-		console.log(deleteRecordsInLocalDBJsonData);
 		deleteRecordsFromLocalDB();
 	}
 	
-	
+	function errorCBDeleteInDBServerFn(err){
+		console.log('errorCBDeleteInDBServerFn '+err.code);
+		console.log('errorCBDeleteInDBServerFn '+err.message);
+		getCategoriesListFromLocal();
+	}
 	
 	function appendMeasurementDataInDiv(measurementArrData){
 		$('#measurementPageId').find('.measurement-input-fields-div').empty();
