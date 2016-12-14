@@ -1612,12 +1612,12 @@ function deleteRecordsFromLocalDB(){
 					needToDeleteInJSonArrayMeasurements.push(measuObj);
 				}
 				if(tableName != ''){
-					tx.executeSql('select count(*) as mycount from '+tableName+' where '+ columnName + '='+tableIndexId+'', [], function(tx, rs) {
+					tx.executeSql('select count(*) as mycount from '+tableName+' where '+columnName+'='+tableIndexId+'', [], function(tx, rs) {
 				          console.log('Record count (expected to be 1): ' + rs.rows.item(0).mycount);
 				          var recordCount = 0;
 				          recordCount = rs.rows.item(0).mycount;
 				          if(recordCount > 0){
-				        	  tx.executeSql('DELETE FROM '+tableName+' WHERE '+ columnName + '='+tableIndexId+'', errorDeleteRecordsCB); 
+				        	  tx.executeSql('DELETE FROM '+tableName+' WHERE '+columnName+'='+tableIndexId+'', errorDeleteRecordsCB); 
 				          }
 					});
 				}
@@ -1670,7 +1670,7 @@ function deleteRecordsFromProductGallery(){
 		var prodId = value['prodId'];
 		var galleryId = value['galleryId'];
 		db.transaction(	function (tx){
-			tx.executeSql('select * from product_details where server_prod_id ='+prodId ,[],function(tx,results){
+			tx.executeSql('select * from product_details where server_prod_id='+prodId ,[],function(tx,results){
 				var len = 0;
 				len = results.rows.length;
 				if(len > 0){
@@ -1690,7 +1690,7 @@ function deleteRecordsFromProductGallery(){
  						}
 					});
 					var galleryJsonObj = JSON.stringify(newGalleryObjArr);
-					tx.executeSql("UPDATE product_details SET update_timestamp = '"+update_timestamp+"', gallery = '"+galleryJsonObj+"' WHERE server_prod_id = " + server_prod_id + "");
+					tx.executeSql("UPDATE product_details SET update_timestamp='"+update_timestamp+"', gallery='"+galleryJsonObj+"' WHERE server_prod_id="+server_prod_id+"");
 				}
 			});
 		}, errorCBDelRecdsProdGalFn, successCBDelRecdsProdGalFn);
@@ -1736,7 +1736,7 @@ function deleteRecordsFromAttributeOption(){
  						}
 					});
 					var optionJSONObj = JSON.stringify(newOptionObjArr);
-					tx.executeSql("UPDATE product_attributes SET update_timestamp = '"+update_timestamp+"', option = '"+optionJSONObj+"' WHERE server_attr_id = " + attrId + "");
+					tx.executeSql("UPDATE product_attributes SET update_timestamp='"+update_timestamp+"', option='"+optionJSONObj+"' WHERE server_attr_id=" + attrId + "");
 				}
 			});
 		}, errorCBDelRecdsAttrOptionFn, successCBDelRecdsAttrOptionFn);
@@ -1782,7 +1782,7 @@ function deleteRecordsFromMeasurementGroup(){
  						}
 					});
 					var groupJSONObj = JSON.stringify(newGroupObjArr);
-					tx.executeSql("UPDATE measurement_details SET update_timestamp = '"+update_timestamp+"', group_data = '"+groupJSONObj+"' WHERE server_measurement_id = " + measurementTypeId + "");
+					tx.executeSql("UPDATE measurement_details SET update_timestamp='"+update_timestamp+"', group_data='"+groupJSONObj+"' WHERE server_measurement_id=" + measurementTypeId + "");
 				}
 			});
 		}, errorCBDelRecdsMeasGroupFn, successCBDelRecdsMeasGroupFn);
@@ -1840,7 +1840,7 @@ function deleteRecordsFromMeasurements(){
  						}
 					});
 					var groupJSONObj = JSON.stringify(newGroupObjArr);
-					tx.executeSql("UPDATE measurement_details SET update_timestamp = '"+update_timestamp+"', group_data = '"+groupJSONObj+"' WHERE server_measurement_id = " + measurementTypeId + "");
+					tx.executeSql("UPDATE measurement_details SET update_timestamp='"+update_timestamp+"', group_data='"+groupJSONObj+"' WHERE server_measurement_id=" + measurementTypeId + "");
 				}
 			});
 		}, errorCBDelRecdsMeasurementsFn, successCBDelRecdsMeasurementsFn);
