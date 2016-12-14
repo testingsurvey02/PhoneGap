@@ -1686,9 +1686,12 @@ function deleteRecordsFromProductGallery(){
 					jQuery.each(galleryObj, function(index,value) {
 						var galleryObject = new Object();
 						var gallery_id = value['id'];
+						console.log('gallery_id : '+gallery_id);
+						console.log("galleryId : "+galleryId);
 						if(gallery_id != galleryId){
 							galleryObject = value;
 							newGalleryObjArr.push(galleryObject);
+							console.log('gallery_id Inserted : '+gallery_id);
  						}
 					});
 					var galleryJsonObj = JSON.stringify(newGalleryObjArr);
@@ -1728,7 +1731,10 @@ function deleteRecordsFromAttributeOption(){
 					jQuery.each(optionObj, function(index,value) {
 						var optionObject = new Object();
 						var option_id = value['id'];
+						console.log('optionId : '+measurementId);
+						console.log("option_id : "+option_id);
 						if(optionId != option_id){
+							console.log("option_id Inserted : "+option_id);
 							optionObject = value;
 							newOptionObjArr.push(optionObject);
  						}
@@ -1770,9 +1776,12 @@ function deleteRecordsFromMeasurementGroup(){
 					jQuery.each(groupObj, function(indexObj,valueObj) {
 						var groupObject = new Object();
 						var measurement_group_id = valueObj['id'];
+						console.log('measurement_group_id : '+measurement_group_id);
+						console.log('measurementGroupId : '+measurementGroupId);
 						if(measurement_group_id != measurementGroupId){
 							groupObject = valueObj;
 							newGroupObjArr.push(groupObject);
+							console.log('measurement_group_id : Inserted '+measurement_group_id);
  						}
 					});
 					var groupJSONObj = JSON.stringify(newGroupObjArr);
@@ -1823,8 +1832,11 @@ function deleteRecordsFromMeasurements(){
  							groupObject['updated_at'] = valueGP['updated_at'];
  							var needToDeleteArrayObject = [];
  							jQuery.each(value['measurements'], function(indexObj,valueObj){
+ 								console.log('measurementId : '+measurementId);
+ 								console.log("valueObj['id'] : "+valueObj['id']);
  								if(measurementId != valueObj['id']){
  									var measuObject = new Object();
+ 									console.log("valueObj['id'] Inserted : "+valueObj['id']);
  									measuObject = valueObj;
  									needToDeleteArrayObject.push(measuObject);
  								}
