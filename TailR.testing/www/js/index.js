@@ -64,7 +64,7 @@ var dataSyncTypeMeasurement = 5;
 var dataSyncTypeCustomer = 6;
 var dataSyncTypeOrder = 7;
 var measurementsData;
-var deleteRecordsInLocalDBJsonData;
+var deleteRecordsInLocalDBJsonData = [];
 var needToDeleteInJSonArrayMeasuGroup = [];
 var needToDeleteInJsonArrayProductGall = [];
 var needToDeleteInJsonArrayAttrOptions = [];
@@ -1560,67 +1560,69 @@ function errorCBMeasurementListDB(err) {
 
 function deleteRecordsFromLocalDB(){
 	db.transaction(function(tx) {
-		jQuery.each(deleteRecordsInLocalDBJsonData, function(index,value) {
-			var tableType = value['type'];
-			var tableIndexId = value['type_id'];
-			var tableName = '';
-			var columnName = '';
-			if(tableType == 'product'){
-				tableName = 'product_details';
-				columnName = 'server_prod_id';
-			}else if(tableType == 'category'){
-				tableName = 'category';
-				columnName = 'server_cat_id';
-			}else if(tableType == 'attribute'){
-				tableName = 'product_attributes';
-				columnName = 'server_attr_id';
-			}else if(tableType == 'tailor'){
-				tableName = 'tailor_details';
-				columnName = 'server_td_id';
-			}else if(tableType == 'measurement_type'){
-				tableName = 'measurement_details';
-				columnName = 'server_measurement_id';
-			}else if(tableType == 'measurementgroup'){
-				var measuObj = new Object();
-				var array = [];
-				array = value['tableIndexId'].split(':');
-				measuObj['measType'] = array[0];
-				measuObj['measGroup'] = array[1];
-				needToDeleteInJSonArrayMeasuGroup.push(measuObj); 
-			}else if(tableType == 'product gallary'){
-				var prodObj = new Object();
-				var array = [];
-				array = value['tableIndexId'].split(':');
-				prodObj['prodId'] = array[0];
-				prodObj['galleryId'] = array[1];
-				needToDeleteInJsonArrayProductGall.push(prodObj);
-			}else if(tableType == 'attribute_option'){
-				var attrObj = new Object();
-				var array = [];
-				array = value['tableIndexId'].split(':');
-				attrObj['attrId'] = array[0];
-				attrObj['optionId'] = array[1];
-				needToDeleteInJsonArrayAttrOptions.push(attrObj);
-			}else if(tableType == 'measurements'){
-				var measuObj = new Object();
-				var array = [];
-				array = value['tableIndexId'].split(':');
-				measuObj['measType'] = array[0];
-				measuObj['measGroup'] = array[1];
-				measuObj['measurementId'] = array[2];
-				needToDeleteInJSonArrayMeasurements.push(measuObj);
-			}
-			if(tableName != ''){
-				tx.executeSql('select count(*) as mycount from '+tablename+' where '+ columnName + '='+tableIndexId+'', [], function(tx, rs) {
-			          console.log('Record count (expected to be 1): ' + rs.rows.item(0).mycount);
-			          var recordCount = 0;
-			          recordCount = rs.rows.item(0).mycount;
-			          if(recordCount > 0){
-			        	  tx.executeSql('DELETE FROM '+tableName+' WHERE '+ columnName + '='+tableIndexId+'', errorDeleteRecordsCB); 
-			          }
-				});
-			}
-		});
+		if(deleteRecordsInLocalDBJsonData.length > 0){
+			jQuery.each(deleteRecordsInLocalDBJsonData, function(index,value) {
+				var tableType = value['type'];
+				var tableIndexId = value['type_id'];
+				var tableName = '';
+				var columnName = '';
+				if(tableType == 'product'){
+					tableName = 'product_details';
+					columnName = 'server_prod_id';
+				}else if(tableType == 'category'){
+					tableName = 'category';
+					columnName = 'server_cat_id';
+				}else if(tableType == 'attribute'){
+					tableName = 'product_attributes';
+					columnName = 'server_attr_id';
+				}else if(tableType == 'tailor'){
+					tableName = 'tailor_details';
+					columnName = 'server_td_id';
+				}else if(tableType == 'measurement_type'){
+					tableName = 'measurement_details';
+					columnName = 'server_measurement_id';
+				}else if(tableType == 'measurementgroup'){
+					var measuObj = new Object();
+					var array = [];
+					array = value['tableIndexId'].split(':');
+					measuObj['measType'] = array[0];
+					measuObj['measGroup'] = array[1];
+					needToDeleteInJSonArrayMeasuGroup.push(measuObj); 
+				}else if(tableType == 'product gallary'){
+					var prodObj = new Object();
+					var array = [];
+					array = value['tableIndexId'].split(':');
+					prodObj['prodId'] = array[0];
+					prodObj['galleryId'] = array[1];
+					needToDeleteInJsonArrayProductGall.push(prodObj);
+				}else if(tableType == 'attribute_option'){
+					var attrObj = new Object();
+					var array = [];
+					array = value['tableIndexId'].split(':');
+					attrObj['attrId'] = array[0];
+					attrObj['optionId'] = array[1];
+					needToDeleteInJsonArrayAttrOptions.push(attrObj);
+				}else if(tableType == 'measurements'){
+					var measuObj = new Object();
+					var array = [];
+					array = value['tableIndexId'].split(':');
+					measuObj['measType'] = array[0];
+					measuObj['measGroup'] = array[1];
+					measuObj['measurementId'] = array[2];
+					needToDeleteInJSonArrayMeasurements.push(measuObj);
+				}
+				if(tableName != ''){
+					tx.executeSql('select count(*) as mycount from '+tablename+' where '+ columnName + '='+tableIndexId+'', [], function(tx, rs) {
+				          console.log('Record count (expected to be 1): ' + rs.rows.item(0).mycount);
+				          var recordCount = 0;
+				          recordCount = rs.rows.item(0).mycount;
+				          if(recordCount > 0){
+				        	  tx.executeSql('DELETE FROM '+tableName+' WHERE '+ columnName + '='+tableIndexId+'', errorDeleteRecordsCB); 
+				          }
+					});
+				}
+			});
+		}
 	},errorCBDeleteDataInLocalDB, successCBDeleteDataInLocalDB);
 }
 
@@ -3187,6 +3189,7 @@ function successCBUpdateCustomerSyncDB(){
 		deleteRecordStatus = 1;
 		var responseJson = $.parseJSON(JSON.stringify(data));
 		deleteRecordsInLocalDBJsonData = responseJson["result"];
+		console.log(deleteRecordsInLocalDBJsonData);
 		deleteRecordsFromLocalDB();
 	}
 	
