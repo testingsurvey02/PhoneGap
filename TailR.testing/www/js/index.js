@@ -1645,19 +1645,19 @@ function successCBDeleteDataInLocalDB(){
 }
 
 function deleteChildArraysByMethods(){
-	if(needToDeleteInJSonArrayMeasuGroup.length == 0 && needToDeleteInJsonArrayProductGall.length == 0 && needToDeleteInJsonArrayAttrOptions.length == 0 &&	needToDeleteInJSonArrayMeasurements.length == 0){
+	if(needToDeleteInJSonArrayMeasuGroup.length > 0){
+		deleteRecordsFromMeasurementGroup();
+	}else if(needToDeleteInJsonArrayProductGall.length > 0){
+		deleteRecordsFromProductGallery();
+	}else if(needToDeleteInJsonArrayAttrOptions.length > 0){
+		deleteRecordsFromAttributeOption();
+	}else if(needToDeleteInJSonArrayMeasurements.length > 0){
+		deleteRecordsFromMeasurements();
+	}else if(needToDeleteInJSonArrayMeasuGroup.length == 0 && needToDeleteInJsonArrayProductGall.length == 0 && 
+			needToDeleteInJsonArrayAttrOptions.length == 0 &&	needToDeleteInJSonArrayMeasurements.length == 0){
 		getCategoriesListFromLocal();
-	}else {
-		if(needToDeleteInJSonArrayMeasuGroup.length > 0){
-			deleteRecordsFromMeasurementGroup();
-		}else if(needToDeleteInJsonArrayProductGall.length > 0){
-			deleteRecordsFromProductGallery();
-		}else if(needToDeleteInJsonArrayAttrOptions.length > 0){
-			deleteRecordsFromAttributeOption();
-		}else if(needToDeleteInJSonArrayMeasurements.length > 0){
-			deleteRecordsFromMeasurements();
-		}
 	}
+	
 }
 
 function deleteRecordsFromProductGallery(){
