@@ -4079,8 +4079,8 @@ function successCBUpdateCustomerSyncDB(){
 			for(var i = 0; i <= serverCustomerIdArray.length; i++){
 				var customerIdObject = localCustomerIdArray[i];
 				var serverCustomerIdObject = serverCustomerIdArray[i];
-				var customer_id = orderIdObject['app_customer_id'];
-				var last_insert_id = serverOrderIdObject['last_insert_id'];
+				var customer_id = customerIdObject['app_customer_id'];
+				var last_insert_id = serverCustomerIdObject['last_insert_id'];
 				tx.executeSql("UPDATE customer_details SET update_timestamp='"+currDateTimestamp+"', sync_date='"+currDateTimestamp+"', sync_status=1, cust_server_id="+last_insert_id+" WHERE id="+customer_id+"");
 			}
 		}else{
@@ -4157,8 +4157,8 @@ function successCBUpdateCustomerSyncDB(){
 			for(var i = 0; i <= serverCustomerIdArray.length; i++){
 				var customerIdObject = localCustomerIdArray[i];
 				var serverCustomerIdObject = serverCustomerIdArray[i];
-				var customer_id = orderIdObject['app_customer_id'];
-				var last_insert_id = serverOrderIdObject['last_insert_id'];
+				var customer_id = customerIdObject['app_customer_id'];
+				var last_insert_id = serverCustomerIdObject['last_insert_id'];
 				tx.executeSql("UPDATE customer_details SET update_timestamp='"+currDateTimestamp+"', sync_date='"+currDateTimestamp+"', sync_status=1, cust_server_id="+last_insert_id+" WHERE id="+customer_id+"");
 			}
 		}else{
