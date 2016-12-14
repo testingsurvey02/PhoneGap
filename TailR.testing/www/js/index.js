@@ -1649,7 +1649,7 @@ function deleteChildArraysByMethods(){
 	console.log('needToDeleteInJsonArrayProductGall  '+needToDeleteInJsonArrayProductGall.length);
 	console.log('needToDeleteInJsonArrayAttrOptions  '+needToDeleteInJsonArrayAttrOptions.length);
 	console.log('needToDeleteInJSonArrayMeasurements  '+needToDeleteInJSonArrayMeasurements.length);
-	
+	console.log('switch case');
 	if(indexToDelete == 0){
 		if(needToDeleteInJSonArrayMeasuGroup.length == 0){
 			indexToDelete = parseInt(indexToDelete)+1;
