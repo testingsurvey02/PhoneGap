@@ -3563,10 +3563,10 @@ function successCBUpdateCustomerSyncDB(){
 		$('#orderReportPageId').find('table tbody').empty();
 		var tableRowMain = '';
 		if(orderArrData != ''){
-			sendCustomerDataToSaveInServer = [];
+			/*sendCustomerDataToSaveInServer = [];
 			sendCustomerDataToUpdateInServer = [];
 			sendOrderDataToSaveInServer = [];
-			sendOrderDataToUpdateInServer = [];
+			sendOrderDataToUpdateInServer = [];*/
 			jQuery.each(orderArrData, function(index,value) {
 				var order_id = value['id'];
 				var server_cat_id = value['server_cat_id'];
@@ -3754,7 +3754,8 @@ function successCBUpdateCustomerSyncDB(){
 		gotoOrderPageDiv();
 		console.log(connectionType);
 		if(connectionType=="WiFi connection" || connectionType=="Cell 4G connection" || connectionType=="Cell 5G connection" || connectionType=="Cell 3G connection" || connectionType=="Cell 2G connection"){
-			sendOrderDetailsToSaveInServer();
+			sendDataToServer();
+			sendDataToServerStatus = true;
 		}
 	}
 	
@@ -3974,6 +3975,27 @@ function successCBUpdateCustomerSyncDB(){
 		
 	}*/
 	
+	function sendDataToServer(){
+		
+		if(sendOrderDataToSaveInServer.length > 0){
+			sendOrderDetailsToSaveInServer();
+		}
+		if(sendOrderDataToUpdateInServer.length > 0){
+			sendOrderDetailsToUpdateInServer();
+		}
+		if(sendCustomerDataToSaveInServer.length > 0){
+			sendCustomerDetailsToSaveInServer();
+		}
+		if(sendCustomerDataToUpdateInServer.length > 0){
+			sendCustomerDetailsToUpdateInServer();
+		}
+		
+		if(sendOrderDataToSaveInServer.length == 0 && sendOrderDataToUpdateInServer.length == 0 && sendCustomerDataToSaveInServer.length == 0
+				&& sendCustomerDataToUpdateInServer.length == 0){
+			sendDataToServerStatus = false;
+		}
+	}
+	
 	// Send Data to Server
 	function sendCustomerDetailsToSaveInServer(){
 		var dataToSend = {};
@@ -4008,7 +4030,7 @@ function successCBUpdateCustomerSyncDB(){
 		//alert('dataparse : '+$.parseJSON(tailorDetailsJsonData));
 		//alert('tailorDetailsJsonData : '+tailorDetailsJsonData);
 		// FIXME CHECK JSON DATA
-		db.transaction(updateCustomerDetailsForSaveFn, errorCBCustomerDetails, successCBCustomerDetails);
+		db.transaction(updateCustomerDetailsForSaveFn, errorCBCustomerDetails, successCBCustomerDetailsSaveFn);
 	}
 	
 	function updateCustomerDetailsForSaveFn(tx) {
@@ -4056,7 +4078,7 @@ function successCBUpdateCustomerSyncDB(){
 		//alert('dataparse : '+$.parseJSON(tailorDetailsJsonData));
 		//alert('tailorDetailsJsonData : '+tailorDetailsJsonData);
 		// FIXME CHECK JSON DATA
-		db.transaction(updateCustomerDetailsForUpdateFn, errorCBCustomerDetails, successCBCustomerDetails);
+		db.transaction(updateCustomerDetailsForUpdateFn, errorCBCustomerDetails, successCBCustomerDetailsUpdateFn);
 	}
 	
 	function errorCBCustomerDetails(err){
@@ -4064,8 +4086,16 @@ function successCBUpdateCustomerSyncDB(){
 		console.log('errorCBCustomerDetails : '+err.message);
 	}
 	
-	function successCBCustomerDetails(){
-		console.log('successCBCustomerDetails');
+	function successCBCustomerDetailsSaveFn(){
+		console.log('successCBCustomerDetailsSaveFn');
+		sendCustomerDataToSaveInServer = [];
+		sendDataToServer();
+	}
+	
+	function successCBCustomerDetailsUpdateFn(){
+		console.log('successCBCustomerDetailsUpdateFn');
+		sendCustomerDataToUpdateInServer = [];
+		sendDataToServer();
 	}
 	
 	function updateCustomerDetailsForUpdateFn(tx) {
@@ -4122,13 +4152,14 @@ function successCBUpdateCustomerSyncDB(){
 	
 	function successCBOrderDetailsForSavedFn(){
 		console.log('successCBOrderDetailsForSavedFn');
+		sendOrderDataToSaveInServer = [];
+		sendDataToServer();
 	}
 	
 	function successCBOrderDetailsForUpdateFn(){
-		console.log('successCBOrderDetailsForSavedFn');
-		if(sendOrderDataToUpdateInServer.length != 0){
-			sendOrderDetailsToUpdateInServer();
-		}
+		console.log('successCBOrderDetailsForUpdateFn');
+		sendOrderDataToUpdateInServer = [];
+		sendDataToServer();
 	}
 	
 	function updateOrderDetailsForSavedFn(tx) {
