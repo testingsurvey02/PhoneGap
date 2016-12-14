@@ -1639,7 +1639,7 @@ function errorCBDeleteDataInLocalDB(er){
 }
 
 function successCBDeleteDataInLocalDB(){
-	insertAndUpdateDataFromServer(dataSyncTypeTailor);
+	insertAndUpdateDataFromServer(dataSyncTypeCategory);
 }
 
 function deleteRecordsFromProductGallery(){
