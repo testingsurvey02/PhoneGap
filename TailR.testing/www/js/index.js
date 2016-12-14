@@ -1687,10 +1687,6 @@ function deleteRecordsFromProductGallery(){
 						var galleryObject = new Object();
 						var gallery_id = value['id'];
 						if(gallery_id != galleryId){
-							/*galleryObject['id'] = gallery_id;
-							galleryObject['pdt_id'] = valueObj['pdt_id'];
-							galleryObject['image'] = valueObj['image'];
-							*/
 							galleryObject = value;
 							newGalleryObjArr.push(galleryObject);
  						}
@@ -1733,10 +1729,6 @@ function deleteRecordsFromAttributeOption(){
 						var optionObject = new Object();
 						var option_id = value['id'];
 						if(optionId != option_id){
-							/*galleryObject['id'] = gallery_id;
-							galleryObject['pdt_id'] = valueObj['pdt_id'];
-							galleryObject['image'] = valueObj['image'];
-							*/
 							optionObject = value;
 							newOptionObjArr.push(optionObject);
  						}
@@ -1779,10 +1771,6 @@ function deleteRecordsFromMeasurementGroup(){
 						var groupObject = new Object();
 						var measurement_group_id = valueObj['id'];
 						if(measurement_group_id != measurementGroupId){
-							/*galleryObject['id'] = gallery_id;
-							galleryObject['pdt_id'] = valueObj['pdt_id'];
-							galleryObject['image'] = valueObj['image'];
-							*/
 							groupObject = valueObj;
 							newGroupObjArr.push(groupObject);
  						}
