@@ -3188,6 +3188,8 @@ function successCBUpdateCustomerSyncDB(){
 	function successCBDeleteInDBFromServerFn(data){
 		deleteRecordStatus = 1;
 		var responseJson = $.parseJSON(JSON.stringify(data));
+		console.log(data);
+		console.log(responseJson);
 		deleteRecordsInLocalDBJsonData = responseJson["result"];
 		console.log(deleteRecordsInLocalDBJsonData);
 		deleteRecordsFromLocalDB();
