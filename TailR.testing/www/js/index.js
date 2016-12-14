@@ -1650,14 +1650,11 @@ function deleteChildArraysByMethods(){
 	}else {
 		if(needToDeleteInJSonArrayMeasuGroup.length > 0){
 			deleteRecordsFromMeasurementGroup();
-		}
-		if(needToDeleteInJsonArrayProductGall.length > 0){
+		}else if(needToDeleteInJsonArrayProductGall.length > 0){
 			deleteRecordsFromProductGallery();
-		}
-		if(needToDeleteInJsonArrayAttrOptions.length > 0){
+		}else if(needToDeleteInJsonArrayAttrOptions.length > 0){
 			deleteRecordsFromAttributeOption();
-		}
-		if(needToDeleteInJSonArrayMeasurements.length > 0){
+		}else if(needToDeleteInJSonArrayMeasurements.length > 0){
 			deleteRecordsFromMeasurements();
 		}
 	}
@@ -4056,7 +4053,7 @@ function successCBUpdateCustomerSyncDB(){
 		console.log(data);
 		var responseJson = $.parseJSON(JSON.stringify(data));
 		
-		updateCustomerDetailsForSavedData = responseJson["result"];
+		updateCustomerDetailsForSavedData = responseJson;
 		//alert('dataparse : '+$.parseJSON(tailorDetailsJsonData));
 		//alert('tailorDetailsJsonData : '+tailorDetailsJsonData);
 		// FIXME CHECK JSON DATA
@@ -4119,7 +4116,7 @@ function successCBUpdateCustomerSyncDB(){
 		console.log(data);
 		var responseJson = $.parseJSON(JSON.stringify(data));
 		
-		updateCustomerDetailsForUpdatedData = responseJson["result"];
+		updateCustomerDetailsForUpdatedData = responseJson;
 		//alert('dataparse : '+$.parseJSON(tailorDetailsJsonData));
 		//alert('tailorDetailsJsonData : '+tailorDetailsJsonData);
 		// FIXME CHECK JSON DATA
@@ -4182,7 +4179,7 @@ function successCBUpdateCustomerSyncDB(){
 			$.ajax({
 				type : ajaxCallPost,
 				url: appurltemps,
-				data : JSON.stringify(dataToSend),
+				data : dataToSend,
 				success: successCBOrderDetailsSaveFn,
 				error: commonErrorCallback
 			});
@@ -4286,7 +4283,7 @@ function successCBUpdateCustomerSyncDB(){
 			$.ajax({
 				type : ajaxCallPost,
 				url: appurltemps,
-				data : JSON.stringify(dataToSend),
+				data : dataToSend,
 				success: successCBOrderDetailsUpdatedFn,
 				error: commonErrorCallback
 			});
@@ -4300,7 +4297,7 @@ function successCBUpdateCustomerSyncDB(){
 		console.log(data);
 		var responseJson = $.parseJSON(JSON.stringify(data));
 		
-		updateOrderDetailsForUpdatedData = responseJson["result"];
+		updateOrderDetailsForUpdatedData = responseJson;
 		//alert('dataparse : '+$.parseJSON(tailorDetailsJsonData));
 		//alert('tailorDetailsJsonData : '+tailorDetailsJsonData);
 		// FIXME CHECK JSON DATA
