@@ -4105,6 +4105,7 @@ function successCBUpdateCustomerSyncDB(){
 	}
 	
 	function errorCBCustomerDetails(err){
+		sendDataToServerStatus = false;
 		console.log('errorCBCustomerDetails : '+err.code);
 		console.log('errorCBCustomerDetails : '+err.message);
 	}
@@ -4180,6 +4181,7 @@ function successCBUpdateCustomerSyncDB(){
 	}
 	
 	function errorCBOrderDetails(err){
+		sendDataToServerStatus = false;
 		console.log('errorCBOrderDetails : '+err.code);
 		console.log('errorCBOrderDetails : '+err.message);
 	}
@@ -4292,7 +4294,7 @@ function successCBUpdateCustomerSyncDB(){
 				var serverOrderIdObject = serverOrderIdArray[i];
 				var orderId = orderIdObject['app_order_id'];
 				var serverOrderId = serverOrderIdObject['last_insert_id'];
-				tx.executeSql("UPDATE order_details SET update_timestamp='"+currDateTimestamp+"', sync_date = '" + currDateTimestamp + ", sync_status = 1', order_server_id = "+serverOrderId+" WHERE id = " + orderId + "");
+				tx.executeSql("UPDATE order_details SET update_timestamp='"+currDateTimestamp+"', sync_date='"+currDateTimestamp+"', sync_status=1, order_server_id="+serverOrderId+" WHERE id="+orderId+"");
 			}
 		}else{
 			alert('Please contact your administrator');
