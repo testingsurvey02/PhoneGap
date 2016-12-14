@@ -1643,55 +1643,28 @@ function errorCBDeleteDataInLocalDB(er){
 function successCBDeleteDataInLocalDB(){
 	deleteChildArraysByMethods();
 }
- var indexToDelete = 0;
+
+var callCategoryFunctionIndex = 0;
 function deleteChildArraysByMethods(){
 	console.log('needToDeleteInJSonArrayMeasuGroup  '+needToDeleteInJSonArrayMeasuGroup.length);
 	console.log('needToDeleteInJsonArrayProductGall  '+needToDeleteInJsonArrayProductGall.length);
 	console.log('needToDeleteInJsonArrayAttrOptions  '+needToDeleteInJsonArrayAttrOptions.length);
 	console.log('needToDeleteInJSonArrayMeasurements  '+needToDeleteInJSonArrayMeasurements.length);
-	console.log('switch case');
-	if(indexToDelete == 0){
-		if(needToDeleteInJSonArrayMeasuGroup.length == 0){
-			indexToDelete = parseInt(indexToDelete)+1;
-		}
-	}
-	if(indexToDelete == 1){
-		if(needToDeleteInJsonArrayProductGall.length == 0){
-			indexToDelete = parseInt(indexToDelete)+1;
-		}
-	}
-	
-	if(indexToDelete == 2){
-		if(needToDeleteInJsonArrayAttrOptions.length == 0){
-			indexToDelete = parseInt(indexToDelete)+1;
-		}
-	}
-	
-	if(indexToDelete == 3){
-		if(needToDeleteInJSonArrayMeasurements.length == 0){
-			indexToDelete = parseInt(indexToDelete)+1;
-		}
-	}
-	
-	switch (indexToDelete) {
-	case 0:
+	if(needToDeleteInJSonArrayMeasuGroup.length > 0){
 		deleteRecordsFromMeasurementGroup();
-		break;
-	case 1:
+	}else if(needToDeleteInJsonArrayProductGall.length > 0){
 		deleteRecordsFromProductGallery();
-		break;
-	case 2:
+	}else if(needToDeleteInJsonArrayAttrOptions.length > 0){
 		deleteRecordsFromAttributeOption();
-		break;
-	case 3:
+	}else if(needToDeleteInJSonArrayMeasurements.length > 0){
 		deleteRecordsFromMeasurements();
-		break;
-	case 4:
-		getCategoriesListFromLocal();
-		break;
-
-	default:
-		break;
+	}else if(needToDeleteInJSonArrayMeasuGroup.length == 0 && needToDeleteInJsonArrayProductGall.length == 0 && 
+			needToDeleteInJsonArrayAttrOptions.length == 0 && needToDeleteInJSonArrayMeasurements.length == 0){
+		if(callCategoryFunctionIndex == 0){
+			getCategoriesListFromLocal();
+			callCategoryFunctionIndex ++;
+		}
+		
 	}
 }
 
