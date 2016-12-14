@@ -3655,9 +3655,10 @@ function successCBUpdateCustomerSyncDB(){
 							//dataToSendCustomer["sync_status"] = sync_status_customer;
 							
 							if(sync_date_customer == '' && parseInt(sync_status_customer) == 0){
+								console.log('dataToSendCustomer status 0 --- '+dataToSendCustomer);
 								sendCustomerDataToSaveInServer.push(dataToSendCustomer);
 							}else{
-								console.log('dataToSendCustomer  --- '+dataToSendCustomer);
+								console.log('dataToSendCustomer status 2 --- '+dataToSendCustomer);
 								dataToSendCustomer["id"] = customer_server_id;
 								sendCustomerDataToUpdateInServer.push(dataToSendCustomer);
 							}
@@ -3677,8 +3678,10 @@ function successCBUpdateCustomerSyncDB(){
 							dataToSendOrder["sync_status"] = sync_status_order;
 							
 							if(sync_date_order == '' && parseInt(sync_status_order) == 0){
+								console.log('dataToSendOrder status 0  --- '+dataToSendOrder);
 								sendOrderDataToSaveInServer.push(dataToSendOrder);
 							}else{
+								console.log('dataToSendOrder status 2  --- '+dataToSendOrder);
 								dataToSendOrder["id"] = order_server_id;
 								sendOrderDataToUpdateInServer.push(dataToSendOrder);
 							}
