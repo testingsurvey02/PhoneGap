@@ -4044,11 +4044,26 @@ function successCBUpdateCustomerSyncDB(){
 	function updateCustomerDetailsForSaveFn(tx) {
 		var currDateTimestamp="";
 		currDateTimestamp=dateTimestamp();
-		jQuery.each(updateCustomerDetailsForSavedData, function(index,value) {
+		/*jQuery.each(updateCustomerDetailsForSavedData, function(index,value) {
 			var customer_id = value['id'];
 			var last_insert_id = value['last_insert_id'];
 			tx.executeSql("UPDATE customer_details SET update_timestamp='"+currDateTimestamp+"', sync_date = '" + currDateTimestamp + ", sync_status = 1', cust_server_id = "+last_insert_id+" WHERE id = " + customer_id + "");
-		});
+		});*/
+		var serverCustomerIdArray = [];
+		var localCustomerIdArray = [];
+		serverCustomerIdArray = updateCustomerDetailsForSavedData['last_insert_id'];
+		localCustomerIdArray = updateCustomerDetailsForSavedData['app_customer_id'];
+		if(serverCustomerIdArray.length == localCustomerIdArray.length){
+			for(var i = 0; i <= serverCustomerIdArray.length; i++){
+				var customerIdObject = localCustomerIdArray[i];
+				var serverCustomerIdObject = serverCustomerIdArray[i];
+				var customer_id = orderIdObject['app_customer_id'];
+				var last_insert_id = serverOrderIdObject['last_insert_id'];
+				tx.executeSql("UPDATE customer_details SET update_timestamp='"+currDateTimestamp+"', sync_date='"+currDateTimestamp+"', sync_status=1, cust_server_id="+last_insert_id+" WHERE id="+customer_id+"");
+			}
+		}else{
+			alert('Please contact your administrator');
+		}
 	}
 
 	
@@ -4109,11 +4124,22 @@ function successCBUpdateCustomerSyncDB(){
 	function updateCustomerDetailsForUpdateFn(tx) {
 		var currDateTimestamp="";
 		currDateTimestamp=dateTimestamp();
-		jQuery.each(updateCustomerDetailsForSavedData, function(index,value) {
-			var customer_id = value['id'];
-			var last_insert_id = value['last_insert_id'];
-			tx.executeSql("UPDATE customer_details SET update_timestamp='"+currDateTimestamp+"', sync_date = '" + currDateTimestamp + ", sync_status = 1', cust_server_id = "+last_insert_id+" WHERE id = " + customer_id + "");
-		});
+		
+		var serverCustomerIdArray = [];
+		var localCustomerIdArray = [];
+		serverCustomerIdArray = updateCustomerDetailsForSavedData['last_insert_id'];
+		localCustomerIdArray = updateCustomerDetailsForSavedData['app_customer_id'];
+		if(serverCustomerIdArray.length == localCustomerIdArray.length){
+			for(var i = 0; i <= serverCustomerIdArray.length; i++){
+				var customerIdObject = localCustomerIdArray[i];
+				var serverCustomerIdObject = serverCustomerIdArray[i];
+				var customer_id = orderIdObject['app_customer_id'];
+				var last_insert_id = serverOrderIdObject['last_insert_id'];
+				tx.executeSql("UPDATE customer_details SET update_timestamp='"+currDateTimestamp+"', sync_date='"+currDateTimestamp+"', sync_status=1, cust_server_id="+last_insert_id+" WHERE id="+customer_id+"");
+			}
+		}else{
+			alert('Please contact your administrator');
+		}
 	}
 	
 	function sendOrderDetailsToSaveInServer(){
@@ -4179,8 +4205,10 @@ function successCBUpdateCustomerSyncDB(){
 		localOrderIdArray = updateOrderDetailsForSavedData['app_order_id'];
 		if(serverOrderIdArray.length == localOrderIdArray.length){
 			for(var i = 0; i <= serverOrderIdArray.length; i++){
-				var orderId = localOrderIdArray[i];
-				var serverOrderId = serverOrderIdArray[i];
+				var orderIdObject = localOrderIdArray[i];
+				var serverOrderIdObject = serverOrderIdArray[i];
+				var orderId = orderIdObject['app_order_id'];
+				var serverOrderId = serverOrderIdObject['last_insert_id'];
 				tx.executeSql("UPDATE order_details SET update_timestamp='"+currDateTimestamp+"', sync_date='"+currDateTimestamp+"', sync_status=1, order_server_id="+serverOrderId+" WHERE id="+orderId+"");
 			}
 		}else{
@@ -4254,15 +4282,16 @@ function successCBUpdateCustomerSyncDB(){
 	function updateOrderDetailsForUpdatedFn(tx) {
 		var currDateTimestamp="";
 		currDateTimestamp=dateTimestamp();
-		
 		var serverOrderIdArray = [];
 		var localOrderIdArray = [];
 		serverOrderIdArray = updateOrderDetailsForUpdatedData['last_insert_id'];
 		localOrderIdArray = updateOrderDetailsForUpdatedData['app_order_id'];
 		if(serverOrderIdArray.length == localOrderIdArray.length){
 			for(var i = 0; i <= serverOrderIdArray.length; i++){
-				var orderId = localOrderIdArray[i];
-				var serverOrderId = serverOrderIdArray[i];
+				var orderIdObject = localOrderIdArray[i];
+				var serverOrderIdObject = serverOrderIdArray[i];
+				var orderId = orderIdObject['app_order_id'];
+				var serverOrderId = serverOrderIdObject['last_insert_id'];
 				tx.executeSql("UPDATE order_details SET update_timestamp='"+currDateTimestamp+"', sync_date = '" + currDateTimestamp + ", sync_status = 1', order_server_id = "+serverOrderId+" WHERE id = " + orderId + "");
 			}
 		}else{
