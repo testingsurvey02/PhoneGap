@@ -2502,7 +2502,6 @@ function successCBUpdateCustomerSyncDB(){
 					          if(parseInt(recordCount) > 0){
 					        	  getCategoriesListFromLocal();
 					          }else{*/
-						deleteRecordStatus == 0;
 					    getCategoriesDataFromServer();
 					    /*      }
 						});*/
