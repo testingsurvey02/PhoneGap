@@ -2132,12 +2132,12 @@ function updateCustomerDetailsInLocalDB(customerObject){
 	var pincode = customerObject['pincode'];
 	var currDateTimestamp = dateTimestamp();
 	db.transaction(	function (tx){
-		tx.executeSql('select * from customer_details where id ='+customer_id ,[],function(tx,results){
+		tx.executeSql('select * from customer_details where id ='+customerId ,[],function(tx,results){
 			var len = 0;
 			len = results.rows.length;
 			if(len > 0){
 				for (var i = 0; i < len; i++) {
-					var syncStatus = resultsCus.rows.item(0)['sync_status'];
+					var syncStatus = results.rows.item(0)['sync_status'];
 					if(syncStatus == 1){
 						tx.executeSql("UPDATE customer_details SET name='" + customerName + "', update_timestamp='"+currDateTimestamp+"', address_two='"+address2+"', address_one='"+address1+"', sync_status= 2, pincode='"+pincode+"', city='"+city+"', state='"+state+"', total_price='"+totalPrice+"', balance_price='"+balancePrice+"', contact_number='"+contactNumber+"', email_id='"+emailId+"'  WHERE id=" + customerId + "");
 					}else{
@@ -2178,7 +2178,7 @@ function updateOrderDetailsInLocalDB(orderJson){
 			len = results.rows.length;
 			if(len > 0){
 				for (var i = 0; i < len; i++) {
-					var syncStatus = resultsCus.rows.item(0)['sync_status'];
+					var syncStatus = results.rows.item(0)['sync_status'];
 					if(syncStatus == 1){
 						tx.executeSql("UPDATE order_details SET order_data='" + measurementData + "', update_timestamp='"+currDateTimestamp+"', sync_status=2 WHERE id=" + orderId + "");
 					}else{
@@ -3645,12 +3645,13 @@ function successCBUpdateCustomerSyncDB(){
 							dataToSendCustomer["contact"] = contactNumber;
 							dataToSendCustomer["email"] = emailId;
 							dataToSendCustomer["status"] = 1;
-							dataToSendCustomer["sync_date"] = sync_date_customer;
-							dataToSendCustomer["sync_status"] = sync_status_customer;
-							dataToSendCustomer["id"] = customer_server_id;
+							//dataToSendCustomer["sync_date"] = sync_date_customer;
+							//dataToSendCustomer["sync_status"] = sync_status_customer;
+							
 							if(sync_date_customer == '' && sync_status_customer == 0){
 								sendCustomerDataToSaveInServer.push(dataToSendCustomer);
 							}else if(sync_date_customer != '' && sync_status_customer == 2){
+								dataToSendCustomer["id"] = customer_server_id;
 								sendCustomerDataToUpdateInServer.push(dataToSendCustomer);
 							}
 						}
@@ -4009,8 +4010,9 @@ function successCBUpdateCustomerSyncDB(){
 		var dataToSend = {};
 		dataToSend["secret_key"] = tailorDetailsSession.secret_key;
 		dataToSend["tailor_id"] = tailorDetailsSession.tailor_details_id;
-		dataToSend["customer"] = JSON.stringify(sendCustomerDataToSaveInServer);
-		
+		dataToSend["customers"] = JSON.stringify(sendCustomerDataToSaveInServer);
+		console.log(sendCustomerDataToSaveInServer);
+		console.log(dataToSend);
 		var appurltemps="http://tailorapp.tailorrani.com/api/customers/storejson"
 		connectionType=checkConnection();
 		if(connectionType=="Unknown connection" || connectionType=="No network connection"){
@@ -4072,7 +4074,7 @@ function successCBUpdateCustomerSyncDB(){
 		
 		dataToSend["secret_key"] = tailorDetailsSession.secret_key;
 		dataToSend["tailor_id"] = tailorDetailsSession.tailor_details_id;
-		dataToSend["customer"] = JSON.stringify(sendCustomerDataToUpdateInServer);
+		dataToSend["customers"] = JSON.stringify(sendCustomerDataToUpdateInServer);
 		
 		var appurltemps="http://tailorapp.tailorrani.com/api/customers/updateJson"
 		connectionType=checkConnection();
@@ -4244,6 +4246,9 @@ function successCBUpdateCustomerSyncDB(){
     	dataToSend["secret_key"] = tailorDetailsSession.secret_key;
 		dataToSend["tailor_id"] = tailorDetailsSession.tailor_details_id;
 		dataToSend["orders"] = JSON.stringify(sendOrderDataToUpdateInServer);
+		
+		console.log('dataToSend Order '+dataToSend);
+		
 		/*dataToSend["customer_id"] = $('#customerIdInput').val();
 		dataToSend["order_id"] = $('#newOrderId').val();
 		dataToSend["order_price"] = $('#priceInput').val();
