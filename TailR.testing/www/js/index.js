@@ -3571,10 +3571,10 @@ function successCBUpdateCustomerSyncDB(){
 		$('#orderReportPageId').find('table tbody').empty();
 		var tableRowMain = '';
 		if(orderArrData != ''){
-			/*sendCustomerDataToSaveInServer = [];
+			sendCustomerDataToSaveInServer = [];
 			sendCustomerDataToUpdateInServer = [];
 			sendOrderDataToSaveInServer = [];
-			sendOrderDataToUpdateInServer = [];*/
+			sendOrderDataToUpdateInServer = [];
 			jQuery.each(orderArrData, function(index,value) {
 				var order_id = value['id'];
 				var server_cat_id = value['server_cat_id'];
@@ -3589,6 +3589,8 @@ function successCBUpdateCustomerSyncDB(){
 				console.log('option_selected --------- '+option_selected);
 				var sync_date_order = value['sync_date'];
 				var sync_status_order = value['sync_status'];
+				console.log('sync_date_order  ' +sync_date_order);
+				console.log('sync_status_order ' +sync_status_order);
 				var order_server_id = value['order_server_id'];
 				//console.log($.parseJSON(option_selected));
 				//console.log(JSON.stringify(option_selected));
@@ -3614,6 +3616,8 @@ function successCBUpdateCustomerSyncDB(){
 						emailId = valueObj['email_id'];
 						sync_date_customer = valueObj['sync_date'];
 						sync_status_customer = valueObj['sync_status'];
+						console.log('sync_date_customer  ' +sync_date_customer);
+						console.log('sync_status_customer ' +sync_status_customer);
 						tableRow += '<td>'+customerName+'</td>';
 						tableRow += '<td>'+contactNumber+'</td>';
 						customerExist = true;
@@ -3637,7 +3641,7 @@ function successCBUpdateCustomerSyncDB(){
 						var currDateTimestamp="";
 						currDateTimestamp=dateTimestamp();
 						if(sync_status_customer != 1){
-							var dataToSendCustomer = {};
+							var dataToSendCustomer = new Object();
 							//dataToSendCustomer["secret_key"] = tailorDetailsSession.secret_key;
 							dataToSendCustomer["name"] = customerName;
 							//dataToSendCustomer["tailor_id"] = tailorDetailsSession.tailor_details_id;
@@ -3648,9 +3652,10 @@ function successCBUpdateCustomerSyncDB(){
 							//dataToSendCustomer["sync_date"] = sync_date_customer;
 							//dataToSendCustomer["sync_status"] = sync_status_customer;
 							
-							if(sync_date_customer == '' && sync_status_customer == 0){
+							if(sync_date_customer == '' && parseInt(sync_status_customer) == 0){
 								sendCustomerDataToSaveInServer.push(dataToSendCustomer);
-							}else if(sync_date_customer != '' && sync_status_customer == 2){
+							}else{
+								console.log('dataToSendCustomer  --- '+dataToSendCustomer);
 								dataToSendCustomer["id"] = customer_server_id;
 								sendCustomerDataToUpdateInServer.push(dataToSendCustomer);
 							}
@@ -3669,9 +3674,9 @@ function successCBUpdateCustomerSyncDB(){
 							dataToSendOrder["sync_date"] = sync_date_order;
 							dataToSendOrder["sync_status"] = sync_status_order;
 							
-							if(sync_date_order == '' && sync_status_order == 0){
+							if(sync_date_order == '' && parseInt(sync_status_order) == 0){
 								sendOrderDataToSaveInServer.push(dataToSendOrder);
-							}else if(sync_date_order != '' && sync_status_order == 2){
+							}else{
 								dataToSendOrder["id"] = order_server_id;
 								sendOrderDataToUpdateInServer.push(dataToSendOrder);
 							}
@@ -3990,18 +3995,13 @@ function successCBUpdateCustomerSyncDB(){
 		
 		if(sendOrderDataToSaveInServer.length > 0){
 			sendOrderDetailsToSaveInServer();
-		}
-		if(sendOrderDataToUpdateInServer.length > 0){
+		}else if(sendOrderDataToUpdateInServer.length > 0){
 			sendOrderDetailsToUpdateInServer();
-		}
-		if(sendCustomerDataToSaveInServer.length > 0){
+		}else if(sendCustomerDataToSaveInServer.length > 0){
 			sendCustomerDetailsToSaveInServer();
-		}
-		if(sendCustomerDataToUpdateInServer.length > 0){
+		}else if(sendCustomerDataToUpdateInServer.length > 0){
 			sendCustomerDetailsToUpdateInServer();
-		}
-		
-		if(sendOrderDataToSaveInServer.length == 0 && sendOrderDataToUpdateInServer.length == 0 && sendCustomerDataToSaveInServer.length == 0
+		}else if(sendOrderDataToSaveInServer.length == 0 && sendOrderDataToUpdateInServer.length == 0 && sendCustomerDataToSaveInServer.length == 0
 				&& sendCustomerDataToUpdateInServer.length == 0){
 			sendDataToServerStatus = false;
 		}
@@ -4042,7 +4042,7 @@ function successCBUpdateCustomerSyncDB(){
 		//alert('dataparse : '+$.parseJSON(tailorDetailsJsonData));
 		//alert('tailorDetailsJsonData : '+tailorDetailsJsonData);
 		// FIXME CHECK JSON DATA
-		db.transaction(updateCustomerDetailsForSaveFn, errorCBCustomerDetails, successCBCustomerDetailsSaveFn);
+		db.transaction(updateCustomerDetailsForSaveFn, errorCBCustomerDetails, successCBCustomerDetailsLBSaveFn);
 	}
 	
 	function updateCustomerDetailsForSaveFn(tx) {
@@ -4105,7 +4105,8 @@ function successCBUpdateCustomerSyncDB(){
 		//alert('dataparse : '+$.parseJSON(tailorDetailsJsonData));
 		//alert('tailorDetailsJsonData : '+tailorDetailsJsonData);
 		// FIXME CHECK JSON DATA
-		db.transaction(updateCustomerDetailsForUpdateFn, errorCBCustomerDetails, successCBCustomerDetailsUpdateFn);
+		console.log();
+		db.transaction(updateCustomerDetailsForUpdateFn, errorCBCustomerDetails, successCBCustomerDetailsLBUpdateFn);
 	}
 	
 	function errorCBCustomerDetails(err){
@@ -4114,14 +4115,14 @@ function successCBUpdateCustomerSyncDB(){
 		console.log('errorCBCustomerDetails : '+err.message);
 	}
 	
-	function successCBCustomerDetailsSaveFn(){
-		console.log('successCBCustomerDetailsSaveFn');
+	function successCBCustomerDetailsLBSaveFn(){
+		console.log('successCBCustomerDetailsLBSaveFn');
 		sendCustomerDataToSaveInServer = [];
 		sendDataToServer();
 	}
 	
-	function successCBCustomerDetailsUpdateFn(){
-		console.log('successCBCustomerDetailsUpdateFn');
+	function successCBCustomerDetailsLBUpdateFn(){
+		console.log('successCBCustomerDetailsLBUpdateFn');
 		sendCustomerDataToUpdateInServer = [];
 		sendDataToServer();
 	}
@@ -4248,7 +4249,7 @@ function successCBUpdateCustomerSyncDB(){
     	dataToSend["secret_key"] = tailorDetailsSession.secret_key;
 		dataToSend["tailor_id"] = tailorDetailsSession.tailor_details_id;
 		dataToSend["orders"] = JSON.stringify(sendOrderDataToUpdateInServer);
-		
+		console.log('sendOrderDetailsToUpdateInServer data '+sendOrderDataToUpdateInServer);
 		console.log('dataToSend Order '+dataToSend);
 		
 		/*dataToSend["customer_id"] = $('#customerIdInput').val();
