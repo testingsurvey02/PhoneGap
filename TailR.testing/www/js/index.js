@@ -1643,22 +1643,43 @@ function errorCBDeleteDataInLocalDB(er){
 function successCBDeleteDataInLocalDB(){
 	deleteChildArraysByMethods();
 	callCategoryFunctionIndex = 0;
+	callMeasuGroupToDeleteIndex = 0;
+	callMeasurementToDeleteIndex = 0;
+	callGalleryToDeleteIndex = 0;
+	callAttrOptionsToDeleteIndex = 0;
 }
 
 var callCategoryFunctionIndex = 0;
+var callMeasuGroupToDeleteIndex = 0;
+var callMeasurementToDeleteIndex = 0;
+var callGalleryToDeleteIndex = 0;
+var callAttrOptionsToDeleteIndex = 0;
 function deleteChildArraysByMethods(){
 	console.log('needToDeleteInJSonArrayMeasuGroup  '+needToDeleteInJSonArrayMeasuGroup.length);
 	console.log('needToDeleteInJsonArrayProductGall  '+needToDeleteInJsonArrayProductGall.length);
 	console.log('needToDeleteInJsonArrayAttrOptions  '+needToDeleteInJsonArrayAttrOptions.length);
 	console.log('needToDeleteInJSonArrayMeasurements  '+needToDeleteInJSonArrayMeasurements.length);
 	if(needToDeleteInJSonArrayMeasuGroup.length > 0){
-		deleteRecordsFromMeasurementGroup();
+		
+		if(callMeasuGroupToDeleteIndex == 0){
+			deleteRecordsFromMeasurementGroup();
+			callMeasuGroupToDeleteIndex++;
+		}
 	}else if(needToDeleteInJsonArrayProductGall.length > 0){
-		deleteRecordsFromProductGallery();
+		if(callGalleryToDeleteIndex == 0){
+			deleteRecordsFromProductGallery();
+			callGalleryToDeleteIndex++;
+		}
 	}else if(needToDeleteInJsonArrayAttrOptions.length > 0){
-		deleteRecordsFromAttributeOption();
+		if(callAttrOptionsToDeleteIndex == 0){
+			deleteRecordsFromAttributeOption();
+			callAttrOptionsToDeleteIndex++;
+		}
 	}else if(needToDeleteInJSonArrayMeasurements.length > 0){
-		deleteRecordsFromMeasurements();
+		if(callMeasurementToDeleteIndex == 0){
+			deleteRecordsFromMeasurements();
+			callMeasurementToDeleteIndex++;
+		}
 	}else if(needToDeleteInJSonArrayMeasuGroup.length == 0 && needToDeleteInJsonArrayProductGall.length == 0 && 
 			needToDeleteInJsonArrayAttrOptions.length == 0 && needToDeleteInJSonArrayMeasurements.length == 0){
 		if(callCategoryFunctionIndex == 0){
@@ -3785,6 +3806,10 @@ function successCBUpdateCustomerSyncDB(){
 		console.log(connectionType);
 		if(connectionType=="WiFi connection" || connectionType=="Cell 4G connection" || connectionType=="Cell 5G connection" || connectionType=="Cell 3G connection" || connectionType=="Cell 2G connection"){
 			sendDataToServer();
+			callServerToSaveCustDetailsIndex = 0;
+			callServerToUpdateCustDetailsIndex = 0;
+			callServerToSaveOrdDetailsIndex = 0;
+			callServerToUpdateOrdDetailsIndex = 0;
 			//sendDataToServerStatus = true;
 		}
 	}
@@ -4006,28 +4031,42 @@ function successCBUpdateCustomerSyncDB(){
 	/*function updateCustomerDetailsInLocalDB(customerDetailsJson){
 		
 	}*/
-	
+	var callServerToSaveCustDetailsIndex = 0;
+	var callServerToUpdateCustDetailsIndex = 0;
+	var callServerToSaveOrdDetailsIndex = 0;
+	var callServerToUpdateOrdDetailsIndex = 0;
 	function sendDataToServer(){
 		if(sendCustomerDataToSaveInServer.length > 0){
-			sendCustomerDetailsToSaveInServer();
+			if(callServerToSaveCustDetailsIndex == 0){
+				sendCustomerDetailsToSaveInServer();
+				callServerToSaveCustDetailsIndex++;
+			}
 		}else if(sendCustomerDataToUpdateInServer.length > 0){
-			sendCustomerDataToSaveInServer = [];
-			sendCustomerDetailsToUpdateInServer();
+			if(callServerToUpdateCustDetailsIndex == 0){
+				sendCustomerDetailsToUpdateInServer();
+				callServerToUpdateCustDetailsIndex++;
+			}
+			
 		}else if(sendOrderDataToSaveInServer.length > 0){
-			sendCustomerDataToUpdateInServer = [];
-			sendCustomerDataToSaveInServer = [];
-			sendOrderDetailsToSaveInServer();
+			if(callServerToSaveOrdDetailsIndex == 0){
+				sendOrderDetailsToSaveInServer();
+				callServerToSaveOrdDetailsIndex++;
+			}
 		}else if(sendOrderDataToUpdateInServer.length > 0){
-			sendCustomerDataToUpdateInServer = [];
-			sendCustomerDataToSaveInServer = [];
-			sendOrderDataToSaveInServer = [];
-			sendOrderDetailsToUpdateInServer();
+			if(callServerToUpdateOrdDetailsIndex == 0){
+				sendOrderDetailsToUpdateInServer();
+				callServerToUpdateOrdDetailsIndex++;
+			}
 		}else if(sendOrderDataToSaveInServer.length == 0 && sendOrderDataToUpdateInServer.length == 0 && sendCustomerDataToSaveInServer.length == 0
 				&& sendCustomerDataToUpdateInServer.length == 0){
 			sendCustomerDataToUpdateInServer = [];
 			sendCustomerDataToSaveInServer = [];
 			sendOrderDataToSaveInServer = [];
 			sendOrderDataToUpdateInServer = [];
+			callServerToSaveCustDetailsIndex = 0;
+			callServerToUpdateCustDetailsIndex = 0;
+			callServerToSaveOrdDetailsIndex = 0;
+			callServerToUpdateOrdDetailsIndex = 0;
 			//sendDataToServerStatus = false;
 		}
 	}
