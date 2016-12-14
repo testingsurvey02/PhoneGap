@@ -1644,7 +1644,6 @@ function successCBDeleteDataInLocalDB(){
 
 function deleteChildArraysByMethods(){
 	if(needToDeleteInJSonArrayMeasuGroup.length == 0 && needToDeleteInJsonArrayProductGall.length == 0 && needToDeleteInJsonArrayAttrOptions.length == 0 &&	needToDeleteInJSonArrayMeasurements.length == 0){
-		deleteRecordStatus == 0;
 		insertAndUpdateDataFromServer(dataSyncTypeCategory);
 	}else {
 		if(needToDeleteInJSonArrayMeasuGroup.length > 0){
@@ -2503,7 +2502,8 @@ function successCBUpdateCustomerSyncDB(){
 					          if(parseInt(recordCount) > 0){
 					        	  getCategoriesListFromLocal();
 					          }else{*/
-					        	  getCategoriesDataFromServer();
+						deleteRecordStatus == 0;
+					    getCategoriesDataFromServer();
 					    /*      }
 						});*/
 					});
