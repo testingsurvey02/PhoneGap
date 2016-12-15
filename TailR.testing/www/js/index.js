@@ -1714,7 +1714,6 @@ function deleteRecordsFromProductGallery(){
 	 						}
 						});
 						var galleryJsonObj = JSON.stringify(newGalleryObjArr);
-						console.log('Final Gallery : '+galleryJsonObj);
 						tx.executeSql("UPDATE product_details SET update_timestamp='"+update_timestamp+"', gallery='"+galleryJsonObj+"' WHERE server_prod_id="+prodId+"");
 					}
 				}
@@ -1760,7 +1759,6 @@ function deleteRecordsFromAttributeOption(){
 	 						}
 						});
 						var optionJSONObj = JSON.stringify(newOptionObjArr);
-						console.log('Final Options : '+optionJSONObj);
 						tx.executeSql("UPDATE product_attributes SET update_timestamp='"+update_timestamp+"', option='"+optionJSONObj+"' WHERE server_attr_id=" + attrId + "");
 					}
 				}
@@ -2971,69 +2969,69 @@ function successCBUpdateCustomerSyncDB(){
 		var optionMainDiv = '';
 		var attrTempId = 0;
 		attributeForNextIndex = 0;
-		jQuery.each(attrDetailsArrSession, function(index,value) {
-			var attrId = value['id'];
-			var server_attr_id = value['server_attr_id'];
-			var attr_name = value['attr_name'];
-			var identifier = value['identifier'];
-			var backend_name = value['backend_name'];
-			var option = value['option'];
-			
-			if(value['option'] != ''){
-				jQuery.each(attrArr, function(index1,value1) {
-					if(value1 == server_attr_id){
-						attriOptionExist = true;
-						var optionObj = jQuery.parseJSON(option);
-						
-						var tempAttrDiv = '<li class="selMenu-bar subMen_attrId'+server_attr_id+' main_attr_ind'+attributeForNextIndex+'" data-main_attind="'+attributeForNextIndex+'" data-cat_id="'+catId+'" data-prod_id="'+prodId+'" data-attrid="'+server_attr_id+'" data-lid="'+attrId+'"><a href="#" onclick="getOptionByAttrId(this);" data-main_attinda="'+attributeForNextIndex+'" data-attri_id="'+server_attr_id+'">'+attr_name+'</a></li>';
-						if(attributeDiv == ''){
-							attrTempId = server_attr_id;
-						}
-						
-						jQuery.each(optionObj, function(index2,value2) {
-							var optionId = value2['id'];
-							var optionName = value2['name'];
-							var optionImg = value2['image'];
-							/*if(parseInt(dataIsFromServer) == 0){
-								downloadFile(optionId, optionImg, 'attrOption');
-								setTimeout(function() {
-				    				//$('#please-wait-modal').modal('hide');
-				    			}, 2000);
-							}*/
-							//var optionImages = window.appRootDir.fullPath + '/' + optionId+'_'+optionImg;
-							//var optionImages = localPath + "/" + 'attributes'+ '/' +optionImg; // For Production
-							//var optionImages = attributeImageData + '/'+optionImg; // Direct Hitting to server URL
-							var optionImages = '';
-							if(testingInBrowser){
-								optionImages = 'img/attr'+index2+'.png'; // For Testing
-							}else{
-								optionImages = localPath + "/" + 'attributes'+ '/' +optionImg; // For Production
+		jQuery.each(attrArr, function(index1,value1) {
+			jQuery.each(attrDetailsArrSession, function(index,value) {
+				var attrId = value['id'];
+				var server_attr_id = value['server_attr_id'];
+				var attr_name = value['attr_name'];
+				var identifier = value['identifier'];
+				var backend_name = value['backend_name'];
+				var option = value['option'];
+				
+				if(value['option'] != ''){
+						if(value1 == server_attr_id){
+							attriOptionExist = true;
+							var optionObj = jQuery.parseJSON(option);
+							console.log('Attr Id ------------------------ '+server_attr_id);
+							var tempAttrDiv = '<li class="selMenu-bar subMen_attrId'+server_attr_id+' main_attr_ind'+attributeForNextIndex+'" data-main_attind="'+attributeForNextIndex+'" data-cat_id="'+catId+'" data-prod_id="'+prodId+'" data-attrid="'+server_attr_id+'" data-lid="'+attrId+'"><a href="#" onclick="getOptionByAttrId(this);" data-main_attinda="'+attributeForNextIndex+'" data-attri_id="'+server_attr_id+'">'+attr_name+'</a></li>';
+							if(attributeDiv == ''){
+								attrTempId = server_attr_id;
 							}
-							//var optionImages = 'img/attr'+index2+'.png'; // For Testing
-							//initToCheckTheFile(optionImg, attributeImageData);
-							var tempOptDiv = '<div class="col-xs-6 col-sm-2 col-md-2 col-lg-2 single-option attrInd'+attributeForNextIndex+' optMenu-bar attrOpt'+server_attr_id+' div_opt_id'+optionId+'" data-optname="'+optionName+'" data-attrindex="'+attributeForNextIndex+'" style="text-align: center;" data-optionsrc="'+optionImg+'" onclick="selectedOptionFn(this);selectedOptionZoomFn(this)" data-opt_id="'+optionId+'" data-cat_id="'+catId+'" data-prod_id="'+prodId+'" data-attrid="'+server_attr_id+'" data-lid="'+attrId+'"><div class="box"><a href="#popupPhotoLandscape" data-rel="popup"	data-position-to="window" class="optionImageClass"><img class="attr-opt-hei-wid" src="'+optionImages+'" data-imgt_cat_id="'+catId+'" data-imgt_prod_id="'+prodId+'" data-imgt_attrid="'+server_attr_id+'"  data-imgt_opt_id="'+optionId+'" data-imgt_lid="'+attrId+'" alt="'+optionName+'"></div></div>';
-							optionMainDiv += tempOptDiv;
-						});
-						 attributeDiv += tempAttrDiv;
-						 attributeForNextIndex = parseInt(attributeForNextIndex) + 1;
-					}/*else{
-						if(parseInt(dataIsFromServer) == 0){
+							
 							jQuery.each(optionObj, function(index2,value2) {
 								var optionId = value2['id'];
 								var optionName = value2['name'];
 								var optionImg = value2['image'];
-								downloadFileValidatorFn(optionId, optionImg, 'attrOption');
-								downloadFileValidatorFn(downloadFileUrl, folder, optionImg);
-								setTimeout(function() {
-				    				//$('#please-wait-modal').modal('hide');
-				    			}, 2000);
+								/*if(parseInt(dataIsFromServer) == 0){
+									downloadFile(optionId, optionImg, 'attrOption');
+									setTimeout(function() {
+					    				//$('#please-wait-modal').modal('hide');
+					    			}, 2000);
+								}*/
+								//var optionImages = window.appRootDir.fullPath + '/' + optionId+'_'+optionImg;
+								//var optionImages = localPath + "/" + 'attributes'+ '/' +optionImg; // For Production
+								//var optionImages = attributeImageData + '/'+optionImg; // Direct Hitting to server URL
+								var optionImages = '';
+								if(testingInBrowser){
+									optionImages = 'img/attr'+index2+'.png'; // For Testing
+								}else{
+									optionImages = localPath + "/" + 'attributes'+ '/' +optionImg; // For Production
+								}
+								//var optionImages = 'img/attr'+index2+'.png'; // For Testing
+								//initToCheckTheFile(optionImg, attributeImageData);
+								var tempOptDiv = '<div class="col-xs-6 col-sm-2 col-md-2 col-lg-2 single-option attrInd'+attributeForNextIndex+' optMenu-bar attrOpt'+server_attr_id+' div_opt_id'+optionId+'" data-optname="'+optionName+'" data-attrindex="'+attributeForNextIndex+'" style="text-align: center;" data-optionsrc="'+optionImg+'" onclick="selectedOptionFn(this);selectedOptionZoomFn(this)" data-opt_id="'+optionId+'" data-cat_id="'+catId+'" data-prod_id="'+prodId+'" data-attrid="'+server_attr_id+'" data-lid="'+attrId+'"><div class="box"><a href="#popupPhotoLandscape" data-rel="popup"	data-position-to="window" class="optionImageClass"><img class="attr-opt-hei-wid" src="'+optionImages+'" data-imgt_cat_id="'+catId+'" data-imgt_prod_id="'+prodId+'" data-imgt_attrid="'+server_attr_id+'"  data-imgt_opt_id="'+optionId+'" data-imgt_lid="'+attrId+'" alt="'+optionName+'"></div></div>';
+								optionMainDiv += tempOptDiv;
 							});
-						}
-						
-					}*/
-				});
-			}
-			
+							 attributeDiv += tempAttrDiv;
+							 attributeForNextIndex = parseInt(attributeForNextIndex) + 1;
+						}/*else{
+							if(parseInt(dataIsFromServer) == 0){
+								jQuery.each(optionObj, function(index2,value2) {
+									var optionId = value2['id'];
+									var optionName = value2['name'];
+									var optionImg = value2['image'];
+									downloadFileValidatorFn(optionId, optionImg, 'attrOption');
+									downloadFileValidatorFn(downloadFileUrl, folder, optionImg);
+									setTimeout(function() {
+					    				//$('#please-wait-modal').modal('hide');
+					    			}, 2000);
+								});
+							}
+							
+						}*/
+					
+				}
+			});
 		});
 		getMeasumentListFromLocal();
 		if(!attriOptionExist){
