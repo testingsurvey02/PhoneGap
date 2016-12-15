@@ -1803,7 +1803,9 @@ function deleteRecordsFromMeasurementGroup(){
 				if(len > 0){
 					console.log('Inside Loop measurement group measurement');
 					var local_DB_group_data = results.rows.item(0)['group_data'];
+					console.log('local_DB_group_data '+ local_DB_group_data);
 					var groupObj = jQuery.parseJSON(local_DB_group_data);
+					console.log('local_DB_group_data '+ groupObj);
 					var newGroupObjArr = [];
 					console.log('Inside Loop measurement group measurement' + local_DB_group_data);
 					console.log('Inside Loop measurement group measurement' + groupObj);
