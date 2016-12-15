@@ -1721,10 +1721,10 @@ function deleteRecordsFromProductGallery(){
 								console.log('gallery_id Inserted : '+gallery_id);
 	 						}
 						});
+						var galleryJsonObj = JSON.stringify(newGalleryObjArr);
+						console.log('Final Gallery : '+galleryJsonObj);
+						tx.executeSql("UPDATE product_details SET update_timestamp='"+update_timestamp+"', gallery='"+galleryJsonObj+"' WHERE server_prod_id="+prodId+"");
 					}
-					var galleryJsonObj = JSON.stringify(newGalleryObjArr);
-					console.log('Final Gallery : '+galleryJsonObj);
-					tx.executeSql("UPDATE product_details SET update_timestamp='"+update_timestamp+"', gallery='"+galleryJsonObj+"' WHERE server_prod_id="+prodId+"");
 				}
 			});
 		}, errorCBDelRecdsProdGalFn, successCBDelRecdsProdGalFn);
@@ -1770,10 +1770,10 @@ function deleteRecordsFromAttributeOption(){
 								newOptionObjArr.push(optionObject);
 	 						}
 						});
+						var optionJSONObj = JSON.stringify(newOptionObjArr);
+						console.log('Final Options : '+optionJSONObj);
+						tx.executeSql("UPDATE product_attributes SET update_timestamp='"+update_timestamp+"', option='"+optionJSONObj+"' WHERE server_attr_id=" + attrId + "");
 					}
-					var optionJSONObj = JSON.stringify(newOptionObjArr);
-					console.log('Final Options : '+optionJSONObj);
-					tx.executeSql("UPDATE product_attributes SET update_timestamp='"+update_timestamp+"', option='"+optionJSONObj+"' WHERE server_attr_id=" + attrId + "");
 				}
 			});
 		}, errorCBDelRecdsAttrOptionFn, successCBDelRecdsAttrOptionFn);
@@ -1826,11 +1826,10 @@ function deleteRecordsFromMeasurementGroup(){
 								console.log('measurement_group_id : Inserted '+measurement_group_id);
 	 						}
 						});
+						var groupJSONObj = JSON.stringify(newGroupObjArr);
+						console.log('Final Group : '+ groupJSONObj);
+						tx.executeSql("UPDATE measurement_details SET update_timestamp='"+update_timestamp+"', group_data='"+groupJSONObj+"' WHERE server_measurement_id=" + measurementTypeId + "");
 					}
-					
-					var groupJSONObj = JSON.stringify(newGroupObjArr);
-					console.log('Final Group : '+ groupJSONObj);
-					tx.executeSql("UPDATE measurement_details SET update_timestamp='"+update_timestamp+"', group_data='"+groupJSONObj+"' WHERE server_measurement_id=" + measurementTypeId + "");
 				}
 			});
 		}, errorCBDelRecdsMeasGroupFn, successCBDelRecdsMeasGroupFn);
@@ -1892,10 +1891,10 @@ function deleteRecordsFromMeasurements(){
 	 							newGroupObjArr.push(groupObject);
 	 						}
 						});
+						var groupJSONObj = JSON.stringify(newGroupObjArr);
+						console.log('Final Measurements ' +groupJSONObj);
+						tx.executeSql("UPDATE measurement_details SET update_timestamp='"+update_timestamp+"', group_data='"+groupJSONObj+"' WHERE server_measurement_id=" + measurementTypeId + "");
 					}
-					var groupJSONObj = JSON.stringify(newGroupObjArr);
-					console.log('Final Measurements ' +groupJSONObj);
-					tx.executeSql("UPDATE measurement_details SET update_timestamp='"+update_timestamp+"', group_data='"+groupJSONObj+"' WHERE server_measurement_id=" + measurementTypeId + "");
 				}
 			});
 		}, errorCBDelRecdsMeasurementsFn, successCBDelRecdsMeasurementsFn);
