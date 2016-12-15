@@ -1796,16 +1796,21 @@ function deleteRecordsFromMeasurementGroup(){
 		var measurementTypeId = value['measType'];
 		var measurementGroupId = value['measGroup'];
 		db.transaction(	function (tx){
+			console.log('Query is about to fire measurement group');
 			tx.executeSql('select * from measurement_details where server_measurement_id ='+measurementTypeId ,[],function(tx,results){
 				var len = 0;
 				len = results.rows.length;
 				if(len > 0){
+					console.log('Inside Loop measurement group measurement');
 					var local_DB_group_data = results.rows.item(0)['group_data'];
 					var groupObj = jQuery.parseJSON(local_DB_group_data);
 					var newGroupObjArr = [];
+					console.log('Inside Loop measurement group measurement' + local_DB_group_data);
+					console.log('Inside Loop measurement group measurement' + groupObj);
 					jQuery.each(groupObj, function(indexObj,valueObj) {
 						var groupObject = new Object();
 						var measurement_group_id = valueObj['id'];
+						console.log('Inside Loop measurement group measurement'+valueObj);
 						console.log('measurement_group_id : '+measurement_group_id);
 						console.log('measurementGroupId : '+measurementGroupId);
 						if(parseInt(measurementGroupId) != parseInt(measurement_group_id)){
