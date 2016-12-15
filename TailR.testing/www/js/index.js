@@ -1706,20 +1706,22 @@ function deleteRecordsFromProductGallery(){
 				len = results.rows.length;
 				if(len > 0){
 					var local_DB_gallery = results.rows.item(0)['gallery'];
-					var galleryObj = jQuery.parseJSON(local_DB_gallery);
-					console.log(galleryObj);
 					var newGalleryObjArr = [];
-					jQuery.each(galleryObj, function(index,value) {
-						var galleryObject = new Object();
-						var gallery_id = value['id'];
-						console.log('gallery_id : '+gallery_id);
-						console.log("galleryId : "+galleryId);
-						if(parseInt(gallery_id) != parseInt(galleryId)){
-							galleryObject = value;
-							newGalleryObjArr.push(galleryObject);
-							console.log('gallery_id Inserted : '+gallery_id);
- 						}
-					});
+					if(local_DB_gallery != ''){
+						var galleryObj = jQuery.parseJSON(local_DB_gallery);
+						console.log(galleryObj);
+						jQuery.each(galleryObj, function(index,value) {
+							var galleryObject = new Object();
+							var gallery_id = value['id'];
+							console.log('gallery_id : '+gallery_id);
+							console.log("galleryId : "+galleryId);
+							if(parseInt(gallery_id) != parseInt(galleryId)){
+								galleryObject = value;
+								newGalleryObjArr.push(galleryObject);
+								console.log('gallery_id Inserted : '+gallery_id);
+	 						}
+						});
+					}
 					var galleryJsonObj = JSON.stringify(newGalleryObjArr);
 					console.log('Final Gallery : '+galleryJsonObj);
 					tx.executeSql("UPDATE product_details SET update_timestamp='"+update_timestamp+"', gallery='"+galleryJsonObj+"' WHERE server_prod_id="+prodId+"");
@@ -1754,19 +1756,21 @@ function deleteRecordsFromAttributeOption(){
 				len = results.rows.length;
 				if(len > 0){
 					var local_DB_option = results.rows.item(0)['option'];
-					var optionObj = jQuery.parseJSON(local_DB_option);
 					var newOptionObjArr = [];
-					jQuery.each(optionObj, function(index,value) {
-						var optionObject = new Object();
-						var option_id = value['id'];
-						console.log('optionId : '+optionId);
-						console.log("option_id : "+option_id);
-						if(parseInt(optionId) != parseInt(option_id)){
-							console.log("option_id Inserted : "+option_id);
-							optionObject = value;
-							newOptionObjArr.push(optionObject);
- 						}
-					});
+					if(local_DB_option != ''){
+						var optionObj = jQuery.parseJSON(local_DB_option);
+						jQuery.each(optionObj, function(index,value) {
+							var optionObject = new Object();
+							var option_id = value['id'];
+							console.log('optionId : '+optionId);
+							console.log("option_id : "+option_id);
+							if(parseInt(optionId) != parseInt(option_id)){
+								console.log("option_id Inserted : "+option_id);
+								optionObject = value;
+								newOptionObjArr.push(optionObject);
+	 						}
+						});
+					}
 					var optionJSONObj = JSON.stringify(newOptionObjArr);
 					console.log('Final Options : '+optionJSONObj);
 					tx.executeSql("UPDATE product_attributes SET update_timestamp='"+update_timestamp+"', option='"+optionJSONObj+"' WHERE server_attr_id=" + attrId + "");
@@ -1804,23 +1808,26 @@ function deleteRecordsFromMeasurementGroup(){
 					console.log('Inside Loop measurement group measurement');
 					var local_DB_group_data = results.rows.item(0)['group_data'];
 					console.log('local_DB_group_data '+ local_DB_group_data);
-					var groupObj = jQuery.parseJSON(local_DB_group_data);
-					console.log('local_DB_group_data '+ groupObj);
 					var newGroupObjArr = [];
-					console.log('Inside Loop measurement group measurement' + local_DB_group_data);
-					console.log('Inside Loop measurement group measurement' + groupObj);
-					jQuery.each(groupObj, function(indexObj,valueObj) {
-						var groupObject = new Object();
-						var measurement_group_id = valueObj['id'];
-						console.log('Inside Loop measurement group measurement'+valueObj);
-						console.log('measurement_group_id : '+measurement_group_id);
-						console.log('measurementGroupId : '+measurementGroupId);
-						if(parseInt(measurementGroupId) != parseInt(measurement_group_id)){
-							groupObject = valueObj;
-							newGroupObjArr.push(groupObject);
-							console.log('measurement_group_id : Inserted '+measurement_group_id);
- 						}
-					});
+					if(local_DB_group_data != ''){
+						var groupObj = jQuery.parseJSON(local_DB_group_data);
+						console.log('local_DB_group_data '+ groupObj);
+						console.log('Inside Loop measurement group measurement' + local_DB_group_data);
+						console.log('Inside Loop measurement group measurement' + groupObj);
+						jQuery.each(groupObj, function(indexObj,valueObj) {
+							var groupObject = new Object();
+							var measurement_group_id = valueObj['id'];
+							console.log('Inside Loop measurement group measurement'+valueObj);
+							console.log('measurement_group_id : '+measurement_group_id);
+							console.log('measurementGroupId : '+measurementGroupId);
+							if(parseInt(measurementGroupId) != parseInt(measurement_group_id)){
+								groupObject = valueObj;
+								newGroupObjArr.push(groupObject);
+								console.log('measurement_group_id : Inserted '+measurement_group_id);
+	 						}
+						});
+					}
+					
 					var groupJSONObj = JSON.stringify(newGroupObjArr);
 					console.log('Final Group : '+ groupJSONObj);
 					tx.executeSql("UPDATE measurement_details SET update_timestamp='"+update_timestamp+"', group_data='"+groupJSONObj+"' WHERE server_measurement_id=" + measurementTypeId + "");
@@ -1855,36 +1862,37 @@ function deleteRecordsFromMeasurements(){
 				len = results.rows.length;
 				if(len > 0){
 					var local_DB_group_data = results.rows.item(0)['group_data'];
-					var groupObj = jQuery.parseJSON(local_DB_group_data);
 					var newGroupObjArr = [];
-					
-					jQuery.each(groupObj, function(indexGP,valueGP) {
-						var measurement_group_id = valueGP['id'];
-						if(parseInt(measurementGroupId) != parseInt(measurement_group_id)){
-							newGroupObjArr.push(valueGP);
- 						}else{
- 							var groupObject = {};
- 							groupObject['id'] = valueGP['id'];
- 							groupObject['name'] = valueGP['name'];
- 							groupObject['status'] = valueGP['status'];
- 							groupObject['measurement_type_id'] = valueGP['measurement_type_id'];
- 							groupObject['created_at'] = valueGP['created_at'];
- 							groupObject['updated_at'] = valueGP['updated_at'];
- 							var needToDeleteArrayObject = [];
- 							jQuery.each(value['measurements'], function(indexObj,valueObj){
- 								console.log('measurementId : '+measurementId);
- 								console.log("valueObj['id'] : "+valueObj['id']);
- 								if(parseInt(measurementId) != parseInt(valueObj['id'])){
- 									var measuObject = new Object();
- 									console.log("valueObj['id'] Inserted : "+valueObj['id']);
- 									measuObject = valueObj;
- 									needToDeleteArrayObject.push(measuObject);
- 								}
- 							});
- 							groupObject['measurements'] = needToDeleteArrayObject;
- 							newGroupObjArr.push(groupObject);
- 						}
-					});
+					if(local_DB_group_data != ''){
+						var groupObj = jQuery.parseJSON(local_DB_group_data);
+						jQuery.each(groupObj, function(indexGP,valueGP) {
+							var measurement_group_id = valueGP['id'];
+							if(parseInt(measurementGroupId) != parseInt(measurement_group_id)){
+								newGroupObjArr.push(valueGP);
+	 						}else{
+	 							var groupObject = {};
+	 							groupObject['id'] = valueGP['id'];
+	 							groupObject['name'] = valueGP['name'];
+	 							groupObject['status'] = valueGP['status'];
+	 							groupObject['measurement_type_id'] = valueGP['measurement_type_id'];
+	 							groupObject['created_at'] = valueGP['created_at'];
+	 							groupObject['updated_at'] = valueGP['updated_at'];
+	 							var needToDeleteArrayObject = [];
+	 							jQuery.each(value['measurements'], function(indexObj,valueObj){
+	 								console.log('measurementId : '+measurementId);
+	 								console.log("valueObj['id'] : "+valueObj['id']);
+	 								if(parseInt(measurementId) != parseInt(valueObj['id'])){
+	 									var measuObject = new Object();
+	 									console.log("valueObj['id'] Inserted : "+valueObj['id']);
+	 									measuObject = valueObj;
+	 									needToDeleteArrayObject.push(measuObject);
+	 								}
+	 							});
+	 							groupObject['measurements'] = needToDeleteArrayObject;
+	 							newGroupObjArr.push(groupObject);
+	 						}
+						});
+					}
 					var groupJSONObj = JSON.stringify(newGroupObjArr);
 					console.log('Final Measurements ' +groupJSONObj);
 					tx.executeSql("UPDATE measurement_details SET update_timestamp='"+update_timestamp+"', group_data='"+groupJSONObj+"' WHERE server_measurement_id=" + measurementTypeId + "");
