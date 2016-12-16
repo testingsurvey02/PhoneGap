@@ -2823,8 +2823,6 @@ function successCBUpdateCustomerSyncDB(){
 									prodImage = localPath + "/" + 'gallery'+ '/' + image; // For Production
 								}
 								
-								checkIfFileExists
-								
 								//var prodImage = localPath + "/" + 'gallery'+ '/' + image; // For Production
 								//var prodImage = 'img/product'+indexObj+'.jpg'; // For Testing
 								var server_cat_id = valueCat['cat_id'];
