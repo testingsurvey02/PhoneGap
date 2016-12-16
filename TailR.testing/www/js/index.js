@@ -2822,6 +2822,9 @@ function successCBUpdateCustomerSyncDB(){
 								}else{
 									prodImage = localPath + "/" + 'gallery'+ '/' + image; // For Production
 								}
+								
+								checkIfFileExists
+								
 								//var prodImage = localPath + "/" + 'gallery'+ '/' + image; // For Production
 								//var prodImage = 'img/product'+indexObj+'.jpg'; // For Testing
 								var server_cat_id = valueCat['cat_id'];
@@ -4574,32 +4577,10 @@ function successCBUpdateCustomerSyncDB(){
 	}
 	
 	// 3rd Step 
-	var option;
 	function filetransferFn(download_link, fp) {
 		var fileTransfer = new FileTransfer();
 		//console.log(fp);
 		// File download function with URL and local path
-		
-		const dl = require('download-file-with-progressbar');
-		 
-		option = {
-		    filename: download_link,
-		    dir: fp,
-		    onDone: (info)=>{
-		        console.log('done', info);
-		    },
-		    onError: (err) => {
-		        console.log('error', err);
-		    },
-		    onProgress: (curr, total) => {
-		        console.log('progress', (curr / total * 100).toFixed(2) + '%');
-		    },
-		}
-		 
-		var dd = dl(download_link, option);
-		 
-		dd.abort(); // to abort the download
-		
 		fileTransfer.download(download_link, fp,
 				function (entry) {
 			//localPath = entry.toURL();
@@ -4615,6 +4596,9 @@ function successCBUpdateCustomerSyncDB(){
 			console.log("upload error code" + error.code);
 		}
 		);
+		fileTransfer.onprogress = function(progress) {
+		    console.log(progress.loaded, progress.total);
+		}
 	}
 	
 	function fileNotExist(e) {
