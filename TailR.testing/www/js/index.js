@@ -4604,8 +4604,9 @@ function successCBUpdateCustomerSyncDB(){
 		    			tempDiv += '<span>File Name : "'+File_Name+'" </span>'
 		    			+' Percentage : '+now/100+'%</div>';*/
 		    	$('#progressBarTag').attr(now/100);
-		        updateProgress(now / 100);
-		        this.pre = now;
+		    	$('#progressBarTag').show();
+		        //updateProgress(now / 100);
+		        //this.pre = now;
 		    }
 		}
 	}
