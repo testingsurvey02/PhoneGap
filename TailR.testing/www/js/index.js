@@ -4574,10 +4574,25 @@ function successCBUpdateCustomerSyncDB(){
 	}
 	
 	// 3rd Step 
+	var statusDom;
 	function filetransferFn(download_link, fp) {
 		var fileTransfer = new FileTransfer();
 		//console.log(fp);
 		// File download function with URL and local path
+		
+		fileTransfer.onprogress = function(progressEvent) {
+			if (progressEvent.lengthComputable) {
+				var perc = Math.floor(progressEvent.loaded / progressEvent.total * 100);
+				statusDom.innerHTML = perc + "% loaded...";
+			} else {
+				if(statusDom.innerHTML == "") {
+					statusDom.innerHTML = "Loading";
+				} else {
+					statusDom.innerHTML += ".";
+				}
+			}
+		};
+		
 		fileTransfer.download(download_link, fp,
 				function (entry) {
 			//localPath = entry.toURL();
