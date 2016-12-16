@@ -21,7 +21,7 @@ xmlns:cdv="http://cordova.apache.org/ns/1.0">
     <preference name="SplashScreen" value="screen" />
 	<preference name="SplashScreenDelay" value="3000" />
 	<preference name="FadeSplashScreen" value="false"/>
-	<preference name="AndroidPersistentFileLocation" value="Internal" />
+	<preference name="AndroidPersistentFileLocation" value="Compatibility" />
 	<preference name="orientation" value="landscape"/>
 	<!-- <preference name="iosPersistentFileLocation" value="Library" /> -->
 	<!-- <preference name="BackupWebStorage" value="none" /> -->
