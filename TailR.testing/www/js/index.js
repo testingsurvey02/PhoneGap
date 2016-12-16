@@ -4555,7 +4555,7 @@ function successCBUpdateCustomerSyncDB(){
 			folderAndPath = Folder_Name + '/' + File_Name;
 			var fileDataDirect = store + "/" + folderAndPath; // fullpath and name of the file which we want to give
 			// download function call
-			filetransferFn(download_link, fileDataDirect);
+			filetransferFn(download_link, fileDataDirect, File_Name);
 		}
 
 		function onDirectorySuccess(parent) {
@@ -4575,7 +4575,7 @@ function successCBUpdateCustomerSyncDB(){
 	}
 	
 	// 3rd Step 
-	function filetransferFn(download_link, fp) {
+	function filetransferFn(download_link, fp, File_Name) {
 		var fileTransfer = new FileTransfer();
 		//console.log(fp);
 		// File download function with URL and local path
@@ -4595,7 +4595,18 @@ function successCBUpdateCustomerSyncDB(){
 		}
 		);
 		fileTransfer.onprogress = function(progress) {
-		    console.log(progress.loaded, progress.total);
+		    /*console.log(progress.loaded, progress.total);*/
+		    if (this.pre === undefined) this.pre = 0;
+		    
+		    var now = ~~((progress.loaded / progress.total) * 100 * 100);
+		    if (now - +this.pre > 17) {
+		    	/*var tempDiv = '<div id="'+File_Name+'">'+
+		    			tempDiv += '<span>File Name : "'+File_Name+'" </span>'
+		    			+' Percentage : '+now/100+'%</div>';*/
+		    	$('#progressBarTag').attr(now/100);
+		        updateProgress(now / 100);
+		        this.pre = now;
+		    }
 		}
 	}
 	
