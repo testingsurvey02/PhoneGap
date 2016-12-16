@@ -75,6 +75,12 @@ var sendCustomerDataToUpdateInServer = [];
 var sendOrderDataToSaveInServer = [];
 var sendOrderDataToUpdateInServer = [];
 var sendDataToServerStatus = false;
+var totalProductImages = 0;
+var downloadedProductImages = 0;
+var notDownloadedProductImages = 0;
+var totalAttrOptImages = 0;
+var downloadedAttrOptImages = 0;
+var notDownloadedAttrOptImages = 0;
 
 var rightPanelObj = '<div id="menu-wrapper">'+
 							'<div class="menu-title">'+
@@ -2601,6 +2607,34 @@ function successCBUpdateCustomerSyncDB(){
 		categoriesJsonData = responseJson["result"];
 		// FIXME CHECK JSON DATA
 		insertCategories(categoriesJsonData);
+		//dataHasSyncSendReport('categories_sync');
+	}
+	
+	function dataHasSyncSendReport(type){
+		var dataToSend = {};
+		dataToSend["secret_key"] = tailorDetailsSession.secret_key;
+		dataToSend["sync_type"] = type;
+		var apiCallUrl="http://tailorapp.tailorrani.com/api/tailors/syncupdateJson"
+		connectionType=checkConnection();
+		if(connectionType=="Unknown connection" || connectionType=="No network connection"){
+			navigator.notification.alert(appRequiresWiFi,alertConfirm,appName,'Ok');
+		}
+		else if(connectionType=="WiFi connection" || connectionType=="Cell 4G connection" || connectionType=="Cell 3G connection" || connectionType=="Cell 2G connection"){
+			$.ajax({
+				type : ajaxCallPost,
+				url: apiCallUrl,
+				data : dataToSend,
+				success: successCBServerSyncFn,
+				error: commonErrorCallback
+			});
+		}
+		else{
+			navigator.notification.alert(appRequiresWiFi,alertConfirm,appName,'Ok');
+		}
+	}
+	
+	function successCBServerSyncFn(data){
+		console.log('successCBServerSyncFn : '+ data);
 	}
 	
 	function appendCatListDB(catArrData, subCatArrData) {
@@ -2696,6 +2730,7 @@ function successCBUpdateCustomerSyncDB(){
 		productImageData = responseJson['image_url'];
 		// FIXME CHECK JSON DATA
 		db.transaction(insertProductDetails, errorCBInsertProductDetails, successCBInsertProductDetails);
+		//dataHasSyncSendReport('products_sync');
 	}
 	
 	function getAttributesDataFromServer(){
@@ -2726,6 +2761,7 @@ function successCBUpdateCustomerSyncDB(){
 		attributeImageData = responseJson['image_url'];
 		// FIXME CHECK JSON DATA
 		db.transaction(insertAttributesDetails, errorCBInsertAttributeDetails, successCBInsertAttributeDetails);
+		//dataHasSyncSendReport('attributes_sync');
 	}
 	
 	function downloadImagesOfProduct(prodArrDataToDownload){
@@ -2739,6 +2775,7 @@ function successCBUpdateCustomerSyncDB(){
 			if(jsonObj['gallery'] != ''){
 				var galleryObject = new Object();
 				jQuery.each(galleryObj , function(indexObj,valueObj) {
+					totalProductImages = parseInt(totalProductImages) + 1;
 					var galleryArrObject = new Array();
 					var gallery_id = valueObj['id'];
 					var image = valueObj["image"];
@@ -2787,7 +2824,6 @@ function successCBUpdateCustomerSyncDB(){
 								}
 								//var prodImage = localPath + "/" + 'gallery'+ '/' + image; // For Production
 								//var prodImage = 'img/product'+indexObj+'.jpg'; // For Testing
-						
 								var server_cat_id = valueCat['cat_id'];
 								var galleryImage = '<div class="col-xs-6 col-sm-4 col-md-4 col-lg-4 galleriesClass gallcatid'+server_cat_id+'" data-gall_id="'+gallery_id+'" data-cat_id="'+server_cat_id+'" '+
 										'data-prod_id="'+server_prod_id+'" data-pro_index="'+index+'" data-prod_name="'+prod_name+'" data-lid="'+local_db_id+'" onclick="goToAttributeDiv(this)">';
@@ -2874,6 +2910,8 @@ function successCBUpdateCustomerSyncDB(){
 							}else{
 								prodImageSrc = localPath + "/" + 'gallery'+ '/' +image;// For Production
 							}
+							
+							
 							//var prodImageSrc = 'img/product'+indexGal+'.jpg';// For Testing
 							
 							//var prodImageSrc = window.appRootDir.fullPath + '/' + galId+'_'+image;
@@ -2951,6 +2989,7 @@ function successCBUpdateCustomerSyncDB(){
 			if(value['option'] != ''){
 				var optionObj = jQuery.parseJSON(value['option']);
 				jQuery.each(optionObj, function(index2,value2) {
+					totalAttrOptImages = parseInt(totalAttrOptImages) + 1;
 					var optionId = value2['id'];
 					var optionName = value2['name'];
 					var optionImg = value2['image'];
@@ -2987,7 +3026,6 @@ function successCBUpdateCustomerSyncDB(){
 							if(attributeDiv == ''){
 								attrTempId = server_attr_id;
 							}
-							
 							jQuery.each(optionObj, function(index2,value2) {
 								var optionId = value2['id'];
 								var optionName = value2['name'];
@@ -3149,40 +3187,63 @@ function successCBUpdateCustomerSyncDB(){
 		var optName = $(thisData).data('optname');
 		var optSrc = $(thisData).data('optionsrc');
 		$('.subMen_attrId'+attrId).addClass('option-selected');
-		$('.selection-page-options-div .attr-option-div .attrOpt'+attrId).removeClass('active');
+		//$('.selection-page-options-div .attr-option-div .attrOpt'+attrId).removeClass('active');
 		$(thisData).addClass("active");
-		
 		var optId = $(thisData).data('opt_id');
-		
-		var indexOfAttr = jQuery.inArray(attrId, attributeArrayToSave );
-		if(indexOfAttr >= 0){
-			var tempAttrArray = [];
-			var tempOptionArray = [];
-			var tempOptionName = [];
-			var tempImageName = [];
-			for(var i = 0 ;i <=attributeArrayToSave.length; i++){
-				if(attrId != attributeArrayToSave[i]){
-					tempAttrArray.push(attributeArrayToSave[i]);
-					tempOptionArray.push(optionArrayToSave[i]);
-					tempOptionName.push(optionImageName[i]);
-					tempImageName.push(optionImageFullName[i]);
-				}
-			}
-			optionArrayToSave = tempOptionArray;
-			attributeArrayToSave = tempAttrArray;
-			optionImageName = tempOptionName;
-			optionImageFullName = tempImageName;
-		}
-		//if ($( "#customerConfirmationPageId .customerFieldsToAppendSelected .attrOpt"+attrId ).length > 0 ){
-	       // alert('Found with Length '+$( ".div_opt_id"+optId ).length);
-	        $('.customerFieldsToAppendSelected .attrOpt'+attrId).remove();
-	    //}else{
-	    	$( ".div_opt_id"+optId ).clone().appendTo( "#customerConfirmationPageId .hrClassForOptions" );
-	   // }
-	    	optionArrayToSave.push(optId);
+		if($(thisData).hasClass('active')){
+			
+			optionArrayToSave.push(optId);
 	    	attributeArrayToSave.push(attrId);
 	    	optionImageName.push(optName);
 	    	optionImageFullName.push(optSrc);
+		}else{
+			
+			attributeArrayToSave=[];
+			optionArrayToSave=[];
+			optionImageFullName=[];
+			optionImageName=[];
+			var thisParent=$(thisData).parents('.attr-option-div').find('.active');
+			$(thisParent).each(function(i){
+				optionArrayToSave.push(parseInt($(this).attr('data-opt_id')));
+				attributeArrayToSave.push(parseInt($(this).attr('data-attrid')));
+				optionImageName.push($(this).attr('data-optname'));
+				optionImageFullName.push($(this).attr('data-optionsrc'));
+			});
+			
+			/*var indexOfAttr = jQuery.inArray(parseInt(optId), optionArrayToSave );
+			if(indexOfAttr >= 0){
+				var tempAttrArray = [];
+				var tempOptionArray = [];
+				var tempOptionName = [];
+				var tempImageName = [];
+				for(var i = 0 ;i <=optionArrayToSave.length; i++){
+					if(attrId != optionArrayToSave[i]){
+						tempAttrArray.push(attributeArrayToSave[i]);
+						tempOptionArray.push(optionArrayToSave[i]);
+						tempOptionName.push(optionImageName[i]);
+						tempImageName.push(optionImageFullName[i]);
+					}
+				}
+				optionArrayToSave = tempOptionArray;
+				attributeArrayToSave = tempAttrArray;
+				optionImageName = tempOptionName;
+				optionImageFullName = tempImageName;
+			}*/
+		}
+		
+		
+		
+		
+		//if ($( "#customerConfirmationPageId .customerFieldsToAppendSelected .attrOpt"+attrId ).length > 0 ){
+	       // alert('Found with Length '+$( ".div_opt_id"+optId ).length);
+	        //$('.customerFieldsToAppendSelected .attrOpt'+attrId).remove();
+	    //}else{
+	    	$( ".div_opt_id"+optId ).clone().appendTo( "#customerConfirmationPageId .hrClassForOptions" );
+	   // }
+	    	/*optionArrayToSave.push(optId);
+	    	attributeArrayToSave.push(attrId);
+	    	optionImageName.push(optName);
+	    	optionImageFullName.push(optSrc);*/
 		$("#customerConfirmationPageId .customerFieldsToAppendSelected .optMenu-bar").show();
 		
 		var $attrIndex = $(thisData).data('attrindex');
@@ -3242,6 +3303,7 @@ function successCBUpdateCustomerSyncDB(){
 		measurementJsonData = responseJson["result"];
 		// FIXME CHECK JSON DATA
 		db.transaction(insertMeasurementsDetails, errorCBInsertMeasurementDetails, successCBInsertMeasurementDetails);
+		//dataHasSyncSendReport('measurements_sync');
 	}
 	
 	function successCBInsertMeasurementDetails() {
@@ -3285,6 +3347,7 @@ function successCBUpdateCustomerSyncDB(){
 		var responseJson = $.parseJSON(JSON.stringify(data));
 		deleteRecordsInLocalDBJsonData = responseJson["result"];
 		deleteRecordsFromLocalDB();
+		//dataHasSyncSendReport('deleted_sync');
 	}
 	
 	function errorCBDeleteInDBServerFn(err){
@@ -4106,6 +4169,7 @@ function successCBUpdateCustomerSyncDB(){
 		//alert('tailorDetailsJsonData : '+tailorDetailsJsonData);
 		// FIXME CHECK JSON DATA
 		db.transaction(updateCustomerDetailsForSaveFn, errorCBCustomerDetails, successCBCustomerDetailsLBSaveFn);
+		//dataHasSyncSendReport('customers_sync');
 	}
 	
 	function updateCustomerDetailsForSaveFn(tx) {
@@ -4170,6 +4234,7 @@ function successCBUpdateCustomerSyncDB(){
 		// FIXME CHECK JSON DATA
 		console.log();
 		db.transaction(updateCustomerDetailsForUpdateFn, errorCBCustomerDetails, successCBCustomerDetailsLBUpdateFn);
+		//dataHasSyncSendReport('customers_sync');
 	}
 	
 	function errorCBCustomerDetails(err){
@@ -4246,6 +4311,7 @@ function successCBUpdateCustomerSyncDB(){
 		//alert('tailorDetailsJsonData : '+tailorDetailsJsonData);
 		// FIXME CHECK JSON DATA
 		db.transaction(updateOrderDetailsForSavedFn, errorCBOrderDetails, successCBOrderDetailsForSavedFn);
+		//dataHasSyncSendReport('orders_sync');
 	}
 	
 	function errorCBOrderDetails(err){
@@ -4350,6 +4416,7 @@ function successCBUpdateCustomerSyncDB(){
 		//alert('tailorDetailsJsonData : '+tailorDetailsJsonData);
 		// FIXME CHECK JSON DATA
 		db.transaction(updateOrderDetailsForUpdatedFn, errorCBOrderDetails, successCBOrderDetailsForUpdateFn);
+		//dataHasSyncSendReport('orders_sync');
 	}
 	
 	function updateOrderDetailsForUpdatedFn(tx) {
