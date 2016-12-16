@@ -4603,8 +4603,9 @@ function successCBUpdateCustomerSyncDB(){
 		    	/*var tempDiv = '<div id="'+File_Name+'">'+
 		    			tempDiv += '<span>File Name : "'+File_Name+'" </span>'
 		    			+' Percentage : '+now/100+'%</div>';*/
-		    	$('#progressBarTag').attr(now/100);
-		    	$('#progressBarTag').show();
+		    	var progressBarTag = '<progress id="'+File_Name+'" value="'+now/100+'" max="100"></progress>';
+		    	$('#progressBarDiv').append(progressBarTag);
+		    	$('#progressBarDiv').show();
 		        //updateProgress(now / 100);
 		        //this.pre = now;
 		    }
