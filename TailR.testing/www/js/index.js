@@ -4574,24 +4574,31 @@ function successCBUpdateCustomerSyncDB(){
 	}
 	
 	// 3rd Step 
-	var statusDom;
+	var option;
 	function filetransferFn(download_link, fp) {
 		var fileTransfer = new FileTransfer();
 		//console.log(fp);
 		// File download function with URL and local path
 		
-		fileTransfer.onprogress = function(progressEvent) {
-			if (progressEvent.lengthComputable) {
-				var perc = Math.floor(progressEvent.loaded / progressEvent.total * 100);
-				statusDom.innerHTML = perc + "% loaded...";
-			} else {
-				if(statusDom.innerHTML == "") {
-					statusDom.innerHTML = "Loading";
-				} else {
-					statusDom.innerHTML += ".";
-				}
-			}
-		};
+		const dl = require('download-file-with-progressbar');
+		 
+		option = {
+		    filename: download_link,
+		    dir: fp,
+		    onDone: (info)=>{
+		        console.log('done', info);
+		    },
+		    onError: (err) => {
+		        console.log('error', err);
+		    },
+		    onProgress: (curr, total) => {
+		        console.log('progress', (curr / total * 100).toFixed(2) + '%');
+		    },
+		}
+		 
+		var dd = dl(download_link, option);
+		 
+		dd.abort(); // to abort the download
 		
 		fileTransfer.download(download_link, fp,
 				function (entry) {
