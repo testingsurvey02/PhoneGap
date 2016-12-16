@@ -3203,7 +3203,7 @@ function successCBUpdateCustomerSyncDB(){
 				optionImageName.push($(this).data('optname'));
 				optionImageFullName.push($(this).dtata('optionsrc'));
 			});
-			$('.customerFieldsToAppendSelected .div_opt_id'+optId).remove();
+			$('#customerConfirmationPageId .customerFieldsToAppendSelected .div_opt_id'+optId).remove();
 		}else{
 			optionArrayToSave.push(optId);
 	    	attributeArrayToSave.push(attrId);
