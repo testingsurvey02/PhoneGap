@@ -3188,8 +3188,9 @@ function successCBUpdateCustomerSyncDB(){
 		var optSrc = $(thisData).data('optionsrc');
 		$('.subMen_attrId'+attrId).addClass('option-selected');
 		//$('.selection-page-options-div .attr-option-div .attrOpt'+attrId).removeClass('active');
-		$(thisData).addClass("active");
+		$(thisData).toggleClass("active");
 		var optId = $(thisData).data('opt_id');
+		
 		if($(thisData).hasClass('active')){
 			
 			optionArrayToSave.push(optId);
