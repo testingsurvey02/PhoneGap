@@ -3201,7 +3201,7 @@ function successCBUpdateCustomerSyncDB(){
 				optionArrayToSave.push(parseInt($(this).data('opt_id')));
 				attributeArrayToSave.push(parseInt($(this).data('attrid')));
 				optionImageName.push($(this).data('optname'));
-				optionImageFullName.push($(this).dtata('optionsrc'));
+				optionImageFullName.push($(this).data('optionsrc'));
 			});
 			$(thisData).removeClass('active');
 			$('#customerConfirmationPageId .customerFieldsToAppendSelected .div_opt_id'+optId).remove();
