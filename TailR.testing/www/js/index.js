@@ -3203,6 +3203,7 @@ function successCBUpdateCustomerSyncDB(){
 				optionImageName.push($(this).data('optname'));
 				optionImageFullName.push($(this).dtata('optionsrc'));
 			});
+			$(thisData).removeClass('active');
 			$('#customerConfirmationPageId .customerFieldsToAppendSelected .div_opt_id'+optId).remove();
 		}else{
 			optionArrayToSave.push(optId);
@@ -3210,7 +3211,7 @@ function successCBUpdateCustomerSyncDB(){
 	    	optionImageName.push(optName);
 	    	optionImageFullName.push(optSrc);
 	    	$( ".div_opt_id"+optId ).clone().appendTo( "#customerConfirmationPageId .hrClassForOptions" );
-			
+	    	$(thisData).addClass('active');
 			
 			/*var indexOfAttr = jQuery.inArray(parseInt(optId), optionArrayToSave );
 			if(indexOfAttr >= 0){
@@ -3233,7 +3234,7 @@ function successCBUpdateCustomerSyncDB(){
 			}*/
 		}
 		
-		$(thisData).toggleClass("active");
+		//$(thisData).toggleClass("active");
 		
 		
 		//if ($( "#customerConfirmationPageId .customerFieldsToAppendSelected .attrOpt"+attrId ).length > 0 ){
