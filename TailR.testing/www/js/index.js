@@ -3192,11 +3192,11 @@ function successCBUpdateCustomerSyncDB(){
 		var optId = $(thisData).data('opt_id');
 		
 		if($(thisData).hasClass('active')){
-			
 			optionArrayToSave.push(optId);
 	    	attributeArrayToSave.push(attrId);
 	    	optionImageName.push(optName);
 	    	optionImageFullName.push(optSrc);
+	    	$( ".div_opt_id"+optId ).clone().appendTo( "#customerConfirmationPageId .hrClassForOptions" );
 		}else{
 			
 			attributeArrayToSave=[];
@@ -3205,12 +3205,12 @@ function successCBUpdateCustomerSyncDB(){
 			optionImageName=[];
 			var thisParent=$(thisData).parents('.attr-option-div').find('.active');
 			$(thisParent).each(function(i){
-				optionArrayToSave.push(parseInt($(this).attr('data-opt_id')));
-				attributeArrayToSave.push(parseInt($(this).attr('data-attrid')));
-				optionImageName.push($(this).attr('data-optname'));
-				optionImageFullName.push($(this).attr('data-optionsrc'));
+				optionArrayToSave.push(parseInt($(this).data('opt_id')));
+				attributeArrayToSave.push(parseInt($(this).data('attrid')));
+				optionImageName.push($(this).data('optname'));
+				optionImageFullName.push($(this).dtata('optionsrc'));
 			});
-			
+			$('.customerFieldsToAppendSelected .div_opt_id'+optId).remove();
 			/*var indexOfAttr = jQuery.inArray(parseInt(optId), optionArrayToSave );
 			if(indexOfAttr >= 0){
 				var tempAttrArray = [];
@@ -3239,7 +3239,7 @@ function successCBUpdateCustomerSyncDB(){
 	       // alert('Found with Length '+$( ".div_opt_id"+optId ).length);
 	        //$('.customerFieldsToAppendSelected .attrOpt'+attrId).remove();
 	    //}else{
-	    	$( ".div_opt_id"+optId ).clone().appendTo( "#customerConfirmationPageId .hrClassForOptions" );
+	    	//$( ".div_opt_id"+optId ).clone().appendTo( "#customerConfirmationPageId .hrClassForOptions" );
 	   // }
 	    	/*optionArrayToSave.push(optId);
 	    	attributeArrayToSave.push(attrId);
