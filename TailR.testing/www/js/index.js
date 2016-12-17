@@ -384,7 +384,6 @@ function onBackKeyDown() {
 }
 
 function checkConnection() {
-	
 	if(testingInBrowser){
 		connectionType="WiFi connection";//For Testing
 		return connectionType;
@@ -401,6 +400,10 @@ function checkConnection() {
     //states[Connection.CELL_5G]  = 'Cell 5G connection';
     states[Connection.CELL]     = 'Cell generic connection';
     states[Connection.NONE]     = 'No network connection';
+    
+    if(typeof states[networkState]==='undefined'){
+		return 'Unknown connection';;
+    }
     return states[networkState];
 }
 
@@ -1056,9 +1059,9 @@ function successCBInsertCategories() {
 	console.log(' category Successfully Inserted ');
 	var productDiv = '';
 	if(dataExist){
-		productDiv = '<span> Product Data Syncing </span>';
+		productDiv = '<p> Product Data Syncing </p>';
 	}else{
-		productDiv = '<span>Product Data First Time Syncing</span>';
+		productDiv = '<p>Product Data First Time Syncing</p>';
 	}
 	$('.appendStatusDiv').append(productDiv);
 	getProductDataFromServer();
@@ -1080,7 +1083,7 @@ function getCategoriesListFromLocal(){
 	}
 	
 	var categoryRecordsDiv = '';
-	categoryRecordsDiv = '<span> Retrieving Category Records From Database </span>';
+	categoryRecordsDiv = '<p> Retrieving Category Records From Database </p>';
 	$('.appendStatusDiv').append(categoryRecordsDiv);
 	db.transaction(	function (tx){
 		console.log('getCategoriesListFromLocal');
@@ -1113,7 +1116,7 @@ function getCategoriesListFromLocal(){
 
 function successCBCatListDB() {
 	var categoryAppendingRecordsDiv = '';
-	categoryAppendingRecordsDiv = '<span> Appending Category Records </span>';
+	categoryAppendingRecordsDiv = '<p> Appending Category Records </p>';
 	$('.appendStatusDiv').append(categoryAppendingRecordsDiv);
 	appendCatListDB(catArrSession, subCatArrSession);
 }	
@@ -1233,9 +1236,9 @@ function errorCBProdLocalDB(err) {
 function successCBInsertProductDetails() {
 	var attributeDiv = '';
 	if(dataExist){
-		attributeDiv = '<span> Attribute Data Syncing </span>';
+		attributeDiv = '<p> Attribute Data Syncing </p>';
 	}else{
-		attributeDiv = '<span> Attribute Data First Time Syncing </span>';
+		attributeDiv = '<p> Attribute Data First Time Syncing </p>';
 	}
 	$('.appendStatusDiv').append(attributeDiv);
 	 getAttributesDataFromServer();
@@ -1311,7 +1314,7 @@ function getProductsListFromLocal(){
 		return;
 	}
 	var productRecordsDiv = '';
-	productRecordsDiv = '<span> Retrieving Product Records From Database </span>';
+	productRecordsDiv = '<p> Retrieving Product Records From Database </p>';
 	$('.appendStatusDiv').append(productRecordsDiv);
 	db.transaction(	function (tx){
 			tx.executeSql('select * from product_details ',[],function(tx,results){
@@ -1416,9 +1419,9 @@ function errorCBAttrListDB(err) {
 function successCBInsertAttributeDetails() {
 	var measurementDiv = '';
 	if(dataExist){
-		measurementDiv = '<span> Measurement Data Syncing </span>';
+		measurementDiv = '<p> Measurement Data Syncing </p>';
 	}else{
-		measurementDiv = '<span> Measurement Data first time Syncing </span>';
+		measurementDiv = '<p> Measurement Data first time Syncing </p>';
 	}
 	
 	$('.appendStatusDiv').append(measurementDiv);
@@ -1738,7 +1741,7 @@ function deleteChildArraysByMethods(){
 			callCategoryFunctionIndex ++;
 			var deleteRecordsDiv = '';
 			if(dataExist){
-				deleteRecordsDiv = '<span> Delete Records successfully Removed </span>';
+				deleteRecordsDiv = '<p> Delete Records successfully Removed </p>';
 			}
 			$('.appendStatusDiv').append(deleteRecordsDiv);
 			return;
@@ -2590,9 +2593,9 @@ function successCBUpdateCustomerSyncDB(){
 					          recordCount = rs.rows.item(0).mycount;
 					          if(parseInt(recordCount) > 0){
 					        	  dataExist = true;
-					        	  categoryDiv = '<span>Category Data Syncing</span>';
+					        	  categoryDiv = '<p>Category Data Syncing</p>';
 					          }else{
-					        	  categoryDiv = '<span>Category Data First Time Syncing</span>';
+					        	  categoryDiv = '<p>Category Data First Time Syncing</p>';
 					          }
 					          $('.appendStatusDiv').append(categoryDiv);
 					          gotoStatusReportPage();
@@ -2664,9 +2667,9 @@ function successCBUpdateCustomerSyncDB(){
 		// FIXME CHECK JSON DATAv
 		var categoryDiv = '';
 		if(dataExist){
-			categoryDiv = '<span> Updating Category Data </span>';
+			categoryDiv = '<p> Updating Category Data </p>';
 		}else{
-			categoryDiv = '<span> Inserting Category Data </span>';
+			categoryDiv = '<p> Inserting Category Data </p>';
 		}
 		$('.appendStatusDiv').append(categoryDiv);
 		insertCategories(categoriesJsonData);
@@ -2794,9 +2797,9 @@ function successCBUpdateCustomerSyncDB(){
 		// FIXME CHECK JSON DATA
 		var productDiv = '';
 		if(dataExist){
-			productDiv = '<span> Product Data Updating Records </span>';
+			productDiv = '<p> Product Data Updating Records </p>';
 		}else{
-			productDiv = '<span> Product Data Inserting </span>';
+			productDiv = '<p> Product Data Inserting </p>';
 		}
 		$('.appendStatusDiv').append(productDiv);
 		db.transaction(insertProductDetails, errorCBInsertProductDetails, successCBInsertProductDetails);
@@ -2832,9 +2835,9 @@ function successCBUpdateCustomerSyncDB(){
 		// FIXME CHECK JSON DATA
 		var attributeDiv = '';
 		if(dataExist){
-			attributeDiv = '<span> Attribute Data Updating </span>';
+			attributeDiv = '<p> Attribute Data Updating </p>';
 		}else{
-			attributeDiv = '<span> Attribute Data Inserting </span>';
+			attributeDiv = '<p> Attribute Data Inserting </p>';
 		}
 		$('.appendStatusDiv').append(attributeDiv);
 		db.transaction(insertAttributesDetails, errorCBInsertAttributeDetails, successCBInsertAttributeDetails);
@@ -2923,7 +2926,7 @@ function successCBUpdateCustomerSyncDB(){
 								//var prodImage = 'img/product'+indexObj+'.jpg'; // For Testing
 								var server_cat_id = valueCat['cat_id'];
 								var galleryImage = '<div class="col-xs-6 col-sm-4 col-md-4 col-lg-4 galleriesClass gallcatid'+server_cat_id+'" data-gall_id="'+gallery_id+'" data-cat_id="'+server_cat_id+'" '+
-										'data-prod_id="'+server_prod_id+'" data-pro_index="'+index+'" data-prod_name="'+prod_name+'" data-lid="'+local_db_id+'" onclick="getImagesFromServer(this)">';
+										'data-prod_id="'+server_prod_id+'" data-pro_index="'+index+'" data-prod_name="'+prod_name+'" data-lid="'+local_db_id+'" onclick="getAttrImgFromServer(this)">';
 										
 								galleryImage+= '<img class="product-image" src="'+prodImage+'" style="width:250px; height:350px;" alt="'+prod_name+'" />'
 								galleryImage+= '<p>'+prod_name+'</p>';
@@ -2946,7 +2949,8 @@ function successCBUpdateCustomerSyncDB(){
 		getAttributeListFromLocal();
 	}
 	
-	function getImagesFromServer(thisData){
+	function getAttrImgFromServer(thisData){
+		// Change
 		$('#progressBarDiv').empty();
 		downloadAttrOptFile(attrDetailsArrSession, thisData);
 	}
@@ -3105,48 +3109,93 @@ function successCBUpdateCustomerSyncDB(){
 		console.log('attributes downloadAttrOptionImages END : ');
 	}
 	
+	var curr_dyn_prod_id='';
 	function downloadAttrOptFile(attrDetailsArrSession, thisData){
 		connectionType=checkConnection();
+		
 		if(connectionType=="WiFi connection" || connectionType=="Cell 4G connection" || connectionType=="Cell 3G connection" || connectionType=="Cell 2G connection"){
 			var folder = 'attributes';
-			var i = 0;
 			console.log('attributes downloadAttrOptionImages ');
+			
+			curr_dyn_prod_id= 'curr_dyn_'+ $(thisData).data('prod_id');
+			
 			var productId = $(thisData).data('prod_id');
-			var attrIds = [];
+			// ProductAttributeIdsArray Init
+			var prodAttrIdsArr = [];
 			gotoDownloadImagePage();
+			
+			// Product Array Count Temp
+			var prodCountTemp = 0;
+			
+			// Product Array
 			jQuery.each(productDetailsArrSession, function(indexProd,valueProd) {
+				
 				var server_prod_id = valueProd["server_prod_id"];
-				var attributeObj = jQuery.parseJSON(valueProd.attribute_details);
+				// Get productAttributeArrayTemp
+				var prodAttrArrTemp = jQuery.parseJSON(valueProd.attribute_details);
 				if(parseInt(productId) == parseInt(server_prod_id)){
-					jQuery.each(attributeObj, function(indexObj,valueObj) {
+					
+					// Iterate Product Attribute Array
+					jQuery.each(prodAttrArrTemp, function(indexObj,valueObj) {
 						var attrId = valueObj['attr_id'];
-						attrIds[indexObj] = attrId;
+						// Push product Attribute Id to ProductAttributeIdsArray
+						prodAttrIdsArr[indexObj] = attrId;
 					});
-					jQuery.each(attrIds, function(index1,value1) {
+					
+					// Iterate ProductAttributeIdsArray
+					jQuery.each(prodAttrIdsArr, function(index1,value1) {
+						
+						// Iterate attrDetailsArrSession, attribute details in session
 						jQuery.each(attrDetailsArrSession, function(index,value) {
+							
 							var server_attr_id = value['server_attr_id'];
+							
 							if(value1 == server_attr_id){
+								
 								if(value['option'] != ''){
-									var optionObj = jQuery.parseJSON(value['option']);
-									jQuery.each(optionObj, function(index2,value2) {
-										totalAttrOptImages = parseInt(totalAttrOptImages) + 1;
-										var optionId = value2['id'];
-										var optionName = value2['name'];
+									// Get & Iterate optionArraysTemp, Options Arrays For This Product
+									var optionArraysTemp = jQuery.parseJSON(value['option']);
+									jQuery.each(optionArraysTemp, function(index2,value2) {
 										var optionImg = value2['image'];
-										//downloadFile(optionId, optionImg, 'attrOption');
-										var downloadFileUrl = attributeImageData + '/' + optionImg;
-										downloadFileValidatorFn(downloadFileUrl, folder, optionImg, optionId);
+										var optionId = value2['id'];
+										// Condition
+										var optionArraysImgUrlTemp = localPath + "/" + 'attributes'+ '/' +optionImg;
+										
+										// For Testing Main 
+										window.resolveLocalFileSystemURL(
+											optionArraysImgUrlTemp,// File Url 
+											function fileExist(fileEntry) { // Exist Success CB
+												console.log('File Exist');
+												var id = optionImg+optionId;
+												var downloadFileUrl = attributeImageData + '/' + optionImg;
+												var fp = localPath + "/" + 'attributes'+ '/';
+												var progressBarTag = '<div id="remove'+optionImg+'"><span style="width: 100%">'+optionImg+'</span> : '+ '<br/><progress id="'+optionImg+'" class="'+id+'" data-urllink="'+downloadFileUrl+'" data-location="'+fp+'" value="0" max="100" style="width: 100%"></progress>';
+												progressBarTag += '<button class="btn btn-primary st-bg-baby-pink ui-btn ui-shadow ui-corner-all '+id+'" data-uniqueid="'+id+'" data-urllink="'+downloadFileUrl+'" onclick="startPauseResumeDownload(this);" data-location="'+fp+'">Re-download</button></div>'
+										    	$('#progressBarDiv').append(progressBarTag);
+										    	$('#progressBarDiv').show();
+										    	updateProgress(100, id);
+											}, 
+											function fileNotExist(e) { // Not Exist Success CB
+												console.log("File not exist");
+												console.dir(e);
+												
+												var downloadFileUrl = attributeImageData + '/' + optionImg;
+												totalAttrOptImages = parseInt(totalAttrOptImages) + 1;
+												
+												var optionName = value2['name'];
+												downloadFileValidatorFn(downloadFileUrl, folder, optionImg, optionId);
+											}
+										);
 									});
 								}
 							}
-							
 						});
 					});
 				}
-				i = parseInt(i)+1;
+				prodCountTemp = parseInt(prodCountTemp)+1;
 			});
 			console.log('attributes downloadAttrOptionImages END : ');
-			if(parseInt(i) == parseInt(productDetailsArrSession.length)){
+			if(parseInt(prodCountTemp) == parseInt(productDetailsArrSession.length)){
 				goToAttributeDiv(thisData);
 			}
 		}else{
@@ -3461,9 +3510,9 @@ function successCBUpdateCustomerSyncDB(){
 		// FIXME CHECK JSON DATA
 		var measurementDiv = '';
 		if(dataExist){
-			measurementDiv = '<span style="width:100%; margin-bottom: 5px;"> Measurement Data Updating </span>';
+			measurementDiv = '<p> Measurement Data Updating </p>';
 		}else{
-			measurementDiv = '<span style="width:100%; margin-bottom: 5px;"> Measurement Data Inserting </span>';
+			measurementDiv = '<p> Measurement Data Inserting </p>';
 		}
 		$('.appendStatusDiv').append(measurementDiv);
 		db.transaction(insertMeasurementsDetails, errorCBInsertMeasurementDetails, successCBInsertMeasurementDetails);
@@ -3474,7 +3523,7 @@ function successCBUpdateCustomerSyncDB(){
 		/*if(deleteRecordStatus == 0){*/
 		if(dataExist){
 			var deleteRecordsDiv = '';
-			deleteRecordsDiv = '<span> Delete Data Syncing </span>';
+			deleteRecordsDiv = '<p> Delete Data Syncing </p>';
 			getDataToDeleteInLocalDBFromServer();
 			$('.appendStatusDiv').append(deleteRecordsDiv);
 		}else{
@@ -3521,7 +3570,7 @@ function successCBUpdateCustomerSyncDB(){
 		deleteRecordsInLocalDBJsonData = responseJson["result"];
 		var deleteRecordsDiv = '';
 		if(dataExist){
-			deleteRecordsDiv = '<span> Delete Records started deleting in local </span>';
+			deleteRecordsDiv = '<p> Delete Records started deleting in local </p>';
 		}
 		$('.appendStatusDiv').append(deleteRecordsDiv);
 		deleteRecordsFromLocalDB();
@@ -4787,7 +4836,8 @@ function successCBUpdateCustomerSyncDB(){
 				prodImgCountDownloaded=prodImgCountDownloaded+1;
 				if(prodImgCountInProg==prodImgCountDownloaded ){
 					window.localStorage["productimgflag"]=2;
-					alert('productimgFlag ----  '+window.localStorage["productimgflag"]);
+					// For Testing
+					alert('All Product Images Doenloaded Successfully. ' + window.localStorage["productimgflag"]);
 				}
 			}
 		},
@@ -4887,6 +4937,18 @@ function successCBUpdateCustomerSyncDB(){
 	}
 	
 
-	
+	// keep startup url (in case your app is an SPA with html5 url routing)
+	var initialHref = window.location.href;
+
+	function restartApplication() {
+		console.log("initialHref-- " + initialHref);
+	  // Show splash screen (useful if your app takes time to load) 
+	  // navigator.splashscreen.show();
+	  // Reload original app url (ie your index.html file)
+	  // window.location = initialHref; // Alternative
+	  
+	  document.location.href = 'index.html'; // Alternative
+	  // location.reload(); // Alternative
+	}
 	
 	
