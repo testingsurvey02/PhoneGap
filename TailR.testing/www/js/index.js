@@ -4756,6 +4756,7 @@ function successCBUpdateCustomerSyncDB(){
 			//updateProgress(100, id);
 			$('#remove'+id).remove();
 			if($('#progressBarDiv > div' ).length==0){
+				appendProdListDB(productDetailsArrSession);
 				gotoProductPage();
 			}
 			window.resolveLocalFileSystemURL(entry.toURL(), fileExist, fileNotExist);
