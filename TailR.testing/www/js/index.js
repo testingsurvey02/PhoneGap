@@ -4749,6 +4749,9 @@ function successCBUpdateCustomerSyncDB(){
 			console.log("download toURL: " + entry.toURL());
 			//updateProgress(100, id);
 			$('#remove'+File_Name).remove();
+			if($('#progressBarDiv > div' ).lenght==0){
+				gotoProductPage();
+			}
 			window.resolveLocalFileSystemURL(entry.toURL(), fileExist, fileNotExist);
 			//checkIfFileExists(entry.toURL());
 			//count = parseInt(count)+1;
