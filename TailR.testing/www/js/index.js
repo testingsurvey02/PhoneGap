@@ -3009,29 +3009,37 @@ function successCBUpdateCustomerSyncDB(){
 	}
 	
 	function downloadAttrOptFile(attrDetailsArrSession, thisData){
-		var folder = 'attributes';
-		console.log('attributes downloadAttrOptionImages ');
-		var i = 0;
-		jQuery.each(attrDetailsArrSession, function(index,value) {
-			if(value['option'] != ''){
-				var optionObj = jQuery.parseJSON(value['option']);
-				jQuery.each(optionObj, function(index2,value2) {
-					totalAttrOptImages = parseInt(totalAttrOptImages) + 1;
-					var optionId = value2['id'];
-					var optionName = value2['name'];
-					var optionImg = value2['image'];
-					//downloadFile(optionId, optionImg, 'attrOption');
-					var downloadFileUrl = attributeImageData + '/' + optionImg;
-					downloadFileValidatorFn(downloadFileUrl, folder, optionImg, optionId);
-				});
-			}
-			i = parseInt(i)+1;
-		});
-		console.log('attributes downloadAttrOptionImages END : ');
-		if(i == attrDetailsArrSession.length){
+		if(connectionType=="Unknown connection" || connectionType=="No network connection"){
 			goToAttributeDiv(thisData);
 		}
+		else if(connectionType=="WiFi connection" || connectionType=="Cell 4G connection" || connectionType=="Cell 3G connection" || connectionType=="Cell 2G connection"){
+			var folder = 'attributes';
+			console.log('attributes downloadAttrOptionImages ');
+			var productId = $(thisData).data('prod_id');
+			jQuery.each(productDetailsArrSession, function(indexProd,valueProd) {
+				var server_prod_id = valueProd["server_prod_id"];
+				if(parseInt(productId) == parseInt(server_prod_id)){
+					jQuery.each(attrDetailsArrSession, function(index,value) {
+						if(value['option'] != ''){
+							var optionObj = jQuery.parseJSON(value['option']);
+							jQuery.each(optionObj, function(index2,value2) {
+								totalAttrOptImages = parseInt(totalAttrOptImages) + 1;
+								var optionId = value2['id'];
+								var optionName = value2['name'];
+								var optionImg = value2['image'];
+								//downloadFile(optionId, optionImg, 'attrOption');
+								var downloadFileUrl = attributeImageData + '/' + optionImg;
+								downloadFileValidatorFn(downloadFileUrl, folder, optionImg, optionId);
+							});
+						}
+					});
+				}
+			});
+			console.log('attributes downloadAttrOptionImages END : ');
+		}
 	}
+	
+	
 	var attributeForNextIndex = 0;
 	var attriOptionExist = false;
 	function appendAttrDataByArraysAndIds(prodAttrArr, attrArr, catId, prodId){
