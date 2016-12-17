@@ -3101,9 +3101,7 @@ function successCBUpdateCustomerSyncDB(){
 				var attributeObj = jQuery.parseJSON(valueProd.attribute_details);
 				if(parseInt(productId) == parseInt(server_prod_id)){
 					jQuery.each(attributeObj, function(indexObj,valueObj) {
-						var paIds = valueObj['id'];
 						var attrId = valueObj['attr_id'];
-						prodAttrIds[indexObj] = paIds;
 						attrIds[indexObj] = attrId;
 					});
 					jQuery.each(attrArr, function(index1,value1) {
