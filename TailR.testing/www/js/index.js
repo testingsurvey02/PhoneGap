@@ -2551,7 +2551,6 @@ function successCBUpdateCustomerSyncDB(){
 				}
 			}
 			else if(connectionType=="WiFi connection" || connectionType=="Cell 4G connection" || connectionType=="Cell 3G connection" || connectionType=="Cell 2G connection"){
-				gotoStatusReportPage();
 				if(type == dataSyncTypeTailor){
 					db.transaction(function(tx) {
 						tx.executeSql('CREATE TABLE IF NOT EXISTS tailor_details (id integer primary key autoincrement, server_td_id integer, first_name text, middle_name text, last_name text, business_title text, address1 text, address2 text, email text, contact1 text, contact2 text, secret_key text, tailor_status integer, city text, pincode text, state_id integer, country_id integer, state_name text, country_name text, update_timestamp text)');
@@ -2588,6 +2587,7 @@ function successCBUpdateCustomerSyncDB(){
 					        	  categoryDiv = '<span>Category Data First Time Syncing</span>';
 					          }
 					          $('.appendStatusDiv .appendStatusImage').append(categoryDiv);
+					          gotoStatusReportPage();
 					          getCategoriesDataFromServer();
 						});
 					});
