@@ -3009,10 +3009,8 @@ function successCBUpdateCustomerSyncDB(){
 	}
 	
 	function downloadAttrOptFile(attrDetailsArrSession, thisData){
-		if(connectionType=="Unknown connection" || connectionType=="No network connection"){
-			goToAttributeDiv(thisData);
-		}
-		else if(connectionType=="WiFi connection" || connectionType=="Cell 4G connection" || connectionType=="Cell 3G connection" || connectionType=="Cell 2G connection"){
+		connectionType=checkConnection();
+		if(connectionType=="WiFi connection" || connectionType=="Cell 4G connection" || connectionType=="Cell 3G connection" || connectionType=="Cell 2G connection"){
 			var folder = 'attributes';
 			console.log('attributes downloadAttrOptionImages ');
 			var productId = $(thisData).data('prod_id');
@@ -3037,6 +3035,7 @@ function successCBUpdateCustomerSyncDB(){
 			});
 			console.log('attributes downloadAttrOptionImages END : ');
 		}
+		goToAttributeDiv(thisData);
 	}
 	
 	
