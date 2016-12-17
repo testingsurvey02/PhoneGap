@@ -3099,6 +3099,7 @@ function successCBUpdateCustomerSyncDB(){
 			console.log('attributes downloadAttrOptionImages ');
 			var productId = $(thisData).data('prod_id');
 			var attrIds = [];
+			gotoDownloadImagePage();
 			jQuery.each(productDetailsArrSession, function(indexProd,valueProd) {
 				var server_prod_id = valueProd["server_prod_id"];
 				var attributeObj = jQuery.parseJSON(valueProd.attribute_details);
