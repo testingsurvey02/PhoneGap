@@ -271,7 +271,13 @@ var app = {
 		// UPDATE TO SERVER
 		// UPDATE DATA FROM SERVER
 		window.localStorage["dbreadyflag"] = 0;
-		window.localStorage["productimgflag"] = 0;
+		
+		if(window.localStorage["productimgflag"] != undefined) {
+			
+		}else{
+			window.localStorage["productimgflag"] = 0;
+		}
+		
 		//loadDataFromServer();
     },
 };
