@@ -2781,7 +2781,7 @@ function successCBUpdateCustomerSyncDB(){
 					var image = valueObj["image"];
 					//downloadFile(gallery_id, image, 'product');
 					var downloadFileUrl = productImageData + '/' + image;
-					downloadFileValidatorFn(downloadFileUrl, folder, image);
+					downloadFileValidatorFn(downloadFileUrl, folder, image, gallery_id);
 				});
 			}
 			i = parseInt(i) + 1;
@@ -2996,7 +2996,7 @@ function successCBUpdateCustomerSyncDB(){
 					var optionImg = value2['image'];
 					//downloadFile(optionId, optionImg, 'attrOption');
 					var downloadFileUrl = attributeImageData + '/' + optionImg;
-					downloadFileValidatorFn(downloadFileUrl, folder, optionImg);
+					downloadFileValidatorFn(downloadFileUrl, folder, optionImg, optionId);
 				});
 			}
 		});
@@ -4539,7 +4539,7 @@ function successCBUpdateCustomerSyncDB(){
 	function downloadFileFn(URL, Folder_Name, File_Name, count) {
 		//step to request a file system 
 		window.requestFileSystem(LocalFileSystem.PERSISTENT, 0, fileSystemSuccess, fileSystemFail);
-
+		var uniqueId = '';
 		function fileSystemSuccess(fileSystem) {
 			var download_link = encodeURI(URL);
 			ext = download_link.substr(download_link.lastIndexOf('.') + 1); //Get extension of URL
@@ -4554,8 +4554,9 @@ function successCBUpdateCustomerSyncDB(){
 			//var fp = rootdir.fullPath; // Returns Fulpath of local directory
 			folderAndPath = Folder_Name + '/' + File_Name;
 			var fileDataDirect = store + "/" + folderAndPath; // fullpath and name of the file which we want to give
+			uniqueId = Folder_Name+count;
 			// download function call
-			filetransferFn(download_link, fileDataDirect, File_Name);
+			filetransferFn(download_link, fileDataDirect, File_Name, uniqueId);
 		}
 
 		function onDirectorySuccess(parent) {
@@ -4575,14 +4576,18 @@ function successCBUpdateCustomerSyncDB(){
 	}
 	
 	// 3rd Step 
-	function filetransferFn(download_link, fp, File_Name) {
+	function filetransferFn(download_link, fp, File_Name, id) {
 		var fileTransfer = new FileTransfer();
 		//console.log(fp);
 		// File download function with URL and local path
+		var progressBarTag = '<progress id="'+File_Name+'" class="'+id+'" value="0" max="100"></progress>';
+    	$('#progressBarDiv').append(progressBarTag);
+    	$('#progressBarDiv').show();
 		fileTransfer.download(download_link, fp,
 				function (entry) {
 			//localPath = entry.toURL();
 			console.log("download toURL: " + entry.toURL());
+			updateProgress(100, id);
 			window.resolveLocalFileSystemURL(entry.toURL(), fileExist, fileNotExist);
 			//checkIfFileExists(entry.toURL());
 			//count = parseInt(count)+1;
@@ -4603,13 +4608,18 @@ function successCBUpdateCustomerSyncDB(){
 		    	/*var tempDiv = '<div id="'+File_Name+'">'+
 		    			tempDiv += '<span>File Name : "'+File_Name+'" </span>'
 		    			+' Percentage : '+now/100+'%</div>';*/
-		    	var progressBarTag = '<progress id="'+File_Name+'" value="'+now/100+'" max="100"></progress>';
-		    	$('#progressBarDiv').append(progressBarTag);
-		    	$('#progressBarDiv').show();
-		        //updateProgress(now / 100);
+		    	
+		        updateProgress(now / 100, id);
 		        //this.pre = now;
 		    }
 		}
+	}
+	
+	function updateProgress(data, id) {
+	  /*  if (this.progress === undefined) this.progress = $('progress'); //store progress
+	    this.progress.setAttribute('style', 'width: ' + data + '%');
+	    this.progress.innerHTML = data + "%";*/
+		$('#progressBarDiv').find('.'+id).val(data);
 	}
 	
 	function fileNotExist(e) {
