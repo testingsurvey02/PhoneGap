@@ -3015,30 +3015,48 @@ function successCBUpdateCustomerSyncDB(){
 		connectionType=checkConnection();
 		if(connectionType=="WiFi connection" || connectionType=="Cell 4G connection" || connectionType=="Cell 3G connection" || connectionType=="Cell 2G connection"){
 			var folder = 'attributes';
+			var i = 0;
 			console.log('attributes downloadAttrOptionImages ');
 			var productId = $(thisData).data('prod_id');
+			var attrIds = [];
 			jQuery.each(productDetailsArrSession, function(indexProd,valueProd) {
 				var server_prod_id = valueProd["server_prod_id"];
+				var attributeObj = jQuery.parseJSON(valueProd.attribute_details);
 				if(parseInt(productId) == parseInt(server_prod_id)){
-					jQuery.each(attrDetailsArrSession, function(index,value) {
-						if(value['option'] != ''){
-							var optionObj = jQuery.parseJSON(value['option']);
-							jQuery.each(optionObj, function(index2,value2) {
-								totalAttrOptImages = parseInt(totalAttrOptImages) + 1;
-								var optionId = value2['id'];
-								var optionName = value2['name'];
-								var optionImg = value2['image'];
-								//downloadFile(optionId, optionImg, 'attrOption');
-								var downloadFileUrl = attributeImageData + '/' + optionImg;
-								downloadFileValidatorFn(downloadFileUrl, folder, optionImg, optionId);
-							});
-						}
+					jQuery.each(attributeObj, function(indexObj,valueObj) {
+						var paIds = valueObj['id'];
+						var attrId = valueObj['attr_id'];
+						prodAttrIds[indexObj] = paIds;
+						attrIds[indexObj] = attrId;
+					});
+					jQuery.each(attrArr, function(index1,value1) {
+						jQuery.each(attrDetailsArrSession, function(index,value) {
+							var server_attr_id = value['server_attr_id'];
+							if(value1 == server_attr_id){
+								if(value['option'] != ''){
+									var optionObj = jQuery.parseJSON(value['option']);
+									jQuery.each(optionObj, function(index2,value2) {
+										totalAttrOptImages = parseInt(totalAttrOptImages) + 1;
+										var optionId = value2['id'];
+										var optionName = value2['name'];
+										var optionImg = value2['image'];
+										//downloadFile(optionId, optionImg, 'attrOption');
+										var downloadFileUrl = attributeImageData + '/' + optionImg;
+										downloadFileValidatorFn(downloadFileUrl, folder, optionImg, optionId);
+									});
+								}
+							}
+							i = parseInt(i)+1;
+						});
 					});
 				}
 			});
 			console.log('attributes downloadAttrOptionImages END : ');
 		}
-		goToAttributeDiv(thisData);
+		if(parseInt(i) == parseInt(attrDetailsArrSession.length)){
+			goToAttributeDiv(thisData);
+		}
+		
 	}
 	
 	
