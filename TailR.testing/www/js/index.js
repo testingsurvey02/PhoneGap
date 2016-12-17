@@ -2868,7 +2868,7 @@ function successCBUpdateCustomerSyncDB(){
 		});
 		if(i == prodArrDataToDownload.length){
 			productImagesDownload = true;
-			gotoProductPage();
+			//gotoProductPage();
 			appendProdListDB(productDetailsArrSession);
 		}
 	}
