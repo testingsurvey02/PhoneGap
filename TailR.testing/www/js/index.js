@@ -4581,7 +4581,7 @@ function successCBUpdateCustomerSyncDB(){
 		var fileTransfer = new FileTransfer();
 		//console.log(fp);
 		// File download function with URL and local path
-		var progressBarTag = File_Name+' : '+ '<progress id="'+File_Name+'" class="'+id+'" data-urllink="'+download_link+'" data-location="'+fp+'" value="0" max="100"></progress>';
+		var progressBarTag = File_Name+' : '+ '<br/><progress id="'+File_Name+'" class="'+id+'" data-urllink="'+download_link+'" data-location="'+fp+'" value="0" max="100" style="width: 100%"></progress>';
 		progressBarTag += '<button class="btn btn-primary st-bg-baby-pink ui-btn ui-shadow ui-corner-all '+id+'" data-urllink="'+download_link+'" onclick="startPauseResumeDownload(this);" data-location="'+fp+'">Re-download</button>'
     	$('#progressBarDiv').append(progressBarTag);
     	$('#progressBarDiv').show();
@@ -4625,49 +4625,54 @@ function successCBUpdateCustomerSyncDB(){
 	}
 	
 	function startPauseResumeDownload(thisData) {
-	    console.log("isStart", this.isStart);
-	   /* if (!this.isStart) {
-	        this.isStart = true;
-	        b = $('download')
-	        b.setAttribute('class', b.getAttribute('class').replace('btn-primary', ''))
-	        b.setAttribute('disabled', 'true')
-	    }*/
+		var isOK = confirm("Are you really want to Re-download?");
+		if(isOK)
+		{
+			// console.log("isStart", this.isStart);
+			   /* if (!this.isStart) {
+			        this.isStart = true;
+			        b = $('download')
+			        b.setAttribute('class', b.getAttribute('class').replace('btn-primary', ''))
+			        b.setAttribute('disabled', 'true')
+			    }*/
 
-	    //var fileTransfer = new FileTransfer();
-	    var fileTransfer = new PRD(); // Use PRD ( extended cordova-plugin-pause-resume-download )
-	    var serverURL = $(thisData).data('urllink');
-	    var filePathDestination = $(thisData).data('location');
-	    var uri = serverURL;
-	    var fileURL = filePathDestination;
+			    //var fileTransfer = new FileTransfer();
+			    var fileTransfer = new PRD(); // Use PRD ( extended cordova-plugin-pause-resume-download )
+			    var serverURL = $(thisData).data('urllink');
+			    var filePathDestination = $(thisData).data('location');
+			    var uri = serverURL;
+			    var fileURL = filePathDestination;
 
-	    fileTransfer.download(
-	        uri,
-	        fileURL,
-	        function(entry) {
-	            console.log("download complete: " + entry.toURL());
-	            updateProgress(100);
-	        },
-	        function(error) {
-	            console.log("download error source " + error.source);
-	            console.log("download error target " + error.target);
-	            console.log("upload error code" + error.code);
-	        },
-	        false, {
-	            headers: {
-	                "Authorization": "Basic dGVzdHVzZXJuYW1lOnRlc3RwYXNzd29yZA=="
-	            }
-	        }
-	    );
+			    fileTransfer.download(
+			        uri,
+			        fileURL,
+			        function(entry) {
+			            console.log("download complete: " + entry.toURL());
+			            updateProgress(100);
+			        },
+			        function(error) {
+			            console.log("download error source " + error.source);
+			            console.log("download error target " + error.target);
+			            console.log("upload error code" + error.code);
+			        },
+			        false, {
+			            headers: {
+			               // "Authorization": "Basic dGVzdHVzZXJuYW1lOnRlc3RwYXNzd29yZA=="
+			            }
+			        }
+			    );
 
-	    fileTransfer.onprogress = function(progress) {
-	        if (this.pre === undefined) this.pre = 0;
+			    fileTransfer.onprogress = function(progress) {
+			        if (this.pre === undefined) this.pre = 0;
 
-	        var now = ~~((progress.loaded / progress.total) * 100 * 100);
-	        if (now - +this.pre > 17) {
-	            updateProgress(now / 100);
-	            this.pre = now;
-	        }
-	    }
+			        var now = ~~((progress.loaded / progress.total) * 100 * 100);
+			        if (now - +this.pre > 17) {
+			            updateProgress(now / 100);
+			            this.pre = now;
+			        }
+			    }
+		}
+	   
 	}
 
 	function reloadAll() {
