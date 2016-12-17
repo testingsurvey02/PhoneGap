@@ -3131,11 +3131,12 @@ function successCBUpdateCustomerSyncDB(){
 				i = parseInt(i)+1;
 			});
 			console.log('attributes downloadAttrOptionImages END : ');
-		}
-		if(parseInt(i) == parseInt(productDetailsArrSession.length)){
+			if(parseInt(i) == parseInt(productDetailsArrSession.length)){
+				goToAttributeDiv(thisData);
+			}
+		}else{
 			goToAttributeDiv(thisData);
 		}
-		
 	}
 	
 	
