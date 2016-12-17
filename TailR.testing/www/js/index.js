@@ -2835,7 +2835,7 @@ function successCBUpdateCustomerSyncDB(){
 		//dataHasSyncSendReport('attributes_sync');
 	}
 	
-	function downloadImagesOfProduct(prodArrDataToDownload){
+	function downloadImagesOfProduct(prodArrDataToDownload, categId){
 		gotoDownloadImagePage();
 		prodArrDataToDownload = productDetailsArrSession;
 		var i = 0;
@@ -2844,17 +2844,23 @@ function successCBUpdateCustomerSyncDB(){
 			var jsonObj=value;
 			var galleryObj = '';
 			galleryObj = jQuery.parseJSON(jsonObj['gallery']);
-			if(jsonObj['gallery'] != ''){
-				var galleryObject = new Object();
-				jQuery.each(galleryObj , function(indexObj,valueObj) {
-					totalProductImages = parseInt(totalProductImages) + 1;
-					var galleryArrObject = new Array();
-					var gallery_id = valueObj['id'];
-					var image = valueObj["image"];
-					//downloadFile(gallery_id, image, 'product');
-					var downloadFileUrl = productImageData + '/' + image;
-					downloadFileValidatorFn(downloadFileUrl, folder, image, gallery_id);
-				});
+			var categoryObj = jQuery.parseJSON(jsonObj['category']);
+			jQuery.each(categoryObj, function(indexCat, valueCat){
+				var cateId = valueCat['cat_id'];
+				if(categId == cateId){
+					if(jsonObj['gallery'] != ''){
+						var galleryObject = new Object();
+						jQuery.each(galleryObj , function(indexObj,valueObj) {
+							totalProductImages = parseInt(totalProductImages) + 1;
+							var galleryArrObject = new Array();
+							var gallery_id = valueObj['id'];
+							var image = valueObj["image"];
+							//downloadFile(gallery_id, image, 'product');
+							var downloadFileUrl = productImageData + '/' + image;
+							downloadFileValidatorFn(downloadFileUrl, folder, image, gallery_id);
+						});
+					}
+				}
 			}
 			i = parseInt(i) + 1;
 		});
@@ -3625,9 +3631,10 @@ function successCBUpdateCustomerSyncDB(){
 		var subMenuId = $(object).data('submenuid');
 		$('#mainPageId').find('.sub-menu').hide();
 		$("."+subMenuId).show();
+		var cateId = $(object).data('cat_id');
 		$('#mainPageId .product-list').find('.galleriesClass').hide();
 		if(connectionType=="WiFi connection" || connectionType=="Cell 4G connection" || connectionType=="Cell 3G connection" || connectionType=="Cell 2G connection"){
-			downloadImagesOfProduct(productDetailsArrSession);
+			downloadImagesOfProduct(productDetailsArrSession, cateId);
 		}
 		//mainGalleryFn(object);
 	}
