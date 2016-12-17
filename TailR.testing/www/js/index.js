@@ -2930,6 +2930,7 @@ function successCBUpdateCustomerSyncDB(){
 	}
 	
 	function getImagesFromServer(thisData){
+		$('#progressBarDiv').empty();
 		downloadAttrOptFile(attrDetailsArrSession, thisData);
 	}
 
