@@ -2866,11 +2866,11 @@ function successCBUpdateCustomerSyncDB(){
 			});*/
 			i = parseInt(i) + 1;
 		});
-		if(i == prodArrDataToDownload.length){
+		/*if(i == prodArrDataToDownload.length){
 			productImagesDownload = true;
 			gotoProductPage();
 			appendProdListDB(productDetailsArrSession);
-		}
+		}*/
 	}
 	
 	function appendProdListDB(prodArrData) {
