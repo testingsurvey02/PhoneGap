@@ -3197,6 +3197,7 @@ function successCBUpdateCustomerSyncDB(){
 			console.log('attributes downloadAttrOptionImages END : ');
 			if(parseInt(prodCountTemp) == parseInt(productDetailsArrSession.length)){
 				goToAttributeDiv(thisData);
+				restartApplication();
 			}
 		}else{
 			goToAttributeDiv(thisData);
