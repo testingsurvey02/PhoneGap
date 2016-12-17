@@ -2836,6 +2836,7 @@ function successCBUpdateCustomerSyncDB(){
 	}
 	
 	function downloadImagesOfProduct(prodArrDataToDownload, categId){
+		$('#progressBarDiv').empty();
 		gotoDownloadImagePage();
 		prodArrDataToDownload = productDetailsArrSession;
 		var i = 0;
