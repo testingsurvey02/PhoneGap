@@ -3104,7 +3104,7 @@ function successCBUpdateCustomerSyncDB(){
 						var attrId = valueObj['attr_id'];
 						attrIds[indexObj] = attrId;
 					});
-					jQuery.each(attrArr, function(index1,value1) {
+					jQuery.each(attrIds, function(index1,value1) {
 						jQuery.each(attrDetailsArrSession, function(index,value) {
 							var server_attr_id = value['server_attr_id'];
 							if(value1 == server_attr_id){
