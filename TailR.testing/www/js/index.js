@@ -2866,11 +2866,11 @@ function successCBUpdateCustomerSyncDB(){
 			});*/
 			i = parseInt(i) + 1;
 		});
-		/*if(i == prodArrDataToDownload.length){
+		if(i == prodArrDataToDownload.length){
 			productImagesDownload = true;
 			gotoProductPage();
 			appendProdListDB(productDetailsArrSession);
-		}*/
+		}
 	}
 	
 	function appendProdListDB(prodArrData) {
@@ -4745,7 +4745,7 @@ function successCBUpdateCustomerSyncDB(){
 		var fileTransfer = new FileTransfer();
 		//console.log(fp);
 		// File download function with URL and local path
-		var progressBarTag = '<div id="remove'+uniqueId+'"><span style="width: 100%">'+File_Name+'</span> : '+ '<br/><progress id="'+File_Name+'" class="'+id+'" data-urllink="'+download_link+'" data-location="'+fp+'" value="0" max="100" style="width: 100%"></progress>';
+		var progressBarTag = '<div id="remove'+File_Name+'"><span style="width: 100%">'+File_Name+'</span> : '+ '<br/><progress id="'+File_Name+'" class="'+id+'" data-urllink="'+download_link+'" data-location="'+fp+'" value="0" max="100" style="width: 100%"></progress>';
 		progressBarTag += '<button class="btn btn-primary st-bg-baby-pink ui-btn ui-shadow ui-corner-all '+id+'" data-uniqueid="'+id+'" data-urllink="'+download_link+'" onclick="startPauseResumeDownload(this);" data-location="'+fp+'">Re-download</button></div>'
     	$('#progressBarDiv').append(progressBarTag);
     	$('#progressBarDiv').show();
@@ -4754,11 +4754,10 @@ function successCBUpdateCustomerSyncDB(){
 			//localPath = entry.toURL();
 			console.log("download toURL: " + entry.toURL());
 			//updateProgress(100, id);
-			$('#remove'+id).remove();
-			if($('#progressBarDiv > div' ).length==0){
-				appendProdListDB(productDetailsArrSession);
+			/* $('#remove'+File_Name).remove();
+			if($('#progressBarDiv > div' ).lenght==0){
 				gotoProductPage();
-			}
+			} */
 			window.resolveLocalFileSystemURL(entry.toURL(), fileExist, fileNotExist);
 			//checkIfFileExists(entry.toURL());
 			//count = parseInt(count)+1;
