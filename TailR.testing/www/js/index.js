@@ -1367,7 +1367,7 @@ function successCBAttrListDB() {
 		//navigator.notification.alert(appRequiresWiFi,alertConfirm,appName,'Ok');
 	}
 	else if(connectionType=="WiFi connection" || connectionType=="Cell 4G connection" || connectionType=="Cell 3G connection" || connectionType=="Cell 2G connection"){
-		downloadAttrOptionImages(attrDetailsArrSession);
+		//downloadAttrOptionImages(attrDetailsArrSession);
 	}
 }	
 
@@ -2853,6 +2853,7 @@ function successCBUpdateCustomerSyncDB(){
 	var galleryIdToSave = '';
 	var galleryNameToSave = '';
 	function goToAttributeDiv(currentData){
+		downloadAttrOptionImages(attrDetailsArrSession);
 		$('.selection-menu').each(function(index){
 			$(this).find('ul li').removeClass("active").find('a').removeClass("active");
 			
