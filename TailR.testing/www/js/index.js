@@ -4611,7 +4611,7 @@ function successCBUpdateCustomerSyncDB(){
 		//console.log(fp);
 		// File download function with URL and local path
 		var progressBarTag = '<span style="width: 100%">'+File_Name+'</span> : '+ '<br/><progress id="'+File_Name+'" class="'+id+'" data-urllink="'+download_link+'" data-location="'+fp+'" value="0" max="100" style="width: 100%"></progress>';
-		progressBarTag += '<button class="btn btn-primary st-bg-baby-pink ui-btn ui-shadow ui-corner-all '+id+'" data-urllink="'+download_link+'" onclick="startPauseResumeDownload(this);" data-location="'+fp+'">Re-download</button>'
+		progressBarTag += '<button class="btn btn-primary st-bg-baby-pink ui-btn ui-shadow ui-corner-all '+id+'" data-uniqueid="'+id+'" data-urllink="'+download_link+'" onclick="startPauseResumeDownload(this);" data-location="'+fp+'">Re-download</button>'
     	$('#progressBarDiv').append(progressBarTag);
     	$('#progressBarDiv').show();
 		fileTransfer.download(download_link, fp,
@@ -4641,7 +4641,7 @@ function successCBUpdateCustomerSyncDB(){
 		    			+' Percentage : '+now/100+'%</div>';*/
 		    	
 		        updateProgress(now / 100, id);
-		        //this.pre = now;
+		        this.pre = now;
 		    }
 		}
 	}
@@ -4669,6 +4669,7 @@ function successCBUpdateCustomerSyncDB(){
 			    var fileTransfer = new PRD(); // Use PRD ( extended cordova-plugin-pause-resume-download )
 			    var serverURL = $(thisData).data('urllink');
 			    var filePathDestination = $(thisData).data('location');
+			    var id = $(thisData).data('uniqueid');
 			    var uri = serverURL;
 			    var fileURL = filePathDestination;
 
@@ -4677,7 +4678,7 @@ function successCBUpdateCustomerSyncDB(){
 			        fileURL,
 			        function(entry) {
 			            console.log("download complete: " + entry.toURL());
-			            updateProgress(100);
+			            updateProgress(100, id);
 			        },
 			        function(error) {
 			            console.log("download error source " + error.source);
@@ -4696,7 +4697,7 @@ function successCBUpdateCustomerSyncDB(){
 
 			        var now = ~~((progress.loaded / progress.total) * 100 * 100);
 			        if (now - +this.pre > 17) {
-			            updateProgress(now / 100);
+			            updateProgress(now / 100, id);
 			            this.pre = now;
 			        }
 			    }
