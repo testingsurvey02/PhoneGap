@@ -2861,7 +2861,7 @@ function successCBUpdateCustomerSyncDB(){
 						});
 					}
 				}
-			}
+			});
 			i = parseInt(i) + 1;
 		});
 		if(i == prodArrDataToDownload.length){
