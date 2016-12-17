@@ -466,7 +466,10 @@ function gotoCustomerPageDiv(){
 
 function gotoViewOrderDetails(){
 	$.mobile.changePage('#view-order-details','slide');
-	
+}
+
+function gotoDownloadImagePage(){
+	$.mobile.changePage('#imageDownloadStatusPage','slide');
 }
 
 function gotoOrderPageDiv(){
