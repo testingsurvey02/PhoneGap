@@ -3121,14 +3121,15 @@ function successCBUpdateCustomerSyncDB(){
 									});
 								}
 							}
-							i = parseInt(i)+1;
+							
 						});
 					});
 				}
+				i = parseInt(i)+1;
 			});
 			console.log('attributes downloadAttrOptionImages END : ');
 		}
-		if(parseInt(i) == parseInt(attrDetailsArrSession.length)){
+		if(parseInt(i) == parseInt(productDetailsArrSession.length)){
 			goToAttributeDiv(thisData);
 		}
 		
