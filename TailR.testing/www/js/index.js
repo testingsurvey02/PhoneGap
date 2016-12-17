@@ -3625,6 +3625,9 @@ function successCBUpdateCustomerSyncDB(){
 		$('#mainPageId').find('.sub-menu').hide();
 		$("."+subMenuId).show();
 		$('#mainPageId .product-list').find('.galleriesClass').hide();
+		if(connectionType=="WiFi connection" || connectionType=="Cell 4G connection" || connectionType=="Cell 3G connection" || connectionType=="Cell 2G connection"){
+			downloadImagesOfProduct(productDetailsArrSession);
+		}
 		//mainGalleryFn(object);
 	}
 	
@@ -3680,9 +3683,6 @@ function successCBUpdateCustomerSyncDB(){
 		var cat_id = $(object).data('cat_id');
 		$('.galleriesClass').hide();
 		$(".gallcatid"+cat_id).show();
-		if(connectionType=="WiFi connection" || connectionType=="Cell 4G connection" || connectionType=="Cell 3G connection" || connectionType=="Cell 2G connection"){
-			downloadImagesOfProduct(productDetailsArrSession);
-		}
 	}
 	
 	function attrMenu(object){
