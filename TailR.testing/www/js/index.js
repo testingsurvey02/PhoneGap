@@ -2827,7 +2827,7 @@ function successCBUpdateCustomerSyncDB(){
 								//var prodImage = 'img/product'+indexObj+'.jpg'; // For Testing
 								var server_cat_id = valueCat['cat_id'];
 								var galleryImage = '<div class="col-xs-6 col-sm-4 col-md-4 col-lg-4 galleriesClass gallcatid'+server_cat_id+'" data-gall_id="'+gallery_id+'" data-cat_id="'+server_cat_id+'" '+
-										'data-prod_id="'+server_prod_id+'" data-pro_index="'+index+'" data-prod_name="'+prod_name+'" data-lid="'+local_db_id+'" onclick="goToAttributeDiv(this)">';
+										'data-prod_id="'+server_prod_id+'" data-pro_index="'+index+'" data-prod_name="'+prod_name+'" data-lid="'+local_db_id+'" onclick="getImagesFromServer(this)">';
 										
 								galleryImage+= '<img class="product-image" src="'+prodImage+'" style="width:250px; height:350px;" alt="'+prod_name+'" />'
 								galleryImage+= '<p>'+prod_name+'</p>';
@@ -2849,11 +2849,15 @@ function successCBUpdateCustomerSyncDB(){
 		
 		getAttributeListFromLocal();
 	}
+	
+	function getImagesFromServer(thisData){
+		downloadAttrOptFile(attrDetailsArrSession, thisData);
+	}
 
 	var galleryIdToSave = '';
 	var galleryNameToSave = '';
 	function goToAttributeDiv(currentData){
-		downloadAttrOptionImages(attrDetailsArrSession);
+		//downloadAttrOptionImages(attrDetailsArrSession);
 		$('.selection-menu').each(function(index){
 			$(this).find('ul li').removeClass("active").find('a').removeClass("active");
 			
@@ -3002,6 +3006,31 @@ function successCBUpdateCustomerSyncDB(){
 			}
 		});
 		console.log('attributes downloadAttrOptionImages END : ');
+	}
+	
+	function downloadAttrOptFile(attrDetailsArrSession, thisData){
+		var folder = 'attributes';
+		console.log('attributes downloadAttrOptionImages ');
+		var i = 0;
+		jQuery.each(attrDetailsArrSession, function(index,value) {
+			if(value['option'] != ''){
+				var optionObj = jQuery.parseJSON(value['option']);
+				jQuery.each(optionObj, function(index2,value2) {
+					totalAttrOptImages = parseInt(totalAttrOptImages) + 1;
+					var optionId = value2['id'];
+					var optionName = value2['name'];
+					var optionImg = value2['image'];
+					//downloadFile(optionId, optionImg, 'attrOption');
+					var downloadFileUrl = attributeImageData + '/' + optionImg;
+					downloadFileValidatorFn(downloadFileUrl, folder, optionImg, optionId);
+				});
+			}
+			i = parseInt(i)+1;
+		});
+		console.log('attributes downloadAttrOptionImages END : ');
+		if(i == attrDetailsArrSession.length){
+			goToAttributeDiv(thisData);
+		}
 	}
 	var attributeForNextIndex = 0;
 	var attriOptionExist = false;
