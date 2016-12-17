@@ -254,7 +254,6 @@ var app = {
 		
         if(window.localStorage["appUrl"] === undefined ) {
         	window.localStorage["appUrl"] = '';
-        	//window.localStorage["customCode"] = '';
         }
         else{
         	//appUrl=window.localStorage["appUrl"];
@@ -272,6 +271,7 @@ var app = {
 		// UPDATE TO SERVER
 		// UPDATE DATA FROM SERVER
 		window.localStorage["dbreadyflag"] = 0;
+		window.localStorage["productimgflag"] = 0;
 		//loadDataFromServer();
     },
 };
@@ -2835,6 +2835,7 @@ function successCBUpdateCustomerSyncDB(){
 		//dataHasSyncSendReport('attributes_sync');
 	}
 	
+	var prodImgCountInProg=0, prodImgCountDownloaded=0;
 	function downloadImagesOfProduct(prodArrDataToDownload){
 		
 		$('#progressBarDiv').empty();
@@ -2852,6 +2853,12 @@ function successCBUpdateCustomerSyncDB(){
 				if(categId == cateId){*/
 					if(jsonObj['gallery'] != ''){
 						var galleryObject = new Object();
+						
+						prodImgCountInProg=prodImgCountInProg+galleryObj.length;
+						if(prodImgCountInProg>0){
+							window.localStorage["productimgflag"]=1;
+						}
+						
 						jQuery.each(galleryObj , function(indexObj,valueObj) {
 							totalProductImages = parseInt(totalProductImages) + 1;
 							var galleryArrObject = new Array();
@@ -2866,6 +2873,7 @@ function successCBUpdateCustomerSyncDB(){
 			});*/
 			i = parseInt(i) + 1;
 		});
+		
 		if(i == prodArrDataToDownload.length){
 			productImagesDownload = true;
 			//gotoProductPage();
@@ -3644,7 +3652,9 @@ function successCBUpdateCustomerSyncDB(){
 		$('#mainPageId .product-list').find('.galleriesClass').hide();
 		if(connectionType=="WiFi connection" || connectionType=="Cell 4G connection" || connectionType=="Cell 3G connection" || connectionType=="Cell 2G connection"){
 			if(!productImagesDownload){
-				downloadImagesOfProduct(productDetailsArrSession);
+				if(window.localStorage["productimgflag"]!=2){
+					downloadImagesOfProduct(productDetailsArrSession);
+				}
 			}
 		}
 		//mainGalleryFn(object);
@@ -4763,6 +4773,15 @@ function successCBUpdateCustomerSyncDB(){
 			window.resolveLocalFileSystemURL(entry.toURL(), fileExist, fileNotExist);
 			//checkIfFileExists(entry.toURL());
 			//count = parseInt(count)+1;
+			
+			// Product Count Check
+			if(prodImgCountInProg>0 && window.localStorage["productimgflag"]==1){
+				prodImgCountDownloaded=prodImgCountDownloaded+1;
+				if(prodImgCountInProg==prodImgCountDownloaded ){
+					window.localStorage["productimgflag"]=2;
+					alert('productimgFlag ----  '+window.localStorage["productimgflag"]);
+				}
+			}
 		},
 		function (error) {
 			//Download abort errors or download failed errors
