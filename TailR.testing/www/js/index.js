@@ -3459,6 +3459,8 @@ function successCBUpdateCustomerSyncDB(){
 			deleteRecordsDiv = '<span> Delete Data Syncing </span>';
 			getDataToDeleteInLocalDBFromServer();
 			$('.appendStatusDiv').append(deleteRecordsDiv);
+		}else{
+			getCategoriesListFromLocal();
 		}
 		
 			
