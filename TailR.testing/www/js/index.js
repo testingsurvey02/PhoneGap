@@ -4581,7 +4581,7 @@ function successCBUpdateCustomerSyncDB(){
 		var fileTransfer = new FileTransfer();
 		//console.log(fp);
 		// File download function with URL and local path
-		var progressBarTag = '<span style="width: 100%">'File_Name+'</span> : '+ '<br/><progress id="'+File_Name+'" class="'+id+'" data-urllink="'+download_link+'" data-location="'+fp+'" value="0" max="100" style="width: 100%"></progress>';
+		var progressBarTag = '<span style="width: 100%">'+File_Name+'</span> : '+ '<br/><progress id="'+File_Name+'" class="'+id+'" data-urllink="'+download_link+'" data-location="'+fp+'" value="0" max="100" style="width: 100%"></progress>';
 		progressBarTag += '<button class="btn btn-primary st-bg-baby-pink ui-btn ui-shadow ui-corner-all '+id+'" data-urllink="'+download_link+'" onclick="startPauseResumeDownload(this);" data-location="'+fp+'">Re-download</button>'
     	$('#progressBarDiv').append(progressBarTag);
     	$('#progressBarDiv').show();
