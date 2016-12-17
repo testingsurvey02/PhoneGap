@@ -3660,6 +3660,8 @@ function successCBUpdateCustomerSyncDB(){
 			if(!productImagesDownload){
 				if(window.localStorage["productimgflag"]!=2){
 					downloadImagesOfProduct(productDetailsArrSession);
+				}else{
+					appendProdListDB(productDetailsArrSession);
 				}
 			}
 		}
