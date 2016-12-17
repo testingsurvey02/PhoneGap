@@ -4581,7 +4581,8 @@ function successCBUpdateCustomerSyncDB(){
 		var fileTransfer = new FileTransfer();
 		//console.log(fp);
 		// File download function with URL and local path
-		var progressBarTag = File_Name+' : '+ '<progress id="'+File_Name+'" class="'+id+'" value="0" max="100"></progress>';
+		var progressBarTag = File_Name+' : '+ '<progress id="'+File_Name+'" class="'+id+'" data-urllink="'+download_link+'" data-location="'+fp+'" value="0" max="100"></progress>';
+		progressBarTag += '<button class="btn btn-primary st-bg-baby-pink ui-btn ui-shadow ui-corner-all" data-urllink="'+download_link+'" data-location="'+fp+'">Re-download</button>'
     	$('#progressBarDiv').append(progressBarTag);
     	$('#progressBarDiv').show();
 		fileTransfer.download(download_link, fp,
@@ -4621,6 +4622,55 @@ function successCBUpdateCustomerSyncDB(){
 	    this.progress.setAttribute('style', 'width: ' + data + '%');
 	    this.progress.innerHTML = data + "%";*/
 		$('#progressBarDiv').find('.'+id).val(data);
+	}
+	
+	function startPauseResumeDownload() {
+	    console.log("isStart", this.isStart);
+	    if (!this.isStart) {
+	        this.isStart = true;
+	        b = $('download')
+	        b.setAttribute('class', b.getAttribute('class').replace('btn-primary', ''))
+	        b.setAttribute('disabled', 'true')
+	    }
+
+	    //var fileTransfer = new FileTransfer();
+	    var fileTransfer = new PRD(); // Use PRD ( extended cordova-plugin-pause-resume-download )
+
+	    var uri = encodeURI($('url').innerHTML);
+	    var fileURL = cordova.file.dataDirectory + "/qq.exe";
+
+	    fileTransfer.download(
+	        uri,
+	        fileURL,
+	        function(entry) {
+	            console.log("download complete: " + entry.toURL());
+	            updateProgress(100);
+	        },
+	        function(error) {
+	            console.log("download error source " + error.source);
+	            console.log("download error target " + error.target);
+	            console.log("upload error code" + error.code);
+	        },
+	        false, {
+	            headers: {
+	                "Authorization": "Basic dGVzdHVzZXJuYW1lOnRlc3RwYXNzd29yZA=="
+	            }
+	        }
+	    );
+
+	    fileTransfer.onprogress = function(progress) {
+	        if (this.pre === undefined) this.pre = 0;
+
+	        var now = ~~((progress.loaded / progress.total) * 100 * 100);
+	        if (now - +this.pre > 17) {
+	            updateProgress(now / 100);
+	            this.pre = now;
+	        }
+	    }
+	}
+
+	function reloadAll() {
+	    window.location.reload();
 	}
 	
 	function fileNotExist(e) {
