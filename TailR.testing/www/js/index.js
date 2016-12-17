@@ -81,6 +81,7 @@ var notDownloadedProductImages = 0;
 var totalAttrOptImages = 0;
 var downloadedAttrOptImages = 0;
 var notDownloadedAttrOptImages = 0;
+var dataExist = false;
 
 var rightPanelObj = '<div id="menu-wrapper">'+
 							'<div class="menu-title">'+
@@ -445,8 +446,12 @@ function gotoLoginPage(){
 
 function gotoAboutUsPage(){
 	$.mobile.changePage('#aboutUs-page','slide');
-	
 }
+
+function gotoStatusReportPage(){
+	$.mobile.changePage('#status-report-page', 'slide');
+}
+
 function gotoProductPage(){
 	$.mobile.changePage('#product-page','slide');
 }
@@ -1043,6 +1048,13 @@ function insertCategories(arrData) {
 
 function successCBInsertCategories() {
 	console.log(' category Successfully Inserted ');
+	var productDiv = '';
+	if(dataExist){
+		productDiv = '<span> Product Data Syncing </span>';
+	}else{
+		productDiv = '<span>Product Data First Time Syncing</span>';
+	}
+	$('.appendStatusDiv .appendStatusImage').append(productDiv);
 	getProductDataFromServer();
 }	
 
@@ -1061,6 +1073,9 @@ function getCategoriesListFromLocal(){
 		return;
 	}
 	
+	var categoryRecordsDiv = '';
+	categoryRecordsDiv = '<span> Retrieving Category Records From Database </span>';
+	$('.appendStatusDiv .appendStatusImage').append(categoryRecordsDiv);
 	db.transaction(	function (tx){
 		console.log('getCategoriesListFromLocal');
 			tx.executeSql('select * from category',[],function(tx,results){
@@ -1091,6 +1106,9 @@ function getCategoriesListFromLocal(){
 }
 
 function successCBCatListDB() {
+	var categoryAppendingRecordsDiv = '';
+	categoryAppendingRecordsDiv = '<span> Appending Category Records </span>';
+	$('.appendStatusDiv .appendStatusImage').append(categoryAppendingRecordsDiv);
 	appendCatListDB(catArrSession, subCatArrSession);
 }	
 
@@ -1188,7 +1206,7 @@ function successCBProdListDB() {
 		appendProdListDB(productDetailsArrSession);
 	}
 	else if(connectionType=="WiFi connection" || connectionType=="Cell 4G connection" || connectionType=="Cell 3G connection" || connectionType=="Cell 2G connection"){
-		downloadImagesOfProduct(productDetailsArrSession);
+		
 	}
 }	
 
@@ -1207,6 +1225,13 @@ function errorCBProdLocalDB(err) {
 }
 
 function successCBInsertProductDetails() {
+	var attributeDiv = '';
+	if(dataExist){
+		attributeDiv = '<span> Attribute Data Syncing </span>';
+	}else{
+		attributeDiv = '<span> Attribute Data First Time Syncing </span>';
+	}
+	$('.appendStatusDiv .appendStatusImage').append(attributeDiv);
 	 getAttributesDataFromServer();
 }
 
@@ -1279,7 +1304,9 @@ function getProductsListFromLocal(){
 		appendProdListDB(productDetailsArrSession);
 		return;
 	}
-	
+	var productRecordsDiv = '';
+	productRecordsDiv = '<span> Retrieving Product Records From Database </span>';
+	$('.appendStatusDiv. appendStatusImage').append(productRecordsDiv);
 	db.transaction(	function (tx){
 			tx.executeSql('select * from product_details ',[],function(tx,results){
 					var len = results.rows.length;
@@ -1380,6 +1407,13 @@ function errorCBAttrListDB(err) {
 }
 
 function successCBInsertAttributeDetails() {
+	var measurementDiv = '';
+	if(dataExist){
+		measurementDiv = '<span> Measurement Data Syncing </span>';
+	}else{
+		measurementDiv = '<span> Measurement Data first time Syncing </span>';
+	}
+	$('.appendStatusDiv .appendStatusImage').append(measurementDiv);
 	 getMeasurementsDataFromServer();
 	    
 }	
@@ -1694,6 +1728,11 @@ function deleteChildArraysByMethods(){
 		if(callCategoryFunctionIndex == 0){
 			getCategoriesListFromLocal();
 			callCategoryFunctionIndex ++;
+			var deleteRecordsDiv = '';
+			if(dataExist){
+				deleteRecordsDiv = '<span> Delete Records successfully Removed </span>';
+			}
+			$('.appendStatusDiv .appendStatusImage').append(deleteRecordsDiv);
 			return;
 		}
 	}
@@ -2470,6 +2509,8 @@ function successCBUpdateCustomerSyncDB(){
 				getCategoriesListFromLocal();
 			}
 		}else{*/
+		
+			gotoStatusReportPage();
 			connectionType=checkConnection();
 			console.log('connectionType : ' +connectionType);
 			if(connectionType=="Unknown connection" || connectionType=="No network connection"){
@@ -2536,15 +2577,19 @@ function successCBUpdateCustomerSyncDB(){
 				}else if(type == dataSyncTypeCategory){
 					db.transaction(function(tx) {
 						tx.executeSql('CREATE TABLE IF NOT EXISTS category(id integer primary key autoincrement, server_cat_id integer, parent_id integer,name text,update_timestamp text, description text, catImage text, catStatus integer, children text)');
-						/*tx.executeSql('select count(*) as mycount from category ', [], function(tx, rs) {
+						tx.executeSql('select count(*) as mycount from category ', [], function(tx, rs) {
+							var categoryDiv = '';
 							 var recordCount = 0;
 					          recordCount = rs.rows.item(0).mycount;
 					          if(parseInt(recordCount) > 0){
-					        	  getCategoriesListFromLocal();
-					          }else{*/
-					    getCategoriesDataFromServer();
-					    /*      }
-						});*/
+					        	  dataExist = true;
+					        	  categoryDiv = '<span>Category Data Syncing</span>';
+					          }else{
+					        	  categoryDiv = '<span>Category Data First Time Syncing</span>';
+					          }
+					          $('.appendStatusDiv .appendStatusImage').append(categoryDiv);
+					          getCategoriesDataFromServer();
+						});
 					});
 				}
 			}
@@ -2608,7 +2653,14 @@ function successCBUpdateCustomerSyncDB(){
 	function successCBServerCatFn(data){
 		var responseJson = $.parseJSON(JSON.stringify(data));
 		categoriesJsonData = responseJson["result"];
-		// FIXME CHECK JSON DATA
+		// FIXME CHECK JSON DATAv
+		var categoryDiv = '';
+		if(dataExist){
+			categoryDiv = '<span> Updating Category Data </span>';
+		}else{
+			categoryDiv = '<span> Inserting Category Data </span>';
+		}
+		$('.appendStatusDiv .appendStatusImage').append(categoryDiv);
 		insertCategories(categoriesJsonData);
 		//dataHasSyncSendReport('categories_sync');
 	}
@@ -2732,6 +2784,13 @@ function successCBUpdateCustomerSyncDB(){
 		productJsonData = responseJson["result"];
 		productImageData = responseJson['image_url'];
 		// FIXME CHECK JSON DATA
+		var productDiv = '';
+		if(dataExist){
+			productDiv = '<span> Product Data Updating Records </span>';
+		}else{
+			productDiv = '<span> Product Data Inserting </span>';
+		}
+		$('.appendStatusDiv .appendStatusImage').append(productDiv);
 		db.transaction(insertProductDetails, errorCBInsertProductDetails, successCBInsertProductDetails);
 		//dataHasSyncSendReport('products_sync');
 	}
@@ -2763,6 +2822,13 @@ function successCBUpdateCustomerSyncDB(){
 		attributeJsonData = responseJson["result"];
 		attributeImageData = responseJson['image_url'];
 		// FIXME CHECK JSON DATA
+		var attributeDiv = '';
+		if(dataExist){
+			attributeDiv = '<span> Attribute Data Updating </span>';
+		}else{
+			attributeDiv = '<span> Attribute Data Inserting </span>';
+		}
+		$('.appendStatusDiv .appendStatusImage').append(attributeDiv);
 		db.transaction(insertAttributesDetails, errorCBInsertAttributeDetails, successCBInsertAttributeDetails);
 		//dataHasSyncSendReport('attributes_sync');
 	}
@@ -3364,13 +3430,27 @@ function successCBUpdateCustomerSyncDB(){
 		var responseJson = $.parseJSON(JSON.stringify(data));
 		measurementJsonData = responseJson["result"];
 		// FIXME CHECK JSON DATA
+		var measurementDiv = '';
+		if(dataExist){
+			measurementDiv = '<span> Measurement Data Updating </span>';
+		}else{
+			measurementDiv = '<span> Measurement Data Inserting </span>';
+		}
+		$('.appendStatusDiv .appendStatusImage').append(measurementDiv);
 		db.transaction(insertMeasurementsDetails, errorCBInsertMeasurementDetails, successCBInsertMeasurementDetails);
 		//dataHasSyncSendReport('measurements_sync');
 	}
 	
 	function successCBInsertMeasurementDetails() {
 		/*if(deleteRecordStatus == 0){*/
+		if(dataExist){
+			var deleteRecordsDiv = '';
+			deleteRecordsDiv = '<span> Delete Data Syncing </span>';
 			getDataToDeleteInLocalDBFromServer();
+			$('.appendStatusDiv .appendStatusImage').append(deleteRecordsDiv);
+		}
+		
+			
 			/*return false;
 		}else{*/
 		//getCategoriesListFromLocal();
@@ -3408,6 +3488,11 @@ function successCBUpdateCustomerSyncDB(){
 		deleteRecordStatus = 1;
 		var responseJson = $.parseJSON(JSON.stringify(data));
 		deleteRecordsInLocalDBJsonData = responseJson["result"];
+		var deleteRecordsDiv = '';
+		if(dataExist){
+			deleteRecordsDiv = '<span> Delete Records started deleting in local </span>';
+		}
+		$('.appendStatusDiv .appendStatusImage').append(deleteRecordsDiv);
 		deleteRecordsFromLocalDB();
 		//dataHasSyncSendReport('deleted_sync');
 	}
@@ -3593,6 +3678,9 @@ function successCBUpdateCustomerSyncDB(){
 		var cat_id = $(object).data('cat_id');
 		$('.galleriesClass').hide();
 		$(".gallcatid"+cat_id).show();
+		if(connectionType=="WiFi connection" || connectionType=="Cell 4G connection" || connectionType=="Cell 3G connection" || connectionType=="Cell 2G connection"){
+			downloadImagesOfProduct(productDetailsArrSession);
+		}
 	}
 	
 	function attrMenu(object){
