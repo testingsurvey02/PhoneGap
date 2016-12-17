@@ -2835,7 +2835,8 @@ function successCBUpdateCustomerSyncDB(){
 		//dataHasSyncSendReport('attributes_sync');
 	}
 	
-	function downloadImagesOfProduct(prodArrDataToDownload, categId){
+	function downloadImagesOfProduct(prodArrDataToDownload){
+		
 		$('#progressBarDiv').empty();
 		gotoDownloadImagePage();
 		prodArrDataToDownload = productDetailsArrSession;
@@ -2845,10 +2846,10 @@ function successCBUpdateCustomerSyncDB(){
 			var jsonObj=value;
 			var galleryObj = '';
 			galleryObj = jQuery.parseJSON(jsonObj['gallery']);
-			var categoryObj = jQuery.parseJSON(jsonObj['category']);
+			/*var categoryObj = jQuery.parseJSON(jsonObj['category']);
 			jQuery.each(categoryObj, function(indexCat, valueCat){
 				var cateId = valueCat['cat_id'];
-				if(categId == cateId){
+				if(categId == cateId){*/
 					if(jsonObj['gallery'] != ''){
 						var galleryObject = new Object();
 						jQuery.each(galleryObj , function(indexObj,valueObj) {
@@ -2861,11 +2862,13 @@ function successCBUpdateCustomerSyncDB(){
 							downloadFileValidatorFn(downloadFileUrl, folder, image, gallery_id);
 						});
 					}
-				}
-			});
+				/*}
+			});*/
 			i = parseInt(i) + 1;
 		});
 		if(i == prodArrDataToDownload.length){
+			productImagesDownload = true;
+			gotoProductPage();
 			appendProdListDB(productDetailsArrSession);
 		}
 	}
@@ -3627,6 +3630,7 @@ function successCBUpdateCustomerSyncDB(){
 
 /*  ------------------- Other Methods/Function like Click, Load, etc. Starts ------------------  */		
 	
+	var productImagesDownload = false;
 	function menuCategoryOne(object){
 		$(".main-menu ul li a").removeClass('active');
 		$(object).find('a').addClass('active');
@@ -3637,7 +3641,9 @@ function successCBUpdateCustomerSyncDB(){
 		var cateId = $(object).data('cat_id');
 		$('#mainPageId .product-list').find('.galleriesClass').hide();
 		if(connectionType=="WiFi connection" || connectionType=="Cell 4G connection" || connectionType=="Cell 3G connection" || connectionType=="Cell 2G connection"){
-			downloadImagesOfProduct(productDetailsArrSession, cateId);
+			if(!productImagesDownload){
+				downloadImagesOfProduct(productDetailsArrSession);
+			}
 		}
 		//mainGalleryFn(object);
 	}
