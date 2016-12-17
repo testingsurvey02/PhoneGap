@@ -3443,9 +3443,9 @@ function successCBUpdateCustomerSyncDB(){
 		// FIXME CHECK JSON DATA
 		var measurementDiv = '';
 		if(dataExist){
-			measurementDiv = '<span> Measurement Data Updating </span>';
+			measurementDiv = '<span style="width:100%; margin-bottom: 5px;"> Measurement Data Updating </span>';
 		}else{
-			measurementDiv = '<span> Measurement Data Inserting </span>';
+			measurementDiv = '<span style="width:100%; margin-bottom: 5px;"> Measurement Data Inserting </span>';
 		}
 		$('.appendStatusDiv').append(measurementDiv);
 		db.transaction(insertMeasurementsDetails, errorCBInsertMeasurementDetails, successCBInsertMeasurementDetails);
