@@ -2664,7 +2664,7 @@ function successCBUpdateCustomerSyncDB(){
 		}
 		$('.appendStatusDiv').append(categoryDiv);
 		insertCategories(categoriesJsonData);
-		dataHasSyncSendReport('categories_sync');
+		//dataHasSyncSendReport('categories_sync');
 	}
 	
 	function dataHasSyncSendReport(type){
@@ -2794,7 +2794,7 @@ function successCBUpdateCustomerSyncDB(){
 		}
 		$('.appendStatusDiv').append(productDiv);
 		db.transaction(insertProductDetails, errorCBInsertProductDetails, successCBInsertProductDetails);
-		dataHasSyncSendReport('products_sync');
+		//dataHasSyncSendReport('products_sync');
 	}
 	
 	function getAttributesDataFromServer(){
@@ -2832,7 +2832,7 @@ function successCBUpdateCustomerSyncDB(){
 		}
 		$('.appendStatusDiv').append(attributeDiv);
 		db.transaction(insertAttributesDetails, errorCBInsertAttributeDetails, successCBInsertAttributeDetails);
-		dataHasSyncSendReport('attributes_sync');
+		//dataHasSyncSendReport('attributes_sync');
 	}
 	
 	function downloadImagesOfProduct(prodArrDataToDownload){
@@ -3451,7 +3451,7 @@ function successCBUpdateCustomerSyncDB(){
 		}
 		$('.appendStatusDiv').append(measurementDiv);
 		db.transaction(insertMeasurementsDetails, errorCBInsertMeasurementDetails, successCBInsertMeasurementDetails);
-		dataHasSyncSendReport('measurements_sync');
+		//dataHasSyncSendReport('measurements_sync');
 	}
 	
 	function successCBInsertMeasurementDetails() {
@@ -3509,7 +3509,7 @@ function successCBUpdateCustomerSyncDB(){
 		}
 		$('.appendStatusDiv').append(deleteRecordsDiv);
 		deleteRecordsFromLocalDB();
-		dataHasSyncSendReport('deleted_sync');
+		//dataHasSyncSendReport('deleted_sync');
 	}
 	
 	function errorCBDeleteInDBServerFn(err){
@@ -4338,7 +4338,7 @@ function successCBUpdateCustomerSyncDB(){
 		//alert('tailorDetailsJsonData : '+tailorDetailsJsonData);
 		// FIXME CHECK JSON DATA
 		db.transaction(updateCustomerDetailsForSaveFn, errorCBCustomerDetails, successCBCustomerDetailsLBSaveFn);
-		dataHasSyncSendReport('customers_sync');
+		//dataHasSyncSendReport('customers_sync');
 	}
 	
 	function updateCustomerDetailsForSaveFn(tx) {
@@ -4403,7 +4403,7 @@ function successCBUpdateCustomerSyncDB(){
 		// FIXME CHECK JSON DATA
 		console.log();
 		db.transaction(updateCustomerDetailsForUpdateFn, errorCBCustomerDetails, successCBCustomerDetailsLBUpdateFn);
-		dataHasSyncSendReport('customers_sync');
+		//dataHasSyncSendReport('customers_sync');
 	}
 	
 	function errorCBCustomerDetails(err){
@@ -4480,7 +4480,7 @@ function successCBUpdateCustomerSyncDB(){
 		//alert('tailorDetailsJsonData : '+tailorDetailsJsonData);
 		// FIXME CHECK JSON DATA
 		db.transaction(updateOrderDetailsForSavedFn, errorCBOrderDetails, successCBOrderDetailsForSavedFn);
-		dataHasSyncSendReport('orders_sync');
+		//dataHasSyncSendReport('orders_sync');
 	}
 	
 	function errorCBOrderDetails(err){
@@ -4585,7 +4585,7 @@ function successCBUpdateCustomerSyncDB(){
 		//alert('tailorDetailsJsonData : '+tailorDetailsJsonData);
 		// FIXME CHECK JSON DATA
 		db.transaction(updateOrderDetailsForUpdatedFn, errorCBOrderDetails, successCBOrderDetailsForUpdateFn);
-		dataHasSyncSendReport('orders_sync');
+		//dataHasSyncSendReport('orders_sync');
 	}
 	
 	function updateOrderDetailsForUpdatedFn(tx) {
@@ -4745,7 +4745,7 @@ function successCBUpdateCustomerSyncDB(){
 		var fileTransfer = new FileTransfer();
 		//console.log(fp);
 		// File download function with URL and local path
-		var progressBarTag = '<div id="remove'+File_Name+'"><span style="width: 100%">'+File_Name+'</span> : '+ '<br/><progress id="'+File_Name+'" class="'+id+'" data-urllink="'+download_link+'" data-location="'+fp+'" value="0" max="100" style="width: 100%"></progress>';
+		var progressBarTag = '<div id="remove'+uniqueId+'"><span style="width: 100%">'+File_Name+'</span> : '+ '<br/><progress id="'+File_Name+'" class="'+id+'" data-urllink="'+download_link+'" data-location="'+fp+'" value="0" max="100" style="width: 100%"></progress>';
 		progressBarTag += '<button class="btn btn-primary st-bg-baby-pink ui-btn ui-shadow ui-corner-all '+id+'" data-uniqueid="'+id+'" data-urllink="'+download_link+'" onclick="startPauseResumeDownload(this);" data-location="'+fp+'">Re-download</button></div>'
     	$('#progressBarDiv').append(progressBarTag);
     	$('#progressBarDiv').show();
@@ -4754,8 +4754,8 @@ function successCBUpdateCustomerSyncDB(){
 			//localPath = entry.toURL();
 			console.log("download toURL: " + entry.toURL());
 			//updateProgress(100, id);
-			$('#remove'+File_Name).remove();
-			if($('#progressBarDiv > div' ).lenght==0){
+			$('#remove'+id).remove();
+			if($('#progressBarDiv > div' ).length==0){
 				gotoProductPage();
 			}
 			window.resolveLocalFileSystemURL(entry.toURL(), fileExist, fileNotExist);
