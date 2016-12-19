@@ -2884,7 +2884,7 @@ function successCBUpdateCustomerSyncDB(){
 										
 										var id = folder+gallery_id;
 										
-										var fp = localPath + "/" + folder+ '/';
+										var fp = localPath + "/" + folder+ '/'+image;
 										var progressBarTag = '<div id="remove'+image+'"><span style="width: 100%">'+image+'</span> : '+ '<br/><progress id="'+image+'" class="'+id+'" data-urllink="'+downloadFileUrl+'" data-location="'+fp+'" value="100" max="100" style="width: 100%"></progress>';
 										progressBarTag += '<button class="btn btn-primary st-bg-baby-pink ui-btn ui-shadow ui-corner-all '+id+'" data-uniqueid="'+id+'" data-urllink="'+downloadFileUrl+'" onclick="startPauseResumeDownload(this);" data-location="'+fp+'">Re-download</button></div>'
 								    	$('#progressBarDiv').append(progressBarTag);
@@ -3199,7 +3199,7 @@ function successCBUpdateCustomerSyncDB(){
 												
 												var id = folder+optionId;
 												var downloadFileUrl = attributeImageData + '/' + optionImg;
-												var fp = localPath + "/" + 'attributes'+ '/';
+												var fp = localPath + "/" + 'attributes'+ '/'+optionImg;
 												var progressBarTag = '<div id="remove'+optionImg+'"><span style="width: 100%">'+optionImg+'</span> : '+ '<br/><progress id="'+optionImg+'" class="'+id+'" data-urllink="'+downloadFileUrl+'" data-location="'+fp+'" value="100" max="100" style="width: 100%"></progress>';
 												progressBarTag += '<button class="btn btn-primary st-bg-baby-pink ui-btn ui-shadow ui-corner-all '+id+'" data-uniqueid="'+id+'" data-urllink="'+downloadFileUrl+'" onclick="startPauseResumeDownload(this);" data-location="'+fp+'">Re-download</button></div>'
 										    	$('#progressBarDiv').append(progressBarTag);
