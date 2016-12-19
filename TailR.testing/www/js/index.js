@@ -1235,6 +1235,7 @@ function errorCBProdLocalDB(err) {
 
 function successCBInsertProductDetails() {
 	var attributeDiv = '';
+	window.localStorage["productimgflag"] = 0;
 	if(dataExist){
 		attributeDiv = '<p> Attribute Data Syncing </p>';
 	}else{
@@ -3745,6 +3746,7 @@ function successCBUpdateCustomerSyncDB(){
 		$('#mainPageId .product-list').find('.galleriesClass').hide();
 		if(connectionType=="WiFi connection" || connectionType=="Cell 4G connection" || connectionType=="Cell 3G connection" || connectionType=="Cell 2G connection"){
 			if(!productImagesDownload){
+				console.log('Testing : '+window.localStorage["productimgflag"]);
 				if(window.localStorage["productimgflag"]!=2){
 					downloadImagesOfProduct(productDetailsArrSession);
 				}else{
