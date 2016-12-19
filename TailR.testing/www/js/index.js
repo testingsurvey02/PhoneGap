@@ -2884,9 +2884,8 @@ function successCBUpdateCustomerSyncDB(){
 										
 										var id = folder+gallery_id;
 										
-										var fp = localPath + "/" + folder+ '/'+image;
-										var progressBarTag = '<div id="remove'+image+'"><span style="width: 100%">'+image+'</span> : '+ '<br/><progress id="'+image+'" class="'+id+'" data-urllink="'+downloadFileUrl+'" data-location="'+fp+'" value="100" max="100" style="width: 100%"></progress>';
-										progressBarTag += '<button class="btn btn-primary st-bg-baby-pink ui-btn ui-shadow ui-corner-all '+id+'" data-uniqueid="'+id+'" data-urllink="'+downloadFileUrl+'" onclick="startPauseResumeDownload(this);" data-location="'+fp+'">Re-download</button></div>'
+										var progressBarTag = '<div id="remove'+image+'"><span style="width: 100%">'+image+'</span> : '+ '<br/><progress id="'+image+'" class="'+id+'" data-urllink="'+downloadFileUrl+'" data-location="'+galleryArraysImgUrlTemp+'" value="100" max="100" style="width: 100%"></progress>';
+										progressBarTag += '<button class="btn btn-primary st-bg-baby-pink ui-btn ui-shadow ui-corner-all '+id+'" data-uniqueid="'+id+'" data-urllink="'+downloadFileUrl+'" onclick="startPauseResumeDownload(this);" data-location="'+galleryArraysImgUrlTemp+'">Re-download</button></div>'
 								    	$('#progressBarDiv').append(progressBarTag);
 								    	$('#progressBarDiv').show();
 								    	updateProgress(100, id);
@@ -3199,9 +3198,8 @@ function successCBUpdateCustomerSyncDB(){
 												
 												var id = folder+optionId;
 												var downloadFileUrl = attributeImageData + '/' + optionImg;
-												var fp = localPath + "/" + 'attributes'+ '/'+optionImg;
-												var progressBarTag = '<div id="remove'+optionImg+'"><span style="width: 100%">'+optionImg+'</span> : '+ '<br/><progress id="'+optionImg+'" class="'+id+'" data-urllink="'+downloadFileUrl+'" data-location="'+fp+'" value="100" max="100" style="width: 100%"></progress>';
-												progressBarTag += '<button class="btn btn-primary st-bg-baby-pink ui-btn ui-shadow ui-corner-all '+id+'" data-uniqueid="'+id+'" data-urllink="'+downloadFileUrl+'" onclick="startPauseResumeDownload(this);" data-location="'+fp+'">Re-download</button></div>'
+												var progressBarTag = '<div id="remove'+optionImg+'"><span style="width: 100%">'+optionImg+'</span> : '+ '<br/><progress id="'+optionImg+'" class="'+id+'" data-urllink="'+downloadFileUrl+'" data-location="'+optionArraysImgUrlTemp+'" value="100" max="100" style="width: 100%"></progress>';
+												progressBarTag += '<button class="btn btn-primary st-bg-baby-pink ui-btn ui-shadow ui-corner-all '+id+'" data-uniqueid="'+id+'" data-urllink="'+downloadFileUrl+'" onclick="startPauseResumeDownload(this);" data-location="'+optionArraysImgUrlTemp+'">Re-download</button></div>'
 										    	$('#progressBarDiv').append(progressBarTag);
 										    	$('#progressBarDiv').show();
 										    	updateProgress(100, id);
@@ -3289,7 +3287,7 @@ function successCBUpdateCustomerSyncDB(){
 								}
 								//var optionImages = 'img/attr'+index2+'.png'; // For Testing
 								//initToCheckTheFile(optionImg, attributeImageData);
-								var tempOptDiv = '<div class="col-xs-6 col-sm-2 col-md-2 col-lg-2 single-option attrInd'+attributeForNextIndex+' optMenu-bar attrOpt'+server_attr_id+' div_opt_id'+optionId+'" data-optname="'+optionName+'" data-attrindex="'+attributeForNextIndex+'" style="text-align: center;" data-optionsrc="'+optionImg+'" onclick="selectedOptionFn(this);selectedOptionZoomFn(this)" data-opt_id="'+optionId+'" data-cat_id="'+catId+'" data-prod_id="'+prodId+'" data-attrid="'+server_attr_id+'" data-lid="'+attrId+'"><div class="box"><a href="#popupPhotoLandscape" data-rel="popup"	data-position-to="window" class="optionImageClass"><img class="attr-opt-hei-wid" src="'+optionImages+'" data-imgt_cat_id="'+catId+'" data-imgt_prod_id="'+prodId+'" data-imgt_attrid="'+server_attr_id+'"  data-imgt_opt_id="'+optionId+'" data-imgt_lid="'+attrId+'" alt="'+optionName+'"></div></div>';
+								var tempOptDiv = '<div class="col-xs-6 col-sm-2 col-md-2 col-lg-2 single-option attrInd'+attributeForNextIndex+' optMenu-bar attrOpt'+server_attr_id+' div_opt_id'+optionId+'" data-optname="'+optionName+'" data-attrindex="'+attributeForNextIndex+'" style="text-align: center;" data-optionsrc="'+optionImg+'" data-attrname="'+attr_name+'" onclick="selectedOptionFn(this);selectedOptionZoomFn(this)" data-opt_id="'+optionId+'" data-cat_id="'+catId+'" data-prod_id="'+prodId+'" data-attrid="'+server_attr_id+'" data-lid="'+attrId+'"><div class="box"><a href="#popupPhotoLandscape" data-rel="popup"	data-position-to="window" class="optionImageClass"><img class="attr-opt-hei-wid" src="'+optionImages+'" data-imgt_cat_id="'+catId+'" data-imgt_prod_id="'+prodId+'" data-imgt_attrid="'+server_attr_id+'"  data-imgt_opt_id="'+optionId+'" data-imgt_lid="'+attrId+'" alt="'+optionName+'"></div></div>';
 								optionMainDiv += tempOptDiv;
 							});
 							 attributeDiv += tempAttrDiv;
@@ -3422,12 +3420,14 @@ function successCBUpdateCustomerSyncDB(){
 	var attributeArrayToSave = [];
 	var optionImageName = [];
 	var optionImageFullName = [];
+	var attrNameArray = [];
 	function selectedOptionFn(thisData){
 		$('.galleryTag').hide();
 		$('.attributeTag').show();
 		var attrId = $(thisData).data('attrid');
 		var optName = $(thisData).data('optname');
 		var optSrc = $(thisData).data('optionsrc');
+		var attrName = $(thisData).data('attrname');
 		$('.subMen_attrId'+attrId).addClass('option-selected');
 		//$('.selection-page-options-div .attr-option-div .attrOpt'+attrId).removeClass('active');
 		
@@ -3438,12 +3438,14 @@ function successCBUpdateCustomerSyncDB(){
 			optionArrayToSave=[];
 			optionImageFullName=[];
 			optionImageName=[];
+			attrNameArray = [];
 			var thisParent=$(thisData).parents('.attr-option-div').find('.active');
 			$(thisParent).each(function(i){
 				optionArrayToSave.push(parseInt($(this).data('opt_id')));
 				attributeArrayToSave.push(parseInt($(this).data('attrid')));
 				optionImageName.push($(this).data('optname'));
 				optionImageFullName.push($(this).data('optionsrc'));
+				attrNameArray.push($(this).data('attrname'));
 			});
 			$(thisData).removeClass('active');
 			$('#customerConfirmationPageId .customerFieldsToAppendSelected .div_opt_id'+optId).remove();
@@ -3452,6 +3454,7 @@ function successCBUpdateCustomerSyncDB(){
 	    	attributeArrayToSave.push(attrId);
 	    	optionImageName.push(optName);
 	    	optionImageFullName.push(optSrc);
+	    	attrNameArray.push(attrName);
 	    	$( ".div_opt_id"+optId ).clone().appendTo( "#customerConfirmationPageId .hrClassForOptions" );
 	    	$(thisData).addClass('active');
 			
@@ -3868,11 +3871,13 @@ function successCBUpdateCustomerSyncDB(){
 				var optionId = optionArrayToSave[i];
 				var attrId = attributeArrayToSave[i];
 				var optName = optionImageName[i];
-				var optSrc = optionImageFullName[i]
+				var optSrc = optionImageFullName[i];
+				var attrName = attrNameArray[i];
 				childObject.optionId = optionId;
 				childObject.attrId = attrId;
 				childObject.optName = optName;
 				childObject.imageName = optSrc;
+				childObject.attrName = attrName;
 				arrObject.push(childObject);
 			}
 			selectedOptionMainArray = arrObject;
