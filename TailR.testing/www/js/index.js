@@ -3452,8 +3452,8 @@ function successCBUpdateCustomerSyncDB(){
 	    	optionImageName.push(optName);
 	    	optionImageFullName.push(optSrc);
 	    	attrNameArray.push(attrName);
-	    	$( ".div_opt_id"+optId).clone().appendTo( "#customerConfirmationPageId .hrClassForOptions" );
-	    	$('#customerConfirmationPageId .hrClassForOptions .single-option').removeAttr('onclick');		
+	    	var appendOptionResult='<span class="attr_result">'+$( ".div_opt_id"+optId).find('img').clone()+'</span>';
+	    	appendOptionResult.appendTo( "#customerConfirmationPageId .hrClassForOptions" );
 	    	$(thisData).addClass('active');
 	    	$('#customerConfirmationPageId .customerFieldsToAppendSelected .div_opt_id'+optId).remove();
 			/*var indexOfAttr = jQuery.inArray(parseInt(optId), optionArrayToSave );
