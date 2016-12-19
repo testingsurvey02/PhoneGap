@@ -174,7 +174,7 @@ img.product-image{}
 
 .attr-opt-hei-wid{
 	width : 100px;
-	height : 120px;
+	/* height : 120px; */
 }
 .table-padding-order{
 	padding : 0 10px
@@ -188,5 +188,5 @@ img.product-image{}
 }
 .append-edit-page-option{
 	width: 120px;
-	height: 120px
+	/* height: 120px */
 }

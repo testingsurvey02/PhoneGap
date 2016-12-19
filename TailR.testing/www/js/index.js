@@ -2897,10 +2897,6 @@ function successCBUpdateCustomerSyncDB(){
 										downloadFileValidatorFn(downloadFileUrl, folder, image, gallery_id);
 									}
 								);
-							
-							
-							
-							
 						});
 					}
 				/*}
