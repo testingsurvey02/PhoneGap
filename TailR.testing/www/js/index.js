@@ -3109,15 +3109,13 @@ function successCBUpdateCustomerSyncDB(){
 		console.log('attributes downloadAttrOptionImages END : ');
 	}
 	
-	var curr_dyn_prod_id='';
+	var downAttrOptFileTotal=0, attrOptAlreadyExistCount=0, attrOptInProgCount=0;
 	function downloadAttrOptFile(attrDetailsArrSession, thisData){
 		connectionType=checkConnection();
 		
 		if(connectionType=="WiFi connection" || connectionType=="Cell 4G connection" || connectionType=="Cell 3G connection" || connectionType=="Cell 2G connection"){
 			var folder = 'attributes';
 			console.log('attributes downloadAttrOptionImages ');
-			
-			curr_dyn_prod_id= 'curr_dyn_'+ $(thisData).data('prod_id');
 			
 			var productId = $(thisData).data('prod_id');
 			// ProductAttributeIdsArray Init
@@ -3153,9 +3151,14 @@ function successCBUpdateCustomerSyncDB(){
 							if(value1 == server_attr_id){
 								
 								if(value['option'] != ''){
+									
+									
 									// Get & Iterate optionArraysTemp, Options Arrays For This Product
 									var optionArraysTemp = jQuery.parseJSON(value['option']);
+									downAttrOptFileTotal = downAttrOptFileTotal + optionArraysTemp.length;
 									jQuery.each(optionArraysTemp, function(index2,value2) {
+										
+										
 										var optionImg = value2['image'];
 										var optionId = value2['id'];
 										// Condition
@@ -3166,10 +3169,12 @@ function successCBUpdateCustomerSyncDB(){
 											optionArraysImgUrlTemp,// File Url 
 											function fileExist(fileEntry) { // Exist Success CB
 												console.log('File Exist');
-												var id = optionImg+optionId;
+												attrOptAlreadyExistCount=attrOptAlreadyExistCount+1;
+												
+												var id = folder+optionId;
 												var downloadFileUrl = attributeImageData + '/' + optionImg;
 												var fp = localPath + "/" + 'attributes'+ '/';
-												var progressBarTag = '<div id="remove'+optionImg+'"><span style="width: 100%">'+optionImg+'</span> : '+ '<br/><progress id="'+optionImg+'" class="'+id+'" data-urllink="'+downloadFileUrl+'" data-location="'+fp+'" value="0" max="100" style="width: 100%"></progress>';
+												var progressBarTag = '<div id="remove'+optionImg+'"><span style="width: 100%">'+optionImg+'</span> : '+ '<br/><progress id="'+optionImg+'" class="'+id+'" data-urllink="'+downloadFileUrl+'" data-location="'+fp+'" value="100" max="100" style="width: 100%"></progress>';
 												progressBarTag += '<button class="btn btn-primary st-bg-baby-pink ui-btn ui-shadow ui-corner-all '+id+'" data-uniqueid="'+id+'" data-urllink="'+downloadFileUrl+'" onclick="startPauseResumeDownload(this);" data-location="'+fp+'">Re-download</button></div>'
 										    	$('#progressBarDiv').append(progressBarTag);
 										    	$('#progressBarDiv').show();
@@ -3179,6 +3184,8 @@ function successCBUpdateCustomerSyncDB(){
 												console.log("File not exist");
 												console.dir(e);
 												
+												attrOptInProgCount=attrOptInProgCount+1;
+												
 												var downloadFileUrl = attributeImageData + '/' + optionImg;
 												totalAttrOptImages = parseInt(totalAttrOptImages) + 1;
 												
@@ -3186,10 +3193,16 @@ function successCBUpdateCustomerSyncDB(){
 												downloadFileValidatorFn(downloadFileUrl, folder, optionImg, optionId);
 											}
 										);
+										/*
+										if(downAttrOptFileTotal == (attrOptAlreadyExistCount + attrOptInProgCount)){
+											restartApplication();
+										}
+										*/
 									});
 								}
 							}
 						});
+						
 					});
 				}
 				prodCountTemp = parseInt(prodCountTemp)+1;
@@ -3197,7 +3210,6 @@ function successCBUpdateCustomerSyncDB(){
 			console.log('attributes downloadAttrOptionImages END : ');
 			if(parseInt(prodCountTemp) == parseInt(productDetailsArrSession.length)){
 				goToAttributeDiv(thisData);
-				restartApplication();
 			}
 		}else{
 			goToAttributeDiv(thisData);
@@ -4891,6 +4903,9 @@ function successCBUpdateCustomerSyncDB(){
 			    var id = $(thisData).data('uniqueid');
 			    var uri = serverURL;
 			    var fileURL = filePathDestination;
+			    console.log(serverURL);
+			    console.log(filePathDestination);
+			    console.log(id);
 
 			    fileTransfer.download(
 			        uri,
