@@ -3284,7 +3284,7 @@ function successCBUpdateCustomerSyncDB(){
 								}
 								//var optionImages = 'img/attr'+index2+'.png'; // For Testing
 								//initToCheckTheFile(optionImg, attributeImageData);
-								var tempOptDiv = '<div class="single-option attrInd'+attributeForNextIndex+' optMenu-bar attrOpt'+server_attr_id+' div_opt_id'+optionId+'" data-optname="'+optionName+'" data-attrindex="'+attributeForNextIndex+'" style="text-align: center;" data-optionsrc="'+optionImg+'" data-attrname="'+attr_name+'" onclick="selectedOptionFn(this);selectedOptionZoomFn(this)" data-opt_id="'+optionId+'" data-cat_id="'+catId+'" data-prod_id="'+prodId+'" data-attrid="'+server_attr_id+'" data-lid="'+attrId+'"><div class="box"><a href="#popupPhotoLandscape" data-rel="popup"	data-position-to="window" class="optionImageClass"><img class="attr-opt-hei-wid" src="'+optionImages+'" data-imgt_cat_id="'+catId+'" data-imgt_prod_id="'+prodId+'" data-imgt_attrid="'+server_attr_id+'"  data-imgt_opt_id="'+optionId+'" data-imgt_lid="'+attrId+'" alt="'+optionName+'"></div></div>';
+								var tempOptDiv = '<div class="col-xs-6 col-sm-2 col-md-2 col-lg-2 single-option attrInd'+attributeForNextIndex+' optMenu-bar attrOpt'+server_attr_id+' div_opt_id'+optionId+'" data-optname="'+optionName+'" data-attrindex="'+attributeForNextIndex+'" style="text-align: center;" data-optionsrc="'+optionImg+'" data-attrname="'+attr_name+'" onclick="selectedOptionFn(this);selectedOptionZoomFn(this)" data-opt_id="'+optionId+'" data-cat_id="'+catId+'" data-prod_id="'+prodId+'" data-attrid="'+server_attr_id+'" data-lid="'+attrId+'"><div class="box"><a href="#popupPhotoLandscape" data-rel="popup"	data-position-to="window" class="optionImageClass"><img class="attr-opt-hei-wid" src="'+optionImages+'" data-imgt_cat_id="'+catId+'" data-imgt_prod_id="'+prodId+'" data-imgt_attrid="'+server_attr_id+'"  data-imgt_opt_id="'+optionId+'" data-imgt_lid="'+attrId+'" alt="'+optionName+'"></div></div>';
 								optionMainDiv += tempOptDiv;
 							});
 							 attributeDiv += tempAttrDiv;
@@ -3452,8 +3452,7 @@ function successCBUpdateCustomerSyncDB(){
 	    	optionImageName.push(optName);
 	    	optionImageFullName.push(optSrc);
 	    	attrNameArray.push(attrName);
-	    	var appendOptionResult='<span class="attr_result">'+$( ".div_opt_id"+optId).find('img').clone()+'</span>';
-	    	$(appendOptionResult).appendTo( "#customerConfirmationPageId .hrClassForOptions" );
+	    	$( ".div_opt_id"+optId).clone().removeAttr('onclick').appendTo( "#customerConfirmationPageId .hrClassForOptions" );
 	    	$(thisData).addClass('active');
 	    	$('#customerConfirmationPageId .customerFieldsToAppendSelected .div_opt_id'+optId).remove();
 			/*var indexOfAttr = jQuery.inArray(parseInt(optId), optionArrayToSave );
