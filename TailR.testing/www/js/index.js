@@ -1673,6 +1673,11 @@ function deleteRecordsFromLocalDB(){
 				          recordCount = rs.rows.item(0).mycount;
 				          if(recordCount > 0){
 				        	  tx.executeSql('DELETE FROM '+tableName+' WHERE '+columnName+'='+tableIndexId+'', errorDeleteRecordsCB); 
+				        	  if(tableName == 'tailor_details'){
+				        		  gotoLoginPage();
+				        		  alert('This tailor is successfully removed. Please contact your administrator.');
+				        		  return;
+				        	  }
 				          }
 					});
 				}
