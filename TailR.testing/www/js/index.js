@@ -2500,7 +2500,13 @@ function successCBUpdateCustomerSyncDB(){
 	        		  
 	        	  }else if(tablename == 'category'){
 	        		  console.log('getCategoriesDataFromServer');
-	        		  getCategoriesDataFromServer();
+	        		  var isOK = confirm("Are you really want to update?");
+	        			if(isOK){
+	        				getCategoriesDataFromServer();
+	        			}else{
+	        				getCategoriesListFromLocal();
+	        			}
+	        		  
 	        	  }
 	          }
 	        }, function(tx, error) {
@@ -2598,6 +2604,12 @@ function successCBUpdateCustomerSyncDB(){
 							 var recordCount = 0;
 					          recordCount = rs.rows.item(0).mycount;
 					          if(parseInt(recordCount) > 0){
+					        	  var isOK = confirm("Are you really want to update?");
+				        			if(isOK){
+				        				getCategoriesDataFromServer();
+				        			}else{
+				        				getCategoriesListFromLocal();
+				        			}
 					        	  dataExist = true;
 					        	  categoryDiv = '<p>Category Data Syncing</p>';
 					          }else{
@@ -2605,7 +2617,7 @@ function successCBUpdateCustomerSyncDB(){
 					          }
 					          $('.appendStatusDiv').append(categoryDiv);
 					          gotoStatusReportPage();
-					          getCategoriesDataFromServer();
+					          
 						});
 					});
 				}
@@ -2739,8 +2751,14 @@ function successCBUpdateCustomerSyncDB(){
 					var child_name = childJsonObj['name'];
 					if(parseInt(server_cat_id) == parseInt(child_parent_id)){
 						isExist = true;
-						subCategoryTempDiv += '<li class="childSubMenuClass" data-lid="'+primarySCKeyId+
+						if(indexObj ==0){
+							subCategoryTempDiv += '<li class="childSubMenuClass firstSubCat'+server_cat_id+'" data-lid="'+primarySCKeyId+
 							'" data-parcat_id="'+child_parent_id+'" data-cat_name="'+child_name+'" data-isparent="1" data-cat_id="'+server_cat_child_id+'" onclick="mainGalleryFn(this);"><a href="#">'+ child_name +'</a></li>';
+						}else{
+							subCategoryTempDiv += '<li class="childSubMenuClass" data-lid="'+primarySCKeyId+
+							'" data-parcat_id="'+child_parent_id+'" data-cat_name="'+child_name+'" data-isparent="1" data-cat_id="'+server_cat_child_id+'" onclick="mainGalleryFn(this);"><a href="#">'+ child_name +'</a></li>';
+						}
+						
 					}
 				});
 				
@@ -3758,7 +3776,11 @@ function successCBUpdateCustomerSyncDB(){
 				}
 			}
 		}
+		var cateChildName = $('.firstSubCat'+cateId).data('cat_name');
+		var cateChildId = $('.firstSubCat'+cateId).data('cat_id');
+		console.log();
 		//mainGalleryFn(object);
+		mainGalleryFnByParentCat(cateId, cateChildId, cateChildName);
 	}
 	
 	function getOptionByAttrId(dataObj){
@@ -3813,6 +3835,16 @@ function successCBUpdateCustomerSyncDB(){
 		var cat_id = $(object).data('cat_id');
 		$('.galleriesClass').hide();
 		$(".gallcatid"+cat_id).show();
+	}
+	
+	function mainGalleryFnByParentCat(parentCatid,catId, catName){
+		$('.homePageViewLogoClass').hide();
+		$('.viewTextHomePageViewClass').hide();
+		$(".sub-menu ul li a").removeClass('active');
+		$('.firstSubCat'+parentCatid).find('a').addClass('active');
+		$('#catNameInput').val(catName);
+		$('.galleriesClass').hide();
+		$(".gallcatid"+catId).show();
 	}
 	
 	function attrMenu(object){
