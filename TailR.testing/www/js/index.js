@@ -40,10 +40,12 @@ var categoriesJsonData;
 var attributeJsonData;
 var productJsonData;
 var measurementJsonData;
+var staticJsonData;
 var updateCustomerDetailsForSavedData;
 var updateCustomerDetailsForUpdatedData;
 var updateOrderDetailsForSavedData;
 var updateOrderDetailsForUpdatedData;
+var needUpdate = false;
 
 var measurementTypeId = 0;
 //Variables Declarations
@@ -52,6 +54,7 @@ var subCatArrSession=[];
 var productDetailsArrSession = [];
 var attrDetailsArrSession = [];
 var measurementArrSession = [];
+var staticArrSession = [];
 var measurementTypeId = '';
 var orderArrSession = [];
 var customerArrSession = [];
@@ -796,6 +799,7 @@ function initializeDB(tx) {
 	tx.executeSql('CREATE TABLE IF NOT EXISTS customer_details (id integer primary key autoincrement,name text, total_price text, advance_price text, balance_price text, update_timestamp text, contact_number text, email_id text, country text, state text, city text, pincode text, address_one text, address_two text, sync_date text, sync_status integer, cust_server_id integer)');
 	tx.executeSql('CREATE TABLE IF NOT EXISTS order_details(id integer primary key autoincrement, server_cat_id integer, cat_name text, server_prod_id integer, order_data text,update_timestamp text, server_prod_name text,customer_id integer, option_selected text, status_of_order text, gallery_id integer, gallery_name text, sync_date text, sync_status integer, order_server_id integer)');
 	tx.executeSql('CREATE TABLE IF NOT EXISTS tailor_details (id integer primary key autoincrement, server_td_id integer, first_name text, middle_name text, last_name text, business_title text, address1 text, address2 text, email text, contact1 text, contact2 text, secret_key text, tailor_status integer, city text, pincode text, state_id integer, country_id integer, state_name text, country_name text, update_timestamp text)');
+	tx.executeSql('CREATE TABLE IF NOT EXISTS static_details (id integer primary key autoincrement, server_sd_id integer, name text, identifier text, data text, update_timestamp text)');
 }
 
 // Common Transaction success callback
@@ -1119,6 +1123,7 @@ function successCBCatListDB() {
 	categoryAppendingRecordsDiv = '<p> Appending Category Records </p>';
 	$('.appendStatusDiv').append(categoryAppendingRecordsDiv);
 	appendCatListDB(catArrSession, subCatArrSession);
+	getStaticListFromLocal();
 }	
 
 function errorCBCatListDB(err) {
@@ -1564,6 +1569,102 @@ function insertMeasurementsDetails(tx) {
 		
 		
 	});
+}
+
+function insertStaticDetails(tx) {
+	var currDateTimestamp="";
+	currDateTimestamp=dateTimestamp();
+	tx.executeSql('CREATE TABLE IF NOT EXISTS static_details (id integer primary key autoincrement, server_sd_id integer, name text, identifier text, data text, update_timestamp text)');
+	
+	jQuery.each(staticJsonData, function(index,value) {
+		
+		var static_server_id = value["id"];
+		var server_name = value["name"];
+		var identifier = value["identifier"];
+		var valueData = value['value'];
+		var update_timestamp = currDateTimestamp;
+		
+		tx.executeSql('select * from static_details where server_sd_id ='+static_server_id ,[],function(tx,results){
+			var len = 0;
+			len = results.rows.length;
+			if(len > 0){
+				for (var i = 0; i < len; i++) {
+					var localDB_id = results.rows.item(i)['id'];
+					var localDB_server_measurement_id = results.rows.item(i)['server_sd_id'];
+					var localDB_name = results.rows.item(i)['name'];
+					if(server_name != ''){
+						localDB_name = server_name;
+					}
+					var localDB_identifier = results.rows.item(i)['identifier'];
+					if(identifier != ''){
+						localDB_identifier = identifier;
+					}
+					var localDB_valueData = results.rows.item(i)['data'];
+					if(valueData != ''){
+						localDB_valueData = valueData;
+					}
+					
+					console.log('update static_details');
+					tx.executeSql("UPDATE static_details SET name = '" + localDB_name + "', update_timestamp = '"+update_timestamp+"', identifier = "+localDB_identifier+", data = '"+localDB_valueData+"' WHERE id = " + localDB_id + "");
+				}
+			}else{
+				console.log('INSERT static_details');
+				tx.executeSql('INSERT INTO static_details(name, server_sd_id, identifier, update_timestamp, data) VALUES (?,?,?,?,?)',
+	   	    			[name, static_server_id,identifier, update_timestamp, valueData], function(tx, res) {
+					console.log("static_details Data insertId: " + res.insertId + " -- res.rowsAffected 1"+res.rowsAffected);
+				});
+			}
+		});
+		
+		
+	});
+}
+
+function getStaticListFromLocal(){
+	if(testingInBrowser){
+		var myArr= new Array();
+		var myObject = new Object();
+		myObject.id = 1;
+		myObject.server_sd_id = 1;
+		myObject.name = "Contact Details";
+		myObject.identifier = "contact_details";
+		myObject.data = "M\/s.Chariman Mensi Lifestyle Private Limited\r\nBasement A, # 96, 34th 'B' Cross, 16th Main, 4th 'T' Block, Jayanagar, Bangalore - 560 041\r\n9480941616\/91085222616\r\nEmail: meettailorrani@gmail.com";
+		myArr.push(myObject);
+		staticArrSession=myArr;
+		
+		appendStaticData(staticArrSession);
+		return;
+	}
+	
+	db.transaction(	function (tx){
+		var len = 0;
+			tx.executeSql('select * from static_details ',[],function(tx,results){
+					len = results.rows.length;
+					if(len>0){
+						measurementArrSession = [];
+						for (var i = 0; i < len; i++) {
+							var jsonStaticObj={};
+							jsonStaticObj['id'] = results.rows.item(i)['id'];
+							jsonStaticObj['server_sd_id'] = results.rows.item(i)['server_sd_id'];
+							jsonStaticObj['name'] = results.rows.item(i)['name'];
+							jsonStaticObj['identifier'] = results.rows.item(i)['identifier'];
+							jsonStaticObj['data'] = results.rows.item(i)['data'];
+							staticArrSession.push(jsonStaticObj);
+						}
+					}
+				}, errorCB
+			);
+		},errorCBStaticListDB,successCBStaticListDB
+	);
+}
+
+function successCBStaticListDB() {
+	appendMeasurementDataInDiv(measurementArrSession);
+}	
+
+function errorCBStaticListDB(err) {
+	hideModal();
+	console.log("errorCBStaticListDB : "+err.message);
 }
 
 function getMeasumentListFromLocal(){
@@ -2606,6 +2707,7 @@ function successCBUpdateCustomerSyncDB(){
 					          if(parseInt(recordCount) > 0){
 					        	  var isOK = confirm("Are you really want to update?");
 				        			if(isOK){
+				        				needUpdate = true;
 				        				getCategoriesDataFromServer();
 				        			}else{
 				        				getCategoriesListFromLocal();
@@ -2614,6 +2716,8 @@ function successCBUpdateCustomerSyncDB(){
 					        	  categoryDiv = '<p>Category Data Syncing</p>';
 					          }else{
 					        	  categoryDiv = '<p>Category Data First Time Syncing</p>';
+					        	  needUpdate = true;
+					        	  getCategoriesDataFromServer();
 					          }
 					          $('.appendStatusDiv').append(categoryDiv);
 					          gotoStatusReportPage();
@@ -2771,6 +2875,7 @@ function successCBUpdateCustomerSyncDB(){
 		});
 		categoryDiv+='<li class="float-right "><a href="#aboutUs-page">Home Page</a></li>';
 		categoryDiv+='<li class="float-right" onclick="orderPageHtmlButton();"> <a href="#"> Order Report </a> </li>';
+		categoryDiv+='<li class="float-right"><a href="#contactUs-page">Contact Us Page</a></li>';
 		categoryDiv+='</ul></div>';
 		$('#mainPageId').empty();
 		$('#mainPageId').append(categoryDiv);
@@ -2784,6 +2889,7 @@ function successCBUpdateCustomerSyncDB(){
 		$('#mainPageId').find('.sub-menu').hide();
 		
 		getProductsListFromLocal();
+		getStaticListFromLocal();
 		//getAttributeListFromLocal();
 		//gotoProductPage();
 		//getOrderListFromLocalDB();
@@ -3112,6 +3218,15 @@ function successCBUpdateCustomerSyncDB(){
 		});
 	}
 	
+	function appendStaticData(staticData){
+		jQuery.each(staticData, function(index,value) {
+			if(value['identifier'] == 'contact_details'){
+				$('.appendContactDetails').empty();
+				$('.appendContactDetails').append(value['data']);
+			}
+		});
+	}
+	
 	function showGalleryImage(){
 		//popupbeforeposition: function() {
             var maxHeight = $( window ).height() - 60 + "px";
@@ -3159,100 +3274,104 @@ function successCBUpdateCustomerSyncDB(){
 		connectionType=checkConnection();
 		
 		if(connectionType=="WiFi connection" || connectionType=="Cell 4G connection" || connectionType=="Cell 3G connection" || connectionType=="Cell 2G connection"){
-			var folder = 'attributes';
-			console.log('attributes downloadAttrOptionImages ');
-			
-			var productId = $(thisData).data('prod_id');
-			// ProductAttributeIdsArray Init
-			var prodAttrIdsArr = [];
-			gotoDownloadImagePage();
-			
-			// Product Array Count Temp
-			var prodCountTemp = 0;
-			
-			// Product Array
-			jQuery.each(productDetailsArrSession, function(indexProd,valueProd) {
+			if(needUpdate){
+				var folder = 'attributes';
+				console.log('attributes downloadAttrOptionImages ');
 				
-				var server_prod_id = valueProd["server_prod_id"];
-				// Get productAttributeArrayTemp
-				var prodAttrArrTemp = jQuery.parseJSON(valueProd.attribute_details);
-				if(parseInt(productId) == parseInt(server_prod_id)){
+				var productId = $(thisData).data('prod_id');
+				// ProductAttributeIdsArray Init
+				var prodAttrIdsArr = [];
+				gotoDownloadImagePage();
+				
+				// Product Array Count Temp
+				var prodCountTemp = 0;
+				
+				// Product Array
+				jQuery.each(productDetailsArrSession, function(indexProd,valueProd) {
 					
-					// Iterate Product Attribute Array
-					jQuery.each(prodAttrArrTemp, function(indexObj,valueObj) {
-						var attrId = valueObj['attr_id'];
-						// Push product Attribute Id to ProductAttributeIdsArray
-						prodAttrIdsArr[indexObj] = attrId;
-					});
-					
-					// Iterate ProductAttributeIdsArray
-					jQuery.each(prodAttrIdsArr, function(index1,value1) {
+					var server_prod_id = valueProd["server_prod_id"];
+					// Get productAttributeArrayTemp
+					var prodAttrArrTemp = jQuery.parseJSON(valueProd.attribute_details);
+					if(parseInt(productId) == parseInt(server_prod_id)){
 						
-						// Iterate attrDetailsArrSession, attribute details in session
-						jQuery.each(attrDetailsArrSession, function(index,value) {
-							
-							var server_attr_id = value['server_attr_id'];
-							
-							if(value1 == server_attr_id){
-								
-								if(value['option'] != ''){
-									
-									
-									// Get & Iterate optionArraysTemp, Options Arrays For This Product
-									var optionArraysTemp = jQuery.parseJSON(value['option']);
-									downAttrOptFileTotal = downAttrOptFileTotal + optionArraysTemp.length;
-									jQuery.each(optionArraysTemp, function(index2,value2) {
-										
-										
-										var optionImg = value2['image'];
-										var optionId = value2['id'];
-										// Condition
-										var optionArraysImgUrlTemp = localPath + "/" + 'attributes'+ '/' +optionImg;
-										
-										// For Testing Main 
-										window.resolveLocalFileSystemURL(
-											optionArraysImgUrlTemp,// File Url 
-											function fileExist(fileEntry) { // Exist Success CB
-												console.log('File Exist');
-												attrOptAlreadyExistCount=attrOptAlreadyExistCount+1;
-												
-												var id = folder+optionId;
-												var downloadFileUrl = attributeImageData + '/' + optionImg;
-												var progressBarTag = '<div id="remove'+optionImg+'"><span style="width: 100%">'+optionImg+'</span> : '+ '<br/><progress id="'+optionImg+'" class="'+id+'" data-urllink="'+downloadFileUrl+'" data-location="'+optionArraysImgUrlTemp+'" value="100" max="100" style="width: 100%"></progress>';
-												progressBarTag += '<button class="btn btn-primary st-bg-baby-pink ui-btn ui-shadow ui-corner-all '+id+'" data-uniqueid="'+id+'" data-urllink="'+downloadFileUrl+'" onclick="startPauseResumeDownload(this);" data-location="'+optionArraysImgUrlTemp+'">Re-download</button></div>'
-										    	$('#progressBarDiv').append(progressBarTag);
-										    	$('#progressBarDiv').show();
-										    	updateProgress(100, id);
-											}, 
-											function fileNotExist(e) { // Not Exist Success CB
-												console.log("File not exist");
-												console.dir(e);
-												
-												attrOptInProgCount=attrOptInProgCount+1;
-												
-												var downloadFileUrl = attributeImageData + '/' + optionImg;
-												totalAttrOptImages = parseInt(totalAttrOptImages) + 1;
-												
-												var optionName = value2['name'];
-												downloadFileValidatorFn(downloadFileUrl, folder, optionImg, optionId);
-											}
-										);
-										/*
-										if(downAttrOptFileTotal == (attrOptAlreadyExistCount + attrOptInProgCount)){
-											restartApplication();
-										}
-										*/
-									});
-								}
-							}
+						// Iterate Product Attribute Array
+						jQuery.each(prodAttrArrTemp, function(indexObj,valueObj) {
+							var attrId = valueObj['attr_id'];
+							// Push product Attribute Id to ProductAttributeIdsArray
+							prodAttrIdsArr[indexObj] = attrId;
 						});
 						
-					});
+						// Iterate ProductAttributeIdsArray
+						jQuery.each(prodAttrIdsArr, function(index1,value1) {
+							
+							// Iterate attrDetailsArrSession, attribute details in session
+							jQuery.each(attrDetailsArrSession, function(index,value) {
+								
+								var server_attr_id = value['server_attr_id'];
+								
+								if(value1 == server_attr_id){
+									
+									if(value['option'] != ''){
+										
+										
+										// Get & Iterate optionArraysTemp, Options Arrays For This Product
+										var optionArraysTemp = jQuery.parseJSON(value['option']);
+										downAttrOptFileTotal = downAttrOptFileTotal + optionArraysTemp.length;
+										jQuery.each(optionArraysTemp, function(index2,value2) {
+											
+											
+											var optionImg = value2['image'];
+											var optionId = value2['id'];
+											// Condition
+											var optionArraysImgUrlTemp = localPath + "/" + 'attributes'+ '/' +optionImg;
+											
+											// For Testing Main 
+											window.resolveLocalFileSystemURL(
+												optionArraysImgUrlTemp,// File Url 
+												function fileExist(fileEntry) { // Exist Success CB
+													console.log('File Exist');
+													attrOptAlreadyExistCount=attrOptAlreadyExistCount+1;
+													
+													var id = folder+optionId;
+													var downloadFileUrl = attributeImageData + '/' + optionImg;
+													var progressBarTag = '<div id="remove'+optionImg+'"><span style="width: 100%">'+optionImg+'</span> : '+ '<br/><progress id="'+optionImg+'" class="'+id+'" data-urllink="'+downloadFileUrl+'" data-location="'+optionArraysImgUrlTemp+'" value="100" max="100" style="width: 100%"></progress>';
+													progressBarTag += '<button class="btn btn-primary st-bg-baby-pink ui-btn ui-shadow ui-corner-all '+id+'" data-uniqueid="'+id+'" data-urllink="'+downloadFileUrl+'" onclick="startPauseResumeDownload(this);" data-location="'+optionArraysImgUrlTemp+'">Re-download</button></div>'
+											    	$('#progressBarDiv').append(progressBarTag);
+											    	$('#progressBarDiv').show();
+											    	updateProgress(100, id);
+												}, 
+												function fileNotExist(e) { // Not Exist Success CB
+													console.log("File not exist");
+													console.dir(e);
+													
+													attrOptInProgCount=attrOptInProgCount+1;
+													
+													var downloadFileUrl = attributeImageData + '/' + optionImg;
+													totalAttrOptImages = parseInt(totalAttrOptImages) + 1;
+													
+													var optionName = value2['name'];
+													downloadFileValidatorFn(downloadFileUrl, folder, optionImg, optionId);
+												}
+											);
+											/*
+											if(downAttrOptFileTotal == (attrOptAlreadyExistCount + attrOptInProgCount)){
+												restartApplication();
+											}
+											*/
+										});
+									}
+								}
+							});
+							
+						});
+					}
+					prodCountTemp = parseInt(prodCountTemp)+1;
+				});
+				console.log('attributes downloadAttrOptionImages END : ');
+				if(parseInt(prodCountTemp) == parseInt(productDetailsArrSession.length)){
+					goToAttributeDiv(thisData);
 				}
-				prodCountTemp = parseInt(prodCountTemp)+1;
-			});
-			console.log('attributes downloadAttrOptionImages END : ');
-			if(parseInt(prodCountTemp) == parseInt(productDetailsArrSession.length)){
+			}else{
 				goToAttributeDiv(thisData);
 			}
 		}else{
@@ -3582,6 +3701,66 @@ function successCBUpdateCustomerSyncDB(){
 	
 	function successCBInsertMeasurementDetails() {
 		/*if(deleteRecordStatus == 0){*/
+		var staticDiv = '';
+		if(dataExist){
+			staticDiv = '<p> Static Data Syncing </p>';
+		}else{
+			staticDiv = '<p> Static Data First Time Syncing </p>';
+		}
+		$('.appendStatusDiv').append(staticDiv);
+		getStaticDataFromServer();
+		
+			
+			/*return false;
+		}else{*/
+		//getCategoriesListFromLocal();
+		//}
+		
+	}	
+	function errorCBInsertMeasurementDetails(err) {
+		hideModal();
+		console.log("errorCBInsertMeasurementDetails");
+	}
+	
+	function getStaticDataFromServer(){
+		var dataToSend = {};
+		dataToSend["secret_key"] = tailorDetailsSession.secret_key;
+		var apiCallUrl="http://tailorapp.tailorrani.com/api/static/staticJson"
+		connectionType=checkConnection();
+		if(connectionType=="Unknown connection" || connectionType=="No network connection"){
+			navigator.notification.alert(appRequiresWiFi,alertConfirm,appName,'Ok');
+		}
+		else if(connectionType=="WiFi connection" || connectionType=="Cell 4G connection" || connectionType=="Cell 3G connection" || connectionType=="Cell 2G connection"){
+			$.ajax({
+				type : ajaxCallPost,
+				url: apiCallUrl,
+				data : dataToSend,
+				success: successCBStaticFn,
+				error: commonErrorCallback
+			});
+		}
+		else{
+			navigator.notification.alert(appRequiresWiFi,alertConfirm,appName,'Ok');
+		}
+	}
+
+	function successCBStaticFn(data){
+		var responseJson = $.parseJSON(JSON.stringify(data));
+		staticJsonData = responseJson["result"];
+		// FIXME CHECK JSON DATA
+		var staticDiv = '';
+		if(dataExist){
+			staticDiv = '<p> Static Data Updating </p>';
+		}else{
+			staticDiv = '<p> Static Data Inserting </p>';
+		}
+		$('.appendStatusDiv').append(staticDiv);
+		db.transaction(insertStaticDetails, errorCBInsertStaticDetails, successCBInsertStaticDetails);
+		//dataHasSyncSendReport('measurements_sync');
+	}
+	
+	function successCBInsertStaticDetails() {
+		/*if(deleteRecordStatus == 0){*/
 		if(dataExist){
 			var deleteRecordsDiv = '';
 			deleteRecordsDiv = '<p> Delete Data Syncing </p>';
@@ -3598,9 +3777,9 @@ function successCBUpdateCustomerSyncDB(){
 		//}
 		
 	}	
-	function errorCBInsertMeasurementDetails(err) {
+	function errorCBInsertStaticDetails(err) {
 		hideModal();
-		console.log("errorCBInsertMeasurementDetails");
+		console.log("errorCBInsertStaticDetails");
 	}
 	
 	function getDataToDeleteInLocalDBFromServer(){
@@ -3770,7 +3949,11 @@ function successCBUpdateCustomerSyncDB(){
 			if(!productImagesDownload){
 				console.log('Testing : '+window.localStorage["productimgflag"]);
 				if(window.localStorage["productimgflag"]!=2){
-					downloadImagesOfProduct(productDetailsArrSession);
+					if(needUpdate){
+						downloadImagesOfProduct(productDetailsArrSession);
+					}else{
+						appendProdListDB(productDetailsArrSession);
+					}
 				}else{
 					appendProdListDB(productDetailsArrSession);
 				}
