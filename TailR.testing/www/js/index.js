@@ -2750,15 +2750,15 @@ function successCBUpdateCustomerSyncDB(){
 					var server_cat_child_id = childJsonObj["server_cat_id"];
 					var child_name = childJsonObj['name'];
 					if(parseInt(server_cat_id) == parseInt(child_parent_id)){
-						isExist = true;
-						if(indexObj ==0){
-							subCategoryTempDiv += '<li class="childSubMenuClass firstSubCat'+server_cat_id+'" data-lid="'+primarySCKeyId+
+						
+						if(!isExist){
+							subCategoryTempDiv += '<li class="childSubMenuClass firstSubCat'+child_parent_id+'" data-lid="'+primarySCKeyId+
 							'" data-parcat_id="'+child_parent_id+'" data-cat_name="'+child_name+'" data-isparent="1" data-cat_id="'+server_cat_child_id+'" onclick="mainGalleryFn(this);"><a href="#">'+ child_name +'</a></li>';
 						}else{
 							subCategoryTempDiv += '<li class="childSubMenuClass" data-lid="'+primarySCKeyId+
 							'" data-parcat_id="'+child_parent_id+'" data-cat_name="'+child_name+'" data-isparent="1" data-cat_id="'+server_cat_child_id+'" onclick="mainGalleryFn(this);"><a href="#">'+ child_name +'</a></li>';
 						}
-						
+						isExist = true;
 					}
 				});
 				
