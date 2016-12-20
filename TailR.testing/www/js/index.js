@@ -1605,7 +1605,13 @@ function insertStaticDetails(tx) {
 					}
 					console.log(localDB_name+' '+localDB_identifier+'');
 					console.log('update static_details');
-					tx.executeSql('UPDATE static_details SET name="'+localDB_name+'", update_timestamp="'+update_timestamp+'", identifier="'+localDB_identifier+'", data="'+valueData+'" WHERE id=' + localDB_id);
+					localDB_valueData = localDB_valueData.replace("'", " ");
+					try{
+						tx.executeSql('UPDATE static_details SET name="'+localDB_name+'", update_timestamp="'+update_timestamp+'", identifier="'+localDB_identifier+'", data="'+valueData+'" WHERE id=' + localDB_id);
+					}catch(err){
+						console.log('Special Character');
+					}
+					
 				}
 			}else{
 				console.log('INSERT static_details');
