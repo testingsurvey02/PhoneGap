@@ -28,7 +28,7 @@ $( document ).on( "mobileinit", function() {
 });
 
 var connectionType;
-var appName='Tailor Rani';
+var appName='CTR';
 var testingInBrowser=false;// For Testing
 var loginUserId;
 var dataIsFromServer = 0;
