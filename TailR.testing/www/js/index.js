@@ -1605,7 +1605,7 @@ function insertStaticDetails(tx) {
 					}
 					console.log(localDB_name+' '+localDB_identifier+'');
 					console.log('update static_details');
-					tx.executeSql("UPDATE static_details SET name='"+localDB_name+"', update_timestamp='"+update_timestamp+"', identifier='"+localDB_identifier+"', data='"+valueData+"' WHERE id=" + localDB_id + "");
+					tx.executeSql('UPDATE static_details SET name="'+localDB_name+'", update_timestamp="'+update_timestamp+'", identifier="'+localDB_identifier+'", data="'+valueData+'" WHERE id=' + localDB_id);
 				}
 			}else{
 				console.log('INSERT static_details');
