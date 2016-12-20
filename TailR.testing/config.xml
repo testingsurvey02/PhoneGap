@@ -79,7 +79,7 @@ xmlns:cdv="http://cordova.apache.org/ns/1.0">
         <icon src="res/android/app_icon_xhdpi.png" qualifier="xhdpi" />
  		
  		<!-- Splash Screen By Resolutions -->
- 		<splash  src="res/android/splash_land_hdpi.png" platform="android" qualifier="land-hdpi" />
+ 		<!-- <splash  src="res/android/splash_land_hdpi.png" platform="android" qualifier="land-hdpi" />
  		<splash  src="res/android/splash_land_ldpi.png" platform="android" qualifier="land-ldpi" />
         <splash  src="res/android/splash_land_mdpi.png" platform="android" qualifier="land-mdpi" />
         <splash  src="res/android/splash_land_xhdpi.png" platform="android" qualifier="land-xhdpi" />
@@ -89,7 +89,7 @@ xmlns:cdv="http://cordova.apache.org/ns/1.0">
         <splash  src="res/android/splash_port_mdpi.png" platform="android" qualifier="port-mdpi" />
         <splash  src="res/android/splash_port_xhdpi.png" platform="android" qualifier="port-xhdpi" />
          
-        <splash src="res/android/splash_default.png" />
+        <splash src="res/android/splash_default.png" /> -->
          <!-- 
         <icon src="res/app_icon.png"/>
          -->
