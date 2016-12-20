@@ -73,10 +73,10 @@ xmlns:cdv="http://cordova.apache.org/ns/1.0">
  		<preference name="android-targetSdkVersion" value="22"/>
  		
  		<!-- Icons By Resolutions -->
- 		<icon src="res/android/app_icon_ldpi.png" platform="android" qualifier="ldpi" />
-        <icon src="res/android/app_icon_mdpi.png" platform="android" qualifier="mdpi" />
-        <icon src="res/android/app_icon_hdpi.png" platform="android" qualifier="hdpi" />
-        <icon src="res/android/app_icon_xhdpi.png" platform="android" qualifier="xhdpi" />
+ 		<icon src="res/android/app_icon_ldpi.png" qualifier="ldpi" />
+        <icon src="res/android/app_icon_mdpi.png" qualifier="mdpi" />
+        <icon src="res/android/app_icon_hdpi.png" qualifier="hdpi" />
+        <icon src="res/android/app_icon_xhdpi.png" qualifier="xhdpi" />
  		
  		<!-- Splash Screen By Resolutions -->
  		<splash  src="res/android/splash_land_hdpi.png" platform="android" qualifier="land-hdpi" />
