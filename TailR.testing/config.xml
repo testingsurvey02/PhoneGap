@@ -5,7 +5,7 @@ versionCode = "1"
 xmlns="http://www.w3.org/ns/widgets" 
 xmlns:gap   = "http://phonegap.com/ns/1.0" 
 xmlns:cdv="http://cordova.apache.org/ns/1.0">
-    <name>Tailor Rani</name>
+    <name>CTR</name>
     <description>
         An application for TailorRani Web App for Tailors.
     </description>
