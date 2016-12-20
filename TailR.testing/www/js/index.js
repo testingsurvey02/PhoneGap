@@ -1659,7 +1659,7 @@ function getStaticListFromLocal(){
 }
 
 function successCBStaticListDB() {
-	appendMeasurementDataInDiv(measurementArrSession);
+	appendStaticData(staticArrSession);
 }	
 
 function errorCBStaticListDB(err) {
