@@ -1603,9 +1603,9 @@ function insertStaticDetails(tx) {
 					if(valueData != ''){
 						localDB_valueData = valueData;
 					}
-					
+					console.log(localDB_name+' '+localDB_identifier+'');
 					console.log('update static_details');
-					tx.executeSql("UPDATE static_details SET name = '" + localDB_name + "', update_timestamp = '"+update_timestamp+"', identifier = '"+localDB_identifier+"', data = '"+localDB_valueData+"' WHERE id = " + localDB_id + "");
+					tx.executeSql("UPDATE static_details SET name='"+localDB_name+"', update_timestamp='"+update_timestamp+"', identifier='"+localDB_identifier+"', data='"+localDB_valueData+"' WHERE id=" + localDB_id + "");
 				}
 			}else{
 				console.log('INSERT static_details');
@@ -3779,7 +3779,8 @@ function successCBUpdateCustomerSyncDB(){
 	}	
 	function errorCBInsertStaticDetails(err) {
 		hideModal();
-		console.log("errorCBInsertStaticDetails");
+		console.log("errorCBInsertStaticDetails"+err.code);
+		console.log("errorCBInsertStaticDetails"+err.message);
 	}
 	
 	function getDataToDeleteInLocalDBFromServer(){
