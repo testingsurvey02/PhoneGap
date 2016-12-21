@@ -1972,6 +1972,7 @@ function deleteRecordsFromMeasurementGroup(){
 				var measurementGroupId = value['measGroup'];
 				console.log('measurementTypeId : '+measurementTypeId + ' measurementGroupId : '+measurementGroupId);
 				tx.executeSql('select * from measurement_details where server_measurement_id ='+measurementTypeId ,[],function(tx,results){
+					console.log('results.rows.length :' +results.rows.length);
 					var len = 0;
 					len = results.rows.length;
 					if(len > 0){
