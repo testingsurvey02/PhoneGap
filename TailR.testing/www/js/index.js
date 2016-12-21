@@ -1865,10 +1865,11 @@ function deleteChildArraysByMethods(){
 function deleteRecordsFromProductGallery(){
 	var currDateTimestamp=dateTimestamp();
 	var update_timestamp = currDateTimestamp;
-	jQuery.each(needToDeleteInJsonArrayProductGall, function(index,value) {
-		var prodId = value['prodId'];
-		var galleryId = value['galleryId'];
-		db.transaction(	function (tx){
+	db.transaction(	function (tx){
+		tx.executeSql('CREATE TABLE IF NOT EXISTS product_details (id integer primary key autoincrement, server_prod_id integer, name text, description text, update_timestamp text, measurement_typeid integer, status integer, attribute_details text, gallery text, category text)');
+		jQuery.each(needToDeleteInJsonArrayProductGall, function(index,value) {
+			var prodId = value['prodId'];
+			var galleryId = value['galleryId'];
 			tx.executeSql('select * from product_details where server_prod_id='+prodId ,[],function(tx,results){
 				var len = 0;
 				len = results.rows.length;
@@ -1890,8 +1891,8 @@ function deleteRecordsFromProductGallery(){
 					}
 				}
 			});
-		}, errorCBDelRecdsProdGalFn, successCBDelRecdsProdGalFn);
-	});
+		});
+	}, errorCBDelRecdsProdGalFn, successCBDelRecdsProdGalFn);
 }
 
 function errorCBDelRecdsProdGalFn(err){
@@ -1910,10 +1911,10 @@ function deleteRecordsFromAttributeOption(){
 	
 	var currDateTimestamp=dateTimestamp();
 	var update_timestamp = currDateTimestamp;
-	jQuery.each(needToDeleteInJsonArrayAttrOptions, function(index,value) {
-		var attrId = value['attrId'];
-		var optionId = value['optionId'];
-		db.transaction(	function (tx){
+	db.transaction(	function (tx){
+		jQuery.each(needToDeleteInJsonArrayAttrOptions, function(index,value) {
+			var attrId = value['attrId'];
+			var optionId = value['optionId'];
 			tx.executeSql('select * from product_attributes where server_attr_id ='+attrId ,[],function(tx,results){
 				var len = 0;
 				len = results.rows.length;
@@ -1935,8 +1936,8 @@ function deleteRecordsFromAttributeOption(){
 					}
 				}
 			});
-		}, errorCBDelRecdsAttrOptionFn, successCBDelRecdsAttrOptionFn);
-	});
+		});
+	}, errorCBDelRecdsAttrOptionFn, successCBDelRecdsAttrOptionFn);
 }
 
 function errorCBDelRecdsAttrOptionFn(err){
@@ -1955,10 +1956,13 @@ function deleteRecordsFromMeasurementGroup(){
 	
 	var currDateTimestamp=dateTimestamp();
 	var update_timestamp = currDateTimestamp;
-	jQuery.each(needToDeleteInJSonArrayMeasuGroup, function(index,value) {
-		var measurementTypeId = value['measType'];
-		var measurementGroupId = value['measGroup'];
-		db.transaction(	function (tx){
+	
+	db.transaction(	function (tx){
+		tx.executeSql('CREATE TABLE IF NOT EXISTS measurement_details (id integer primary key autoincrement, name text, server_measurement_id integer, status integer, update_timestamp text, group_data text)');
+		
+		jQuery.each(needToDeleteInJSonArrayMeasuGroup, function(index,value) {
+			var measurementTypeId = value['measType'];
+			var measurementGroupId = value['measGroup'];
 			tx.executeSql('select * from measurement_details where server_measurement_id ='+measurementTypeId ,[],function(tx,results){
 				var len = 0;
 				len = results.rows.length;
@@ -1980,8 +1984,9 @@ function deleteRecordsFromMeasurementGroup(){
 					}
 				}
 			});
-		}, errorCBDelRecdsMeasGroupFn, successCBDelRecdsMeasGroupFn);
-	});
+		});
+	}, errorCBDelRecdsMeasGroupFn, successCBDelRecdsMeasGroupFn);
+	
 }
 
 function errorCBDelRecdsMeasGroupFn(err){
