@@ -1977,17 +1977,21 @@ function deleteRecordsFromMeasurementGroup(){
 					len = results.rows.length;
 					if(len > 0 && len != undefined){
 						var local_DB_group_data = results.rows.item(0)['group_data'];
+						console.log(local_DB_group_data);
 						var newGroupObjArr = [];
 						if(local_DB_group_data != ''){
 							var groupObj = jQuery.parseJSON(local_DB_group_data);
-							jQuery.each(groupObj, function(indexObj,valueObj) {
-								var groupObject = new Object();
-								var measurement_group_id = valueObj['id'];
-								if(parseInt(measurementGroupId) != parseInt(measurement_group_id)){
-									groupObject = valueObj;
-									newGroupObjArr.push(groupObject);
-		 						}
-							});
+							console.log('groupObj :'+groupObj)
+							if(groupObj != ''){
+								jQuery.each(groupObj, function(indexObj,valueObj) {
+									var groupObject = new Object();
+									var measurement_group_id = valueObj['id'];
+									if(parseInt(measurementGroupId) != parseInt(measurement_group_id)){
+										groupObject = valueObj;
+										newGroupObjArr.push(groupObject);
+			 						}
+								});
+							}
 							var groupJSONObj = JSON.stringify(newGroupObjArr);
 							tx.executeSql("UPDATE measurement_details SET update_timestamp='"+update_timestamp+"', group_data='"+groupJSONObj+"' WHERE server_measurement_id=" + measurementTypeId + "");
 						}
@@ -2045,14 +2049,16 @@ function deleteRecordsFromMeasurements(){
 		 							groupObject['created_at'] = valueGP['created_at'];
 		 							groupObject['updated_at'] = valueGP['updated_at'];
 		 							var needToDeleteArrayObject = [];
-		 							jQuery.each(value['measurements'], function(indexObj,valueObj){
-		 								if(parseInt(measurementId) != parseInt(valueObj['id'])){
-		 									var measuObject = new Object();
-		 									measuObject = valueObj;
-		 									needToDeleteArrayObject.push(measuObject);
-		 								}
-		 							});
-		 							groupObject['measurements'] = needToDeleteArrayObject;
+		 							if(value['measurements'] != ''){
+		 								jQuery.each(value['measurements'], function(indexObj,valueObj){
+			 								if(parseInt(measurementId) != parseInt(valueObj['id'])){
+			 									var measuObject = new Object();
+			 									measuObject = valueObj;
+			 									needToDeleteArrayObject.push(measuObject);
+			 								}
+			 							});
+			 							groupObject['measurements'] = needToDeleteArrayObject;
+		 							}
 		 							newGroupObjArr.push(groupObject);
 		 						}
 							});
