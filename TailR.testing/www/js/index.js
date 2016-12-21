@@ -1966,9 +1966,11 @@ function deleteRecordsFromMeasurementGroup(){
 	db.transaction(	function (tx){
 		tx.executeSql('CREATE TABLE IF NOT EXISTS measurement_details (id integer primary key autoincrement, name text, server_measurement_id integer, status integer, update_timestamp text, group_data text)');
 		if(needToDeleteInJSonArrayMeasuGroup.length > 0){
+			console.log('needToDeleteInJSonArrayMeasuGroup.length : ' +needToDeleteInJSonArrayMeasuGroup.length);
 			jQuery.each(needToDeleteInJSonArrayMeasuGroup, function(index,value) {
 				var measurementTypeId = value['measType'];
 				var measurementGroupId = value['measGroup'];
+				console.log('measurementTypeId : '+measurementTypeId + ' measurementGroupId : '+measurementGroupId);
 				tx.executeSql('select * from measurement_details where server_measurement_id ='+measurementTypeId ,[],function(tx,results){
 					var len = 0;
 					len = results.rows.length;
