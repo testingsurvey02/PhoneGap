@@ -1874,7 +1874,7 @@ function deleteRecordsFromProductGallery(){
 				tx.executeSql('select * from product_details where server_prod_id='+prodId ,[],function(tx,results){
 					var len = 0;
 					len = results.rows.length;
-					if(len > 0){
+					if(len > 0 && len != undefined){
 						var local_DB_gallery = results.rows.item(0)['gallery'];
 						var newGalleryObjArr = [];
 						if(local_DB_gallery != ''){
@@ -1922,7 +1922,7 @@ function deleteRecordsFromAttributeOption(){
 				tx.executeSql('select * from product_attributes where server_attr_id ='+attrId ,[],function(tx,results){
 					var len = 0;
 					len = results.rows.length;
-					if(len > 0){
+					if(len > 0 && len != undefined){
 						var local_DB_option = results.rows.item(0)['option'];
 						var newOptionObjArr = [];
 						if(local_DB_option != ''){
@@ -1975,7 +1975,7 @@ function deleteRecordsFromMeasurementGroup(){
 					console.log('results.rows.length :' +results.rows.length);
 					var len = 0;
 					len = results.rows.length;
-					if(len > 0){
+					if(len > 0 && len != undefined){
 						var local_DB_group_data = results.rows.item(0)['group_data'];
 						var newGroupObjArr = [];
 						if(local_DB_group_data != ''){
@@ -2024,9 +2024,10 @@ function deleteRecordsFromMeasurements(){
 				var measurementId = value['measurementId'];
 				console.log('measurementTypeId :'+measurementTypeId + " measurementGroupId : "+measurementGroupId + " measurementId :"+measurementId);
 				tx.executeSql('select * from measurement_details where server_measurement_id ='+measurementTypeId ,[],function(tx,results){
+					console.log(results.rows.length);
 					var len = 0;
 					len = results.rows.length;
-					if(len > 0){
+					if(len > 0 && len != undefined){
 						var local_DB_group_data = results.rows.item(0)['group_data'];
 						var newGroupObjArr = [];
 						if(local_DB_group_data != ''){
