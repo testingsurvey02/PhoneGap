@@ -2050,7 +2050,7 @@ function deleteRecordsFromMeasurements(){
 		 							groupObject['updated_at'] = valueGP['updated_at'];
 		 							var needToDeleteArrayObject = [];
 		 							console.log("value['measurements'] : "+value['measurements']);
-		 							if(value['measurements'] != ''){
+		 							if(value['measurements'] != '' && value['measurements'] != undefined){
 		 								jQuery.each(value['measurements'], function(indexObj,valueObj){
 			 								if(parseInt(measurementId) != parseInt(valueObj['id'])){
 			 									var measuObject = new Object();
