@@ -1866,32 +1866,34 @@ function deleteRecordsFromProductGallery(){
 	var currDateTimestamp=dateTimestamp();
 	var update_timestamp = currDateTimestamp;
 	db.transaction(	function (tx){
-		tx.executeSql('CREATE TABLE IF NOT EXISTS product_details (id integer primary key autoincrement, server_prod_id integer, name text, description text, update_timestamp text, measurement_typeid integer, status integer, attribute_details text, gallery text, category text)');
-		jQuery.each(needToDeleteInJsonArrayProductGall, function(index,value) {
-			var prodId = value['prodId'];
-			var galleryId = value['galleryId'];
-			tx.executeSql('select * from product_details where server_prod_id='+prodId ,[],function(tx,results){
-				var len = 0;
-				len = results.rows.length;
-				if(len > 0){
-					var local_DB_gallery = results.rows.item(0)['gallery'];
-					var newGalleryObjArr = [];
-					if(local_DB_gallery != ''){
-						var galleryObj = jQuery.parseJSON(local_DB_gallery);
-						jQuery.each(galleryObj, function(index,value) {
-							var galleryObject = new Object();
-							var gallery_id = value['id'];
-							if(parseInt(gallery_id) != parseInt(galleryId)){
-								galleryObject = value;
-								newGalleryObjArr.push(galleryObject);
-	 						}
-						});
-						var galleryJsonObj = JSON.stringify(newGalleryObjArr);
-						tx.executeSql("UPDATE product_details SET update_timestamp='"+update_timestamp+"', gallery='"+galleryJsonObj+"' WHERE server_prod_id="+prodId+"");
+		if(needToDeleteInJsonArrayProductGall.length > 0){
+			tx.executeSql('CREATE TABLE IF NOT EXISTS product_details (id integer primary key autoincrement, server_prod_id integer, name text, description text, update_timestamp text, measurement_typeid integer, status integer, attribute_details text, gallery text, category text)');
+			jQuery.each(needToDeleteInJsonArrayProductGall, function(index,value) {
+				var prodId = value['prodId'];
+				var galleryId = value['galleryId'];
+				tx.executeSql('select * from product_details where server_prod_id='+prodId ,[],function(tx,results){
+					var len = 0;
+					len = results.rows.length;
+					if(len > 0){
+						var local_DB_gallery = results.rows.item(0)['gallery'];
+						var newGalleryObjArr = [];
+						if(local_DB_gallery != ''){
+							var galleryObj = jQuery.parseJSON(local_DB_gallery);
+							jQuery.each(galleryObj, function(index,value) {
+								var galleryObject = new Object();
+								var gallery_id = value['id'];
+								if(parseInt(gallery_id) != parseInt(galleryId)){
+									galleryObject = value;
+									newGalleryObjArr.push(galleryObject);
+		 						}
+							});
+							var galleryJsonObj = JSON.stringify(newGalleryObjArr);
+							tx.executeSql("UPDATE product_details SET update_timestamp='"+update_timestamp+"', gallery='"+galleryJsonObj+"' WHERE server_prod_id="+prodId+"");
+						}
 					}
-				}
+				});
 			});
-		});
+		}
 	}, errorCBDelRecdsProdGalFn, successCBDelRecdsProdGalFn);
 }
 
@@ -1912,31 +1914,35 @@ function deleteRecordsFromAttributeOption(){
 	var currDateTimestamp=dateTimestamp();
 	var update_timestamp = currDateTimestamp;
 	db.transaction(	function (tx){
-		jQuery.each(needToDeleteInJsonArrayAttrOptions, function(index,value) {
-			var attrId = value['attrId'];
-			var optionId = value['optionId'];
-			tx.executeSql('select * from product_attributes where server_attr_id ='+attrId ,[],function(tx,results){
-				var len = 0;
-				len = results.rows.length;
-				if(len > 0){
-					var local_DB_option = results.rows.item(0)['option'];
-					var newOptionObjArr = [];
-					if(local_DB_option != ''){
-						var optionObj = jQuery.parseJSON(local_DB_option);
-						jQuery.each(optionObj, function(index,value) {
-							var optionObject = new Object();
-							var option_id = value['id'];
-							if(parseInt(optionId) != parseInt(option_id)){
-								optionObject = value;
-								newOptionObjArr.push(optionObject);
-	 						}
-						});
-						var optionJSONObj = JSON.stringify(newOptionObjArr);
-						tx.executeSql("UPDATE product_attributes SET update_timestamp='"+update_timestamp+"', option='"+optionJSONObj+"' WHERE server_attr_id=" + attrId + "");
+		tx.executeSql('CREATE TABLE IF NOT EXISTS product_attributes (id integer primary key autoincrement, server_attr_id integer, name text, identifier text, status integer, backend_name text, update_timestamp text, option text)');
+		if(needToDeleteInJsonArrayAttrOptions.length > 0){
+			jQuery.each(needToDeleteInJsonArrayAttrOptions, function(index,value) {
+				var attrId = value['attrId'];
+				var optionId = value['optionId'];
+				tx.executeSql('select * from product_attributes where server_attr_id ='+attrId ,[],function(tx,results){
+					var len = 0;
+					len = results.rows.length;
+					if(len > 0){
+						var local_DB_option = results.rows.item(0)['option'];
+						var newOptionObjArr = [];
+						if(local_DB_option != ''){
+							var optionObj = jQuery.parseJSON(local_DB_option);
+							jQuery.each(optionObj, function(index,value) {
+								var optionObject = new Object();
+								var option_id = value['id'];
+								if(parseInt(optionId) != parseInt(option_id)){
+									optionObject = value;
+									newOptionObjArr.push(optionObject);
+		 						}
+							});
+							var optionJSONObj = JSON.stringify(newOptionObjArr);
+							tx.executeSql("UPDATE product_attributes SET update_timestamp='"+update_timestamp+"', option='"+optionJSONObj+"' WHERE server_attr_id=" + attrId + "");
+						}
 					}
-				}
+				});
 			});
-		});
+		}
+		
 	}, errorCBDelRecdsAttrOptionFn, successCBDelRecdsAttrOptionFn);
 }
 
@@ -1959,32 +1965,33 @@ function deleteRecordsFromMeasurementGroup(){
 	
 	db.transaction(	function (tx){
 		tx.executeSql('CREATE TABLE IF NOT EXISTS measurement_details (id integer primary key autoincrement, name text, server_measurement_id integer, status integer, update_timestamp text, group_data text)');
-		
-		jQuery.each(needToDeleteInJSonArrayMeasuGroup, function(index,value) {
-			var measurementTypeId = value['measType'];
-			var measurementGroupId = value['measGroup'];
-			tx.executeSql('select * from measurement_details where server_measurement_id ='+measurementTypeId ,[],function(tx,results){
-				var len = 0;
-				len = results.rows.length;
-				if(len > 0){
-					var local_DB_group_data = results.rows.item(0)['group_data'];
-					var newGroupObjArr = [];
-					if(local_DB_group_data != ''){
-						var groupObj = jQuery.parseJSON(local_DB_group_data);
-						jQuery.each(groupObj, function(indexObj,valueObj) {
-							var groupObject = new Object();
-							var measurement_group_id = valueObj['id'];
-							if(parseInt(measurementGroupId) != parseInt(measurement_group_id)){
-								groupObject = valueObj;
-								newGroupObjArr.push(groupObject);
-	 						}
-						});
-						var groupJSONObj = JSON.stringify(newGroupObjArr);
-						tx.executeSql("UPDATE measurement_details SET update_timestamp='"+update_timestamp+"', group_data='"+groupJSONObj+"' WHERE server_measurement_id=" + measurementTypeId + "");
+		if(needToDeleteInJSonArrayMeasuGroup.length > 0){
+			jQuery.each(needToDeleteInJSonArrayMeasuGroup, function(index,value) {
+				var measurementTypeId = value['measType'];
+				var measurementGroupId = value['measGroup'];
+				tx.executeSql('select * from measurement_details where server_measurement_id ='+measurementTypeId ,[],function(tx,results){
+					var len = 0;
+					len = results.rows.length;
+					if(len > 0){
+						var local_DB_group_data = results.rows.item(0)['group_data'];
+						var newGroupObjArr = [];
+						if(local_DB_group_data != ''){
+							var groupObj = jQuery.parseJSON(local_DB_group_data);
+							jQuery.each(groupObj, function(indexObj,valueObj) {
+								var groupObject = new Object();
+								var measurement_group_id = valueObj['id'];
+								if(parseInt(measurementGroupId) != parseInt(measurement_group_id)){
+									groupObject = valueObj;
+									newGroupObjArr.push(groupObject);
+		 						}
+							});
+							var groupJSONObj = JSON.stringify(newGroupObjArr);
+							tx.executeSql("UPDATE measurement_details SET update_timestamp='"+update_timestamp+"', group_data='"+groupJSONObj+"' WHERE server_measurement_id=" + measurementTypeId + "");
+						}
 					}
-				}
+				});
 			});
-		});
+		}
 	}, errorCBDelRecdsMeasGroupFn, successCBDelRecdsMeasGroupFn);
 	
 }
@@ -2005,49 +2012,51 @@ function deleteRecordsFromMeasurements(){
 	var currDateTimestamp=dateTimestamp();
 	var update_timestamp = currDateTimestamp;
 	db.transaction(	function (tx){
-		jQuery.each(needToDeleteInJSonArrayMeasurements, function(index,value) {
-			var measurementTypeId = value['measType'];
-			var measurementGroupId = value['measGroup'];
-			var measurementId = value['measurementId'];
-			tx.executeSql('CREATE TABLE IF NOT EXISTS measurement_details (id integer primary key autoincrement, name text, server_measurement_id integer, status integer, update_timestamp text, group_data text)');
-			tx.executeSql('select * from measurement_details where server_measurement_id ='+measurementTypeId ,[],function(tx,results){
-				var len = 0;
-				len = results.rows.length;
-				if(len > 0){
-					var local_DB_group_data = results.rows.item(0)['group_data'];
-					var newGroupObjArr = [];
-					if(local_DB_group_data != ''){
-						var groupObj = jQuery.parseJSON(local_DB_group_data);
-						jQuery.each(groupObj, function(indexGP,valueGP) {
-							var measurement_group_id = valueGP['id'];
-							if(parseInt(measurementGroupId) != parseInt(measurement_group_id)){
-								newGroupObjArr.push(valueGP);
-	 						}else{
-	 							var groupObject = {};
-	 							groupObject['id'] = valueGP['id'];
-	 							groupObject['name'] = valueGP['name'];
-	 							groupObject['status'] = valueGP['status'];
-	 							groupObject['measurement_type_id'] = valueGP['measurement_type_id'];
-	 							groupObject['created_at'] = valueGP['created_at'];
-	 							groupObject['updated_at'] = valueGP['updated_at'];
-	 							var needToDeleteArrayObject = [];
-	 							jQuery.each(value['measurements'], function(indexObj,valueObj){
-	 								if(parseInt(measurementId) != parseInt(valueObj['id'])){
-	 									var measuObject = new Object();
-	 									measuObject = valueObj;
-	 									needToDeleteArrayObject.push(measuObject);
-	 								}
-	 							});
-	 							groupObject['measurements'] = needToDeleteArrayObject;
-	 							newGroupObjArr.push(groupObject);
-	 						}
-						});
-						var groupJSONObj = JSON.stringify(newGroupObjArr);
-						tx.executeSql("UPDATE measurement_details SET update_timestamp='"+update_timestamp+"', group_data='"+groupJSONObj+"' WHERE server_measurement_id=" + measurementTypeId + "");
+		tx.executeSql('CREATE TABLE IF NOT EXISTS measurement_details (id integer primary key autoincrement, name text, server_measurement_id integer, status integer, update_timestamp text, group_data text)');
+		if(needToDeleteInJSonArrayMeasurements.length > 0){
+			jQuery.each(needToDeleteInJSonArrayMeasurements, function(index,value) {
+				var measurementTypeId = value['measType'];
+				var measurementGroupId = value['measGroup'];
+				var measurementId = value['measurementId'];
+				tx.executeSql('select * from measurement_details where server_measurement_id ='+measurementTypeId ,[],function(tx,results){
+					var len = 0;
+					len = results.rows.length;
+					if(len > 0){
+						var local_DB_group_data = results.rows.item(0)['group_data'];
+						var newGroupObjArr = [];
+						if(local_DB_group_data != ''){
+							var groupObj = jQuery.parseJSON(local_DB_group_data);
+							jQuery.each(groupObj, function(indexGP,valueGP) {
+								var measurement_group_id = valueGP['id'];
+								if(parseInt(measurementGroupId) != parseInt(measurement_group_id)){
+									newGroupObjArr.push(valueGP);
+		 						}else{
+		 							var groupObject = {};
+		 							groupObject['id'] = valueGP['id'];
+		 							groupObject['name'] = valueGP['name'];
+		 							groupObject['status'] = valueGP['status'];
+		 							groupObject['measurement_type_id'] = valueGP['measurement_type_id'];
+		 							groupObject['created_at'] = valueGP['created_at'];
+		 							groupObject['updated_at'] = valueGP['updated_at'];
+		 							var needToDeleteArrayObject = [];
+		 							jQuery.each(value['measurements'], function(indexObj,valueObj){
+		 								if(parseInt(measurementId) != parseInt(valueObj['id'])){
+		 									var measuObject = new Object();
+		 									measuObject = valueObj;
+		 									needToDeleteArrayObject.push(measuObject);
+		 								}
+		 							});
+		 							groupObject['measurements'] = needToDeleteArrayObject;
+		 							newGroupObjArr.push(groupObject);
+		 						}
+							});
+							var groupJSONObj = JSON.stringify(newGroupObjArr);
+							tx.executeSql("UPDATE measurement_details SET update_timestamp='"+update_timestamp+"', group_data='"+groupJSONObj+"' WHERE server_measurement_id=" + measurementTypeId + "");
+						}
 					}
-				}
+				});
 			});
-		});
+		}
 	}, errorCBDelRecdsMeasurementsFn, successCBDelRecdsMeasurementsFn);
 }
 
