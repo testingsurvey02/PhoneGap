@@ -2034,7 +2034,7 @@ function deleteRecordsFromMeasurements(){
 					if(len > 0 && len != undefined){
 						var local_DB_group_data = results.rows.item(0)['group_data'];
 						var newGroupObjArr = [];
-						if(local_DB_group_data != ''){
+						if(local_DB_group_data != '' && local_DB_group_data != undefined){
 							var groupObj = jQuery.parseJSON(local_DB_group_data);
 							jQuery.each(groupObj, function(indexGP,valueGP) {
 								var measurement_group_id = valueGP['id'];
@@ -2049,9 +2049,9 @@ function deleteRecordsFromMeasurements(){
 		 							groupObject['created_at'] = valueGP['created_at'];
 		 							groupObject['updated_at'] = valueGP['updated_at'];
 		 							var needToDeleteArrayObject = [];
-		 							console.log("value['measurements'] : "+value['measurements']);
-		 							if(value['measurements'] != '' && value['measurements'] != undefined){
-		 								jQuery.each(value['measurements'], function(indexObj,valueObj){
+		 							console.log("valueGP['measurements'] : "+valueGP['measurements']);
+		 							if(valueGP['measurements'] != '' && valueGP['measurements'] != undefined){
+		 								jQuery.each(valueGP['measurements'], function(indexObj,valueObj){
 			 								if(parseInt(measurementId) != parseInt(valueObj['id'])){
 			 									var measuObject = new Object();
 			 									measuObject = valueObj;
