@@ -2004,11 +2004,12 @@ function successCBDelRecdsMeasGroupFn(){
 function deleteRecordsFromMeasurements(){
 	var currDateTimestamp=dateTimestamp();
 	var update_timestamp = currDateTimestamp;
-	jQuery.each(needToDeleteInJSonArrayMeasurements, function(index,value) {
-		var measurementTypeId = value['measType'];
-		var measurementGroupId = value['measGroup'];
-		var measurementId = value['measurementId'];
-		db.transaction(	function (tx){
+	db.transaction(	function (tx){
+		jQuery.each(needToDeleteInJSonArrayMeasurements, function(index,value) {
+			var measurementTypeId = value['measType'];
+			var measurementGroupId = value['measGroup'];
+			var measurementId = value['measurementId'];
+			tx.executeSql('CREATE TABLE IF NOT EXISTS measurement_details (id integer primary key autoincrement, name text, server_measurement_id integer, status integer, update_timestamp text, group_data text)');
 			tx.executeSql('select * from measurement_details where server_measurement_id ='+measurementTypeId ,[],function(tx,results){
 				var len = 0;
 				len = results.rows.length;
@@ -2046,8 +2047,8 @@ function deleteRecordsFromMeasurements(){
 					}
 				}
 			});
-		}, errorCBDelRecdsMeasurementsFn, successCBDelRecdsMeasurementsFn);
-	});
+		});
+	}, errorCBDelRecdsMeasurementsFn, successCBDelRecdsMeasurementsFn);
 }
 
 function errorCBDelRecdsMeasurementsFn(err){
