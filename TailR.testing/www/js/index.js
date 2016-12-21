@@ -2018,6 +2018,7 @@ function deleteRecordsFromMeasurements(){
 				var measurementTypeId = value['measType'];
 				var measurementGroupId = value['measGroup'];
 				var measurementId = value['measurementId'];
+				console.log('measurementTypeId :'+measurementTypeId + " measurementGroupId : "+measurementGroupId + " measurementId :"+measurementId);
 				tx.executeSql('select * from measurement_details where server_measurement_id ='+measurementTypeId ,[],function(tx,results){
 					var len = 0;
 					len = results.rows.length;
