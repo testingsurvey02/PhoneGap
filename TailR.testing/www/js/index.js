@@ -2013,6 +2013,7 @@ function deleteRecordsFromMeasurements(){
 	var update_timestamp = currDateTimestamp;
 	db.transaction(	function (tx){
 		tx.executeSql('CREATE TABLE IF NOT EXISTS measurement_details (id integer primary key autoincrement, name text, server_measurement_id integer, status integer, update_timestamp text, group_data text)');
+		console.log('needToDeleteInJSonArrayMeasurements.length : '+needToDeleteInJSonArrayMeasurements.length);
 		if(needToDeleteInJSonArrayMeasurements.length > 0){
 			jQuery.each(needToDeleteInJSonArrayMeasurements, function(index,value) {
 				var measurementTypeId = value['measType'];
