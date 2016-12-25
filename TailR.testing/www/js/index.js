@@ -2873,7 +2873,7 @@ function successCBUpdateCustomerSyncDB(){
 			var server_cat_id=jsonObj["server_cat_id"];
 			var name=jsonObj["name"];
 			var children=jsonObj["children"];
-			var uniqueId = name+'_'+server_cat_id;
+			var uniqueId = 'parent_'+server_cat_id;
 			categoryDiv+='<li class="" data-submenuid="'+uniqueId
 					+'" data-cat_id="'+server_cat_id+'" data-lid="'+primaryCKeyId
 					+'" data-isparent="0" onclick="menuCategoryOne(this);"> <a href="#">'+name+'</a> </li>';
