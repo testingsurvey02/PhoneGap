@@ -2867,7 +2867,7 @@ function successCBUpdateCustomerSyncDB(){
 		$('#newOrderId').val('');
 		$('#customerIdInput').val('');
 		jQuery.each(catArrData, function(index,value) {
-			console.log('subCategoryDiv : '+catArrData);
+			//console.log('subCategoryDiv : '+catArrData); // For Testing
 			var jsonObj=value;
 			var primaryCKeyId=jsonObj["id"];
 			var server_cat_id=jsonObj["server_cat_id"];
@@ -2877,11 +2877,11 @@ function successCBUpdateCustomerSyncDB(){
 			categoryDiv+='<li class="" data-submenuid="'+uniqueId
 					+'" data-cat_id="'+server_cat_id+'" data-lid="'+primaryCKeyId
 					+'" data-isparent="0" onclick="menuCategoryOne(this);"> <a href="#">'+name+'</a> </li>';
-			if(children != 0){
+			//if(children != 0){
 				var subCategoryTempDiv="";
 				var isExist = false;
 				jQuery.each(subCatArrData, function(indexObj,valueObj) {
-					console.log('subCatArrData : '+subCatArrData);
+					//console.log('subCatArrData : '+subCatArrData); // For Testing
 					var childJsonObj = valueObj;
 					var child_parent_id = childJsonObj["parent_id"];
 					var primarySCKeyId = childJsonObj["id"];
@@ -2905,7 +2905,7 @@ function successCBUpdateCustomerSyncDB(){
 					subCategoryTempDiv = subCategoryDivFirst + subCategoryTempDiv + '</ul></div>';
 				}
 				subCategoryDiv += subCategoryTempDiv;
-			}
+			//}
 		});
 		categoryDiv+='<li class="float-right "><a href="#aboutUs-page">Home Page</a></li>';
 		categoryDiv+='<li class="float-right" onclick="orderPageHtmlButton();"> <a href="#"> Order Report </a> </li>';
@@ -3044,7 +3044,7 @@ function successCBUpdateCustomerSyncDB(){
 							window.resolveLocalFileSystemURL(
 									galleryArraysImgUrlTemp,// File Url 
 									function fileExist(fileEntry) { // Exist Success CB
-										console.log('File Exist');
+										console.log('File Exist'); // For Testing
 										
 										var id = folder+gallery_id;
 										
@@ -3089,8 +3089,8 @@ function successCBUpdateCustomerSyncDB(){
 			var categoryObj = '';
 			galleryObj = jQuery.parseJSON(jsonObj['gallery']);
 			categoryObj = jQuery.parseJSON(jsonObj['category']);
-			console.log('galleryObj '+galleryObj);
-			console.log('galleryObj '+galleryObj);
+			//console.log('galleryObj '+galleryObj); // For Testing
+			//console.log('galleryObj '+galleryObj);
 			if(jsonObj['category'] != ''){
 				jQuery.each(categoryObj, function(indexCat, valueCat){
 					if(jsonObj['gallery'] != ''){
@@ -3155,11 +3155,11 @@ function successCBUpdateCustomerSyncDB(){
 		var prodName = $(currentData).data('prod_name');
 		var categoryId = $(currentData).data('cat_id');
 		var productId = $(currentData).data('prod_id');
-		console.log('gallCurrId : ' +gallCurrId);
-		console.log('pro_index : ' +pro_index);
-		console.log('prodName : ' +prodName);
-		console.log('categoryId : ' +categoryId);
-		console.log('productId : ' +productId);
+		//console.log('gallCurrId : ' +gallCurrId); // For Testing
+		//console.log('pro_index : ' +pro_index); // For Testing
+		//console.log('prodName : ' +prodName); // For Testing
+		//console.log('categoryId : ' +categoryId); // For Testing
+		//console.log('productId : ' +productId); // For Testing
 		$('#prodHtmlName').val(prodName);
 		$('#prodHtmlId').val(productId);
 		$('#categoryHtmlId').val(categoryId);
@@ -3175,7 +3175,7 @@ function successCBUpdateCustomerSyncDB(){
 			var jsonObj = value;
 			var local_db_id = jsonObj["id"];
 			var server_prod_id = jsonObj["server_prod_id"];
-			console.log('server_prod_id : '+server_prod_id);
+			//console.log('server_prod_id : '+server_prod_id); // For Testing
 			var prod_name = jsonObj["prod_name"];
 			var prod_description = jsonObj["prod_description"];
 			var galleryArr = jQuery.parseJSON(jsonObj.gallery);
@@ -3285,7 +3285,7 @@ function successCBUpdateCustomerSyncDB(){
 	
 	function downloadAttrOptionImages(attrDetailsArrSession){
 		var folder = 'attributes';
-		console.log('attributes downloadAttrOptionImages ');
+		//console.log('attributes downloadAttrOptionImages '); // For Testing
 		jQuery.each(attrDetailsArrSession, function(index,value) {
 			if(value['option'] != ''){
 				var optionObj = jQuery.parseJSON(value['option']);
@@ -3300,7 +3300,7 @@ function successCBUpdateCustomerSyncDB(){
 				});
 			}
 		});
-		console.log('attributes downloadAttrOptionImages END : ');
+		//console.log('attributes downloadAttrOptionImages END : '); // For Testing
 	}
 	
 	var downAttrOptFileTotal=0, attrOptAlreadyExistCount=0, attrOptInProgCount=0;
@@ -3310,7 +3310,7 @@ function successCBUpdateCustomerSyncDB(){
 		if(connectionType=="WiFi connection" || connectionType=="Cell 4G connection" || connectionType=="Cell 3G connection" || connectionType=="Cell 2G connection"){
 			if(needUpdate){
 				var folder = 'attributes';
-				console.log('attributes downloadAttrOptionImages ');
+				//console.log('attributes downloadAttrOptionImages '); // For Testing
 				
 				var productId = $(thisData).data('prod_id');
 				// ProductAttributeIdsArray Init
@@ -3363,7 +3363,7 @@ function successCBUpdateCustomerSyncDB(){
 											window.resolveLocalFileSystemURL(
 												optionArraysImgUrlTemp,// File Url 
 												function fileExist(fileEntry) { // Exist Success CB
-													console.log('File Exist');
+													//console.log('File Exist'); // For Testing
 													attrOptAlreadyExistCount=attrOptAlreadyExistCount+1;
 													
 													var id = folder+optionId;
@@ -3375,7 +3375,7 @@ function successCBUpdateCustomerSyncDB(){
 											    	updateProgress(100, id);
 												}, 
 												function fileNotExist(e) { // Not Exist Success CB
-													console.log("File not exist");
+													//console.log("File not exist"); // For Testing
 													console.dir(e);
 													
 													attrOptInProgCount=attrOptInProgCount+1;
@@ -3401,7 +3401,7 @@ function successCBUpdateCustomerSyncDB(){
 					}
 					prodCountTemp = parseInt(prodCountTemp)+1;
 				});
-				console.log('attributes downloadAttrOptionImages END : ');
+				//console.log('attributes downloadAttrOptionImages END : '); // For Testing
 				if(parseInt(prodCountTemp) == parseInt(productDetailsArrSession.length)){
 					goToAttributeDiv(thisData);
 				}
@@ -3434,7 +3434,7 @@ function successCBUpdateCustomerSyncDB(){
 						if(value1 == server_attr_id){
 							attriOptionExist = true;
 							var optionObj = jQuery.parseJSON(option);
-							console.log('Attr Id ------------------------ '+server_attr_id);
+							//console.log('Attr Id ------------------------ '+server_attr_id); // For Testing
 							var tempAttrDiv = '<li class="selMenu-bar subMen_attrId'+server_attr_id+' main_attr_ind'+attributeForNextIndex+'" data-main_attind="'+attributeForNextIndex+'" data-cat_id="'+catId+'" data-prod_id="'+prodId+'" data-attrid="'+server_attr_id+'" data-lid="'+attrId+'"><a href="#" onclick="getOptionByAttrId(this);" data-main_attinda="'+attributeForNextIndex+'" data-attri_id="'+server_attr_id+'">'+attr_name+'</a></li>';
 							if(attributeDiv == ''){
 								attrTempId = server_attr_id;
@@ -3550,7 +3550,7 @@ function successCBUpdateCustomerSyncDB(){
 		var attrId = $('.main_attr_ind'+index).data('attrid');
 		$('.galleryTag').hide();
 		$('.attributeTag').show();
-		console.log('attrId  : '+attrId);
+		//console.log('attrId  : '+attrId); // For Testing
 		$('.attr-option-div .optMenu-bar').hide();
 		$('.attrOpt'+attrId).show();
 		$('.selection-menu').find('ul li').removeClass("active").find('a').removeClass("active");
@@ -3570,7 +3570,7 @@ function successCBUpdateCustomerSyncDB(){
 		$('.back-button').removeAttr('disabled');
 		if(parseInt(index) <= parseInt(attributeForNextIndex)){
 			var attrId = $('.main_attr_ind'+index).data('attrid');
-			console.log('attrId  : '+attrId);
+			//console.log('attrId  : '+attrId); // For Testing
 			$('.attr-option-div .optMenu-bar').hide();
 			$('.attrOpt'+attrId).show();
 			$('.selection-menu').find('ul li').removeClass("active").find('a').removeClass("active");
@@ -3667,7 +3667,7 @@ function successCBUpdateCustomerSyncDB(){
 		$("#customerConfirmationPageId .customerFieldsToAppendSelected .optMenu-bar").show();
 		
 		var $attrIndex = $(thisData).data('attrindex');
-		console.log('$attrIndex ' +$attrIndex);
+		//console.log('$attrIndex ' +$attrIndex); // For Testing
 		
 		
 		
@@ -3886,9 +3886,9 @@ function successCBUpdateCustomerSyncDB(){
 								var measPriKeyForField = measurementsValue['id'];
 								var groupFieldsName = '<tr><td class="measure-inputField">'+measNameForField+'</td>'
 									+'<td class="measure-inputField">';
-								console.log(measurementTypeDiv);
+								//console.log(measurementTypeDiv); // For Testing
 								if(parseInt(measurementTypeDiv) != 0){
-									console.log(measurementTypeDiv);
+									//console.log(measurementTypeDiv); // For Testing
 									groupFieldsName += '<div class="ui-input-text ui-body-inherit ui-corner-all ui-shadow-inset">';
 								}
 								groupFieldsName +='<input type="number" class="form-control meas-ind'+i+'" data-meas_name="'+measNameForField+'" data-meas_pkid="'+measPriKeyForField+'" id="measField'+measPriKeyForField+'"'+'name="measField'+measPriKeyForField+'">';
@@ -3948,7 +3948,7 @@ function successCBUpdateCustomerSyncDB(){
 	}
 
 	function successCBTailorDetailsFn(data){
-		console.log(data);
+		//console.log(data); // For Testing
 		var responseJson = $.parseJSON(JSON.stringify(data));
 		
 		tailorDetailsJsonData = responseJson["result"];
@@ -3982,7 +3982,7 @@ function successCBUpdateCustomerSyncDB(){
 		$('#mainPageId .product-list').find('.galleriesClass').hide();
 		if(connectionType=="WiFi connection" || connectionType=="Cell 4G connection" || connectionType=="Cell 3G connection" || connectionType=="Cell 2G connection"){
 			if(!productImagesDownload){
-				console.log('Testing : '+window.localStorage["productimgflag"]);
+				//console.log('Testing : '+window.localStorage["productimgflag"]); // For Testing
 				if(window.localStorage["productimgflag"]!=2){
 					if(needUpdate){
 						downloadImagesOfProduct(productDetailsArrSession);
@@ -3996,7 +3996,7 @@ function successCBUpdateCustomerSyncDB(){
 		}
 		var cateChildName = $('.firstSubCat'+cateId).data('cat_name');
 		var cateChildId = $('.firstSubCat'+cateId).data('cat_id');
-		console.log();
+		//console.log();
 		//mainGalleryFn(object);
 		mainGalleryFnByParentCat(cateId, cateChildId, cateChildName);
 	}
@@ -4207,16 +4207,16 @@ function successCBUpdateCustomerSyncDB(){
 				var server_prod_id = value['server_prod_id'];
 				var cat_name = value['cat_name'];
 				var order_data = value['order_data'];
-				console.log('order_data --------- '+order_data);
+				//console.log('order_data --------- '+order_data); // For Testing
 				var server_prod_name = value['server_prod_name'];
 				var update_timestamp = value['update_timestamp'];
 				var status_of_order = value['status_of_order'];
 				var option_selected = value['option_selected'];
-				console.log('option_selected --------- '+option_selected);
+				//console.log('option_selected --------- '+option_selected); // For Testing
 				var sync_date_order = value['sync_date'];
 				var sync_status_order = value['sync_status'];
-				console.log('sync_date_order  ' +sync_date_order);
-				console.log('sync_status_order ' +sync_status_order);
+				//console.log('sync_date_order  ' +sync_date_order); // For Testing
+				//console.log('sync_status_order ' +sync_status_order); // For Testing
 				var order_server_id = value['order_server_id'];
 				//console.log($.parseJSON(option_selected));
 				//console.log(JSON.stringify(option_selected));
@@ -4242,8 +4242,8 @@ function successCBUpdateCustomerSyncDB(){
 						emailId = valueObj['email_id'];
 						sync_date_customer = valueObj['sync_date'];
 						sync_status_customer = valueObj['sync_status'];
-						console.log('sync_date_customer  ' +sync_date_customer);
-						console.log('sync_status_customer ' +sync_status_customer);
+						//console.log('sync_date_customer  ' +sync_date_customer); // For Testing
+						//console.log('sync_status_customer ' +sync_status_customer); // For Testing
 						tableRow += '<td>'+customerName+'</td>';
 						tableRow += '<td>'+contactNumber+'</td>';
 						customerExist = true;
@@ -4257,7 +4257,7 @@ function successCBUpdateCustomerSyncDB(){
 				tableRow += '<td> '+arr[0]+' </td>';
 				tableRow += '<td> '+status_of_order+' </td>';
 				tableRow += '<td> <button type="button" class="btn btn-primary st-bg-baby-pink ui-btn ui-shadow ui-corner-all" onclick="viewOrderDetailsByOrderId( ' + order_id + ' );">Edit</button> </td></tr>';
-				console.log('Index file Calling server to send data Order customer.');
+				//console.log('Index file Calling server to send data Order customer.'); // For Testing
 				connectionType=checkConnection();
 				if(testingInBrowser){
 					connectionType = 'abcde';
@@ -4279,14 +4279,14 @@ function successCBUpdateCustomerSyncDB(){
 							//dataToSendCustomer["sync_status"] = sync_status_customer;
 							
 							if(sync_date_customer == '' && parseInt(sync_status_customer) == 0){
-								console.log('dataToSendCustomer status 0 --- '+dataToSendCustomer);
+								//console.log('dataToSendCustomer status 0 --- '+dataToSendCustomer); // For Testing
 								sendCustomerDataToSaveInServer.push(dataToSendCustomer);
-								console.log(JSON.stringify(sendCustomerDataToSaveInServer))
+								//console.log(JSON.stringify(sendCustomerDataToSaveInServer)) // For Testing
 							}else{
-								console.log('dataToSendCustomer status 2 --- '+dataToSendCustomer);
+								//console.log('dataToSendCustomer status 2 --- '+dataToSendCustomer); // For Testing
 								dataToSendCustomer["id"] = customer_server_id;
 								sendCustomerDataToUpdateInServer.push(dataToSendCustomer);
-								console.log(JSON.stringify(sendCustomerDataToUpdateInServer))
+								//console.log(JSON.stringify(sendCustomerDataToUpdateInServer)) // For Testing
 							}
 						}
 						if(sync_status_order != 1){
@@ -4304,14 +4304,14 @@ function successCBUpdateCustomerSyncDB(){
 							dataToSendOrder["sync_status"] = sync_status_order;
 							
 							if(sync_date_order == '' && parseInt(sync_status_order) == 0){
-								console.log('dataToSendOrder status 0  --- '+dataToSendOrder);
+								//console.log('dataToSendOrder status 0  --- '+dataToSendOrder); // For Testing
 								sendOrderDataToSaveInServer.push(dataToSendOrder);
-								console.log(JSON.stringify(sendOrderDataToSaveInServer))
+								//console.log(JSON.stringify(sendOrderDataToSaveInServer)) // For Testing
 							}else{
-								console.log('dataToSendOrder status 2  --- '+dataToSendOrder);
+								//console.log('dataToSendOrder status 2  --- '+dataToSendOrder); // For Testing
 								dataToSendOrder["id"] = order_server_id;
 								sendOrderDataToUpdateInServer.push(dataToSendOrder);
-								console.log(JSON.stringify(sendOrderDataToUpdateInServer))
+								//console.log(JSON.stringify(sendOrderDataToUpdateInServer)) // For Testing
 							}
 							//sendOrderDataToServer.push(dataToSendOrder);
 						}
@@ -4399,7 +4399,7 @@ function successCBUpdateCustomerSyncDB(){
 			}
 		}*/
 		gotoOrderPageDiv();
-		console.log(connectionType);
+		//console.log(connectionType); // For Testing
 		if(connectionType=="WiFi connection" || connectionType=="Cell 4G connection" || connectionType=="Cell 5G connection" || connectionType=="Cell 3G connection" || connectionType=="Cell 2G connection"){
 			sendDataToServer();
 			callServerToSaveCustDetailsIndex = 0;
@@ -4411,10 +4411,10 @@ function successCBUpdateCustomerSyncDB(){
 	}
 	
 	function viewOrderDetailsByOrderId(ordId){
-		console.log('viewOrderDetailsByOrderId --- ' +ordId);
+		//console.log('viewOrderDetailsByOrderId --- ' +ordId); // For Testing
 		db.transaction(function(tx) {
 			tx.executeSql('select * from order_details where id = '+ordId, [], function(tx, results) {
-				console.log('viewOrderDetailsByOrderId --- ' +ordId);
+				//console.log('viewOrderDetailsByOrderId --- ' +ordId); // For Testing
 				var jsonOrderDataObj={};
 				var order_id = results.rows.item(0)['id'];
 				//console.log('viewOrderDetailsByOrderId --- ' +order_id);
@@ -4431,7 +4431,7 @@ function successCBUpdateCustomerSyncDB(){
 				var customerOrdId = results.rows.item(0)['customer_id'];
 				//console.log('viewOrderDetailsByOrderId --- ' +customerOrdId);
 				var orderStatusOfPurchase = results.rows.item(0)['status_of_order'];
-				console.log('viewOrderDetailsByOrderId --- ' +orderStatusOfPurchase);
+				//console.log('viewOrderDetailsByOrderId --- ' +orderStatusOfPurchase); // For Testing
 				var optionSelectedOrder = results.rows.item(0)['option_selected'];
 				//console.log('viewOrderDetailsByOrderId --- ' +optionSelectedOrder);
 				$('#productNameToView').text(prodOrdName);
@@ -4598,12 +4598,12 @@ function successCBUpdateCustomerSyncDB(){
 					childObject.measPKId = measPKId;
 					childObject.measName = measName;
 					childObject.inputValue = inputValue;
-					console.log('measPKId : '+measPKId + ' measName : '+measName + 'inputValue : '+inputValue);
+					//console.log('measPKId : '+measPKId + ' measName : '+measName + 'inputValue : '+inputValue); // For Testing
 					arrObject.push(childObject);
 				}
 			}
 			updateMeasurementData = arrObject;
-			console.log('updateMeasurementData : '+JSON.stringify(updateMeasurementData));
+			//console.log('updateMeasurementData : '+JSON.stringify(updateMeasurementData)); // For Testing
 			orderDetailsJson['measurementData'] = updateMeasurementData;
 		}
 		
@@ -4673,8 +4673,8 @@ function successCBUpdateCustomerSyncDB(){
 		dataToSend["secret_key"] = tailorDetailsSession.secret_key;
 		dataToSend["tailor_id"] = tailorDetailsSession.tailor_details_id;
 		dataToSend["customers"] = JSON.stringify(sendCustomerDataToSaveInServer);
-		console.log(sendCustomerDataToSaveInServer);
-		console.log(dataToSend);
+		//console.log(sendCustomerDataToSaveInServer); // For Testing
+		//console.log(dataToSend); // For Testing
 		var appurltemps="http://tailorapp.tailorrani.com/api/customers/storejson"
 		connectionType=checkConnection();
 		if(connectionType=="Unknown connection" || connectionType=="No network connection"){
@@ -4695,7 +4695,7 @@ function successCBUpdateCustomerSyncDB(){
 	}
 	
 	function successCBCustomerDetailsSaveFn(data){
-		console.log(data);
+		//console.log(data); // For Testing
 		var responseJson = $.parseJSON(JSON.stringify(data));
 		
 		updateCustomerDetailsForSavedData = responseJson;
@@ -4759,7 +4759,7 @@ function successCBUpdateCustomerSyncDB(){
 	}
 	
 	function successCBCustomerDetailsUpdateFn(data){
-		console.log(data);
+		//console.log(data); // For Testing
 		var responseJson = $.parseJSON(JSON.stringify(data));
 		
 		updateCustomerDetailsForUpdatedData = responseJson;
@@ -4778,13 +4778,13 @@ function successCBUpdateCustomerSyncDB(){
 	}
 	
 	function successCBCustomerDetailsLBSaveFn(){
-		console.log('successCBCustomerDetailsLBSaveFn');
+		//console.log('successCBCustomerDetailsLBSaveFn'); // For Testing
 		sendCustomerDataToSaveInServer = [];
 		sendDataToServer();
 	}
 	
 	function successCBCustomerDetailsLBUpdateFn(){
-		console.log('successCBCustomerDetailsLBUpdateFn');
+		//console.log('successCBCustomerDetailsLBUpdateFn');  // For Testing
 		sendCustomerDataToUpdateInServer = [];
 		sendDataToServer();
 	}
@@ -4816,7 +4816,7 @@ function successCBUpdateCustomerSyncDB(){
 		dataToSend["secret_key"] = tailorDetailsSession.secret_key;
 		dataToSend["tailor_id"] = tailorDetailsSession.tailor_details_id;
 		dataToSend["orders"] = JSON.stringify(sendOrderDataToSaveInServer);
-		console.log(dataToSend);
+		//console.log(dataToSend); // For Testing
 		var appurltemps="http://tailorapp.tailorrani.com/api/orders/storejson"
 		connectionType=checkConnection();
 		if(connectionType=="Unknown connection" || connectionType=="No network connection"){
@@ -4837,7 +4837,7 @@ function successCBUpdateCustomerSyncDB(){
 	}
 	
 	function successCBOrderDetailsSaveFn(data){
-		console.log(data);
+		//console.log(data); // For Testing
 		var responseJson = $.parseJSON(JSON.stringify(data));
 		
 		updateOrderDetailsForSavedData = responseJson;
@@ -4912,8 +4912,8 @@ function successCBUpdateCustomerSyncDB(){
     	dataToSend["secret_key"] = tailorDetailsSession.secret_key;
 		dataToSend["tailor_id"] = tailorDetailsSession.tailor_details_id;
 		dataToSend["orders"] = JSON.stringify(sendOrderDataToUpdateInServer);
-		console.log('sendOrderDetailsToUpdateInServer data '+sendOrderDataToUpdateInServer);
-		console.log('dataToSend Order '+JSON.stringify(dataToSend));
+		//console.log('sendOrderDetailsToUpdateInServer data '+sendOrderDataToUpdateInServer); // For Testing
+		//console.log('dataToSend Order '+JSON.stringify(dataToSend)); // For Testing
 		
 		/*dataToSend["customer_id"] = $('#customerIdInput').val();
 		dataToSend["order_id"] = $('#newOrderId').val();
@@ -4942,7 +4942,7 @@ function successCBUpdateCustomerSyncDB(){
 	}
 	
 	function successCBOrderDetailsUpdatedFn(data){
-		console.log(data);
+		//console.log(data); // For Testing
 		var responseJson = $.parseJSON(JSON.stringify(data));
 		
 		updateOrderDetailsForUpdatedData = responseJson;
