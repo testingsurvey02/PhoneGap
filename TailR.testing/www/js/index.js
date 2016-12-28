@@ -3047,9 +3047,9 @@ function successCBUpdateCustomerSyncDB(){
 								if(productImageIndex< index){
 									productImageIndex = index;
 								}
-								if(productGalleryImageIndex > (galleryObj.length)-1){
+								/*if(productGalleryImageIndex > (galleryObj.length)-1){
 									productGalleryImageIndex = 0;
-								}					
+								}	*/				
 								if(parseInt(productGalleryImageIndex) == parseInt(indexObj)){
 									totalProductImages = parseInt(totalProductImages) + 1;
 									var galleryArrObject = new Array();
@@ -5151,10 +5151,10 @@ function successCBUpdateCustomerSyncDB(){
 			console.log("download toURL: " + entry.toURL());
 			if(folderPath == 'gallery'){
 				console.log('productGalleryImageIndex : '+productGalleryImageIndex);
-				console.log('galleryIndexLength : '+galleryIndexLength);
+				console.log('prodImgCountInProg : '+prodImgCountInProg);
 				console.log('productImageIndex : '+productImageIndex);
 				console.log('productDetailsArrSession : '+productDetailsArrSession.length);
-        		if(parseInt(productGalleryImageIndex) == parseInt((galleryIndexLength)-1) && parseInt(productImageIndex) == parseInt((productDetailsArrSession.length) - 1)){
+        		if(parseInt(productGalleryImageIndex) == parseInt((prodImgCountInProg)-1) && parseInt(productImageIndex) == parseInt((productDetailsArrSession.length) - 1)){
 					gotoProductPage();
 				}else{
 					productGalleryImageIndex++;
