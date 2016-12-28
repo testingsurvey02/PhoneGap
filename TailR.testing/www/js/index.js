@@ -3048,7 +3048,7 @@ function successCBUpdateCustomerSyncDB(){
 								if(productGalleryImageIndex > (galleryObj.length)-1){
 									productGalleryImageIndex = 0;
 								}					
-								if(productGalleryImageIndex == indexObj){
+								if(parseInt(productGalleryImageIndex) == parseInt(indexObj)){
 									totalProductImages = parseInt(totalProductImages) + 1;
 									var galleryArrObject = new Array();
 									var gallery_id = valueObj['id'];
