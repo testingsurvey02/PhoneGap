@@ -5147,14 +5147,14 @@ function successCBUpdateCustomerSyncDB(){
 				function (entry) {
 			//localPath = entry.toURL();
 			console.log("download toURL: " + entry.toURL());
-			if(folderPath == 'gallery'){
+			/*if(folderPath == 'gallery'){
 				productGalleryImageIndex++;
 				if(productGalleryImageIndex == (galleryObj.length)-1 && productImageIndex == (productDetailsArrSession.length) - 1){
 					gotoProductPage();
 				}else{
 					redownloadProductImages();
 				}
-			}
+			}*/
 			//updateProgress(100, id);
 			/* $('#remove'+File_Name).remove();
 			if($('#progressBarDiv > div' ).lenght==0){
@@ -5194,8 +5194,12 @@ function successCBUpdateCustomerSyncDB(){
 		        updateProgress(now / 100, id);
 		        if(now/100 == 100){
 		        	if(folderPath == 'gallery'){
-		        		productGalleryImageIndex++;
-		        		redownloadProductImages();
+		        		if(productGalleryImageIndex == (galleryObj.length)-1 && productImageIndex == (productDetailsArrSession.length) - 1){
+							gotoProductPage();
+						}else{
+							productGalleryImageIndex++;
+							redownloadProductImages();
+						}
 		        	}
 		        }
 		        this.pre = now;
