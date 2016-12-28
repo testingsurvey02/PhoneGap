@@ -3080,6 +3080,7 @@ function successCBUpdateCustomerSyncDB(){
 											productGalleryImageIndex = indexObj;
 											productImageIndex = index;
 											isGalleryCalledBreak = true;
+											return false;
 										}
 									);
 								}
