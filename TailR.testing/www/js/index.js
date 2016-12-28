@@ -3026,7 +3026,6 @@ function successCBUpdateCustomerSyncDB(){
 		var i = 0;
 		var folder = 'gallery';
 		jQuery.each(prodArrDataToDownload, function(index,value) {
-			productImageIndex ++;
 			var jsonObj=value;
 			var galleryObj = '';
 			galleryObj = jQuery.parseJSON(jsonObj['gallery']);
@@ -3044,14 +3043,14 @@ function successCBUpdateCustomerSyncDB(){
 						galleryIndexLength = galleryObj.length;
 						var downloadImagesDiv = '';
 						jQuery.each(galleryObj , function(indexObj,valueObj) {
-							/*if(index >= productImageIndex){
+							if(index >= productImageIndex){
 								if(productImageIndex< index){
 									productImageIndex = index;
-								}*/
+								}
 								/*if(productGalleryImageIndex > (galleryObj.length)-1){
 									productGalleryImageIndex = 0;
 								}	*/				
-								//if(parseInt(productGalleryImageIndex) == parseInt(indexObj)){
+								if(parseInt(productGalleryImageIndex) == parseInt(indexObj)){
 									totalProductImages = parseInt(totalProductImages) + 1;
 									var galleryArrObject = new Array();
 									var gallery_id = valueObj['id'];
@@ -3084,8 +3083,8 @@ function successCBUpdateCustomerSyncDB(){
 											//return false;
 										}
 									);
-								//}
-							//}
+								}
+							}
 							if(isGalleryCalledBreak == true){
 								return false;
 							}
@@ -5214,7 +5213,6 @@ function successCBUpdateCustomerSyncDB(){
 						}else{
 							console.log('downloading Images');
 							productGalleryImageIndex++;
-							
 							redownloadProductImages();
 						}
 		        		return false;
