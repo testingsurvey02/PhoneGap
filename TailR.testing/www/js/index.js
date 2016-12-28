@@ -5200,9 +5200,6 @@ function successCBUpdateCustomerSyncDB(){
 			    console.log(filePathDestination);
 			    console.log(id);
 			    
-			    console.log('Removed Div : -----'+id+'--- ' +$('#progressBarDiv').find('#remove'+id).html());
-		        $('#progressBarDiv').find('#remove'+id).remove();
-		       
 
 			    fileTransfer.download(
 			        uri,
@@ -5230,6 +5227,10 @@ function successCBUpdateCustomerSyncDB(){
 			        if (now - +this.pre > 17) {
 			            updateProgress(now / 100, id);
 			            this.pre = now;
+			            if(now/100 == 100){
+			            	console.log('Removed Div : -----'+id+'--- ' +$('#progressBarDiv').find('#remove'+id).html());
+					        $('#progressBarDiv').find('#remove'+id).remove();
+			            }
 			        }
 			    }
 		}
