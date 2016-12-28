@@ -3040,9 +3040,10 @@ function successCBUpdateCustomerSyncDB(){
 						if(prodImgCountInProg>0){
 							window.localStorage["productimgflag"]=1;
 						}
-						galleryIndexLength = galleryObj.length;
+						//galleryIndexLength = galleryObj.length;
 						var downloadImagesDiv = '';
 						jQuery.each(galleryObj , function(indexObj,valueObj) {
+							galleryIndexLength = parseInt(galleryIndexLength)+1;
 							if(index >= productImageIndex){
 								if(productImageIndex< index){
 									productImageIndex = index;
@@ -5204,11 +5205,11 @@ function successCBUpdateCustomerSyncDB(){
 		        updateProgress(now / 100, id);
 		        if(now/100 == 100){
 		        	if(folderPath == 'gallery'){
-						console.log('productGalleryImageIndex : '+productGalleryImageIndex);
+						console.log('galleryIndexLength : '+galleryIndexLength);
 						console.log('prodImgCountInProg : '+prodImgCountInProg);
 						console.log('productImageIndex : '+productImageIndex);
 						console.log('productDetailsArrSession : '+productDetailsArrSession.length);
-		        		if((parseInt(productGalleryImageIndex) == parseInt((prodImgCountInProg)-1)) && (parseInt(productImageIndex) == parseInt((productDetailsArrSession.length) - 1))){
+		        		if((parseInt(galleryIndexLength) == parseInt((prodImgCountInProg)-1)) && (parseInt(productImageIndex) == parseInt((productDetailsArrSession.length) - 1))){
 		        			alert('Download Completed');
 							gotoProductPage();
 						}else{
