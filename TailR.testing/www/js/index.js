@@ -5149,7 +5149,7 @@ function successCBUpdateCustomerSyncDB(){
 				function (entry) {
 			//localPath = entry.toURL();
 			console.log("download toURL: " + entry.toURL());
-			if(folderPath == 'gallery'){
+			/*if(folderPath == 'gallery'){
 				console.log('productGalleryImageIndex : '+productGalleryImageIndex);
 				console.log('prodImgCountInProg : '+prodImgCountInProg);
 				console.log('productImageIndex : '+productImageIndex);
@@ -5163,7 +5163,7 @@ function successCBUpdateCustomerSyncDB(){
 					redownloadProductImages();
 				}
         		
-        	}
+        	}*/
 			//updateProgress(100, id);
 			/* $('#remove'+File_Name).remove();
 			if($('#progressBarDiv > div' ).lenght==0){
@@ -5201,17 +5201,23 @@ function successCBUpdateCustomerSyncDB(){
 		    			+' Percentage : '+now/100+'%</div>';*/
 		    	console.log(now/100);
 		        updateProgress(now / 100, id);
-		       /* if(now/100 == 100){
+		        if(now/100 == 100){
 		        	if(folderPath == 'gallery'){
-		        		if(parseInt(productGalleryImageIndex) == parseInt((galleryIndexLength)-1) && parseInt(productImageIndex) == parseInt((productDetailsArrSession.length) - 1)){
+						console.log('productGalleryImageIndex : '+productGalleryImageIndex);
+						console.log('prodImgCountInProg : '+prodImgCountInProg);
+						console.log('productImageIndex : '+productImageIndex);
+						console.log('productDetailsArrSession : '+productDetailsArrSession.length);
+		        		if((parseInt(productGalleryImageIndex) == parseInt((prodImgCountInProg)-1)) && (parseInt(productImageIndex) == parseInt((productDetailsArrSession.length) - 1))){
+		        			alert('Download Completed');
 							gotoProductPage();
 						}else{
+							console.log('downloading Images');
 							productGalleryImageIndex++;
 							redownloadProductImages();
 						}
-		        		
+		        		return false;
 		        	}
-		        }*/
+		        }
 		        this.pre = now;
 		    }
 		}
