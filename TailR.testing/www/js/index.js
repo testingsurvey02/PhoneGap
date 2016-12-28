@@ -4083,7 +4083,8 @@ function successCBUpdateCustomerSyncDB(){
 				//console.log('Testing : '+window.localStorage["productimgflag"]); // For Testing
 				if(window.localStorage["productimgflag"]!=2){
 					if(needUpdate){
-						downloadImagesOfProduct(productDetailsArrSession);
+						//downloadImagesOfProduct(productDetailsArrSession);
+						setGalleryImageByForloop();
 					}else{
 						appendProdListDB(productDetailsArrSession);
 					}
