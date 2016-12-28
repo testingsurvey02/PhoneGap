@@ -5111,7 +5111,7 @@ function successCBUpdateCustomerSyncDB(){
 			
 			//var fp = rootdir.fullPath; // Returns Fulpath of local directory
 			folderAndPath = Folder_Name + '/' + File_Name;
-			folderPath = File_Name;
+			folderPath = Folder_Name;
 			var fileDataDirect = store + "/" + folderAndPath; // fullpath and name of the file which we want to give
 			uniqueId = Folder_Name+count;
 			// download function call
