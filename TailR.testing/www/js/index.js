@@ -5111,6 +5111,7 @@ function successCBUpdateCustomerSyncDB(){
 			
 			//var fp = rootdir.fullPath; // Returns Fulpath of local directory
 			folderAndPath = Folder_Name + '/' + File_Name;
+			folderPath = File_Name;
 			var fileDataDirect = store + "/" + folderAndPath; // fullpath and name of the file which we want to give
 			uniqueId = Folder_Name+count;
 			// download function call
@@ -5146,7 +5147,7 @@ function successCBUpdateCustomerSyncDB(){
 				function (entry) {
 			//localPath = entry.toURL();
 			console.log("download toURL: " + entry.toURL());
-			if(File_name == 'gallery'){
+			if(folderPath == 'gallery'){
 				productGalleryImageIndex++;
 	    		redownloadProductImages();
 			}
@@ -5188,7 +5189,7 @@ function successCBUpdateCustomerSyncDB(){
 		    	console.log(now/100);
 		        updateProgress(now / 100, id);
 		        if(now/100 == 100){
-		        	if(File_Name == 'gallery'){
+		        	if(folderPath == 'gallery'){
 		        		productGalleryImageIndex++;
 		        		redownloadProductImages();
 		        	}
