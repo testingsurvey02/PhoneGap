@@ -5159,7 +5159,9 @@ function successCBUpdateCustomerSyncDB(){
 		    			+' Percentage : '+now/100+'%</div>';*/
 		    	
 		        updateProgress(now / 100, id);
-		        $('#progressBarDiv #'+removeProgressId).remove();
+		        console.log('Removed Div : ----- ' $('#progressBarDiv').find('#'+removeProgressId).html());
+		        $('#progressBarDiv').find('#'+removeProgressId).remove();
+		       
 		        this.pre = now;
 		    }
 		}
@@ -5194,6 +5196,10 @@ function successCBUpdateCustomerSyncDB(){
 			    console.log(serverURL);
 			    console.log(filePathDestination);
 			    console.log(id);
+			    
+			    console.log('Removed Div : ----- ' $('#progressBarDiv').find('#remove'+id).html());
+		        $('#progressBarDiv').find('#remove'+id).remove();
+		       
 
 			    fileTransfer.download(
 			        uri,
