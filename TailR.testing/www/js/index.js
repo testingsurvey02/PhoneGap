@@ -3037,6 +3037,7 @@ function successCBUpdateCustomerSyncDB(){
 	var imageGalleryIndexFromServerSize = 0;
 	var imageGalleryIndexFromLocal = 0;
 	function downloadImagesByGalleryArray(galleryServerArr){
+		$('#progressBarDiv').empty();
 		var isGalleryCalledBreak = false;
 		//var galleryArrJson = jQuery.parseJSON(galleryServerArr);
 		var folder = 'gallery';
@@ -3066,6 +3067,7 @@ function successCBUpdateCustomerSyncDB(){
 						function fileNotExist(e) { // Not Exist Success CB
 							console.log("File not exist");
 							console.dir(e);
+							$('#progressBarDiv').show();
 							//productGalleryImageIndex ++;
 							//productGalleryImageIndex = indexObj;
 							//productImageIndex = index;
