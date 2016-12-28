@@ -3047,11 +3047,12 @@ function successCBUpdateCustomerSyncDB(){
 							if(index >= productImageIndex){
 								if(productImageIndex< index){
 									productImageIndex = index;
+									productGalleryImageIndex = 0;
 								}
 								/*if(productGalleryImageIndex > (galleryObj.length)-1){
 									productGalleryImageIndex = 0;
 								}	*/				
-								//if(parseInt(productGalleryImageIndex) == parseInt(indexObj)){
+								if(parseInt(productGalleryImageIndex) == parseInt(indexObj)){
 									totalProductImages = parseInt(totalProductImages) + 1;
 									var galleryArrObject = new Array();
 									var gallery_id = valueObj['id'];
@@ -3072,11 +3073,12 @@ function successCBUpdateCustomerSyncDB(){
 									    	//$('#progressBarDiv').append(progressBarTag);
 									    	//$('#progressBarDiv').show();
 									    	//updateProgress(100, id);
+											productGalleryImageIndex++;
 										}, 
 										function fileNotExist(e) { // Not Exist Success CB
 											console.log("File not exist");
 											console.dir(e);
-											productGalleryImageIndex ++;
+											//productGalleryImageIndex ++;
 											//productGalleryImageIndex = indexObj;
 											//productImageIndex = index;
 											isGalleryCalledBreak = true;
@@ -3085,7 +3087,7 @@ function successCBUpdateCustomerSyncDB(){
 											//return false;
 										}
 									);
-								//}
+								}
 							}
 							if(isGalleryCalledBreak == true){
 								return false;
@@ -5215,7 +5217,7 @@ function successCBUpdateCustomerSyncDB(){
 							gotoProductPage();
 						}else{
 							console.log('downloading Images');
-							//productGalleryImageIndex++;
+							productGalleryImageIndex++;
 							redownloadProductImages();
 						}
 		        		return false;
@@ -5282,7 +5284,7 @@ function successCBUpdateCustomerSyncDB(){
 			        function(error) {
 			            console.log("download error source " + error.source);
 			            console.log("download error target " + error.target);
-			            console.log("upload error code" + error.code);
+			           // console.log("upload error code" + error.code);
 			        },
 			        false, {
 			            headers: {
@@ -5309,7 +5311,7 @@ function successCBUpdateCustomerSyncDB(){
 									gotoProductPage();
 								}else{
 									console.log('downloading Images');
-									//productGalleryImageIndex++;
+									productGalleryImageIndex++;
 									redownloadProductImages();
 								}
 				        		return false;
