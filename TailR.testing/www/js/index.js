@@ -3075,11 +3075,11 @@ function successCBUpdateCustomerSyncDB(){
 										function fileNotExist(e) { // Not Exist Success CB
 											console.log("File not exist");
 											console.dir(e);
-											
-											downloadFileValidatorFn(downloadFileUrl, folder, image, gallery_id);
 											productGalleryImageIndex = indexObj;
 											productImageIndex = index;
 											isGalleryCalledBreak = true;
+											downloadFileValidatorFn(downloadFileUrl, folder, image, gallery_id);
+											
 											//return false;
 										}
 									);
