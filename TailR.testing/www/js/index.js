@@ -5149,14 +5149,15 @@ function successCBUpdateCustomerSyncDB(){
 				function (entry) {
 			//localPath = entry.toURL();
 			console.log("download toURL: " + entry.toURL());
-			/*if(folderPath == 'gallery'){
-				productGalleryImageIndex++;
-				if(productGalleryImageIndex == (galleryObj.length)-1 && productImageIndex == (productDetailsArrSession.length) - 1){
+			if(folderPath == 'gallery'){
+        		if(productGalleryImageIndex == (galleryIndexLength)-1 && productImageIndex == (productDetailsArrSession.length) - 1){
 					gotoProductPage();
 				}else{
+					productGalleryImageIndex++;
 					redownloadProductImages();
 				}
-			}*/
+        		
+        	}
 			//updateProgress(100, id);
 			/* $('#remove'+File_Name).remove();
 			if($('#progressBarDiv > div' ).lenght==0){
