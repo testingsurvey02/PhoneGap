@@ -3090,9 +3090,9 @@ function successCBUpdateCustomerSyncDB(){
 					}
 				/*}
 			});*/
-				/*if(isGalleryCalledBreak == true){
-					break;
-				} */
+					if(isGalleryCalledBreak == true){
+						return false;
+					}
 			i = parseInt(i) + 1;
 		});
 		
