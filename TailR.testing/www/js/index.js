@@ -3012,8 +3012,6 @@ function successCBUpdateCustomerSyncDB(){
 	
 	var productGalleryImageIndex = 0;
 	var productImageIndex = 0;
-	var productGalleryTempImageIndex = 0;
-	var productTempImageIndex = 0;
 	var isGalleryCalledBreak = false;
 	function redownloadProductImages(){
 		downloadImagesOfProduct(productDetailsArrSession);
@@ -3098,7 +3096,7 @@ function successCBUpdateCustomerSyncDB(){
 			i = parseInt(i) + 1;
 		});
 		
-		if(productImageIndex == prodArrDataToDownload.length){
+		if(i == prodArrDataToDownload.length){
 			productImagesDownload = true;
 			//gotoProductPage();
 			appendProdListDB(productDetailsArrSession);
