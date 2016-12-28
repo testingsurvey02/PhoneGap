@@ -3019,7 +3019,7 @@ function successCBUpdateCustomerSyncDB(){
 	}
 	
 	function downloadImagesOfProduct(prodArrDataToDownload){
-		
+		isGalleryCalledBreak = false;
 		$('#progressBarDiv').empty();
 		gotoDownloadImagePage();
 		prodArrDataToDownload = productDetailsArrSession;
