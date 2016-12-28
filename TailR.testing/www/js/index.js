@@ -3015,8 +3015,8 @@ function successCBUpdateCustomerSyncDB(){
 	var galleryIndexLength = 0;
 	var isGalleryCalledBreak = false;
 	function redownloadProductImages(){
-		//downloadImagesOfProduct(productDetailsArrSession);
-		downloadImagesByGalleryArray(galleryServerArr);
+		downloadImagesOfProduct(productDetailsArrSession);
+		//downloadImagesByGalleryArray(galleryServerArr);
 	}
 	
 	
@@ -3044,7 +3044,7 @@ function successCBUpdateCustomerSyncDB(){
 	var imageGalleryIndexFromLocal = 0;
 	function downloadImagesByGalleryArray(galleryServerArr){
 		$('#progressBarDiv').empty();
-		var isGalleryCalledBreak = false;
+		isGalleryCalledBreak = false;
 		//var galleryArrJson = jQuery.parseJSON(galleryServerArr);
 		var folder = 'gallery';
 		
@@ -3069,7 +3069,7 @@ function successCBUpdateCustomerSyncDB(){
 					    	//$('#progressBarDiv').show();
 					    	//updateProgress(100, id);
 							$('#progressBarDiv').show();
-							productGalleryImageIndex++;
+							//productGalleryImageIndex++;
 						}, 
 						function fileNotExist(e) { // Not Exist Success CB
 							console.log("File not exist");
@@ -3084,9 +3084,9 @@ function successCBUpdateCustomerSyncDB(){
 							//return false;
 						}
 					);
-				if(isGalleryCalledBreak == true){
-					return false;
-				}
+			}
+			if(isGalleryCalledBreak == true){
+				return false;
 			}
 		});
 		
@@ -3140,10 +3140,10 @@ function successCBUpdateCustomerSyncDB(){
 										function fileExist(fileEntry) { // Exist Success CB
 											console.log('File Exist'); // For Testing
 											
-											var id = folder+gallery_id;
+											//var id = folder+gallery_id;
 											
-											var progressBarTag = '<div id="remove'+image+'"><span style="width: 100%">'+image+'</span> : '+ '<br/><progress id="'+image+'" class="'+id+'" data-urllink="'+downloadFileUrl+'" data-location="'+galleryArraysImgUrlTemp+'" value="100" max="100" style="width: 100%"></progress>';
-											progressBarTag += '<button class="btn btn-primary st-bg-baby-pink ui-btn ui-shadow ui-corner-all '+id+'" data-uniqueid="'+id+'" data-urllink="'+downloadFileUrl+'" onclick="startPauseResumeDownload(this);" data-location="'+galleryArraysImgUrlTemp+'">Re-download</button></div>'
+											//var progressBarTag = '<div id="remove'+image+'"><span style="width: 100%">'+image+'</span> : '+ '<br/><progress id="'+image+'" class="'+id+'" data-urllink="'+downloadFileUrl+'" data-location="'+galleryArraysImgUrlTemp+'" value="100" max="100" style="width: 100%"></progress>';
+											//progressBarTag += '<button class="btn btn-primary st-bg-baby-pink ui-btn ui-shadow ui-corner-all '+id+'" data-uniqueid="'+id+'" data-urllink="'+downloadFileUrl+'" onclick="startPauseResumeDownload(this);" data-location="'+galleryArraysImgUrlTemp+'">Re-download</button></div>'
 									    	//$('#progressBarDiv').append(progressBarTag);
 									    	//$('#progressBarDiv').show();
 									    	//updateProgress(100, id);
@@ -4093,8 +4093,8 @@ function successCBUpdateCustomerSyncDB(){
 				//console.log('Testing : '+window.localStorage["productimgflag"]); // For Testing
 				if(window.localStorage["productimgflag"]!=2){
 					if(needUpdate){
-						//downloadImagesOfProduct(productDetailsArrSession);
-						setGalleryImageByForloop();
+						downloadImagesOfProduct(productDetailsArrSession);
+						//setGalleryImageByForloop();
 					}else{
 						appendProdListDB(productDetailsArrSession);
 					}
