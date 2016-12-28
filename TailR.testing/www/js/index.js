@@ -3009,91 +3009,8 @@ function successCBUpdateCustomerSyncDB(){
 	}
 	
 	var prodImgCountInProg=0, prodImgCountDownloaded=0;
-	var galleryServerArr = [];
-	var productGalleryImageIndex = 0;
-	var productImageIndex = 0;
-	var galleryIndexLength = 0;
-	var isGalleryCalledBreak = false;
-	function redownloadProductImages(){
-		downloadImagesOfProduct(productDetailsArrSession);
-		//downloadImagesByGalleryArray(galleryServerArr);
-	}
-	
-	
-	function setGalleryImageByForloop(){
-		var i = 0;
-		jQuery.each(productDetailsArrSession, function(index,value) {
-			var jsonObj=value;
-			var galleryObj = '';
-			galleryObj = jQuery.parseJSON(jsonObj['gallery']);
-			if(jsonObj['gallery'] != ''){
-				jQuery.each(galleryObj , function(indexObj,valueObj) {
-					galleryServerArr.push(valueObj);
-				});
-			}
-			i = parseInt(i)+1;
-		});
-		if(productDetailsArrSession.length == i){
-			downloadImagesByGalleryArray(galleryServerArr);
-			imageGalleryIndexFromServerSize = galleryServerArr.length;
-			console.log('imageGalleryIndexFromServerSize : '+imageGalleryIndexFromServerSize);
-		}
-	}
-	
-	var imageGalleryIndexFromServerSize = 0;
-	var imageGalleryIndexFromLocal = 0;
-	function downloadImagesByGalleryArray(galleryServerArr){
-		$('#progressBarDiv').empty();
-		isGalleryCalledBreak = false;
-		//var galleryArrJson = jQuery.parseJSON(galleryServerArr);
-		var folder = 'gallery';
-		
-		jQuery.each(galleryServerArr, function(index,value) {
-			if(parseInt(imageGalleryIndexFromLocal) == parseInt(index)){
-				imageGalleryIndexFromLocal = parseInt(imageGalleryIndexFromLocal)+1;
-				var gallery_id = value['id'];
-				var image = value["image"];
-				//downloadFile(gallery_id, image, 'product');
-				var galleryArraysImgUrlTemp = localPath + "/" + 'gallery'+ '/' + image;
-				var downloadFileUrl = productImageData + '/' + image;
-				window.resolveLocalFileSystemURL(
-						galleryArraysImgUrlTemp,// File Url 
-						function fileExist(fileEntry) { // Exist Success CB
-							console.log('File Exist'); // For Testing
-							
-							var id = folder+gallery_id;
-							
-							var progressBarTag = '<div id="remove'+image+'"><span style="width: 100%">'+image+'</span> : '+ '<br/><progress id="'+image+'" class="'+id+'" data-urllink="'+downloadFileUrl+'" data-location="'+galleryArraysImgUrlTemp+'" value="100" max="100" style="width: 100%"></progress>';
-							progressBarTag += '<button class="btn btn-primary st-bg-baby-pink ui-btn ui-shadow ui-corner-all '+id+'" data-uniqueid="'+id+'" data-urllink="'+downloadFileUrl+'" onclick="startPauseResumeDownload(this);" data-location="'+galleryArraysImgUrlTemp+'">Re-download</button></div>'
-					    	//$('#progressBarDiv').append(progressBarTag);
-					    	//$('#progressBarDiv').show();
-					    	//updateProgress(100, id);
-							$('#progressBarDiv').show();
-							//productGalleryImageIndex++;
-						}, 
-						function fileNotExist(e) { // Not Exist Success CB
-							console.log("File not exist");
-							console.dir(e);
-							$('#progressBarDiv').show();
-							//productGalleryImageIndex ++;
-							//productGalleryImageIndex = indexObj;
-							//productImageIndex = index;
-							isGalleryCalledBreak = true;
-							downloadFileValidatorFn(downloadFileUrl, folder, image, gallery_id);
-							
-							//return false;
-						}
-					);
-			}
-			if(isGalleryCalledBreak == true){
-				return false;
-			}
-		});
-		
-	}
-	
 	function downloadImagesOfProduct(prodArrDataToDownload){
-		isGalleryCalledBreak = false;
+		
 		$('#progressBarDiv').empty();
 		gotoDownloadImagePage();
 		prodArrDataToDownload = productDetailsArrSession;
@@ -3114,65 +3031,42 @@ function successCBUpdateCustomerSyncDB(){
 						if(prodImgCountInProg>0){
 							window.localStorage["productimgflag"]=1;
 						}
-						//galleryIndexLength = galleryObj.length;
-						var downloadImagesDiv = '';
+						
 						jQuery.each(galleryObj , function(indexObj,valueObj) {
-							galleryIndexLength = parseInt(galleryIndexLength)+1;
-							if(index >= productImageIndex){
-								if(productImageIndex< index){
-									productImageIndex = index;
-									productGalleryImageIndex = 0;
-								}
-								/*if(productGalleryImageIndex > (galleryObj.length)-1){
-									productGalleryImageIndex = 0;
-								}	*/				
-								if(parseInt(productGalleryImageIndex) == parseInt(indexObj)){
-									totalProductImages = parseInt(totalProductImages) + 1;
-									var galleryArrObject = new Array();
-									var gallery_id = valueObj['id'];
-									var image = valueObj["image"];
-									//downloadFile(gallery_id, image, 'product');
-									var galleryArraysImgUrlTemp = localPath + "/" + 'gallery'+ '/' + image;
-									var downloadFileUrl = productImageData + '/' + image;
-									
-									window.resolveLocalFileSystemURL(
-										galleryArraysImgUrlTemp,// File Url 
-										function fileExist(fileEntry) { // Exist Success CB
-											console.log('File Exist'); // For Testing
-											
-											//var id = folder+gallery_id;
-											
-											//var progressBarTag = '<div id="remove'+image+'"><span style="width: 100%">'+image+'</span> : '+ '<br/><progress id="'+image+'" class="'+id+'" data-urllink="'+downloadFileUrl+'" data-location="'+galleryArraysImgUrlTemp+'" value="100" max="100" style="width: 100%"></progress>';
-											//progressBarTag += '<button class="btn btn-primary st-bg-baby-pink ui-btn ui-shadow ui-corner-all '+id+'" data-uniqueid="'+id+'" data-urllink="'+downloadFileUrl+'" onclick="startPauseResumeDownload(this);" data-location="'+galleryArraysImgUrlTemp+'">Re-download</button></div>'
-									    	//$('#progressBarDiv').append(progressBarTag);
-									    	//$('#progressBarDiv').show();
-									    	//updateProgress(100, id);
-											productGalleryImageIndex++;
-										}, 
-										function fileNotExist(e) { // Not Exist Success CB
-											console.log("File not exist");
-											console.dir(e);
-											//productGalleryImageIndex ++;
-											//productGalleryImageIndex = indexObj;
-											//productImageIndex = index;
-											isGalleryCalledBreak = true;
-											downloadFileValidatorFn(downloadFileUrl, folder, image, gallery_id);
-											
-											//return false;
-										}
-									);
-								}
-							}
-							if(isGalleryCalledBreak == true){
-								return false;
-							}
+							totalProductImages = parseInt(totalProductImages) + 1;
+							var galleryArrObject = new Array();
+							var gallery_id = valueObj['id'];
+							var image = valueObj["image"];
+							//downloadFile(gallery_id, image, 'product');
+							var galleryArraysImgUrlTemp = localPath + "/" + 'gallery'+ '/' + image;
+							var downloadFileUrl = productImageData + '/' + image;
+							
+							window.resolveLocalFileSystemURL(
+									galleryArraysImgUrlTemp,// File Url 
+									function fileExist(fileEntry) { // Exist Success CB
+										//console.log('File Exist'); // For Testing
+										/*
+										var id = folder+gallery_id;
+										
+										var progressBarTag = '<div id="remove'+image+'"><span style="width: 100%">'+image+'</span> : '+ '<br/><progress id="'+image+'" class="'+id+'" data-urllink="'+downloadFileUrl+'" data-location="'+galleryArraysImgUrlTemp+'" value="100" max="100" style="width: 100%"></progress>';
+										progressBarTag += '<button class="btn btn-primary st-bg-baby-pink ui-btn ui-shadow ui-corner-all '+id+'" data-uniqueid="'+id+'" data-urllink="'+downloadFileUrl+'" onclick="startPauseResumeDownload(this);" data-location="'+galleryArraysImgUrlTemp+'">Re-download</button></div>'
+								    	$('#progressBarDiv').append(progressBarTag);
+								    	$('#progressBarDiv').show();
+								    	updateProgress(100, id);
+								    	*/
+								    	
+									}, 
+									function fileNotExist(e) { // Not Exist Success CB
+										//console.log("File not exist");
+										console.dir(e);
+										
+										downloadFileValidatorFn(downloadFileUrl, folder, image, gallery_id);
+									}
+								);
 						});
 					}
 				/*}
 			});*/
-					if(isGalleryCalledBreak == true){
-						return false;
-					}
 			i = parseInt(i) + 1;
 		});
 		
@@ -4094,7 +3988,6 @@ function successCBUpdateCustomerSyncDB(){
 				if(window.localStorage["productimgflag"]!=2){
 					if(needUpdate){
 						downloadImagesOfProduct(productDetailsArrSession);
-						//setGalleryImageByForloop();
 					}else{
 						appendProdListDB(productDetailsArrSession);
 					}
@@ -5192,7 +5085,6 @@ function successCBUpdateCustomerSyncDB(){
 			
 			//var fp = rootdir.fullPath; // Returns Fulpath of local directory
 			folderAndPath = Folder_Name + '/' + File_Name;
-			folderPath = Folder_Name;
 			var fileDataDirect = store + "/" + folderAndPath; // fullpath and name of the file which we want to give
 			uniqueId = Folder_Name+count;
 			// download function call
@@ -5216,11 +5108,13 @@ function successCBUpdateCustomerSyncDB(){
 	}
 	
 	// 3rd Step 
+	var removeProgressId = '';
 	function filetransferFn(download_link, fp, File_Name, id) {
 		var fileTransfer = new FileTransfer();
 		//console.log(fp);
 		// File download function with URL and local path
-		var progressBarTag = '<div id="remove'+File_Name+'"><span style="width: 100%">'+File_Name+'</span> : '+ '<br/><progress id="'+File_Name+'" class="'+id+'" data-urllink="'+download_link+'" data-location="'+fp+'" value="0" max="100" style="width: 100%"></progress>';
+		removeProgressId = 'remove'+id;
+		var progressBarTag = '<div id="remove'+id+'"><span style="width: 100%">'+File_Name+'</span> : '+ '<br/><progress id="'+File_Name+'" class="'+id+'" data-urllink="'+download_link+'" data-location="'+fp+'" value="0" max="100" style="width: 100%"></progress>';
 		progressBarTag += '<button class="btn btn-primary st-bg-baby-pink ui-btn ui-shadow ui-corner-all '+id+'" data-uniqueid="'+id+'" data-urllink="'+download_link+'" onclick="startPauseResumeDownload(this);" data-location="'+fp+'">Re-download</button></div>'
     	$('#progressBarDiv').append(progressBarTag);
     	$('#progressBarDiv').show();
@@ -5228,39 +5122,24 @@ function successCBUpdateCustomerSyncDB(){
 				function (entry) {
 			//localPath = entry.toURL();
 			console.log("download toURL: " + entry.toURL());
-			/*if(folderPath == 'gallery'){
-				console.log('productGalleryImageIndex : '+productGalleryImageIndex);
-				console.log('prodImgCountInProg : '+prodImgCountInProg);
-				console.log('productImageIndex : '+productImageIndex);
-				console.log('productDetailsArrSession : '+productDetailsArrSession.length);
-        		if((parseInt(productGalleryImageIndex) == parseInt((prodImgCountInProg)-1)) && (parseInt(productImageIndex) == parseInt((productDetailsArrSession.length) - 1))){
-        			alert('Download Completed');
-					gotoProductPage();
-				}else{
-					console.log('downloading Images');
-					productGalleryImageIndex++;
-					redownloadProductImages();
-				}
-        		
-        	}*/
 			//updateProgress(100, id);
 			/* $('#remove'+File_Name).remove();
 			if($('#progressBarDiv > div' ).lenght==0){
 				gotoProductPage();
 			} */
-			//window.resolveLocalFileSystemURL(entry.toURL(), fileExist, fileNotExist);
+			window.resolveLocalFileSystemURL(entry.toURL(), fileExist, fileNotExist);
 			//checkIfFileExists(entry.toURL());
 			//count = parseInt(count)+1;
 			
 			// Product Count Check
-			/*if(prodImgCountInProg>0 && window.localStorage["productimgflag"]==1){
+			if(prodImgCountInProg>0 && window.localStorage["productimgflag"]==1){
 				prodImgCountDownloaded=prodImgCountDownloaded+1;
 				if(prodImgCountInProg==prodImgCountDownloaded ){
 					window.localStorage["productimgflag"]=2;
 					// For Testing
 					alert('All Product Images Doenloaded Successfully. ' + window.localStorage["productimgflag"]);
 				}
-			}*/
+			}
 		},
 		function (error) {
 			//Download abort errors or download failed errors
@@ -5278,27 +5157,10 @@ function successCBUpdateCustomerSyncDB(){
 		    	/*var tempDiv = '<div id="'+File_Name+'">'+
 		    			tempDiv += '<span>File Name : "'+File_Name+'" </span>'
 		    			+' Percentage : '+now/100+'%</div>';*/
-		    	console.log(now/100);
+		    	
 		        updateProgress(now / 100, id);
+		        $('#progressBarDiv #'+removeProgressId).remove();
 		        this.pre = now;
-		        if(now/100 == 100){
-		        	if(folderPath == 'gallery'){
-						console.log('galleryIndexLength : '+galleryIndexLength);
-						console.log('prodImgCountInProg : '+prodImgCountInProg);
-						console.log('productImageIndex : '+productImageIndex);
-						console.log('productDetailsArrSession : '+productDetailsArrSession.length);
-		        		if(parseInt(imageGalleryIndexFromLocal) == parseInt(imageGalleryIndexFromServerSize)){
-		        			alert('Download Completed');
-							gotoProductPage();
-						}else{
-							console.log('downloading Images');
-							//productGalleryImageIndex++;
-							redownloadProductImages();
-						}
-		        		return false;
-		        	}
-		        }
-		        
 		    }
 		}
 	}
@@ -5314,7 +5176,6 @@ function successCBUpdateCustomerSyncDB(){
 		var isOK = confirm("Are you really want to Re-download?");
 		if(isOK)
 		{
-			
 			// console.log("isStart", this.isStart);
 			   /* if (!this.isStart) {
 			        this.isStart = true;
@@ -5330,21 +5191,6 @@ function successCBUpdateCustomerSyncDB(){
 			    var id = $(thisData).data('uniqueid');
 			    var uri = serverURL;
 			    var fileURL = filePathDestination;
-			    
-			    window.requestFileSystem(LocalFileSystem.PERSISTENT, 0, function(fileSystem){
-			        fileSystem.root.getFile(filePathDestination, {create:false}, function(fileEntry){
-			            fileEntry.remove(function(file){
-			                console.log("File removed!");
-			            },function(){
-			                console.log("error deleting the file " + error.code);
-			                });
-			            },function(){
-			                console.log("file does not exist");
-			            });
-			        },function(evt){
-			            console.log(evt.target.error.code);
-			    });
-			    
 			    console.log(serverURL);
 			    console.log(filePathDestination);
 			    console.log(id);
@@ -5359,7 +5205,7 @@ function successCBUpdateCustomerSyncDB(){
 			        function(error) {
 			            console.log("download error source " + error.source);
 			            console.log("download error target " + error.target);
-			           // console.log("upload error code" + error.code);
+			            console.log("upload error code" + error.code);
 			        },
 			        false, {
 			            headers: {
@@ -5375,23 +5221,6 @@ function successCBUpdateCustomerSyncDB(){
 			        if (now - +this.pre > 17) {
 			            updateProgress(now / 100, id);
 			            this.pre = now;
-			            if(now/100 == 100){
-				        	if(folderPath == 'gallery'){
-				        		console.log('galleryIndexLength : '+galleryIndexLength);
-								console.log('prodImgCountInProg : '+prodImgCountInProg);
-								console.log('productImageIndex : '+productImageIndex);
-								console.log('productDetailsArrSession : '+productDetailsArrSession.length);
-				        		if(parseInt(imageGalleryIndexFromLocal) == parseInt(imageGalleryIndexFromServerSize)){
-				        			alert('Download Completed');
-									gotoProductPage();
-								}else{
-									console.log('downloading Images');
-									//productGalleryImageIndex++;
-									redownloadProductImages();
-								}
-				        		return false;
-				        	}
-				        }
 			        }
 			    }
 		}
