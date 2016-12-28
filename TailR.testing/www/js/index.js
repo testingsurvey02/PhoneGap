@@ -5155,6 +5155,7 @@ function successCBUpdateCustomerSyncDB(){
 				console.log('productImageIndex : '+productImageIndex);
 				console.log('productDetailsArrSession : '+productDetailsArrSession.length);
         		if(parseInt(productGalleryImageIndex) == parseInt((prodImgCountInProg)-1) && parseInt(productImageIndex) == parseInt((productDetailsArrSession.length) - 1)){
+        			alert('Download Completed');
 					gotoProductPage();
 				}else{
 					productGalleryImageIndex++;
