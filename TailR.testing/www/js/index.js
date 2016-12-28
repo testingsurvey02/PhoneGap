@@ -3091,9 +3091,9 @@ function successCBUpdateCustomerSyncDB(){
 					}
 				/*}
 			});*/
-				if(isGalleryCalledBreak == true){
+				/*if(isGalleryCalledBreak == true){
 					break;
-				} 
+				} */
 			i = parseInt(i) + 1;
 		});
 		
