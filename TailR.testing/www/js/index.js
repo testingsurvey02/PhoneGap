@@ -3066,6 +3066,7 @@ function successCBUpdateCustomerSyncDB(){
 					    	//$('#progressBarDiv').append(progressBarTag);
 					    	//$('#progressBarDiv').show();
 					    	//updateProgress(100, id);
+							$('#progressBarDiv').show();
 							productGalleryImageIndex++;
 						}, 
 						function fileNotExist(e) { // Not Exist Success CB
