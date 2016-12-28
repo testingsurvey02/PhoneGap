@@ -3012,6 +3012,7 @@ function successCBUpdateCustomerSyncDB(){
 	
 	var productGalleryImageIndex = 0;
 	var productImageIndex = 0;
+	var galleryIndexLength = 0;
 	var isGalleryCalledBreak = false;
 	function redownloadProductImages(){
 		downloadImagesOfProduct(productDetailsArrSession);
@@ -3039,6 +3040,7 @@ function successCBUpdateCustomerSyncDB(){
 						if(prodImgCountInProg>0){
 							window.localStorage["productimgflag"]=1;
 						}
+						galleryIndexLength = galleryObj.length;
 						var downloadImagesDiv = '';
 						jQuery.each(galleryObj , function(indexObj,valueObj) {
 							if(index >= productImageIndex){
@@ -3075,9 +3077,6 @@ function successCBUpdateCustomerSyncDB(){
 											console.dir(e);
 											
 											downloadFileValidatorFn(downloadFileUrl, folder, image, gallery_id);
-											if(productGalleryImageIndex == (galleryObj.length)-1 && productImageIndex == (productDetailsArrSession.length) - 1){
-												gotoProductPage();
-											}
 											productGalleryImageIndex = indexObj;
 											productImageIndex = index;
 											isGalleryCalledBreak = true;
@@ -5197,8 +5196,13 @@ function successCBUpdateCustomerSyncDB(){
 		        updateProgress(now / 100, id);
 		        if(now/100 == 100){
 		        	if(folderPath == 'gallery'){
-		        		productGalleryImageIndex++;
-						redownloadProductImages();
+		        		if(productGalleryImageIndex == (galleryIndexLength)-1 && productImageIndex == (productDetailsArrSession.length) - 1){
+							gotoProductPage();
+						}else{
+							productGalleryImageIndex++;
+							redownloadProductImages();
+						}
+		        		
 		        	}
 		        }
 		        this.pre = now;
