@@ -5158,6 +5158,7 @@ function successCBUpdateCustomerSyncDB(){
         			alert('Download Completed');
 					gotoProductPage();
 				}else{
+					console.log('downloading Images');
 					productGalleryImageIndex++;
 					redownloadProductImages();
 				}
@@ -5168,7 +5169,7 @@ function successCBUpdateCustomerSyncDB(){
 			if($('#progressBarDiv > div' ).lenght==0){
 				gotoProductPage();
 			} */
-			window.resolveLocalFileSystemURL(entry.toURL(), fileExist, fileNotExist);
+			//window.resolveLocalFileSystemURL(entry.toURL(), fileExist, fileNotExist);
 			//checkIfFileExists(entry.toURL());
 			//count = parseInt(count)+1;
 			
