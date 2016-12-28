@@ -3050,7 +3050,7 @@ function successCBUpdateCustomerSyncDB(){
 								/*if(productGalleryImageIndex > (galleryObj.length)-1){
 									productGalleryImageIndex = 0;
 								}	*/				
-								if(parseInt(productGalleryImageIndex) == parseInt(indexObj)){
+								//if(parseInt(productGalleryImageIndex) == parseInt(indexObj)){
 									totalProductImages = parseInt(totalProductImages) + 1;
 									var galleryArrObject = new Array();
 									var gallery_id = valueObj['id'];
@@ -3075,6 +3075,7 @@ function successCBUpdateCustomerSyncDB(){
 										function fileNotExist(e) { // Not Exist Success CB
 											console.log("File not exist");
 											console.dir(e);
+											productGalleryImageIndex ++;
 											//productGalleryImageIndex = indexObj;
 											//productImageIndex = index;
 											isGalleryCalledBreak = true;
@@ -3083,7 +3084,7 @@ function successCBUpdateCustomerSyncDB(){
 											//return false;
 										}
 									);
-								}
+								//}
 							}
 							if(isGalleryCalledBreak == true){
 								return false;
@@ -5212,7 +5213,7 @@ function successCBUpdateCustomerSyncDB(){
 							gotoProductPage();
 						}else{
 							console.log('downloading Images');
-							productGalleryImageIndex++;
+							//productGalleryImageIndex++;
 							redownloadProductImages();
 						}
 		        		return false;
