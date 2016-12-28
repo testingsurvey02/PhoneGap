@@ -3009,7 +3009,7 @@ function successCBUpdateCustomerSyncDB(){
 	}
 	
 	var prodImgCountInProg=0, prodImgCountDownloaded=0;
-	
+	var galleryServerArr = [];
 	var productGalleryImageIndex = 0;
 	var productImageIndex = 0;
 	var galleryIndexLength = 0;
@@ -3019,7 +3019,7 @@ function successCBUpdateCustomerSyncDB(){
 		downloadImagesByGalleryArray(galleryServerArr);
 	}
 	
-	var galleryServerArr = [];
+	
 	function setGalleryImageByForloop(){
 		var i = 0;
 		jQuery.each(productDetailsArrSession, function(index,value) {
@@ -3035,6 +3035,8 @@ function successCBUpdateCustomerSyncDB(){
 		});
 		if(productDetailsArrSession.length == i){
 			downloadImagesByGalleryArray(galleryServerArr);
+			imageGalleryIndexFromServerSize = galleryServerArr.length;
+			console.log('imageGalleryIndexFromServerSize : '+imageGalleryIndexFromServerSize);
 		}
 	}
 	
@@ -3045,9 +3047,9 @@ function successCBUpdateCustomerSyncDB(){
 		var isGalleryCalledBreak = false;
 		//var galleryArrJson = jQuery.parseJSON(galleryServerArr);
 		var folder = 'gallery';
-		imageGalleryIndexFromServerSize = galleryServerArr.length;
+		
 		jQuery.each(galleryServerArr, function(index,value) {
-			if(imageGalleryIndexFromLocal == index){
+			if(parseInt(imageGalleryIndexFromLocal) == parseInt(index)){
 				imageGalleryIndexFromLocal = parseInt(imageGalleryIndexFromLocal)+1;
 				var gallery_id = value['id'];
 				var image = value["image"];
@@ -3082,11 +3084,12 @@ function successCBUpdateCustomerSyncDB(){
 							//return false;
 						}
 					);
+				if(isGalleryCalledBreak == true){
+					return false;
+				}
 			}
 		});
-		if(isGalleryCalledBreak == true){
-			return false;
-		}
+		
 	}
 	
 	function downloadImagesOfProduct(prodArrDataToDownload){
