@@ -5203,6 +5203,7 @@ function successCBUpdateCustomerSyncDB(){
 		    			+' Percentage : '+now/100+'%</div>';*/
 		    	console.log(now/100);
 		        updateProgress(now / 100, id);
+		        this.pre = now;
 		        if(now/100 == 100){
 		        	if(folderPath == 'gallery'){
 						console.log('galleryIndexLength : '+galleryIndexLength);
@@ -5220,7 +5221,7 @@ function successCBUpdateCustomerSyncDB(){
 		        		return false;
 		        	}
 		        }
-		        this.pre = now;
+		        
 		    }
 		}
 	}
@@ -5297,6 +5298,23 @@ function successCBUpdateCustomerSyncDB(){
 			        if (now - +this.pre > 17) {
 			            updateProgress(now / 100, id);
 			            this.pre = now;
+			            if(now/100 == 100){
+				        	if(folderPath == 'gallery'){
+								console.log('galleryIndexLength : '+galleryIndexLength);
+								console.log('prodImgCountInProg : '+prodImgCountInProg);
+								console.log('productImageIndex : '+productImageIndex);
+								console.log('productDetailsArrSession : '+productDetailsArrSession.length);
+				        		if((parseInt(galleryIndexLength) == parseInt((prodImgCountInProg)-1)) && (parseInt(productImageIndex) == parseInt((productDetailsArrSession.length) - 1))){
+				        			alert('Download Completed');
+									gotoProductPage();
+								}else{
+									console.log('downloading Images');
+									//productGalleryImageIndex++;
+									redownloadProductImages();
+								}
+				        		return false;
+				        	}
+				        }
 			        }
 			    }
 		}
