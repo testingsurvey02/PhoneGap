@@ -3015,7 +3015,71 @@ function successCBUpdateCustomerSyncDB(){
 	var galleryIndexLength = 0;
 	var isGalleryCalledBreak = false;
 	function redownloadProductImages(){
-		downloadImagesOfProduct(productDetailsArrSession);
+		//downloadImagesOfProduct(productDetailsArrSession);
+		downloadImagesByGalleryArray(galleryServerArr);
+	}
+	
+	var galleryServerArr = [];
+	function setGalleryImageByForloop(){
+		jQuery.each(productDetailsArrSession, function(index,value) {
+			var jsonObj=value;
+			var galleryObj = '';
+			galleryObj = jQuery.parseJSON(jsonObj['gallery']);
+			if(jsonObj['gallery'] != ''){
+				jQuery.each(galleryObj , function(indexObj,valueObj) {
+					galleryServerArr.push(valueObj);
+				});
+			}
+		});
+		downloadImagesByGalleryArray(galleryServerArr);
+	}
+	
+	var imageGalleryIndexFromServerSize = 0;
+	var imageGalleryIndexFromLocal = 0;
+	function downloadImagesByGalleryArray(galleryServerArr){
+		var isGalleryCalledBreak = false;
+		//var galleryArrJson = jQuery.parseJSON(galleryServerArr);
+		var folder = 'gallery';
+		imageGalleryIndexFromServerSize = galleryServerArr.length;
+		jQuery.each(galleryServerArr, function(index,value) {
+			if(imageGalleryIndexFromLocal == index){
+				imageGalleryIndexFromLocal = parseInt(imageGalleryIndexFromLocal)+1;
+				var gallery_id = value['id'];
+				var image = value["image"];
+				//downloadFile(gallery_id, image, 'product');
+				var galleryArraysImgUrlTemp = localPath + "/" + 'gallery'+ '/' + image;
+				var downloadFileUrl = productImageData + '/' + image;
+				window.resolveLocalFileSystemURL(
+						galleryArraysImgUrlTemp,// File Url 
+						function fileExist(fileEntry) { // Exist Success CB
+							console.log('File Exist'); // For Testing
+							
+							var id = folder+gallery_id;
+							
+							var progressBarTag = '<div id="remove'+image+'"><span style="width: 100%">'+image+'</span> : '+ '<br/><progress id="'+image+'" class="'+id+'" data-urllink="'+downloadFileUrl+'" data-location="'+galleryArraysImgUrlTemp+'" value="100" max="100" style="width: 100%"></progress>';
+							progressBarTag += '<button class="btn btn-primary st-bg-baby-pink ui-btn ui-shadow ui-corner-all '+id+'" data-uniqueid="'+id+'" data-urllink="'+downloadFileUrl+'" onclick="startPauseResumeDownload(this);" data-location="'+galleryArraysImgUrlTemp+'">Re-download</button></div>'
+					    	//$('#progressBarDiv').append(progressBarTag);
+					    	//$('#progressBarDiv').show();
+					    	//updateProgress(100, id);
+							productGalleryImageIndex++;
+						}, 
+						function fileNotExist(e) { // Not Exist Success CB
+							console.log("File not exist");
+							console.dir(e);
+							//productGalleryImageIndex ++;
+							//productGalleryImageIndex = indexObj;
+							//productImageIndex = index;
+							isGalleryCalledBreak = true;
+							downloadFileValidatorFn(downloadFileUrl, folder, image, gallery_id);
+							
+							//return false;
+						}
+					);
+			}
+		});
+		if(isGalleryCalledBreak == true){
+			return false;
+		}
 	}
 	
 	function downloadImagesOfProduct(prodArrDataToDownload){
@@ -5212,12 +5276,12 @@ function successCBUpdateCustomerSyncDB(){
 						console.log('prodImgCountInProg : '+prodImgCountInProg);
 						console.log('productImageIndex : '+productImageIndex);
 						console.log('productDetailsArrSession : '+productDetailsArrSession.length);
-		        		if((parseInt(galleryIndexLength) == parseInt((prodImgCountInProg)-1)) && (parseInt(productImageIndex) == parseInt((productDetailsArrSession.length) - 1))){
+		        		if(parseInt(imageGalleryIndexFromLocal) == parseInt(imageGalleryIndexFromServerSize)){
 		        			alert('Download Completed');
 							gotoProductPage();
 						}else{
 							console.log('downloading Images');
-							productGalleryImageIndex++;
+							//productGalleryImageIndex++;
 							redownloadProductImages();
 						}
 		        		return false;
@@ -5302,16 +5366,16 @@ function successCBUpdateCustomerSyncDB(){
 			            this.pre = now;
 			            if(now/100 == 100){
 				        	if(folderPath == 'gallery'){
-								console.log('galleryIndexLength : '+galleryIndexLength);
+				        		console.log('galleryIndexLength : '+galleryIndexLength);
 								console.log('prodImgCountInProg : '+prodImgCountInProg);
 								console.log('productImageIndex : '+productImageIndex);
 								console.log('productDetailsArrSession : '+productDetailsArrSession.length);
-				        		if((parseInt(galleryIndexLength) == parseInt((prodImgCountInProg)-1)) && (parseInt(productImageIndex) == parseInt((productDetailsArrSession.length) - 1))){
+				        		if(parseInt(imageGalleryIndexFromLocal) == parseInt(imageGalleryIndexFromServerSize)){
 				        			alert('Download Completed');
 									gotoProductPage();
 								}else{
 									console.log('downloading Images');
-									productGalleryImageIndex++;
+									//productGalleryImageIndex++;
 									redownloadProductImages();
 								}
 				        		return false;
