@@ -5146,6 +5146,8 @@ function successCBUpdateCustomerSyncDB(){
 				function (entry) {
 			//localPath = entry.toURL();
 			console.log("download toURL: " + entry.toURL());
+			productGalleryImageIndex++;
+    		redownloadProductImages();
 			//updateProgress(100, id);
 			/* $('#remove'+File_Name).remove();
 			if($('#progressBarDiv > div' ).lenght==0){
