@@ -5118,7 +5118,7 @@ function successCBUpdateCustomerSyncDB(){
 		//console.log(fp);
 		// File download function with URL and local path
 		removeProgressId = 'remove'+id;
-		var progressBarTag = '<div id="remove'+id+'"><span style="width: 100%">'+File_Name+'</span> : '+ '<br/><progress id="'+File_Name+'" class="'+id+'" data-urllink="'+download_link+'" data-location="'+fp+'" value="0" max="100" style="width: 100%"></progress>';
+		var progressBarTag = '<div class="confirmClass" id="remove'+id+'"><span style="width: 100%">'+File_Name+'</span> : '+ '<br/><progress id="'+File_Name+'" class="'+id+'" data-urllink="'+download_link+'" data-location="'+fp+'" value="0" max="100" style="width: 100%"></progress>';
 		progressBarTag += '<button class="btn btn-primary st-bg-baby-pink ui-btn ui-shadow ui-corner-all '+id+'" data-uniqueid="'+id+'" data-urllink="'+download_link+'" onclick="startPauseResumeDownload(this);" data-location="'+fp+'">Re-download</button></div>'
     	$('#progressBarDiv').append(progressBarTag).enhanceWithin();
     	$('#progressBarDiv').show();
@@ -5167,6 +5167,9 @@ function successCBUpdateCustomerSyncDB(){
 		        	var idRemove='#remove'+id;
 			        console.log('Removed Div : ----- '+id+'----' +$('#progressBarDiv').find(idRemove).html());
 			        $('#progressBarDiv').find(idRemove).remove();
+			        if($('#progressBarDiv').find('.confirmClass').length == 0){
+			        	gotoProductPage();
+			        }
 		        }
 		       
 		        this.pre = now;
