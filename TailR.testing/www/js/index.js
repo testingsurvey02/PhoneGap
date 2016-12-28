@@ -3021,6 +3021,7 @@ function successCBUpdateCustomerSyncDB(){
 	
 	var galleryServerArr = [];
 	function setGalleryImageByForloop(){
+		var i = 0;
 		jQuery.each(productDetailsArrSession, function(index,value) {
 			var jsonObj=value;
 			var galleryObj = '';
@@ -3030,8 +3031,11 @@ function successCBUpdateCustomerSyncDB(){
 					galleryServerArr.push(valueObj);
 				});
 			}
+			i = parseInt(i)+1;
 		});
-		downloadImagesByGalleryArray(galleryServerArr);
+		if(productDetailsArrSession.length == i){
+			downloadImagesByGalleryArray(galleryServerArr);
+		}
 	}
 	
 	var imageGalleryIndexFromServerSize = 0;
