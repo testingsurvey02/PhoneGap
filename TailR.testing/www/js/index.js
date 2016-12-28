@@ -263,7 +263,7 @@ var app = {
         	//checkPreAuth();
         }	
         
-        console.log("DB CALL");
+        //console.log("DB CALL");
         db = window.sqlitePlugin.openDatabase({name: "tailorrani.db", location: 2});
         // db = window.sqlitePlugin.openDatabase({name: "tailorrani.db", location: 2});
         // db = window.openDatabase("Database", "1.0", "tailorrani.db", 200000);
@@ -805,7 +805,7 @@ function initializeDB(tx) {
 // Common Transaction success callback
 function successCB() {
 	//alert('db transcation success');
-	console.log('db transcation success');
+	//console.log('db transcation success');
 	loadDataFromServer();
 }
 //Transaction error callback
@@ -837,7 +837,7 @@ function insertTailorDetailsDetails(tx) {
 	var currDateTimestamp="";
 	currDateTimestamp=dateTimestamp();
 	tx.executeSql('CREATE TABLE IF NOT EXISTS tailor_details (id integer primary key autoincrement, server_td_id integer, first_name text, middle_name text, last_name text, business_title text, address1 text, address2 text, email text, contact1 text, contact2 text, secret_key text, tailor_status integer, city text, pincode text, state_id integer, country_id integer, state_name text, country_name text, update_timestamp text)');
-	console.log('insertTailorDetailsDetails tailorDetailsJsonData '+tailorDetailsJsonData);	
+	//console.log('insertTailorDetailsDetails tailorDetailsJsonData '+tailorDetailsJsonData);	
 	var jsonTempData = tailorDetailsJsonData;
 		var tailor_details_id = jsonTempData["id"];
 		var first_name = jsonTempData["first_name"];
@@ -968,15 +968,15 @@ function insertCategories(arrData) {
 			tx.executeSql('select * from category where server_cat_id ='+server_cat_id ,[],function(tx,results){
 				var len = 0;
 				len = results.rows.length;
-				console.log('len'+len);
+				//console.log('len'+len);
 				if(len > 0){
 					for (var i = 0; i < len; i++) {
 						var localDB_id = results.rows.item(i)['id'];
 						var localDB_server_cat_id=results.rows.item(i)['server_cat_id'];
 						var localDB_parent_id=results.rows.item(i)['parent_id'];
 						var localDB_name=results.rows.item(i)['name'];
-						console.log('localDB_server_cat_id : '+ localDB_server_cat_id);
-						console.log('localDB_name : '+ localDB_name);
+						//console.log('localDB_server_cat_id : '+ localDB_server_cat_id);
+						//console.log('localDB_name : '+ localDB_name);
 						if(name != ''){
 							localDB_name = name;
 						}
@@ -992,14 +992,14 @@ function insertCategories(arrData) {
 						if(catImage != ''){
 							localDB_catImage = catImage;
 						}
-						console.log('update');
+						//console.log('update');
 						tx.executeSql("UPDATE category SET name = '" + localDB_name + "', description = '" + localDB_description + "', update_timestamp = '"+update_timestamp+"', catImage ='"+localDB_catImage+"', catStatus ='"+localDB_catStatus+"' WHERE id = " + localDB_id + "");
 					}
 				}else{
-					console.log('insert');
+					//console.log('insert');
 					tx.executeSql('INSERT INTO category(server_cat_id, parent_id, name, update_timestamp, description, catImage, catStatus, children) VALUES (?,?,?,?,?,?,?,?)',
 							[server_cat_id, parent_id, name, update_timestamp,description, catImage, catStatus, childExist], function(tx, res) {
-					console.log(' Parent Category ');
+					//console.log(' Parent Category ');
 				});
 				}
 			});
@@ -1040,15 +1040,15 @@ function insertCategories(arrData) {
 								if(catStatus_child != ''){
 									localDB_catStatus = catStatus_child;
 								}
-								console.log('update Child');
+								//console.log('update Child');
 								tx.executeSql("UPDATE category SET name = '" + localDB_name + "', description = '" + localDB_description + "', update_timestamp = '"+update_timestamp+"', catImage ='"+localDB_catImage+"', catStatus ='"+localDB_catStatus+"', parent_id = "+localDB_parent_id+" WHERE id = " + localDB_id + "");
 							}
 						}else{
-							console.log('insert Child');
+							//console.log('insert Child');
 							tx.executeSql('INSERT INTO category(server_cat_id, parent_id, name, update_timestamp, description, catImage, catStatus, children) VALUES (?,?,?,?,?,?,?,?)',
 									[server_cat_id_child, parent_id_child, name_child, update_timestamp,description_child, catImage_child, catStatus_child, childrenArrString], function(tx, res) {
 								//alert(server_cat_id_child, parent_id_child, name_child);
-								console.log(' Child Category ');
+								//console.log(' Child Category ');
 							});	
 						}
 					});
@@ -1060,7 +1060,7 @@ function insertCategories(arrData) {
 }
 
 function successCBInsertCategories() {
-	console.log(' category Successfully Inserted ');
+	//console.log(' category Successfully Inserted ');
 	var productDiv = '';
 	if(dataExist){
 		productDiv = '<p> Product Data Syncing </p>';
@@ -1090,7 +1090,7 @@ function getCategoriesListFromLocal(){
 	categoryRecordsDiv = '<p> Retrieving Category Records From Database </p>';
 	$('.appendStatusDiv').append(categoryRecordsDiv);
 	db.transaction(	function (tx){
-		console.log('getCategoriesListFromLocal');
+		//console.log('getCategoriesListFromLocal');
 			tx.executeSql('select * from category',[],function(tx,results){
 					var len = results.rows.length;
 					if(len>0){
@@ -1132,7 +1132,7 @@ function errorCBCatListDB(err) {
 }
 
 function successCBCatLocalDB() {
-	console.log("successCBCatLocalDB");
+	//console.log("successCBCatLocalDB");
 }	
 
 function errorCBCatLocalDB(err) {
@@ -1200,15 +1200,15 @@ function insertProductDetails(tx) {
 					if(galleryJson != ''){
 						local_DB_category =  categoryJson;
 					}
-					console.log('update product');
+					//console.log('update product');
 					tx.executeSql("UPDATE product_details SET name = '" + localDB_name + "', description = '" + localDB_description + "', update_timestamp = '"+update_timestamp+"', attribute_details = '"+local_DB_attributeJson+"', status = "+local_DB_prod_status+", measurement_typeid = "+local_DB_measurement_typeid+", gallery = '"+local_DB_gallery+"', category = '"+local_DB_category+"' WHERE id = " + localDB_id + "");
 				}
 				
 			}else{
-				console.log('insert product');
+				//console.log('insert product');
 				tx.executeSql('INSERT INTO product_details (server_prod_id, name, description, update_timestamp, measurement_typeid, status, attribute_details, gallery, category) VALUES (?,?,?,?,?,?,?,?,?)',
 	   	    			[server_prod_id, name, description, update_timestamp, measurement_typeid, prod_status, attributeJson, galleryJson, categoryJson], function(tx, res) {
-				console.log("PD insertId: " + res.insertId );
+				//console.log("PD insertId: " + res.insertId );
 				});
 			}
 		});
@@ -1230,7 +1230,7 @@ function errorCBProdListDB(err) {
 }
 
 function successCBProdLocalDB() {
-	console.log("successCBProdLocalDB");
+	//console.log("successCBProdLocalDB");
 }	
 
 function errorCBProdLocalDB(err) {
@@ -1388,15 +1388,15 @@ function insertAttributesDetails(tx) {
 					if(optionJson != ''){
 						local_DB_option = optionJson;
 					}
-					console.log('update product_attributes');
+					//console.log('update product_attributes');
 					tx.executeSql("UPDATE product_attributes SET name = '" + localDB_name + "', identifier = '" + localDB_identifier + "', update_timestamp = '"+update_timestamp+"', status = "+local_DB_status+", backend_name = '"+local_DB_backend_name+"', option = '"+local_DB_option+"' WHERE id = " + localDB_id + "");
 				}
 				
 			}else{
-				console.log('insert product_attributes');
+				//console.log('insert product_attributes');
 				tx.executeSql('INSERT INTO product_attributes(server_attr_id, name, identifier, status, backend_name, update_timestamp, option) VALUES (?,?,?,?,?,?,?)',
 	   	    			[server_attr_id, name,identifier, attr_status, backend_name, update_timestamp, optionJson], function(tx, res) {
-		   	        	console.log("Attribute Data insertId: " + res.insertId + " -- res.rowsAffected 1"+res.rowsAffected);
+		   	        	//console.log("Attribute Data insertId: " + res.insertId + " -- res.rowsAffected 1"+res.rowsAffected);
 				});
 			}
 		});
@@ -1555,14 +1555,14 @@ function insertMeasurementsDetails(tx) {
 					if(groupJson != ''){
 						localDB_group_data = groupJson;
 					}
-					console.log('update measurement_details');
+					//console.log('update measurement_details');
 					tx.executeSql("UPDATE measurement_details SET name = '" + localDB_name + "', update_timestamp = '"+update_timestamp+"', status = "+localDB_status+", group_data = '"+localDB_group_data+"' WHERE id = " + localDB_id + "");
 				}
 			}else{
-				console.log('INSERT measurement_details');
+				//console.log('INSERT measurement_details');
 				tx.executeSql('INSERT INTO measurement_details(name, server_measurement_id, status, update_timestamp, group_data) VALUES (?,?,?,?,?)',
 	   	    			[name, server_measurement_id,meas_status, update_timestamp, groupJson], function(tx, res) {
-					console.log("Measurement Data insertId: " + res.insertId + " -- res.rowsAffected 1"+res.rowsAffected);
+					//console.log("Measurement Data insertId: " + res.insertId + " -- res.rowsAffected 1"+res.rowsAffected);
 				});
 			}
 		});
@@ -1603,21 +1603,21 @@ function insertStaticDetails(tx) {
 					if(valueData != ''){
 						localDB_valueData = valueData;
 					}
-					console.log(localDB_name+' '+localDB_identifier+'');
-					console.log('update static_details');
+					//console.log(localDB_name+' '+localDB_identifier+'');
+					//console.log('update static_details');
 					localDB_valueData = localDB_valueData.replace("'", " ");
 					try{
 						tx.executeSql('UPDATE static_details SET name="'+localDB_name+'", update_timestamp="'+update_timestamp+'", identifier="'+localDB_identifier+'", data="'+valueData+'" WHERE id=' + localDB_id);
 					}catch(err){
-						console.log('Special Character');
+						//console.log('Special Character');
 					}
 					
 				}
 			}else{
-				console.log('INSERT static_details');
+				//console.log('INSERT static_details');
 				tx.executeSql('INSERT INTO static_details(name, server_sd_id, identifier, update_timestamp, data) VALUES (?,?,?,?,?)',
 	   	    			[name, static_server_id,identifier, update_timestamp, valueData], function(tx, res) {
-					console.log("static_details Data insertId: " + res.insertId + " -- res.rowsAffected 1"+res.rowsAffected);
+					//console.log("static_details Data insertId: " + res.insertId + " -- res.rowsAffected 1"+res.rowsAffected);
 				});
 			}
 		});
@@ -1775,7 +1775,7 @@ function deleteRecordsFromLocalDB(){
 				}
 				if(tableName != ''){
 					tx.executeSql('select count(*) as mycount from '+tableName+' where '+columnName+'='+tableIndexId+'', [], function(tx, rs) {
-				          console.log('Record count (expected to be 1): ' + rs.rows.item(0).mycount);
+				          //console.log('Record count (expected to be 1): ' + rs.rows.item(0).mycount);
 				          var recordCount = 0;
 				          recordCount = rs.rows.item(0).mycount;
 				          if(recordCount > 0){
@@ -1904,7 +1904,7 @@ function errorCBDelRecdsProdGalFn(err){
 }
 
 function successCBDelRecdsProdGalFn(){
-	console.log('successCBDelRecdsProdGalFn');
+	//console.log('successCBDelRecdsProdGalFn');
 	needToDeleteInJsonArrayProductGall = [];
 	deleteChildArraysByMethods();
 }
@@ -1953,7 +1953,7 @@ function errorCBDelRecdsAttrOptionFn(err){
 }
 
 function successCBDelRecdsAttrOptionFn(){
-	console.log('successCBDelRecdsAttrOptionFn');
+	//console.log('successCBDelRecdsAttrOptionFn');
 	needToDeleteInJsonArrayAttrOptions = [];
 	deleteChildArraysByMethods();
 }
@@ -1966,22 +1966,22 @@ function deleteRecordsFromMeasurementGroup(){
 	db.transaction(	function (tx){
 		tx.executeSql('CREATE TABLE IF NOT EXISTS measurement_details (id integer primary key autoincrement, name text, server_measurement_id integer, status integer, update_timestamp text, group_data text)');
 		if(needToDeleteInJSonArrayMeasuGroup.length > 0){
-			console.log('needToDeleteInJSonArrayMeasuGroup.length : ' +needToDeleteInJSonArrayMeasuGroup.length);
+			//console.log('needToDeleteInJSonArrayMeasuGroup.length : ' +needToDeleteInJSonArrayMeasuGroup.length);
 			jQuery.each(needToDeleteInJSonArrayMeasuGroup, function(index,value) {
 				var measurementTypeId = value['measType'];
 				var measurementGroupId = value['measGroup'];
-				console.log('measurementTypeId : '+measurementTypeId + ' measurementGroupId : '+measurementGroupId);
+				//console.log('measurementTypeId : '+measurementTypeId + ' measurementGroupId : '+measurementGroupId);
 				tx.executeSql('select * from measurement_details where server_measurement_id ='+measurementTypeId ,[],function(tx,results){
-					console.log('results.rows.length :' +results.rows.length);
+					//console.log('results.rows.length :' +results.rows.length);
 					var len = 0;
 					len = results.rows.length;
 					if(len > 0 && len != undefined){
 						var local_DB_group_data = results.rows.item(0)['group_data'];
-						console.log(local_DB_group_data);
+						//console.log(local_DB_group_data);
 						var newGroupObjArr = [];
 						if(local_DB_group_data != ''){
 							var groupObj = jQuery.parseJSON(local_DB_group_data);
-							console.log('groupObj :'+groupObj)
+							//console.log('groupObj :'+groupObj)
 							if(groupObj != ''){
 								jQuery.each(groupObj, function(indexObj,valueObj) {
 									var groupObject = new Object();
@@ -2010,7 +2010,7 @@ function errorCBDelRecdsMeasGroupFn(err){
 }
 
 function successCBDelRecdsMeasGroupFn(){
-	console.log('successCBDelRecdsMeasGroupFn');
+	//console.log('successCBDelRecdsMeasGroupFn');
 	needToDeleteInJSonArrayMeasuGroup = [];
 	deleteChildArraysByMethods();
 }
@@ -2020,15 +2020,15 @@ function deleteRecordsFromMeasurements(){
 	var update_timestamp = currDateTimestamp;
 	db.transaction(	function (tx){
 		tx.executeSql('CREATE TABLE IF NOT EXISTS measurement_details (id integer primary key autoincrement, name text, server_measurement_id integer, status integer, update_timestamp text, group_data text)');
-		console.log('needToDeleteInJSonArrayMeasurements.length : '+needToDeleteInJSonArrayMeasurements.length);
+		//console.log('needToDeleteInJSonArrayMeasurements.length : '+needToDeleteInJSonArrayMeasurements.length);
 		if(needToDeleteInJSonArrayMeasurements.length > 0){
 			jQuery.each(needToDeleteInJSonArrayMeasurements, function(index,value) {
 				var measurementTypeId = value['measType'];
 				var measurementGroupId = value['measGroup'];
 				var measurementId = value['measurementId'];
-				console.log('measurementTypeId :'+measurementTypeId + " measurementGroupId : "+measurementGroupId + " measurementId :"+measurementId);
+				//console.log('measurementTypeId :'+measurementTypeId + " measurementGroupId : "+measurementGroupId + " measurementId :"+measurementId);
 				tx.executeSql('select * from measurement_details where server_measurement_id ='+measurementTypeId ,[],function(tx,results){
-					console.log(results.rows.length);
+					//console.log(results.rows.length);
 					var len = 0;
 					len = results.rows.length;
 					if(len > 0 && len != undefined){
@@ -2049,7 +2049,7 @@ function deleteRecordsFromMeasurements(){
 		 							groupObject['created_at'] = valueGP['created_at'];
 		 							groupObject['updated_at'] = valueGP['updated_at'];
 		 							var needToDeleteArrayObject = [];
-		 							console.log("valueGP['measurements'] : "+valueGP['measurements']);
+		 							//console.log("valueGP['measurements'] : "+valueGP['measurements']);
 		 							if(valueGP['measurements'] != '' && valueGP['measurements'] != undefined){
 		 								jQuery.each(valueGP['measurements'], function(indexObj,valueObj){
 			 								if(parseInt(measurementId) != parseInt(valueObj['id'])){
@@ -2080,7 +2080,7 @@ function errorCBDelRecdsMeasurementsFn(err){
 }
 
 function successCBDelRecdsMeasurementsFn(){
-	console.log('successCBDelRecdsMeasurementsFn');
+	//console.log('successCBDelRecdsMeasurementsFn');
 	needToDeleteInJSonArrayMeasurements = [];
 	deleteChildArraysByMethods();
 }
@@ -2210,7 +2210,7 @@ function getOrderListFromLocalDB(){
 }
 
 function successCBOrderListDB() {
-	console.log('successCBOrderListDB');
+	//console.log('successCBOrderListDB');
 	getCustomerListFromLocalDB();
 }	
 
@@ -2397,7 +2397,7 @@ function successCBUpdateCustomerDB(){
 function updateOrderDetailsInLocalDB(orderJson){
 	var orderId = orderJson['orderId'];
 	var measurementData = JSON.stringify(orderJson['measurementData']);
-	console.log('measurementData '+measurementData);
+	//console.log('measurementData '+measurementData);
 	
 	var currDateTimestamp = dateTimestamp();
 	db.transaction(	function (tx){
@@ -2520,7 +2520,7 @@ function successCBUpdateCustomerSyncDB(){
 	function commonSuccessCallback(data) {
 		var res=jQuery.parseJSON(data);
 		responseData=JSON.stringify(res);
-		console.log(responseData);
+		//console.log(responseData);
 	}
 	
 	function commonErrorCallback(data) {
@@ -2610,15 +2610,15 @@ function successCBUpdateCustomerSyncDB(){
 	    	}
 	    	
 	        tx.executeSql('select count(*) as mycount from '+tablename+' ', [], function(tx, rs) {
-	          console.log('Record count (expected to be 2): ' + rs.rows.item(0).mycount);
+	          //console.log('Record count (expected to be 2): ' + rs.rows.item(0).mycount);
 	          var recordCount = 0;
 	          recordCount = rs.rows.item(0).mycount;
 	          if(parseInt(recordCount) > 0){
 	        	  if(tablename == 'tailor_details'){
-	        		  console.log('getTailorDetailsFromLocal');
+	        		  //console.log('getTailorDetailsFromLocal');
 	        		  getTailorDetailsFromLocal();
 	        	  }else if(tablename == 'category'){
-	        		  console.log('getCategoriesListFromLocal');
+	        		  //console.log('getCategoriesListFromLocal');
 	        		  getCategoriesListFromLocal();
 	        	  }
 	          }else if(parseInt(recordCount) == 0){
@@ -2634,7 +2634,7 @@ function successCBUpdateCustomerSyncDB(){
 	        		  }
 	        		  
 	        	  }else if(tablename == 'category'){
-	        		  console.log('getCategoriesDataFromServer');
+	        		  //console.log('getCategoriesDataFromServer');
 	        		  var isOK = confirm("Are you really want to update?");
 	        			if(isOK){
 	        				getCategoriesDataFromServer();
@@ -2669,18 +2669,18 @@ function successCBUpdateCustomerSyncDB(){
 		}else{*/
 		
 			connectionType=checkConnection();
-			console.log('connectionType : ' +connectionType);
+			//console.log('connectionType : ' +connectionType);
 			if(connectionType=="Unknown connection" || connectionType=="No network connection"){
-				console.log('connectionType Inside : '+dataSyncTypeTailor);
+				//console.log('connectionType Inside : '+dataSyncTypeTailor);
 				if(type == dataSyncTypeTailor){
 					db.transaction(function(tx) {
 						tx.executeSql('CREATE TABLE IF NOT EXISTS tailor_details (id integer primary key autoincrement, server_td_id integer, first_name text, middle_name text, last_name text, business_title text, address1 text, address2 text, email text, contact1 text, contact2 text, secret_key text, tailor_status integer, city text, pincode text, state_id integer, country_id integer, state_name text, country_name text, update_timestamp text)');
 						tx.executeSql('select count(*) as mycount from tailor_details ', [], function(tx, rs) {
 							 var recordCount = 0;
 					          recordCount = rs.rows.item(0).mycount;
-					          console.log('connectionType Inside : '+recordCount);
+					          //console.log('connectionType Inside : '+recordCount);
 					          if(parseInt(recordCount) > 0){
-					        	  console.log('connectionType Inside : calling TailorDetails');
+					        	  //console.log('connectionType Inside : calling TailorDetails');
 					        	  getTailorDetailsFromLocal();
 					          }else{
 					        	  hideModal();
@@ -2696,9 +2696,9 @@ function successCBUpdateCustomerSyncDB(){
 						tx.executeSql('select count(*) as mycount from tailor_details ', [], function(tx, rs) {
 							var recordCount = 0;
 							recordCount = rs.rows.item(0).mycount;
-							console.log('connectionType Inside : '+recordCount);
+							//console.log('connectionType Inside : '+recordCount);
 							if(parseInt(recordCount) > 0){
-								console.log('connectionType Inside : calling TailorDetails');
+								//console.log('connectionType Inside : calling TailorDetails');
 								getCategoriesListFromLocal();
 							}else{
 					        	  hideModal();
@@ -2719,7 +2719,7 @@ function successCBUpdateCustomerSyncDB(){
 					        	  getTailorDetailsFromLocal();
 					          }else{
 					        	  loginUserId = $('#username').val();
-					        	  console.log('Test LOGIN ID : '+loginUserId);
+					        	  //console.log('Test LOGIN ID : '+loginUserId);
 					        	  if(loginUserId == undefined || loginUserId == ''){
 					        		  hideModal();
 					        		  gotoLoginPage();
@@ -2856,7 +2856,7 @@ function successCBUpdateCustomerSyncDB(){
 	}
 	
 	function successCBServerSyncFn(data){
-		console.log('successCBServerSyncFn : '+ data);
+		//console.log('successCBServerSyncFn : '+ data);
 	}
 	
 	function appendCatListDB(catArrData, subCatArrData) {
@@ -3040,11 +3040,11 @@ function successCBUpdateCustomerSyncDB(){
 							//downloadFile(gallery_id, image, 'product');
 							var galleryArraysImgUrlTemp = localPath + "/" + 'gallery'+ '/' + image;
 							var downloadFileUrl = productImageData + '/' + image;
-							
-							window.resolveLocalFileSystemURL(
+							downloadFileValidatorFn(downloadFileUrl, folder, image, gallery_id);
+							/*window.resolveLocalFileSystemURL(
 									galleryArraysImgUrlTemp,// File Url 
 									function fileExist(fileEntry) { // Exist Success CB
-										console.log('File Exist'); // For Testing
+										//console.log('File Exist'); // For Testing
 										
 										var id = folder+gallery_id;
 										
@@ -3055,12 +3055,12 @@ function successCBUpdateCustomerSyncDB(){
 								    	updateProgress(100, id);
 									}, 
 									function fileNotExist(e) { // Not Exist Success CB
-										console.log("File not exist");
+										//console.log("File not exist");
 										console.dir(e);
 										
 										downloadFileValidatorFn(downloadFileUrl, folder, image, gallery_id);
 									}
-								);
+								);*/
 						});
 					}
 				/*}
@@ -3358,9 +3358,9 @@ function successCBUpdateCustomerSyncDB(){
 											var optionId = value2['id'];
 											// Condition
 											var optionArraysImgUrlTemp = localPath + "/" + 'attributes'+ '/' +optionImg;
-											
+											downloadFileValidatorFn(downloadFileUrl, folder, optionImg, optionId);
 											// For Testing Main 
-											window.resolveLocalFileSystemURL(
+											/*window.resolveLocalFileSystemURL(
 												optionArraysImgUrlTemp,// File Url 
 												function fileExist(fileEntry) { // Exist Success CB
 													//console.log('File Exist'); // For Testing
@@ -3386,7 +3386,7 @@ function successCBUpdateCustomerSyncDB(){
 													var optionName = value2['name'];
 													downloadFileValidatorFn(downloadFileUrl, folder, optionImg, optionId);
 												}
-											);
+											);*/
 											/*
 											if(downAttrOptFileTotal == (attrOptAlreadyExistCount + attrOptInProgCount)){
 												restartApplication();
@@ -4518,7 +4518,7 @@ function successCBUpdateCustomerSyncDB(){
 					i = parseInt(i) + 1;
 				});
 				//selectedOptionMain.optionArray
-				console.log("optionSelectedOrderData['optionArray'] : "+optionSelectedOrderData['optionArray']);
+				//console.log("optionSelectedOrderData['optionArray'] : "+optionSelectedOrderData['optionArray']);
 				var imageAppendDiv = '';
 				jQuery.each(optionSelectedOrderData['optionArray'], function(indexObj,valueObj){
 					var imageName = valueObj['imageName'];
@@ -4855,13 +4855,13 @@ function successCBUpdateCustomerSyncDB(){
 	}
 	
 	function successCBOrderDetailsForSavedFn(){
-		console.log('successCBOrderDetailsForSavedFn');
+		//console.log('successCBOrderDetailsForSavedFn');
 		sendOrderDataToSaveInServer = [];
 		sendDataToServer();
 	}
 	
 	function successCBOrderDetailsForUpdateFn(){
-		console.log('successCBOrderDetailsForUpdateFn');
+		//console.log('successCBOrderDetailsForUpdateFn');
 		sendOrderDataToUpdateInServer = [];
 		sendDataToServer();
 	}
@@ -4987,10 +4987,10 @@ function successCBUpdateCustomerSyncDB(){
 		window.appRootDirName = "tailorrani";
 		onRequestFileSystemSuccess(fileSystem);
 	    // save the file system for later access
-	    console.log(fileSystem.root.fullPath);
+	    //console.log(fileSystem.root.fullPath);
 	    window.fileSystem = fileSystem;
 	    window.rootFS = fileSystem.root;
-	    console.log('window.rootFS : '+window.rootFS);
+	    //console.log('window.rootFS : '+window.rootFS);
 	    fileSystem.root.getDirectory(window.appRootDirName, {
             create: true,
             exclusive: false
@@ -5003,7 +5003,7 @@ function successCBUpdateCustomerSyncDB(){
 	} 
 	
 	function onGetDirectorySuccess(dir) { 
-	      console.log("Created dir "+dir.name); 
+	      //console.log("Created dir "+dir.name); 
 	} 
 
 	function onGetDirectoryFail(error) { 
@@ -5240,7 +5240,7 @@ function successCBUpdateCustomerSyncDB(){
 	var initialHref = window.location.href;
 
 	function restartApplication() {
-		console.log("initialHref-- " + initialHref);
+		//console.log("initialHref-- " + initialHref);
 	  // Show splash screen (useful if your app takes time to load) 
 	  // navigator.splashscreen.show();
 	  // Reload original app url (ie your index.html file)
