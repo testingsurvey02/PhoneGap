@@ -5149,7 +5149,11 @@ function successCBUpdateCustomerSyncDB(){
 			console.log("download toURL: " + entry.toURL());
 			if(folderPath == 'gallery'){
 				productGalleryImageIndex++;
-	    		redownloadProductImages();
+				if(productGalleryImageIndex == (galleryObj.length)-1 && productImageIndex == (productDetailsArrSession.length) - 1){
+					gotoProductPage();
+				}else{
+					redownloadProductImages();
+				}
 			}
 			//updateProgress(100, id);
 			/* $('#remove'+File_Name).remove();
