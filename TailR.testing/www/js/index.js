@@ -3010,9 +3010,6 @@ function successCBUpdateCustomerSyncDB(){
 	
 	var prodImgCountInProg=0, prodImgCountDownloaded=0;
 	
-	var productGalleryImageIndex = 0;
-	var productImageIndex = 0;
-	var isGalleryCalledBreak = false;
 	function redownloadProductImages(){
 		downloadImagesOfProduct(productDetailsArrSession);
 	}
@@ -3041,58 +3038,38 @@ function successCBUpdateCustomerSyncDB(){
 						}
 						var downloadImagesDiv = '';
 						jQuery.each(galleryObj , function(indexObj,valueObj) {
-							if(index >= productImageIndex){
-								if(productImageIndex< index){
-									productImageIndex = index;
-								}
-								if(productGalleryImageIndex > (galleryObj.length)-1){
-									productGalleryImageIndex = 0;
-								}					
-								if(parseInt(productGalleryImageIndex) == parseInt(indexObj)){
-									totalProductImages = parseInt(totalProductImages) + 1;
-									var galleryArrObject = new Array();
-									var gallery_id = valueObj['id'];
-									var image = valueObj["image"];
-									//downloadFile(gallery_id, image, 'product');
-									var galleryArraysImgUrlTemp = localPath + "/" + 'gallery'+ '/' + image;
-									var downloadFileUrl = productImageData + '/' + image;
-									
-									window.resolveLocalFileSystemURL(
-										galleryArraysImgUrlTemp,// File Url 
-										function fileExist(fileEntry) { // Exist Success CB
-											//console.log('File Exist'); // For Testing
-											
-											var id = folder+gallery_id;
-											
-											var progressBarTag = '<div id="remove'+image+'"><span style="width: 100%">'+image+'</span> : '+ '<br/><progress id="'+image+'" class="'+id+'" data-urllink="'+downloadFileUrl+'" data-location="'+galleryArraysImgUrlTemp+'" value="100" max="100" style="width: 100%"></progress>';
-											progressBarTag += '<button class="btn btn-primary st-bg-baby-pink ui-btn ui-shadow ui-corner-all '+id+'" data-uniqueid="'+id+'" data-urllink="'+downloadFileUrl+'" onclick="startPauseResumeDownload(this);" data-location="'+galleryArraysImgUrlTemp+'">Re-download</button></div>'
-									    	//$('#progressBarDiv').append(progressBarTag);
-									    	//$('#progressBarDiv').show();
-									    	//updateProgress(100, id);
-										}, 
-										function fileNotExist(e) { // Not Exist Success CB
-											//console.log("File not exist");
-											console.dir(e);
-											
-											downloadFileValidatorFn(downloadFileUrl, folder, image, gallery_id);
-											productGalleryImageIndex = indexObj;
-											productImageIndex = index;
-											isGalleryCalledBreak = true;
-											return false;
-										}
-									);
-								}
-							}
-							if(isGalleryCalledBreak == true){
-								return false;
-							}
+							totalProductImages = parseInt(totalProductImages) + 1;
+							var galleryArrObject = new Array();
+							var gallery_id = valueObj['id'];
+							var image = valueObj["image"];
+							//downloadFile(gallery_id, image, 'product');
+							var galleryArraysImgUrlTemp = localPath + "/" + 'gallery'+ '/' + image;
+							var downloadFileUrl = productImageData + '/' + image;
+							
+							window.resolveLocalFileSystemURL(
+									galleryArraysImgUrlTemp,// File Url 
+									function fileExist(fileEntry) { // Exist Success CB
+										//console.log('File Exist'); // For Testing
+										
+										var id = folder+gallery_id;
+										
+										var progressBarTag = '<div id="remove'+image+'"><span style="width: 100%">'+image+'</span> : '+ '<br/><progress id="'+image+'" class="'+id+'" data-urllink="'+downloadFileUrl+'" data-location="'+galleryArraysImgUrlTemp+'" value="100" max="100" style="width: 100%"></progress>';
+										progressBarTag += '<button class="btn btn-primary st-bg-baby-pink ui-btn ui-shadow ui-corner-all '+id+'" data-uniqueid="'+id+'" data-urllink="'+downloadFileUrl+'" onclick="startPauseResumeDownload(this);" data-location="'+galleryArraysImgUrlTemp+'">Re-download</button></div>'
+								    	//$('#progressBarDiv').append(progressBarTag);
+								    	//$('#progressBarDiv').show();
+								    	//updateProgress(100, id);
+									}, 
+									function fileNotExist(e) { // Not Exist Success CB
+										//console.log("File not exist");
+										console.dir(e);
+										
+										downloadFileValidatorFn(downloadFileUrl, folder, image, gallery_id);
+									}
+								);
 						});
 					}
 				/*}
 			});*/
-				/*if(isGalleryCalledBreak == true){
-					break;
-				} */
 			i = parseInt(i) + 1;
 		});
 		
@@ -5181,14 +5158,8 @@ function successCBUpdateCustomerSyncDB(){
 		    	/*var tempDiv = '<div id="'+File_Name+'">'+
 		    			tempDiv += '<span>File Name : "'+File_Name+'" </span>'
 		    			+' Percentage : '+now/100+'%</div>';*/
-		    	console.log(now/100);
+		    	
 		        updateProgress(now / 100, id);
-		        if(now/100 == 100){
-		        	if(File_Name == 'gallery'){
-		        		productGalleryImageIndex++;
-		        		redownloadProductImages();
-		        	}
-		        }
 		        this.pre = now;
 		    }
 		}
