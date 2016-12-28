@@ -3080,12 +3080,13 @@ function successCBUpdateCustomerSyncDB(){
 											productGalleryImageIndex = indexObj;
 											productImageIndex = index;
 											isGalleryCalledBreak = true;
-											break;
 										}
 									);
 								}
 							}
-							
+							if(isGalleryCalledBreak == true){
+								break;
+							}
 						});
 					}
 				/*}
