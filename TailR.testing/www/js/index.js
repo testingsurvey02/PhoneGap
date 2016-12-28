@@ -3075,6 +3075,9 @@ function successCBUpdateCustomerSyncDB(){
 											console.dir(e);
 											
 											downloadFileValidatorFn(downloadFileUrl, folder, image, gallery_id);
+											if(productGalleryImageIndex == (galleryObj.length)-1 && productImageIndex == (productDetailsArrSession.length) - 1){
+												gotoProductPage();
+											}
 											productGalleryImageIndex = indexObj;
 											productImageIndex = index;
 											isGalleryCalledBreak = true;
@@ -5194,12 +5197,8 @@ function successCBUpdateCustomerSyncDB(){
 		        updateProgress(now / 100, id);
 		        if(now/100 == 100){
 		        	if(folderPath == 'gallery'){
-		        		if(productGalleryImageIndex == (galleryObj.length)-1 && productImageIndex == (productDetailsArrSession.length) - 1){
-							gotoProductPage();
-						}else{
-							productGalleryImageIndex++;
-							redownloadProductImages();
-						}
+		        		productGalleryImageIndex++;
+						redownloadProductImages();
 		        	}
 		        }
 		        this.pre = now;
