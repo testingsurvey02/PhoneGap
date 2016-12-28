@@ -3522,9 +3522,9 @@ function successCBUpdateCustomerSyncDB(){
 			$('.selection-page-options-div .appendButton').append(appendButtons);
 			
 			
-			gotoAttributePageDiv();
+			/*gotoAttributePageDiv();*/
 		}
-		showGalleryDivTag();
+		/*showGalleryDivTag();*/
 	}
 	
 	function selectedOptionZoomFn(dataObj){
@@ -5159,7 +5159,7 @@ function successCBUpdateCustomerSyncDB(){
 		    			+' Percentage : '+now/100+'%</div>';*/
 		    	
 		        updateProgress(now / 100, id);
-		        if(now/100 == 100){
+		        if(parseInt(now/100) == 100){
 		        	var idRemove='#remove'+id;
 			        console.log('Removed Div : ----- '+id+'----' +$('#progressBarDiv').find(idRemove).html());
 			        $('#progressBarDiv').find(idRemove).remove();
@@ -5226,11 +5226,11 @@ function successCBUpdateCustomerSyncDB(){
 			        var now = ~~((progress.loaded / progress.total) * 100 * 100);
 			        if (now - +this.pre > 17) {
 			            updateProgress(now / 100, id);
-			            this.pre = now;
-			            if(now/100 == 100){
+			            if(parseInt(now/100) == 100){
 			            	console.log('Removed Div : -----'+id+'--- ' +$('#progressBarDiv').find('#remove'+id).html());
 					        $('#progressBarDiv').find('#remove'+id).remove();
 			            }
+			            this.pre = now;
 			        }
 			    }
 		}
