@@ -3009,6 +3009,7 @@ function successCBUpdateCustomerSyncDB(){
 	}
 	
 	var prodImgCountInProg=0, prodImgCountDownloaded=0;
+	var productDownloadExist = false;
 	function downloadImagesOfProduct(prodArrDataToDownload){
 		
 		$('#progressBarDiv').empty();
@@ -3059,7 +3060,7 @@ function successCBUpdateCustomerSyncDB(){
 									function fileNotExist(e) { // Not Exist Success CB
 										//console.log("File not exist");
 										console.dir(e);
-										
+										productDownloadExist = true;
 										downloadFileValidatorFn(downloadFileUrl, folder, image, gallery_id);
 									}
 								);
@@ -3074,6 +3075,9 @@ function successCBUpdateCustomerSyncDB(){
 			productImagesDownload = true;
 			//gotoProductPage();
 			appendProdListDB(productDetailsArrSession);
+			if(!productDownloadExist){
+				gotoProductPage();
+			}
 		}
 	}
 	
