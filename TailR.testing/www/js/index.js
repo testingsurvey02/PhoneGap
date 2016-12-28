@@ -5159,8 +5159,9 @@ function successCBUpdateCustomerSyncDB(){
 		    			+' Percentage : '+now/100+'%</div>';*/
 		    	
 		        updateProgress(now / 100, id);
-		        console.log('Removed Div : ----- '+id+'----' +$('#progressBarDiv').find('#'+id).html());
-		        $('#progressBarDiv').find('#'+removeProgressId).remove();
+		        var idRemove='#'+id;
+		        console.log('Removed Div : ----- '+id+'----' +$('#progressBarDiv').find(idRemove).html());
+		        $('#progressBarDiv').find(idRemove).remove();
 		       
 		        this.pre = now;
 		    }
