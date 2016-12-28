@@ -3085,7 +3085,7 @@ function successCBUpdateCustomerSyncDB(){
 								}
 							}
 							if(isGalleryCalledBreak == true){
-								break;
+								return false;
 							}
 						});
 					}
