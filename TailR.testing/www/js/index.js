@@ -3374,9 +3374,9 @@ function successCBUpdateCustomerSyncDB(){
 													
 													var id = folder+optionId;
 													var downloadFileUrl = attributeImageData + '/' + optionImg;
-													var progressBarTag = '<div id="remove'+optionImg+'"><span style="width: 100%">'+optionImg+'</span> : '+ '<br/><progress id="'+optionImg+'" class="'+id+'" data-urllink="'+downloadFileUrl+'" data-location="'+optionArraysImgUrlTemp+'" value="100" max="100" style="width: 100%"></progress>';
+													/*var progressBarTag = '<div id="remove'+optionImg+'"><span style="width: 100%">'+optionImg+'</span> : '+ '<br/><progress id="'+optionImg+'" class="'+id+'" data-urllink="'+downloadFileUrl+'" data-location="'+optionArraysImgUrlTemp+'" value="100" max="100" style="width: 100%"></progress>';
 													progressBarTag += '<button class="btn btn-primary st-bg-baby-pink ui-btn ui-shadow ui-corner-all '+id+'" data-uniqueid="'+id+'" data-urllink="'+downloadFileUrl+'" onclick="startPauseResumeDownload(this);" data-location="'+optionArraysImgUrlTemp+'">Re-download</button></div>'
-											    	$('#progressBarDiv').append(progressBarTag);
+											    	$('#progressBarDiv').append(progressBarTag);*/
 											    	$('#progressBarDiv').show();
 											    	updateProgress(100, id);
 												}, 
