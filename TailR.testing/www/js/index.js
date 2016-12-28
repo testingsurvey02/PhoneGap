@@ -5236,6 +5236,7 @@ function successCBUpdateCustomerSyncDB(){
 		var isOK = confirm("Are you really want to Re-download?");
 		if(isOK)
 		{
+			
 			// console.log("isStart", this.isStart);
 			   /* if (!this.isStart) {
 			        this.isStart = true;
@@ -5251,6 +5252,21 @@ function successCBUpdateCustomerSyncDB(){
 			    var id = $(thisData).data('uniqueid');
 			    var uri = serverURL;
 			    var fileURL = filePathDestination;
+			    
+			    window.requestFileSystem(LocalFileSystem.PERSISTENT, 0, function(fileSystem){
+			        fileSystem.root.getFile(filePathDestination, {create:false}, function(fileEntry){
+			            fileEntry.remove(function(file){
+			                console.log("File removed!");
+			            },function(){
+			                console.log("error deleting the file " + error.code);
+			                });
+			            },function(){
+			                console.log("file does not exist");
+			            });
+			        },function(evt){
+			            console.log(evt.target.error.code);
+			    });
+			    
 			    console.log(serverURL);
 			    console.log(filePathDestination);
 			    console.log(id);
