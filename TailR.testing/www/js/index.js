@@ -3040,8 +3040,8 @@ function successCBUpdateCustomerSyncDB(){
 							//downloadFile(gallery_id, image, 'product');
 							var galleryArraysImgUrlTemp = localPath + "/" + 'gallery'+ '/' + image;
 							var downloadFileUrl = productImageData + '/' + image;
-							downloadFileValidatorFn(downloadFileUrl, folder, image, gallery_id);
-							/*window.resolveLocalFileSystemURL(
+							
+							window.resolveLocalFileSystemURL(
 									galleryArraysImgUrlTemp,// File Url 
 									function fileExist(fileEntry) { // Exist Success CB
 										//console.log('File Exist'); // For Testing
@@ -3060,7 +3060,7 @@ function successCBUpdateCustomerSyncDB(){
 										
 										downloadFileValidatorFn(downloadFileUrl, folder, image, gallery_id);
 									}
-								);*/
+								);
 						});
 					}
 				/*}
@@ -3358,9 +3358,9 @@ function successCBUpdateCustomerSyncDB(){
 											var optionId = value2['id'];
 											// Condition
 											var optionArraysImgUrlTemp = localPath + "/" + 'attributes'+ '/' +optionImg;
-											downloadFileValidatorFn(downloadFileUrl, folder, optionImg, optionId);
+											
 											// For Testing Main 
-											/*window.resolveLocalFileSystemURL(
+											window.resolveLocalFileSystemURL(
 												optionArraysImgUrlTemp,// File Url 
 												function fileExist(fileEntry) { // Exist Success CB
 													//console.log('File Exist'); // For Testing
@@ -3386,7 +3386,7 @@ function successCBUpdateCustomerSyncDB(){
 													var optionName = value2['name'];
 													downloadFileValidatorFn(downloadFileUrl, folder, optionImg, optionId);
 												}
-											);*/
+											);
 											/*
 											if(downAttrOptFileTotal == (attrOptAlreadyExistCount + attrOptInProgCount)){
 												restartApplication();
