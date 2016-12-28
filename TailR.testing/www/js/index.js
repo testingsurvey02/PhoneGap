@@ -5146,8 +5146,10 @@ function successCBUpdateCustomerSyncDB(){
 				function (entry) {
 			//localPath = entry.toURL();
 			console.log("download toURL: " + entry.toURL());
-			productGalleryImageIndex++;
-    		redownloadProductImages();
+			if(File_name == 'gallery'){
+				productGalleryImageIndex++;
+	    		redownloadProductImages();
+			}
 			//updateProgress(100, id);
 			/* $('#remove'+File_Name).remove();
 			if($('#progressBarDiv > div' ).lenght==0){
@@ -5158,14 +5160,14 @@ function successCBUpdateCustomerSyncDB(){
 			//count = parseInt(count)+1;
 			
 			// Product Count Check
-			if(prodImgCountInProg>0 && window.localStorage["productimgflag"]==1){
+			/*if(prodImgCountInProg>0 && window.localStorage["productimgflag"]==1){
 				prodImgCountDownloaded=prodImgCountDownloaded+1;
 				if(prodImgCountInProg==prodImgCountDownloaded ){
 					window.localStorage["productimgflag"]=2;
 					// For Testing
 					alert('All Product Images Doenloaded Successfully. ' + window.localStorage["productimgflag"]);
 				}
-			}
+			}*/
 		},
 		function (error) {
 			//Download abort errors or download failed errors
