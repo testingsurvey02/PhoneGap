@@ -3075,9 +3075,9 @@ function successCBUpdateCustomerSyncDB(){
 			productImagesDownload = true;
 			//gotoProductPage();
 			appendProdListDB(productDetailsArrSession);
-			if(!productDownloadExist){
-				gotoProductPage();
-			}
+			if($('#progressBarDiv').find('.confirmClass').length == 0 && !productDownloadExist){
+	        	gotoProductPage();
+	        }
 		}
 	}
 	
