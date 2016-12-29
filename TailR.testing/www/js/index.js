@@ -2964,7 +2964,7 @@ function successCBUpdateCustomerSyncDB(){
 				if(jsonObj['gallery'] != ''){
 					var imageCount = 0;
 					var totalImageCount = galleryObj.length;
-					$('.downloadProductList #'+thisId).find('p').text('Loading Images : '+totalImageCount);
+					$('.downloadProductList #'+thisId).find('p').text('Product Images : '+totalImageCount);
 					jQuery.each(galleryObj , function(indexObj,valueObj) {
 						totalProductImages = parseInt(totalProductImages) + 1;
 						var galleryArrObject = new Array();
@@ -3005,7 +3005,10 @@ function successCBUpdateCustomerSyncDB(){
 									
 								}
 							);*/
-						downloadFileValidatorFn(downloadFileUrl, folder, image, gallery_id, thisId);
+						setTimeout(function(){
+							downloadFileValidatorFn(downloadFileUrl, folder, image, gallery_id, thisId);
+						}, 1000);
+						
 					});
 				}
 			}
@@ -3240,6 +3243,7 @@ function successCBUpdateCustomerSyncDB(){
 	
 	function downloadAttrWithProductId(productId){
 		connectionType=checkConnection();
+		var productImages = $('.downloadProductList #'+productId).find('p').text();
 		/*var i = 0;*/
 		if(connectionType=="WiFi connection" || connectionType=="Cell 4G connection" || connectionType=="Cell 3G connection" || connectionType=="Cell 2G connection"){
 			jQuery.each(productDetailsArrSession, function(indexProd,valueProd) {
@@ -3280,7 +3284,7 @@ function successCBUpdateCustomerSyncDB(){
 									downAttrOptFileTotal = downAttrOptFileTotal + optionArraysTemp.length;
 									jQuery.each(optionArraysTemp, function(index2,value2) {
 										totalImageCount = parseInt(totalImageCount) + 1;
-										$('.downloadProductList #'+productId).find('p').text('Attributes : '+totalAttrCount+', Images : '+totalImageCount);
+										$('.downloadProductList #'+productId).find('p').text(productImages+', Attributes : '+totalAttrCount+', Images : '+totalImageCount);
 										
 										var optionImg = value2['image'];
 										var optionId = value2['id'];
@@ -3324,7 +3328,10 @@ function successCBUpdateCustomerSyncDB(){
 										//totalAttrOptImages = parseInt(totalAttrOptImages) + 1;
 										
 										var optionName = value2['name'];
-										downloadFileValidatorFn(downloadFileUrl, folder, optionImg, optionId, server_prod_id);
+										setTimeout(function(){
+											downloadFileValidatorFn(downloadFileUrl, folder, optionImg, optionId, server_prod_id);
+										}, 1000);
+										
 										/*
 										if(downAttrOptFileTotal == (attrOptAlreadyExistCount + attrOptInProgCount)){
 											restartApplication();
