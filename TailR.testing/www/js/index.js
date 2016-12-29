@@ -5326,12 +5326,13 @@ function successCBUpdateCustomerSyncDB(){
 	
 	// 3rd Step 
 	var removeProgressId = '';
+	var completedCountImg=0;
 	function filetransferFn(download_link, fp, File_Name, id, typeId) {
 		var fileTransfer = new FileTransfer();
 		//console.log(fp);
 		// File download function with URL and local path
 		removeProgressId = 'remove'+id;
-		var progressBarTag = '<div class="confirmClass" id="remove'+id+'"><span style="width: 100%">'+File_Name+'</span> : '+ '<br/><progress id="'+id+'" class="'+id+'" data-urllink="'+download_link+'" data-location="'+fp+'" value="0" max="100" style="width: 100%"></progress>';
+		var progressBarTag = '<div class="confirmClass" id="remove'+id+'">';
 		progressBarTag += '<button type="button" data-prod_id="'+typeId+'" class="btn btn-primary st-bg-baby-pink ui-btn ui-shadow ui-corner-all '+id+'" data-filename="'+File_Name+'" data-uniqueid="'+id+'" data-urllink="'+download_link+'" onclick="startPauseResumeDownload(this);" data-location="'+fp+'">Re-download</button>';
 		progressBarTag += '</div>';
     	$('#container'+typeId).append(progressBarTag).enhanceWithin();
@@ -5365,6 +5366,7 @@ function successCBUpdateCustomerSyncDB(){
 			console.log("upload error code" + error.code);
 		}
 		);
+		
 		fileTransfer.onprogress = function(progress) {
 		    /*console.log(progress.loaded, progress.total);*/
 		    if (this.pre === undefined) this.pre = 0;
@@ -5376,8 +5378,11 @@ function successCBUpdateCustomerSyncDB(){
 		    			+' Percentage : '+now/100+'%</div>';*/
 		    	
 		        updateProgress(now / 100, id, typeId);
+		        
 		        if(parseInt(now/100) == 100){
+		        	completedCountImg+=1;
 		        	var idRemove='#remove'+id;
+		        	$('.downloadProductList #'+typeId).append('<span>/ '+completedCountImg+'</span>');
 			        console.log('Removed Div : ----- '+id+'----' +$('#container'+typeId).find(idRemove).html());
 			        $('#container'+typeId).find(idRemove).remove();
 			        if($('#container'+typeId).find('.confirmClass').length == 0){
