@@ -3061,12 +3061,14 @@ function successCBUpdateCustomerSyncDB(){
 										//console.log("File not exist");
 										console.dir(e);
 										if(!productDownloadExist){
-											var progressDivTag = '<div class="confirmClass"></div>';
+											var progressDivTag = '<div class="confirmClass">Data is downloading</div>';
 											$('#progressBarDiv').append(progressDivTag);
-											console.log("$('#progressBarDiv').find('.confirmClass').length == 0 : " +$('#progressBarDiv').find('.confirmClass').length == 0);
+											console.log("$('#progressBarDiv').find('.confirmClass').length == 0 : " +$('#progressBarDiv').text());
 											$('#progressBarDiv').show();
 										}
+										console.log("$('#progressBarDiv').find('.confirmClass').length == 0 : " +$('#progressBarDiv').text());
 										productDownloadExist = true;
+										console.log("productDownloadExist : " +productDownloadExist);
 										downloadFileValidatorFn(downloadFileUrl, folder, image, gallery_id);
 									}
 								);
@@ -5174,7 +5176,8 @@ function successCBUpdateCustomerSyncDB(){
 			        console.log('Removed Div : ----- '+id+'----' +$('#progressBarDiv').find(idRemove).html());
 			        $('#progressBarDiv').find(idRemove).remove();
 			        if($('#progressBarDiv').find('.confirmClass').length > 1){
-			        	gotoProductPage();
+			        	$('#progressBarDiv #removeBackButton').remove();
+			        	$('#progressBarDiv').append('<div class="removeBackButton"><button class="btn btn-primary st-bg-baby-pink ui-btn ui-shadow ui-corner-all" onclick="gotoProductPage();" >Back to Product Page</button></div>');
 			        }
 		        }
 		       
