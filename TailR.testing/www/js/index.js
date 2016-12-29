@@ -2948,6 +2948,7 @@ function successCBUpdateCustomerSyncDB(){
 	}
 	
 	function downloadProdImage(thisData){
+		showModal();
 		var thisId = $(thisData).attr('id');
 		var productJsonArr = productDetailsArrSession;
 		var folder = 'gallery';
@@ -5320,10 +5321,6 @@ function successCBUpdateCustomerSyncDB(){
 				function (entry) {
 			//localPath = entry.toURL();
 			console.log("download toURL: " + entry.toURL());
-			var idRemove='#remove'+id;
-       	 console.log('Removed Div : ----- '+id+'----' +$('#container'+typeId).find(idRemove).html());
-	       /* $('#progressBarDiv').find('#remove'+id).remove();*/
-	        $('#container'+typeId).find(idRemove).remove();
 			//updateProgress(100, id);
 			/* $('#remove'+File_Name).remove();
 			if($('#progressBarDiv > div' ).lenght==0){
@@ -5365,10 +5362,11 @@ function successCBUpdateCustomerSyncDB(){
 		        	var idRemove='#remove'+id;
 			        console.log('Removed Div : ----- '+id+'----' +$('#container'+typeId).find(idRemove).html());
 			        $('#container'+typeId).find(idRemove).remove();
-			        /*if($('#container'+typeId).find('.confirmClass').length == 1){
-			        	$('#container'+typeId+' #removeBackButton').remove();
-			        	$('#container'+typeId).append('<div class="removeBackButton"><button class="btn btn-primary st-bg-baby-pink ui-btn ui-shadow ui-corner-all" onclick="gotoProductPage();" >Back to Product Page</button></div>');
-			        }*/
+			        if($('#container'+typeId).find('.confirmClass').length == 0){
+			        	$('#container'+typeId).find('button').text('Completed');
+			        	/*$('#container'+typeId+' #removeBackButton').remove();
+			        	$('#container'+typeId).append('<div class="removeBackButton"><button class="btn btn-primary st-bg-baby-pink ui-btn ui-shadow ui-corner-all" onclick="gotoProductPage();" >Back to Product Page</button></div>');*/
+			        }
 		        }
 		       
 		        this.pre = now;
@@ -5479,6 +5477,9 @@ function successCBUpdateCustomerSyncDB(){
 			            updateProgress(100, id, typeId);
 			            var idRemove='#remove'+id;
 		            	 console.log('Removed Div : ----- '+id+'----' +$('#container'+typeId).find(idRemove).html());
+		            	 if($('#container'+typeId).find('.confirmClass').length == 0){
+					        	$('#container'+typeId).find('button').text('Completed');
+		            	 }
 				       /* $('#progressBarDiv').find('#remove'+id).remove();*/
 				        $('#container'+typeId).find(idRemove).remove();
 			        },
@@ -5506,6 +5507,10 @@ function successCBUpdateCustomerSyncDB(){
 			            	 console.log('Removed Div : ----- '+id+'----' +$('#container'+typeId).find(idRemove).html());
 					       /* $('#progressBarDiv').find('#remove'+id).remove();*/
 					        $('#container'+typeId).find(idRemove).remove();
+					        if($('#container'+typeId).find('.confirmClass').length == 0){
+					        	hideModal();
+					        	$('#container'+typeId).find('button').text('Completed');
+		            	 }
 					        /*if($('#container'+typeId).find('.confirmClass').length == 1){
 					        	gotoProductPage();
 					        	$('#container'+typeId+' #removeBackButton').remove();
