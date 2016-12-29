@@ -3220,7 +3220,7 @@ function successCBUpdateCustomerSyncDB(){
 		$('#mainPageId .product-list').find('.galleriesClass').hide();
 		//$('.product-selection-details-div').empty();
 		
-		getAttributeListFromLocal();
+		//getAttributeListFromLocal();
 	}
 	
 	function getAttrImgFromServer(thisData){
