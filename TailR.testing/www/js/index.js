@@ -5132,8 +5132,8 @@ function successCBUpdateCustomerSyncDB(){
 		//console.log(fp);
 		// File download function with URL and local path
 		removeProgressId = 'remove'+id;
-		var progressBarTag = '<div class="confirmClass" id="remove'+id+'"><span style="width: 100%">'+File_Name+'</span> : '+ '<br/><progress id="'+File_Name+'" class="'+id+'" data-urllink="'+download_link+'" data-location="'+fp+'" value="0" max="100" style="width: 100%"></progress>';
-		progressBarTag += '<button class="btn btn-primary st-bg-baby-pink ui-btn ui-shadow ui-corner-all '+id+'" data-uniqueid="'+id+'" data-urllink="'+download_link+'" onclick="startPauseResumeDownload(this);" data-location="'+fp+'">Re-download</button></div>'
+		var progressBarTag = '<div class="confirmClass" id="remove'+id+'"><span style="width: 100%">'+File_Name+'</span> : '+ '<br/><progress id="'+id+'" class="'+id+'" data-urllink="'+download_link+'" data-location="'+fp+'" value="0" max="100" style="width: 100%"></progress>';
+		progressBarTag += '<button class="btn btn-primary st-bg-baby-pink ui-btn ui-shadow ui-corner-all '+id+'" data-filename="'+File_Name+'" data-uniqueid="'+id+'" data-urllink="'+download_link+'" onclick="startPauseResumeDownload(this);" data-location="'+fp+'">Re-download</button></div>'
     	$('#progressBarDiv').append(progressBarTag).enhanceWithin();
     	$('#progressBarDiv').show();
 		fileTransfer.download(download_link, fp,
@@ -5181,7 +5181,7 @@ function successCBUpdateCustomerSyncDB(){
 		        	var idRemove='#remove'+id;
 			        console.log('Removed Div : ----- '+id+'----' +$('#progressBarDiv').find(idRemove).html());
 			        $('#progressBarDiv').find(idRemove).remove();
-			        if($('#progressBarDiv').find('.confirmClass').length == 1){
+			        if($('#progressBarDiv').find('.confirmClass').length == 0){
 			        	$('#progressBarDiv #removeBackButton').remove();
 			        	$('#progressBarDiv').append('<div class="removeBackButton"><button class="btn btn-primary st-bg-baby-pink ui-btn ui-shadow ui-corner-all" onclick="gotoProductPage();" >Back to Product Page</button></div>');
 			        }
@@ -5216,14 +5216,29 @@ function successCBUpdateCustomerSyncDB(){
 			    var serverURL = $(thisData).data('urllink');
 			    var filePathDestination = $(thisData).data('location');
 			    var id = $(thisData).data('uniqueid');
+			    var fileName = $(thisData).data('filename');
 			    var uri = serverURL;
 			    var fileURL = filePathDestination;
 			    console.log(serverURL);
 			    console.log(filePathDestination);
 			    console.log(id);
 			    
-			    function removefile(){
-			        fileSystem.root.getFile("readme.txt", {create: false, exclusive: false}, gotRemoveFileEntry, fail);
+			    window.requestFileSystem(LocalFileSystem.PERSISTENT, 0, function(fileSystem){
+			        fileSystem.root.getFile(filePathDestination, {create:false}, function(fileEntry){
+			            fileEntry.remove(function(file){
+			                console.log("File removed!");
+			            },function(){
+			                console.log("error deleting the file " + error.code);
+			                });
+			            },function(){
+			                console.log("file does not exist");
+			            });
+			        },function(evt){
+			            console.log(evt.target.error.code);
+			    });
+			    
+			    /*function removefile(){
+			        fileSystem.root.getFile(fileName, {create: false, exclusive: false}, gotRemoveFileEntry, fail);
 			    }
 
 			    function gotRemoveFileEntry(filePathDestination){
@@ -5237,7 +5252,7 @@ function successCBUpdateCustomerSyncDB(){
 
 			    function fail(error) {
 			        console.log("Error removing file: " + error.code);
-			    }
+			    }*/
 
 			    fileTransfer.download(
 			        uri,
@@ -5270,7 +5285,7 @@ function successCBUpdateCustomerSyncDB(){
 			            	 console.log('Removed Div : ----- '+id+'----' +$('#progressBarDiv').find(idRemove).html());
 					       /* $('#progressBarDiv').find('#remove'+id).remove();*/
 					        $('#progressBarDiv').find(idRemove).remove();
-					        if($('#progressBarDiv').find('.confirmClass').length == 1){
+					        if($('#progressBarDiv').find('.confirmClass').length == 0){
 					        	/*gotoProductPage();*/
 					        	$('#progressBarDiv #removeBackButton').remove();
 					        	$('#progressBarDiv').append('<div class="removeBackButton"><button class="btn btn-primary st-bg-baby-pink ui-btn ui-shadow ui-corner-all" onclick="gotoProductPage();" >Back to Product Page</button></div>');
