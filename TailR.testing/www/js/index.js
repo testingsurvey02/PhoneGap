@@ -5312,6 +5312,7 @@ function successCBUpdateCustomerSyncDB(){
 				alert('Please check the internet connection or internet is very slow.');
 			}
 			else {
+				console.log('Internet connection : '+connectionType);
 				filetransferFn(download_link, fileDataDirect, File_Name, uniqueId, typeId);
 			}
 		}
