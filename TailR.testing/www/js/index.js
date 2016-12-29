@@ -3277,6 +3277,8 @@ function successCBUpdateCustomerSyncDB(){
 					// Iterate ProductAttributeIdsArray
 					jQuery.each(prodAttrIdsArr, function(index1,value1) {
 						
+						
+						
 						// Iterate attrDetailsArrSession, attribute details in session
 						jQuery.each(attrDetailsArrSession, function(index,value) {
 							
@@ -3290,12 +3292,22 @@ function successCBUpdateCustomerSyncDB(){
 									// Get & Iterate optionArraysTemp, Options Arrays For This Product
 									var optionArraysTemp = jQuery.parseJSON(value['option']);
 									downAttrOptFileTotal = downAttrOptFileTotal + optionArraysTemp.length;
+									
 									jQuery.each(optionArraysTemp, function(index2,value2) {
 										totalImageCount = parseInt(totalImageCount) + 1;
 										$('.downloadProductList #'+productId).find('p').text(productImages+', Attributes : '+totalAttrCount+', Images : '+totalImageCount);
 										
 										var optionImg = value2['image'];
 										var optionId = value2['id'];
+										function customLoop(i) {
+										    console.log(i+"Delay Condition----optionImg");
+										    var downloadFileUrl = attributeImageData + '/' + optionImg;
+											//totalAttrOptImages = parseInt(totalAttrOptImages) + 1;
+											downloadFileValidatorFn(downloadFileUrl, folder, optionImg, optionId, server_prod_id);
+										    i++;
+										    if (i<=totalImageCount.length) {setTimeout(function(){customLoop(i);},1000);}
+										}
+										customLoop(0);
 										// Condition
 										//var optionArraysImgUrlTemp = localPath + "/" + 'attributes'+ '/' +optionImg;
 										
@@ -3331,21 +3343,19 @@ function successCBUpdateCustomerSyncDB(){
 												
 												
 											}
-										);*/
-										var downloadFileUrl = attributeImageData + '/' + optionImg;
-										//totalAttrOptImages = parseInt(totalAttrOptImages) + 1;
+										);
 										
 										var optionName = value2['name'];
 										(function(ind) {
 										       setTimeout(function(){
 										           console.log(ind);
-										           downloadFileValidatorFn(downloadFileUrl, folder, optionImg, optionId, server_prod_id);
+										           
 										           if(ind === optionArraysTemp.length){
 										        	  
 										        	   console.log('It was the last one');
 										           }
 										       }, 1000 + (3000 * ind));
-										   })(index1);
+										   })(index1);*/
 										
 										/*
 										if(downAttrOptFileTotal == (attrOptAlreadyExistCount + attrOptInProgCount)){
