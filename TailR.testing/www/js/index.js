@@ -2949,7 +2949,9 @@ function successCBUpdateCustomerSyncDB(){
 	function downloadProdImage(thisData){
 		var thisId = $(thisData).attr('id');
 		var productJsonArr = productDetailsArrSession;
+		var folder = 'gallery';
 		jQuery.each(productJsonArr, function(index,value) {
+			var jsonObj = value;
 			var server_prod_id=jsonObj["server_prod_id"];
 			var prod_name=jsonObj["prod_name"];
 			if(server_prod_id == thisId){
