@@ -3005,9 +3005,16 @@ function successCBUpdateCustomerSyncDB(){
 									
 								}
 							);*/
-						setTimeout(function(){
-							downloadFileValidatorFn(downloadFileUrl, folder, image, gallery_id, thisId);
-						}, 1000);
+						
+						(function(ind) {
+						       setTimeout(function(){
+						           console.log(ind);
+						           if(ind === galleryObj.length){
+						        	   downloadFileValidatorFn(downloadFileUrl, folder, image, gallery_id, thisId);
+						        	   console.log('It was the last one2');
+						           }
+						       }, 1000 + (3000 * ind));
+						   })(indexObj);
 						
 					});
 				}
@@ -3328,9 +3335,15 @@ function successCBUpdateCustomerSyncDB(){
 										//totalAttrOptImages = parseInt(totalAttrOptImages) + 1;
 										
 										var optionName = value2['name'];
-										setTimeout(function(){
-											downloadFileValidatorFn(downloadFileUrl, folder, optionImg, optionId, server_prod_id);
-										}, 1000);
+										(function(ind) {
+										       setTimeout(function(){
+										           console.log(ind);
+										           if(ind === optionArraysTemp.length){
+										        	   downloadFileValidatorFn(downloadFileUrl, folder, optionImg, optionId, server_prod_id);
+										        	   console.log('It was the last one');
+										           }
+										       }, 1000 + (3000 * ind));
+										   })(index1);
 										
 										/*
 										if(downAttrOptFileTotal == (attrOptAlreadyExistCount + attrOptInProgCount)){
