@@ -3422,7 +3422,10 @@ function successCBUpdateCustomerSyncDB(){
 					prodCountTemp = parseInt(prodCountTemp)+1;
 				});
 				//console.log('attributes downloadAttrOptionImages END : '); // For Testing
-				if(parseInt(prodCountTemp) == parseInt(productDetailsArrSession.length)){
+				/*if(parseInt(prodCountTemp) == parseInt(productDetailsArrSession.length)){
+					goToAttributeDiv(thisData);
+				}*/
+				if(!downloadAttrCheck){
 					goToAttributeDiv(thisData);
 				}
 			}else{
@@ -3540,9 +3543,9 @@ function successCBUpdateCustomerSyncDB(){
 			$('.selection-page-options-div .appendButton').append(appendButtons);
 			
 			
-			/*gotoAttributePageDiv();*/
+			gotoAttributePageDiv();
 		}
-		/*showGalleryDivTag();*/
+		showGalleryDivTag();
 	}
 	
 	function selectedOptionZoomFn(dataObj){
