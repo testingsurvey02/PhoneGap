@@ -2947,6 +2947,7 @@ function successCBUpdateCustomerSyncDB(){
 		gotoAboutUsPage();
 	}
 	
+	var downloadType = false;
 	function downloadProdImage(thisData){
 		showModal();
 		var thisId = $(thisData).attr('id');
@@ -2988,6 +2989,7 @@ function successCBUpdateCustomerSyncDB(){
 								function fileNotExist(e) { // Not Exist Success CB
 									//console.log("File not exist");
 									console.dir(e);
+									downloadType = true;
 									/*if(!productDownloadExist){
 										var progressDivTag = '<div class="confirmClass">Data is downloading</div>';
 										$('.downloadProImageContainer').append(progressDivTag);
@@ -3233,7 +3235,7 @@ function successCBUpdateCustomerSyncDB(){
 	
 	function downloadAttrWithProductId(productId){
 		connectionType=checkConnection();
-		
+		var i = 0;
 		if(connectionType=="WiFi connection" || connectionType=="Cell 4G connection" || connectionType=="Cell 3G connection" || connectionType=="Cell 2G connection"){
 			jQuery.each(productDetailsArrSession, function(indexProd,valueProd) {
 				var folder = 'attributes';
@@ -3295,6 +3297,7 @@ function successCBUpdateCustomerSyncDB(){
 											function fileNotExist(e) { // Not Exist Success CB
 												//console.log("File not exist"); // For Testing
 												console.dir(e);
+												downloadType = true;
 												/*if(!downloadAttrCheck){
 													var progressDivTag = '<div class="confirmClass">Data is downloading</div>';
 													$('#progressBarDiv').append(progressDivTag);
@@ -3324,10 +3327,13 @@ function successCBUpdateCustomerSyncDB(){
 					});
 				}
 				prodCountTemp = parseInt(prodCountTemp)+1;
+				i = parseInt(i)+1;
 			});
+			
+			if(i == productDetailsArrSession.length && downloadType == false){
+				hideModal();
+			}
 		}
-		
-		
 		
 	}
 
