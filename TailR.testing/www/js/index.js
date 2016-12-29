@@ -2940,7 +2940,7 @@ function successCBUpdateCustomerSyncDB(){
 			var server_prod_id=jsonObj["server_prod_id"];
 			var prod_name=jsonObj["prod_name"];
 			
-			var tempSpan = '<div class="downloadProImageContainer" id="container'+server_prod_id+'"><p>'+prod_name+'</p><button class="downloadProdImg" id='+server_prod_id+' onclick="downloadProdImage(this)">Load Images</button></div>';
+			var tempSpan = '<div class="downloadProImageContainer" id="container'+server_prod_id+'"><p>'+prod_name+'</p><button class="downloadProdImg" id='+server_prod_id+' onclick="downloadProdImage('+server_prod_id+')">Load Images</button></div>';
 			$('.downloadProductList').append(tempSpan);
 		});
 		
@@ -2948,9 +2948,9 @@ function successCBUpdateCustomerSyncDB(){
 	}
 	
 	var downloadType = false;
-	function downloadProdImage(thisData){
+	function downloadProdImage(thisId){
 		/*showModal();*/
-		var thisId = $(thisData).attr('id');
+		$('.downloadProductList #'+thisId).prop('disabled',true);
 		var productJsonArr = productDetailsArrSession;
 		var folder = 'gallery';
 		jQuery.each(productJsonArr, function(index,value) {
@@ -3256,7 +3256,9 @@ function successCBUpdateCustomerSyncDB(){
 						// Push product Attribute Id to ProductAttributeIdsArray
 						prodAttrIdsArr[indexObj] = attrId;
 					});
-					
+					var totalAttrCount = prodAttrIdsArr.length;
+					$('.downloadProductList #'+productId).append('<span class="attr-count" >'+totalAttrCount+'</span>');
+					var totalImageCount = 0;
 					// Iterate ProductAttributeIdsArray
 					jQuery.each(prodAttrIdsArr, function(index1,value1) {
 						
@@ -3268,8 +3270,8 @@ function successCBUpdateCustomerSyncDB(){
 							if(value1 == server_attr_id){
 								
 								if(value['option'] != ''){
-									
-									
+									totalImageCount = totalImageCount + value['option'].length;
+									$('.downloadProductList #'+productId).append('<span class="attr-img-count" >'+totalImageCount+'</span>');	
 									// Get & Iterate optionArraysTemp, Options Arrays For This Product
 									var optionArraysTemp = jQuery.parseJSON(value['option']);
 									downAttrOptFileTotal = downAttrOptFileTotal + optionArraysTemp.length;
@@ -5429,111 +5431,16 @@ function successCBUpdateCustomerSyncDB(){
 		var isOK = confirm("Are you really want to Re-download?");
 		if(isOK)
 		{
-			// console.log("isStart", this.isStart);
-			   /* if (!this.isStart) {
-			        this.isStart = true;
-			        b = $('download')
-			        b.setAttribute('class', b.getAttribute('class').replace('btn-primary', ''))
-			        b.setAttribute('disabled', 'true')
-			    }*/
-
-			    //var fileTransfer = new FileTransfer();
+			
 			    var fileTransfer = new PRD(); // Use PRD ( extended cordova-plugin-pause-resume-download )
 			    var serverURL = $(thisData).data('urllink');
 			    var filePathDestination = $(thisData).data('location');
 			    var id = $(thisData).data('uniqueid');
 			    var fileName = $(thisData).data('filename');
 			    var typeId = $(thisData).data('prod_id');
-			    var uri = serverURL;
-			    var fileURL = filePathDestination;
-			    console.log(serverURL);
-			    console.log(filePathDestination);
-			    console.log(id);
 			    
-			    window.requestFileSystem(LocalFileSystem.PERSISTENT, 0, function(fileSystem){
-			        fileSystem.root.getFile(filePathDestination, {create:false}, function(fileEntry){
-			            fileEntry.remove(function(file){
-			                console.log("File removed!");
-			            },function(){
-			                console.log("error deleting the file " + error.code);
-			                });
-			            },function(){
-			                console.log("file does not exist");
-			            });
-			        },function(evt){
-			            console.log(evt.target.error.code);
-			    });
 			    
-			    /*function removefile(){
-			        fileSystem.root.getFile(fileName, {create: false, exclusive: false}, gotRemoveFileEntry, fail);
-			    }
-
-			    function gotRemoveFileEntry(filePathDestination){
-			        console.log(filePathDestination);
-			        fileEntry.remove(success, fail);
-			    }
-
-			    function success(entry) {
-			        console.log("Removal succeeded");
-			    }
-
-			    function fail(error) {
-			        console.log("Error removing file: " + error.code);
-			    }*/
-
-			    fileTransfer.download(
-			        uri,
-			        fileURL,
-			        function(entry) {
-			            console.log("download complete: " + entry.toURL());
-			            /*updateProgress(100, id, typeId);*/
-			           /* var idRemove='#remove'+id;
-		            	 console.log('Removed Div : ----- '+id+'----' +$('#container'+typeId).find(idRemove).html());
-						  $('#container'+typeId).find(idRemove).remove();
-		            	 if($('#container'+typeId).find('.confirmClass').length == 0){
-					        	$('#container'+typeId).find('button').text('Completed');
-								
-		            	 }*/
-				       /* $('#progressBarDiv').find('#remove'+id).remove();*/
-			        },
-			        function(error) {
-			            console.log("download error source " + error.source);
-			            console.log("download error target " + error.target);
-			            console.log("upload error code" + error.code);
-			        },
-			        false, {
-			            headers: {
-			               // "Authorization": "Basic dGVzdHVzZXJuYW1lOnRlc3RwYXNzd29yZA=="
-			            }
-			        }
-			    );
-
-			    fileTransfer.onprogress = function(progress) {
-			        if (this.pre === undefined) this.pre = 0;
-
-			        var now = ~~((progress.loaded / progress.total) * 100 * 100);
-			        if (now - +this.pre > 17) {
-			            updateProgress(now / 100, id, typeId);
-			            console.log('StartResume : '+now / 100);
-			            if(parseInt(now/100) == 100){
-			            	var idRemove='#remove'+id;
-			            	 console.log('Removed Div : ----- '+id+'----' +$('#container'+typeId).find(idRemove).html());
-					       /* $('#progressBarDiv').find('#remove'+id).remove();*/
-					        $('#container'+typeId).find(idRemove).remove();
-					        if($('#container'+typeId).find('.confirmClass').length == 0){
-					        	/*hideModal();*/
-					        	$('#container'+typeId).find('button').text('Completed');
-		            	 }
-					        /*if($('#container'+typeId).find('.confirmClass').length == 1){
-					        	gotoProductPage();
-					        	$('#container'+typeId+' #removeBackButton').remove();
-					        	
-					        	$('#container'+typeId).append('<div class="removeBackButton"><button class="btn btn-primary st-bg-baby-pink ui-btn ui-shadow ui-corner-all" onclick="gotoProductPage();" >Back to Product Page</button></div>');
-					        }*/
-			            }
-			            this.pre = now;
-			        }
-			    }
+			    downloadProdImage(typeId);
 		}
 	   
 	}
