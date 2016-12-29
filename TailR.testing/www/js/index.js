@@ -5200,7 +5200,7 @@ function successCBUpdateCustomerSyncDB(){
 		$('#progressBarDiv').find('.'+id).val(data);
 	}
 	
-	function removeFileFromLocal(){
+	function removeFileFromLocal(thisData){
 		var isOK = confirm("Are you really want to Remove?");
 		if(isOK)
 		{
