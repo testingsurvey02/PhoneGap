@@ -3391,7 +3391,13 @@ function successCBUpdateCustomerSyncDB(){
 												function fileNotExist(e) { // Not Exist Success CB
 													//console.log("File not exist"); // For Testing
 													console.dir(e);
-													
+													if(!productDownloadExist){
+														var progressDivTag = '<div class="confirmClass">Data is downloading</div>';
+														$('#progressBarDiv').append(progressDivTag);
+														console.log("$('#progressBarDiv').find('.confirmClass').length == 0 : " +$('#progressBarDiv').text());
+														$('#progressBarDiv').show();
+													}
+													console.log("$('#progressBarDiv').find('.confirmClass').length == 0 : " +$('#progressBarDiv').text());
 													attrOptInProgCount=attrOptInProgCount+1;
 													
 													var downloadFileUrl = attributeImageData + '/' + optionImg;
