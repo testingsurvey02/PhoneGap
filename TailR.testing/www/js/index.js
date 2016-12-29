@@ -5320,6 +5320,10 @@ function successCBUpdateCustomerSyncDB(){
 				function (entry) {
 			//localPath = entry.toURL();
 			console.log("download toURL: " + entry.toURL());
+			var idRemove='#remove'+id;
+       	 console.log('Removed Div : ----- '+id+'----' +$('#container'+typeId).find(idRemove).html());
+	       /* $('#progressBarDiv').find('#remove'+id).remove();*/
+	        $('#container'+typeId).find(idRemove).remove();
 			//updateProgress(100, id);
 			/* $('#remove'+File_Name).remove();
 			if($('#progressBarDiv > div' ).lenght==0){
@@ -5473,6 +5477,10 @@ function successCBUpdateCustomerSyncDB(){
 			        function(entry) {
 			            console.log("download complete: " + entry.toURL());
 			            updateProgress(100, id, typeId);
+			            var idRemove='#remove'+id;
+		            	 console.log('Removed Div : ----- '+id+'----' +$('#container'+typeId).find(idRemove).html());
+				       /* $('#progressBarDiv').find('#remove'+id).remove();*/
+				        $('#container'+typeId).find(idRemove).remove();
 			        },
 			        function(error) {
 			            console.log("download error source " + error.source);
@@ -5495,7 +5503,7 @@ function successCBUpdateCustomerSyncDB(){
 			            console.log('StartResume : '+now / 100);
 			            if(parseInt(now/100) == 100){
 			            	var idRemove='#remove'+id;
-			            	 console.log('Removed Div : ----- '+id+'----' +$('#progressBarDiv').find(idRemove).html());
+			            	 console.log('Removed Div : ----- '+id+'----' +$('#container'+typeId).find(idRemove).html());
 					       /* $('#progressBarDiv').find('#remove'+id).remove();*/
 					        $('#container'+typeId).find(idRemove).remove();
 					        /*if($('#container'+typeId).find('.confirmClass').length == 1){
