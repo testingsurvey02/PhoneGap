@@ -3561,8 +3561,8 @@ function successCBUpdateCustomerSyncDB(){
 													/*var progressBarTag = '<div id="remove'+optionImg+'"><span style="width: 100%">'+optionImg+'</span> : '+ '<br/><progress id="'+optionImg+'" class="'+id+'" data-urllink="'+downloadFileUrl+'" data-location="'+optionArraysImgUrlTemp+'" value="100" max="100" style="width: 100%"></progress>';
 													progressBarTag += '<button class="btn btn-primary st-bg-baby-pink ui-btn ui-shadow ui-corner-all '+id+'" data-uniqueid="'+id+'" data-urllink="'+downloadFileUrl+'" onclick="startPauseResumeDownload(this);" data-location="'+optionArraysImgUrlTemp+'">Re-download</button></div>'
 											    	$('#progressBarDiv').append(progressBarTag);*/
-											    	$('#progressBarDiv').show();
-											    	updateProgress(100, id);
+											    	/*$('#progressBarDiv').show();
+											    	updateProgress(100, id);*/
 												}, 
 												function fileNotExist(e) { // Not Exist Success CB
 													//console.log("File not exist"); // For Testing
@@ -5356,7 +5356,7 @@ function successCBUpdateCustomerSyncDB(){
 		    			tempDiv += '<span>File Name : "'+File_Name+'" </span>'
 		    			+' Percentage : '+now/100+'%</div>';*/
 		    	
-		        updateProgress(now / 100, id);
+		        updateProgress(now / 100, id, typeId);
 		        if(parseInt(now/100) == 100){
 		        	var idRemove='#remove'+id;
 			        console.log('Removed Div : ----- '+id+'----' +$('#container'+typeId).find(idRemove).html());
@@ -5372,11 +5372,11 @@ function successCBUpdateCustomerSyncDB(){
 		}
 	}
 	
-	function updateProgress(data, id) {
+	function updateProgress(data, id, typeId) {
 	  /*  if (this.progress === undefined) this.progress = $('progress'); //store progress
 	    this.progress.setAttribute('style', 'width: ' + data + '%');
 	    this.progress.innerHTML = data + "%";*/
-		$('#progressBarDiv').find('.'+id).val(data);
+		$('#container'+typeId).find('.'+id).val(data);
 	}
 	
 	function removeFileFromLocal(thisData){
@@ -5472,7 +5472,7 @@ function successCBUpdateCustomerSyncDB(){
 			        fileURL,
 			        function(entry) {
 			            console.log("download complete: " + entry.toURL());
-			            updateProgress(100, id);
+			            updateProgress(100, id, typeId);
 			        },
 			        function(error) {
 			            console.log("download error source " + error.source);
@@ -5491,7 +5491,7 @@ function successCBUpdateCustomerSyncDB(){
 
 			        var now = ~~((progress.loaded / progress.total) * 100 * 100);
 			        if (now - +this.pre > 17) {
-			            updateProgress(now / 100, id);
+			            updateProgress(now / 100, id, typeId);
 			            console.log('StartResume : '+now / 100);
 			            if(parseInt(now/100) == 100){
 			            	var idRemove='#remove'+id;
