@@ -1220,7 +1220,7 @@ function successCBProdListDB() {
 		appendProdListDB(productDetailsArrSession);
 	}
 	else if(connectionType=="WiFi connection" || connectionType=="Cell 4G connection" || connectionType=="Cell 3G connection" || connectionType=="Cell 2G connection"){
-		showProdNamesInImgDownPage();
+		getAttributeListFromLocal();
 	}
 }	
 
@@ -1414,6 +1414,7 @@ function successCBAttrListDB() {
 	else if(connectionType=="WiFi connection" || connectionType=="Cell 4G connection" || connectionType=="Cell 3G connection" || connectionType=="Cell 2G connection"){
 		//downloadAttrOptionImages(attrDetailsArrSession);
 		$('#buttonToGo').show();
+		showProdNamesInImgDownPage();
 	}
 }	
 
@@ -5359,7 +5360,7 @@ function successCBUpdateCustomerSyncDB(){
 		        if(parseInt(now/100) == 100){
 		        	var idRemove='#remove'+id;
 			        console.log('Removed Div : ----- '+id+'----' +$('#container'+typeId).find(idRemove).html());
-			        $('#container'+thisId).find(idRemove).remove();
+			        $('#container'+typeId).find(idRemove).remove();
 			        if($('#container'+typeId).find('.confirmClass').length == 1){
 			        	$('#container'+typeId+' #removeBackButton').remove();
 			        	$('#container'+typeId).append('<div class="removeBackButton"><button class="btn btn-primary st-bg-baby-pink ui-btn ui-shadow ui-corner-all" onclick="gotoProductPage();" >Back to Product Page</button></div>');
