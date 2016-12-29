@@ -2990,6 +2990,7 @@ function successCBUpdateCustomerSyncDB(){
 									//console.log("File not exist");
 									console.dir(e);
 									downloadType = true;
+									$('#container'+thisId).find('div').append('Processing..');
 									/*if(!productDownloadExist){
 										var progressDivTag = '<div class="confirmClass">Data is downloading</div>';
 										$('.downloadProImageContainer').append(progressDivTag);
@@ -3298,6 +3299,7 @@ function successCBUpdateCustomerSyncDB(){
 												//console.log("File not exist"); // For Testing
 												console.dir(e);
 												downloadType = true;
+												$('#container'+thisId).find('div').append('Processing..');
 												/*if(!downloadAttrCheck){
 													var progressDivTag = '<div class="confirmClass">Data is downloading</div>';
 													$('#progressBarDiv').append(progressDivTag);
@@ -3331,6 +3333,7 @@ function successCBUpdateCustomerSyncDB(){
 			});
 			
 			if(i == productDetailsArrSession.length && downloadType == false){
+				$('#container'+productId).find('div').append('Completed');
 				hideModal();
 			}
 		}
