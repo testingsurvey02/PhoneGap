@@ -3272,18 +3272,19 @@ function successCBUpdateCustomerSyncDB(){
 							if(value1 == server_attr_id){
 								
 								if(value['option'] != ''){
-									totalImageCount = parseInt(totalImageCount) + value['option'].length;
-									$('.downloadProductList #'+productId).text('Attributes : '+totalAttrCount+', Images : '+totalImageCount);	
+									
+										
 									// Get & Iterate optionArraysTemp, Options Arrays For This Product
 									var optionArraysTemp = jQuery.parseJSON(value['option']);
 									downAttrOptFileTotal = downAttrOptFileTotal + optionArraysTemp.length;
 									jQuery.each(optionArraysTemp, function(index2,value2) {
-										
+										totalImageCount = parseInt(totalImageCount) + 1;
+										$('.downloadProductList #'+productId).text('Attributes : '+totalAttrCount+', Images : '+totalImageCount);
 										
 										var optionImg = value2['image'];
 										var optionId = value2['id'];
 										// Condition
-										var optionArraysImgUrlTemp = localPath + "/" + 'attributes'+ '/' +optionImg;
+										//var optionArraysImgUrlTemp = localPath + "/" + 'attributes'+ '/' +optionImg;
 										
 										// For Testing Main 
 										/*window.resolveLocalFileSystemURL(
