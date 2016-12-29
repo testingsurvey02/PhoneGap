@@ -3084,7 +3084,7 @@ function successCBUpdateCustomerSyncDB(){
 			//gotoProductPage();
 			appendProdListDB(productDetailsArrSession);
 			if($('#progressBarDiv').find('.confirmClass').length == 0 && !productDownloadExist){
-	        	gotoProductPage();
+	        	/*gotoProductPage();*/
 	        }
 		}
 	}
@@ -5133,7 +5133,8 @@ function successCBUpdateCustomerSyncDB(){
 		// File download function with URL and local path
 		removeProgressId = 'remove'+id;
 		var progressBarTag = '<div class="confirmClass" id="remove'+id+'"><span style="width: 100%">'+File_Name+'</span> : '+ '<br/><progress id="'+id+'" class="'+id+'" data-urllink="'+download_link+'" data-location="'+fp+'" value="0" max="100" style="width: 100%"></progress>';
-		progressBarTag += '<button class="btn btn-primary st-bg-baby-pink ui-btn ui-shadow ui-corner-all '+id+'" data-filename="'+File_Name+'" data-uniqueid="'+id+'" data-urllink="'+download_link+'" onclick="startPauseResumeDownload(this);" data-location="'+fp+'">Re-download</button></div>'
+		progressBarTag += '<button class="btn btn-primary st-bg-baby-pink ui-btn ui-shadow ui-corner-all '+id+'" data-filename="'+File_Name+'" data-uniqueid="'+id+'" data-urllink="'+download_link+'" onclick="startPauseResumeDownload(this);" data-location="'+fp+'">Re-download</button>'+
+						+'<button class="btn btn-primary st-bg-baby-pink ui-btn ui-shadow ui-corner-all '+id+'" data-filename="'+File_Name+'" data-uniqueid="'+id+'" data-urllink="'+download_link+'" onclick="removeFileFromLocal(this);" data-location="'+fp+'">Remove</button></div>'
     	$('#progressBarDiv').append(progressBarTag).enhanceWithin();
     	$('#progressBarDiv').show();
 		fileTransfer.download(download_link, fp,
@@ -5197,6 +5198,38 @@ function successCBUpdateCustomerSyncDB(){
 	    this.progress.setAttribute('style', 'width: ' + data + '%');
 	    this.progress.innerHTML = data + "%";*/
 		$('#progressBarDiv').find('.'+id).val(data);
+	}
+	
+	function removeFileFromLocal(){
+		var isOK = confirm("Are you really want to Remove?");
+		if(isOK)
+		{
+			var serverURL = $(thisData).data('urllink');
+		    var filePathDestination = $(thisData).data('location');
+		    var id = $(thisData).data('uniqueid');
+		    var fileName = $(thisData).data('filename');
+		    
+		    window.requestFileSystem(LocalFileSystem.PERSISTENT, 0, function(fileSystem){
+		        fileSystem.root.getFile(filePathDestination, {create:false}, function(fileEntry){
+		            fileEntry.remove(function(file){
+		                console.log("File removed!");
+		            },function(){
+		                console.log("error deleting the file " + error.code);
+		                });
+		            },function(){
+		                console.log("file does not exist");
+		            });
+		        },function(evt){
+		            console.log(evt.target.error.code);
+		    });
+		    
+		    var idRemove='#remove'+id;
+       	 	console.log('Removed Div : ----- '+id+'----' +$('#progressBarDiv').find(idRemove).html());
+	       /* $('#progressBarDiv').find('#remove'+id).remove();*/
+	        $('#progressBarDiv').find(idRemove).remove();
+		    
+		}
+		
 	}
 	
 	function startPauseResumeDownload(thisData) {
