@@ -3063,6 +3063,7 @@ function successCBUpdateCustomerSyncDB(){
 										if(!productDownloadExist){
 											var progressDivTag = '<div class="confirmClass"></div>';
 											$('#progressBarDiv').append(progressDivTag);
+											console.log("$('#progressBarDiv').find('.confirmClass').length == 0 : " +$('#progressBarDiv').find('.confirmClass').length == 0);
 											$('#progressBarDiv').show();
 										}
 										productDownloadExist = true;
