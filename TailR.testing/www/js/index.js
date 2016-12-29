@@ -3009,11 +3009,12 @@ function successCBUpdateCustomerSyncDB(){
 						(function(ind) {
 						       setTimeout(function(){
 						           console.log(ind);
+						           downloadFileValidatorFn(downloadFileUrl, folder, image, gallery_id, thisId);
 						           if(ind === galleryObj.length){
-						        	   downloadFileValidatorFn(downloadFileUrl, folder, image, gallery_id, thisId);
+						        	  
 						        	   console.log('It was the last one2');
 						           }
-						       }, 1000 + (3000 * ind));
+						       }, 1000 + (1000 * ind));
 						   })(indexObj);
 						
 					});
@@ -3338,8 +3339,9 @@ function successCBUpdateCustomerSyncDB(){
 										(function(ind) {
 										       setTimeout(function(){
 										           console.log(ind);
+										           downloadFileValidatorFn(downloadFileUrl, folder, optionImg, optionId, server_prod_id);
 										           if(ind === optionArraysTemp.length){
-										        	   downloadFileValidatorFn(downloadFileUrl, folder, optionImg, optionId, server_prod_id);
+										        	  
 										        	   console.log('It was the last one');
 										           }
 										       }, 1000 + (3000 * ind));
