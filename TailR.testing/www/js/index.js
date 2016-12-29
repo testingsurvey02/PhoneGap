@@ -2990,7 +2990,8 @@ function successCBUpdateCustomerSyncDB(){
 									//console.log("File not exist");
 									console.dir(e);
 									downloadType = true;
-									$('#container'+thisId).find('div').append('Processing..');
+									$('.downloadProductList #'+thisId).text('Processing..');
+									//$('#container'+thisId).find('div').append('Processing..');
 									/*if(!productDownloadExist){
 										var progressDivTag = '<div class="confirmClass">Data is downloading</div>';
 										$('.downloadProImageContainer').append(progressDivTag);
@@ -3299,7 +3300,7 @@ function successCBUpdateCustomerSyncDB(){
 												//console.log("File not exist"); // For Testing
 												console.dir(e);
 												downloadType = true;
-												$('#container'+thisId).find('div').append('Processing..');
+												$('.downloadProductList #'+productId).text('Processing..');
 												/*if(!downloadAttrCheck){
 													var progressDivTag = '<div class="confirmClass">Data is downloading</div>';
 													$('#progressBarDiv').append(progressDivTag);
@@ -5485,14 +5486,15 @@ function successCBUpdateCustomerSyncDB(){
 			        fileURL,
 			        function(entry) {
 			            console.log("download complete: " + entry.toURL());
-			            updateProgress(100, id, typeId);
-			            var idRemove='#remove'+id;
+			            /*updateProgress(100, id, typeId);*/
+			           /* var idRemove='#remove'+id;
 		            	 console.log('Removed Div : ----- '+id+'----' +$('#container'+typeId).find(idRemove).html());
+						  $('#container'+typeId).find(idRemove).remove();
 		            	 if($('#container'+typeId).find('.confirmClass').length == 0){
 					        	$('#container'+typeId).find('button').text('Completed');
-		            	 }
+								
+		            	 }*/
 				       /* $('#progressBarDiv').find('#remove'+id).remove();*/
-				        $('#container'+typeId).find(idRemove).remove();
 			        },
 			        function(error) {
 			            console.log("download error source " + error.source);
