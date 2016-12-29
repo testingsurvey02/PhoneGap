@@ -5312,7 +5312,7 @@ function successCBUpdateCustomerSyncDB(){
 		// File download function with URL and local path
 		removeProgressId = 'remove'+id;
 		var progressBarTag = '<div class="confirmClass" id="remove'+id+'"><span style="width: 100%">'+File_Name+'</span> : '+ '<br/><progress id="'+id+'" class="'+id+'" data-urllink="'+download_link+'" data-location="'+fp+'" value="0" max="100" style="width: 100%"></progress>';
-		progressBarTag += '<button type="button" class="btn btn-primary st-bg-baby-pink ui-btn ui-shadow ui-corner-all '+id+'" data-filename="'+File_Name+'" data-uniqueid="'+id+'" data-urllink="'+download_link+'" onclick="startPauseResumeDownload(this);" data-location="'+fp+'">Re-download</button>';
+		progressBarTag += '<button type="button" data-prod_id="'+typeId+'" class="btn btn-primary st-bg-baby-pink ui-btn ui-shadow ui-corner-all '+id+'" data-filename="'+File_Name+'" data-uniqueid="'+id+'" data-urllink="'+download_link+'" onclick="startPauseResumeDownload(this);" data-location="'+fp+'">Re-download</button>';
 		progressBarTag += '</div>';
     	$('#container'+typeId).append(progressBarTag).enhanceWithin();
 		fileTransfer.download(download_link, fp,
@@ -5358,11 +5358,11 @@ function successCBUpdateCustomerSyncDB(){
 		        updateProgress(now / 100, id);
 		        if(parseInt(now/100) == 100){
 		        	var idRemove='#remove'+id;
-			        console.log('Removed Div : ----- '+id+'----' +$('#container'+thisId).find(idRemove).html());
+			        console.log('Removed Div : ----- '+id+'----' +$('#container'+typeId).find(idRemove).html());
 			        $('#container'+thisId).find(idRemove).remove();
-			        if($('#container'+thisId).find('.confirmClass').length == 1){
-			        	$('#container'+thisId+' #removeBackButton').remove();
-			        	$('#container'+thisId).append('<div class="removeBackButton"><button class="btn btn-primary st-bg-baby-pink ui-btn ui-shadow ui-corner-all" onclick="gotoProductPage();" >Back to Product Page</button></div>');
+			        if($('#container'+typeId).find('.confirmClass').length == 1){
+			        	$('#container'+typeId+' #removeBackButton').remove();
+			        	$('#container'+typeId).append('<div class="removeBackButton"><button class="btn btn-primary st-bg-baby-pink ui-btn ui-shadow ui-corner-all" onclick="gotoProductPage();" >Back to Product Page</button></div>');
 			        }
 		        }
 		       
@@ -5428,6 +5428,7 @@ function successCBUpdateCustomerSyncDB(){
 			    var filePathDestination = $(thisData).data('location');
 			    var id = $(thisData).data('uniqueid');
 			    var fileName = $(thisData).data('filename');
+			    var typeId = $(thisData).data('prod_id');
 			    var uri = serverURL;
 			    var fileURL = filePathDestination;
 			    console.log(serverURL);
@@ -5495,12 +5496,12 @@ function successCBUpdateCustomerSyncDB(){
 			            	var idRemove='#remove'+id;
 			            	 console.log('Removed Div : ----- '+id+'----' +$('#progressBarDiv').find(idRemove).html());
 					       /* $('#progressBarDiv').find('#remove'+id).remove();*/
-					        $('#progressBarDiv').find(idRemove).remove();
-					        if($('#progressBarDiv').find('.confirmClass').length == 1){
+					        $('#container'+typeId).find(idRemove).remove();
+					        if($('#container'+typeId).find('.confirmClass').length == 1){
 					        	/*gotoProductPage();*/
-					        	$('#progressBarDiv #removeBackButton').remove();
+					        	$('#container'+typeId+' #removeBackButton').remove();
 					        	
-					        	$('#progressBarDiv').append('<div class="removeBackButton"><button class="btn btn-primary st-bg-baby-pink ui-btn ui-shadow ui-corner-all" onclick="gotoProductPage();" >Back to Product Page</button></div>');
+					        	$('#container'+typeId).append('<div class="removeBackButton"><button class="btn btn-primary st-bg-baby-pink ui-btn ui-shadow ui-corner-all" onclick="gotoProductPage();" >Back to Product Page</button></div>');
 					        }
 			            }
 			            this.pre = now;
