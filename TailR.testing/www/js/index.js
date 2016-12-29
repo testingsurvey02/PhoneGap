@@ -2939,15 +2939,67 @@ function successCBUpdateCustomerSyncDB(){
 			var server_prod_id=jsonObj["server_prod_id"];
 			var prod_name=jsonObj["prod_name"];
 			
-			var tempSpan = '<div><p>'+prod_name+'</p><button class="downloadProdImg" id='+server_prod_id+' >Load Images</button></div>';
-			$('#downloadProductList').append(tempSpan);
+			var tempSpan = '<div class="downloadProImageContainer" id="container'+server_prod_id+'"><p>'+prod_name+'</p><button class="downloadProdImg" id='+server_prod_id+' onclick="downloadProdImage(this)">Load Images</button></div>';
+			$('.downloadProductList').append(tempSpan);
 		});
 		
 		gotoAboutUsPage();
 	}
 	
 	function downloadProdImage(thisData){
-		
+		var thisId = $(thisData).attr('id');
+		var productJsonArr = productDetailsArrSession;
+		jQuery.each(productJsonArr, function(index,value) {
+			var server_prod_id=jsonObj["server_prod_id"];
+			var prod_name=jsonObj["prod_name"];
+			if(server_prod_id == thisId){
+				galleryObj = jQuery.parseJSON(jsonObj['gallery']);
+				if(jsonObj['gallery'] != ''){
+					var imageCount = 0;
+					var totalImageCount = galleryObj.length;
+					$('.downloadProductList #'+thisId).text('Loading Images : '+totalImageCount);
+					jQuery.each(galleryObj , function(indexObj,valueObj) {
+						totalProductImages = parseInt(totalProductImages) + 1;
+						var galleryArrObject = new Array();
+						var gallery_id = valueObj['id'];
+						var image = valueObj["image"];
+						//downloadFile(gallery_id, image, 'product');
+						var galleryArraysImgUrlTemp = localPath + "/" + 'gallery'+ '/' + image;
+						var downloadFileUrl = productImageData + '/' + image;
+						window.resolveLocalFileSystemURL(
+								galleryArraysImgUrlTemp,// File Url 
+								function fileExist(fileEntry) { // Exist Success CB
+									//console.log('File Exist'); // For Testing
+									/*
+									var id = folder+gallery_id;
+									
+									var progressBarTag = '<div id="remove'+image+'"><span style="width: 100%">'+image+'</span> : '+ '<br/><progress id="'+image+'" class="'+id+'" data-urllink="'+downloadFileUrl+'" data-location="'+galleryArraysImgUrlTemp+'" value="100" max="100" style="width: 100%"></progress>';
+									progressBarTag += '<button class="btn btn-primary st-bg-baby-pink ui-btn ui-shadow ui-corner-all '+id+'" data-uniqueid="'+id+'" data-urllink="'+downloadFileUrl+'" onclick="startPauseResumeDownload(this);" data-location="'+galleryArraysImgUrlTemp+'">Re-download</button></div>'
+							    	$('#progressBarDiv').append(progressBarTag);
+							    	$('#progressBarDiv').show();
+							    	updateProgress(100, id);
+							    	*/
+							    	
+								}, 
+								function fileNotExist(e) { // Not Exist Success CB
+									//console.log("File not exist");
+									console.dir(e);
+									/*if(!productDownloadExist){
+										var progressDivTag = '<div class="confirmClass">Data is downloading</div>';
+										$('.downloadProImageContainer').append(progressDivTag);
+										console.log("$('#progressBarDiv').find('.confirmClass').length == 0 : " +$('#progressBarDiv').text());
+									}
+									console.log("$('#progressBarDiv').find('.confirmClass').length == 0 : " +$('#progressBarDiv').text());*/
+									/*productDownloadExist = true;
+									console.log("productDownloadExist : " +productDownloadExist);*/
+									downloadFileValidatorFn(downloadFileUrl, folder, image, gallery_id, thisId);
+								}
+							);
+					});
+				}
+			}
+			
+		});
 	}
 	
 	// Remaining
@@ -5090,7 +5142,7 @@ function successCBUpdateCustomerSyncDB(){
 	}
 	
 	//First step check parameters mismatch and checking network connection if available call    download function
-	function downloadFileValidatorFn(URL, Folder_Name, File_Name, type) {
+	function downloadFileValidatorFn(URL, Folder_Name, File_Name, type, typeId) {
 		//Parameters mismatch check
 		if (URL == null && Folder_Name == null && File_Name == null) {
 			return;
@@ -5101,7 +5153,7 @@ function successCBUpdateCustomerSyncDB(){
 				return;
 			}
 			else {
-				downloadFileFn(URL, Folder_Name, File_Name, type); //If available download function call
+				downloadFileFn(URL, Folder_Name, File_Name, type, typeId); //If available download function call
 			}
 		}
 	}
@@ -5109,7 +5161,7 @@ function successCBUpdateCustomerSyncDB(){
 	var folderAndPath;
 	var downloadLinkGlobalTest;
 	// 2nd Step 
-	function downloadFileFn(URL, Folder_Name, File_Name, count) {
+	function downloadFileFn(URL, Folder_Name, File_Name, count, typeId) {
 		//step to request a file system 
 		window.requestFileSystem(LocalFileSystem.PERSISTENT, 0, fileSystemSuccess, fileSystemFail);
 		var uniqueId = '';
@@ -5129,7 +5181,7 @@ function successCBUpdateCustomerSyncDB(){
 			var fileDataDirect = store + "/" + folderAndPath; // fullpath and name of the file which we want to give
 			uniqueId = Folder_Name+count;
 			// download function call
-			filetransferFn(download_link, fileDataDirect, File_Name, uniqueId);
+			filetransferFn(download_link, fileDataDirect, File_Name, uniqueId, typeId);
 		}
 
 		function onDirectorySuccess(parent) {
@@ -5150,7 +5202,7 @@ function successCBUpdateCustomerSyncDB(){
 	
 	// 3rd Step 
 	var removeProgressId = '';
-	function filetransferFn(download_link, fp, File_Name, id) {
+	function filetransferFn(download_link, fp, File_Name, id, typeId) {
 		var fileTransfer = new FileTransfer();
 		//console.log(fp);
 		// File download function with URL and local path
@@ -5158,8 +5210,7 @@ function successCBUpdateCustomerSyncDB(){
 		var progressBarTag = '<div class="confirmClass" id="remove'+id+'"><span style="width: 100%">'+File_Name+'</span> : '+ '<br/><progress id="'+id+'" class="'+id+'" data-urllink="'+download_link+'" data-location="'+fp+'" value="0" max="100" style="width: 100%"></progress>';
 		progressBarTag += '<button type="button" class="btn btn-primary st-bg-baby-pink ui-btn ui-shadow ui-corner-all '+id+'" data-filename="'+File_Name+'" data-uniqueid="'+id+'" data-urllink="'+download_link+'" onclick="startPauseResumeDownload(this);" data-location="'+fp+'">Re-download</button>';
 		progressBarTag += '<button type="button" class="btn btn-primary st-bg-baby-pink ui-btn ui-shadow ui-corner-all '+id+'" data-filename="'+File_Name+'" data-uniqueid="'+id+'" data-urllink="'+download_link+'" onclick="removeFileFromLocal(this);" data-location="'+fp+'">Remove</button></div>';
-    	$('#progressBarDiv').append(progressBarTag).enhanceWithin();
-    	$('#progressBarDiv').show();
+    	$('#container'+typeId).append(progressBarTag).enhanceWithin();
 		fileTransfer.download(download_link, fp,
 				function (entry) {
 			//localPath = entry.toURL();
