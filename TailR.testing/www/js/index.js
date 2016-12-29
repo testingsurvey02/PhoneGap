@@ -3257,7 +3257,7 @@ function successCBUpdateCustomerSyncDB(){
 						prodAttrIdsArr[indexObj] = attrId;
 					});
 					var totalAttrCount = prodAttrIdsArr.length;
-					$('.downloadProductList #'+productId).append('<span class="attr-count" >'+totalAttrCount+'</span>');
+					//$('.downloadProductList #'+productId).append('<span class="attr-count" >'+totalAttrCount+'</span>');
 					var totalImageCount = 0;
 					// Iterate ProductAttributeIdsArray
 					jQuery.each(prodAttrIdsArr, function(index1,value1) {
@@ -3271,7 +3271,7 @@ function successCBUpdateCustomerSyncDB(){
 								
 								if(value['option'] != ''){
 									totalImageCount = totalImageCount + value['option'].length;
-									$('.downloadProductList #'+productId).append('<span class="attr-img-count" >'+totalImageCount+'</span>');	
+									$('.downloadProductList #'+productId).text('<span class="attr-count" >Attributes : '+totalAttrCount+'</span>, Images<span class="attr-img-count" >'+totalImageCount+'</span>');	
 									// Get & Iterate optionArraysTemp, Options Arrays For This Product
 									var optionArraysTemp = jQuery.parseJSON(value['option']);
 									downAttrOptFileTotal = downAttrOptFileTotal + optionArraysTemp.length;
@@ -3302,7 +3302,7 @@ function successCBUpdateCustomerSyncDB(){
 												//console.log("File not exist"); // For Testing
 												console.dir(e);
 												downloadType = true;
-												$('.downloadProductList #'+productId).text('Processing..');
+												//$('.downloadProductList #'+productId).text('Processing..');
 												/*if(!downloadAttrCheck){
 													var progressDivTag = '<div class="confirmClass">Data is downloading</div>';
 													$('#progressBarDiv').append(progressDivTag);
@@ -3337,7 +3337,7 @@ function successCBUpdateCustomerSyncDB(){
 			console.log('i : '+i + 'productDetailsArrSession.length : '+productDetailsArrSession.length);
 			if(i == productDetailsArrSession.length && downloadType == false){
 				
-				$('#container'+productId).find('div').append('Completed');
+				$('#container'+productId).find('button').append('Completed');
 				/*hideModal();*/
 			}
 		}
