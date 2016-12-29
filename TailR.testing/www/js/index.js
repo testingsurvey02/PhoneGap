@@ -2940,7 +2940,7 @@ function successCBUpdateCustomerSyncDB(){
 			var server_prod_id=jsonObj["server_prod_id"];
 			var prod_name=jsonObj["prod_name"];
 			
-			var tempSpan = '<div class="downloadProImageContainer" id="container'+server_prod_id+'"><p>'+prod_name+'</p><button class="downloadProdImg" id='+server_prod_id+' onclick="downloadProdImage('+server_prod_id+')">Load Images</button></div>';
+			var tempSpan = '<div class="downloadProImageContainer" id="container'+server_prod_id+'"><p>'+prod_name+'</p><div id='+server_prod_id+'><p></p><span></span></div><button class="downloadProdImg" onclick="downloadProdImage('+server_prod_id+')">Load Images</button></div>';
 			$('.downloadProductList').append(tempSpan);
 		});
 		
@@ -2963,7 +2963,7 @@ function successCBUpdateCustomerSyncDB(){
 				if(jsonObj['gallery'] != ''){
 					var imageCount = 0;
 					var totalImageCount = galleryObj.length;
-					$('.downloadProductList #'+thisId).text('Loading Images : '+totalImageCount);
+					$('.downloadProductList #'+thisId).find('p').text('Loading Images : '+totalImageCount);
 					jQuery.each(galleryObj , function(indexObj,valueObj) {
 						totalProductImages = parseInt(totalProductImages) + 1;
 						var galleryArrObject = new Array();
@@ -3279,7 +3279,7 @@ function successCBUpdateCustomerSyncDB(){
 									downAttrOptFileTotal = downAttrOptFileTotal + optionArraysTemp.length;
 									jQuery.each(optionArraysTemp, function(index2,value2) {
 										totalImageCount = parseInt(totalImageCount) + 1;
-										$('.downloadProductList #'+productId).text('Attributes : '+totalAttrCount+', Images : '+totalImageCount);
+										$('.downloadProductList #'+productId).find('p').text('Attributes : '+totalAttrCount+', Images : '+totalImageCount);
 										
 										var optionImg = value2['image'];
 										var optionId = value2['id'];
@@ -5382,8 +5382,8 @@ function successCBUpdateCustomerSyncDB(){
 		        if(parseInt(now/100) == 100){
 		        	completedCountImg+=1;
 		        	var idRemove='#remove'+id;
-		        	var btnText = $('.downloadProductList #'+typeId).text();
-		        	$('.downloadProductList #'+typeId).text(btnText+'/' +completedCountImg);
+		        	var btnText = $('.downloadProductList p').text();
+		        	$('.downloadProductList #'+typeId).find('span').html(completedCountImg);
 			      //  console.log('Removed Div : ----- '+id+'----' +$('#container'+typeId).find(idRemove).html());
 			       // $('#container'+typeId).find(idRemove).remove();
 			        /*if($('#container'+typeId).find('.confirmClass').length == 0){
