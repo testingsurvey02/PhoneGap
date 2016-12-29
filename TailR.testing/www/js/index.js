@@ -2949,8 +2949,9 @@ function successCBUpdateCustomerSyncDB(){
 	
 	var downloadType = false;
 	function downloadProdImage(thisId){
+		$('#container'+thisId+'.confirmClass').remove();
 		/*showModal();*/
-		$('.downloadProductList #'+thisId).prop('disabled',true);
+		/*$('.downloadProductList #'+thisId).prop('disabled',true);*/
 		var productJsonArr = productDetailsArrSession;
 		var folder = 'gallery';
 		jQuery.each(productJsonArr, function(index,value) {
@@ -3271,7 +3272,7 @@ function successCBUpdateCustomerSyncDB(){
 							if(value1 == server_attr_id){
 								
 								if(value['option'] != ''){
-									totalImageCount = totalImageCount + value['option'].length;
+									totalImageCount = parseInt(totalImageCount) + value['option'].length;
 									$('.downloadProductList #'+productId).text('Attributes : '+totalAttrCount+', Images : '+totalImageCount);	
 									// Get & Iterate optionArraysTemp, Options Arrays For This Product
 									var optionArraysTemp = jQuery.parseJSON(value['option']);
