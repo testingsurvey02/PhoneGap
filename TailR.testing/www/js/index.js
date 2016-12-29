@@ -2949,6 +2949,7 @@ function successCBUpdateCustomerSyncDB(){
 	
 	var downloadType = false;
 	function downloadProdImage(thisId){
+		completedCountImg = 0;
 		$('#container'+thisId+'.confirmClass').remove();
 		/*showModal();*/
 		/*$('.downloadProductList #'+thisId).prop('disabled',true);*/
@@ -5273,8 +5274,9 @@ function successCBUpdateCustomerSyncDB(){
 		}
 		else {
 			//checking Internet connection availablity
+			connectionType = checkConnection();
 			if(connectionType=="Unknown connection" || connectionType=="No network connection"){
-				return;
+				alert('Please check the internet connection or internet is very slow.');
 			}
 			else {
 				downloadFileFn(URL, Folder_Name, File_Name, type, typeId); //If available download function call
@@ -5305,7 +5307,13 @@ function successCBUpdateCustomerSyncDB(){
 			var fileDataDirect = store + "/" + folderAndPath; // fullpath and name of the file which we want to give
 			uniqueId = Folder_Name+count;
 			// download function call
-			filetransferFn(download_link, fileDataDirect, File_Name, uniqueId, typeId);
+			connectionType = checkConnection();
+			if(connectionType=="Unknown connection" || connectionType=="No network connection"){
+				alert('Please check the internet connection or internet is very slow.');
+			}
+			else {
+				filetransferFn(download_link, fileDataDirect, File_Name, uniqueId, typeId);
+			}
 		}
 
 		function onDirectorySuccess(parent) {
