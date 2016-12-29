@@ -3300,8 +3300,7 @@ function successCBUpdateCustomerSyncDB(){
 										var optionImg = value2['image'];
 										var optionId = value2['id'];
 										
-										 var downloadFileUrl = attributeImageData + '/' + optionImg;
-										customLoop(0, optionArraysTemp.length, downloadFileUrl,folder, optionImg, optionId, server_prod_id);
+										 var downloadFileUrl = attributeImageData + '/' + optionImg;										
 										
 										// Condition
 										//var optionArraysImgUrlTemp = localPath + "/" + 'attributes'+ '/' +optionImg;
@@ -3358,6 +3357,7 @@ function successCBUpdateCustomerSyncDB(){
 										}
 										*/
 									});
+									customLoop(totalImageCount, downloadFileUrl,folder, optionImg, optionId, server_prod_id);
 								}
 							}
 						});
@@ -3376,14 +3376,14 @@ function successCBUpdateCustomerSyncDB(){
 		}
 		
 	}
-	
-	function customLoop(i,len,downloadFileUrl,folder, optionImg, optionId, server_prod_id) {
-	    console.log(i+"Delay Condition----optionImg");
+	var j=0;
+	function customLoop(len,downloadFileUrl,folder, optionImg, optionId, server_prod_id) {
+	    console.log(j+"Delay Condition----optionImg");
 	   
 		//totalAttrOptImages = parseInt(totalAttrOptImages) + 1;
 		downloadFileValidatorFn(downloadFileUrl, folder, optionImg, optionId, server_prod_id);
-	    i++;
-	    if (i<=len) {setTimeout(function(){customLoop(i);},1000);}
+	    j++;
+	    if (j<=len) {setTimeout(function(){customLoop(j);},1000);}
 	}
 
 	var galleryIdToSave = '';
