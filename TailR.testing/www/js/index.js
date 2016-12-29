@@ -3325,7 +3325,7 @@ function successCBUpdateCustomerSyncDB(){
 			if(needUpdate){
 				var folder = 'attributes';
 				//console.log('attributes downloadAttrOptionImages '); // For Testing
-				
+				var downloadAttrCheck = false;
 				var productId = $(thisData).data('prod_id');
 				// ProductAttributeIdsArray Init
 				var prodAttrIdsArr = [];
@@ -3391,7 +3391,7 @@ function successCBUpdateCustomerSyncDB(){
 												function fileNotExist(e) { // Not Exist Success CB
 													//console.log("File not exist"); // For Testing
 													console.dir(e);
-													if(!productDownloadExist){
+													if(!downloadAttrCheck){
 														var progressDivTag = '<div class="confirmClass">Data is downloading</div>';
 														$('#progressBarDiv').append(progressDivTag);
 														console.log("$('#progressBarDiv').find('.confirmClass').length == 0 : " +$('#progressBarDiv').text());
@@ -3399,7 +3399,7 @@ function successCBUpdateCustomerSyncDB(){
 													}
 													console.log("$('#progressBarDiv').find('.confirmClass').length == 0 : " +$('#progressBarDiv').text());
 													attrOptInProgCount=attrOptInProgCount+1;
-													
+													downloadAttrCheck = true;
 													var downloadFileUrl = attributeImageData + '/' + optionImg;
 													totalAttrOptImages = parseInt(totalAttrOptImages) + 1;
 													
