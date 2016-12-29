@@ -3060,6 +3060,11 @@ function successCBUpdateCustomerSyncDB(){
 									function fileNotExist(e) { // Not Exist Success CB
 										//console.log("File not exist");
 										console.dir(e);
+										if(!productDownloadExist){
+											var progressDivTag = '<div class="confirmClass"></div>';
+											$('#progressBarDiv').append(progressDivTag);
+											$('#progressBarDiv').show();
+										}
 										productDownloadExist = true;
 										downloadFileValidatorFn(downloadFileUrl, folder, image, gallery_id);
 									}
@@ -5141,7 +5146,7 @@ function successCBUpdateCustomerSyncDB(){
 				if(prodImgCountInProg==prodImgCountDownloaded ){
 					window.localStorage["productimgflag"]=2;
 					// For Testing
-					alert('All Product Images Doenloaded Successfully. ' + window.localStorage["productimgflag"]);
+					alert('All Product Images Downloaded Successfully. ' + window.localStorage["productimgflag"]);
 				}
 			}
 		},
@@ -5167,7 +5172,7 @@ function successCBUpdateCustomerSyncDB(){
 		        	var idRemove='#remove'+id;
 			        console.log('Removed Div : ----- '+id+'----' +$('#progressBarDiv').find(idRemove).html());
 			        $('#progressBarDiv').find(idRemove).remove();
-			        if($('#progressBarDiv').find('.confirmClass').length == 0){
+			        if($('#progressBarDiv').find('.confirmClass').length > 1){
 			        	gotoProductPage();
 			        }
 		        }
@@ -5207,6 +5212,22 @@ function successCBUpdateCustomerSyncDB(){
 			    console.log(filePathDestination);
 			    console.log(id);
 			    
+			    function removefile(){
+			        fileSystem.root.getFile("readme.txt", {create: false, exclusive: false}, gotRemoveFileEntry, fail);
+			    }
+
+			    function gotRemoveFileEntry(filePathDestination){
+			        console.log(filePathDestination);
+			        fileEntry.remove(success, fail);
+			    }
+
+			    function success(entry) {
+			        console.log("Removal succeeded");
+			    }
+
+			    function fail(error) {
+			        console.log("Error removing file: " + error.code);
+			    }
 
 			    fileTransfer.download(
 			        uri,
@@ -5233,9 +5254,15 @@ function successCBUpdateCustomerSyncDB(){
 			        var now = ~~((progress.loaded / progress.total) * 100 * 100);
 			        if (now - +this.pre > 17) {
 			            updateProgress(now / 100, id);
+			            console.log('StartResume : '+now / 100);
 			            if(parseInt(now/100) == 100){
-			            	console.log('Removed Div : -----'+id+'--- ' +$('#progressBarDiv').find('#remove'+id).html());
-					        $('#progressBarDiv').find('#remove'+id).remove();
+			            	var idRemove='#remove'+id;
+			            	 console.log('Removed Div : ----- '+id+'----' +$('#progressBarDiv').find(idRemove).html());
+					       /* $('#progressBarDiv').find('#remove'+id).remove();*/
+					        $('#progressBarDiv').find(idRemove).remove();
+					        if($('#progressBarDiv').find('.confirmClass').length > 1){
+					        	gotoProductPage();
+					        }
 			            }
 			            this.pre = now;
 			        }
