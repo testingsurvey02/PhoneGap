@@ -2949,7 +2949,7 @@ function successCBUpdateCustomerSyncDB(){
 	
 	var downloadType = false;
 	function downloadProdImage(thisData){
-		showModal();
+		/*showModal();*/
 		var thisId = $(thisData).attr('id');
 		var productJsonArr = productDetailsArrSession;
 		var folder = 'gallery';
@@ -3331,10 +3331,11 @@ function successCBUpdateCustomerSyncDB(){
 				prodCountTemp = parseInt(prodCountTemp)+1;
 				i = parseInt(i)+1;
 			});
-			
+			console.log('i : '+i + 'productDetailsArrSession.length : '+productDetailsArrSession.length);
 			if(i == productDetailsArrSession.length && downloadType == false){
+				
 				$('#container'+productId).find('div').append('Completed');
-				hideModal();
+				/*hideModal();*/
 			}
 		}
 		
@@ -5373,6 +5374,7 @@ function successCBUpdateCustomerSyncDB(){
 			        $('#container'+typeId).find(idRemove).remove();
 			        if($('#container'+typeId).find('.confirmClass').length == 0){
 			        	$('#container'+typeId).find('button').text('Completed');
+			        	/*hideModal();*/
 			        	/*$('#container'+typeId+' #removeBackButton').remove();
 			        	$('#container'+typeId).append('<div class="removeBackButton"><button class="btn btn-primary st-bg-baby-pink ui-btn ui-shadow ui-corner-all" onclick="gotoProductPage();" >Back to Product Page</button></div>');*/
 			        }
@@ -5517,7 +5519,7 @@ function successCBUpdateCustomerSyncDB(){
 					       /* $('#progressBarDiv').find('#remove'+id).remove();*/
 					        $('#container'+typeId).find(idRemove).remove();
 					        if($('#container'+typeId).find('.confirmClass').length == 0){
-					        	hideModal();
+					        	/*hideModal();*/
 					        	$('#container'+typeId).find('button').text('Completed');
 		            	 }
 					        /*if($('#container'+typeId).find('.confirmClass').length == 1){
