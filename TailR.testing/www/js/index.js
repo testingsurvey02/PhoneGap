@@ -5332,10 +5332,10 @@ function successCBUpdateCustomerSyncDB(){
 		//console.log(fp);
 		// File download function with URL and local path
 		removeProgressId = 'remove'+id;
-		var progressBarTag = '<div class="confirmClass" id="remove'+id+'">';
-		progressBarTag += '<button type="button" data-prod_id="'+typeId+'" class="btn btn-primary st-bg-baby-pink ui-btn ui-shadow ui-corner-all '+id+'" data-filename="'+File_Name+'" data-uniqueid="'+id+'" data-urllink="'+download_link+'" onclick="startPauseResumeDownload(this);" data-location="'+fp+'">Re-download</button>';
-		progressBarTag += '</div>';
-    	$('#container'+typeId).append(progressBarTag).enhanceWithin();
+		/*var progressBarTag = '<div class="confirmClass" id="remove'+id+'">';
+		//progressBarTag += '<button type="button" data-prod_id="'+typeId+'" class="btn btn-primary st-bg-baby-pink ui-btn ui-shadow ui-corner-all '+id+'" data-filename="'+File_Name+'" data-uniqueid="'+id+'" data-urllink="'+download_link+'" onclick="startPauseResumeDownload(this);" data-location="'+fp+'">Re-download</button>';
+		progressBarTag += '</div>';*/
+    	//$('#container'+typeId).append(progressBarTag).enhanceWithin();
 		fileTransfer.download(download_link, fp,
 				function (entry) {
 			//localPath = entry.toURL();
@@ -5382,15 +5382,16 @@ function successCBUpdateCustomerSyncDB(){
 		        if(parseInt(now/100) == 100){
 		        	completedCountImg+=1;
 		        	var idRemove='#remove'+id;
-		        	$('.downloadProductList #'+typeId).append('<span>/ '+completedCountImg+'</span>');
-			        console.log('Removed Div : ----- '+id+'----' +$('#container'+typeId).find(idRemove).html());
-			        $('#container'+typeId).find(idRemove).remove();
-			        if($('#container'+typeId).find('.confirmClass').length == 0){
+		        	var btnText = $('.downloadProductList #'+typeId).text();
+		        	$('.downloadProductList #'+typeId).text(btnText+'/' +completedCountImg);
+			      //  console.log('Removed Div : ----- '+id+'----' +$('#container'+typeId).find(idRemove).html());
+			       // $('#container'+typeId).find(idRemove).remove();
+			        /*if($('#container'+typeId).find('.confirmClass').length == 0){
 			        	$('#container'+typeId).find('button').text('Completed');
-			        	/*hideModal();*/
-			        	/*$('#container'+typeId+' #removeBackButton').remove();
-			        	$('#container'+typeId).append('<div class="removeBackButton"><button class="btn btn-primary st-bg-baby-pink ui-btn ui-shadow ui-corner-all" onclick="gotoProductPage();" >Back to Product Page</button></div>');*/
-			        }
+			        	hideModal();
+			        	$('#container'+typeId+' #removeBackButton').remove();
+			        	$('#container'+typeId).append('<div class="removeBackButton"><button class="btn btn-primary st-bg-baby-pink ui-btn ui-shadow ui-corner-all" onclick="gotoProductPage();" >Back to Product Page</button></div>');
+			        }*/
 		        }
 		       
 		        this.pre = now;
