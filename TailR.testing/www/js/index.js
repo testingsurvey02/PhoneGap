@@ -2933,18 +2933,21 @@ function successCBUpdateCustomerSyncDB(){
 	
 	function showProdNamesInImgDownPage(){
 		var productJsonArr = productDetailsArrSession;
-	}
 		jQuery.each(productJsonArr, function(index,value) {
 			var jsonObj = value;
 			var local_db_id=jsonObj["id"];
 			var server_prod_id=jsonObj["server_prod_id"];
 			var prod_name=jsonObj["prod_name"];
 			
-			var tempSpan = '<div><p>'+prod_name+'</p><button class="downloadProdImg" id='+server_prod_id+' onclick="">Load Images</button></div>';
+			var tempSpan = '<div><p>'+prod_name+'</p><button class="downloadProdImg" id='+server_prod_id+' >Load Images</button></div>';
 			$('#downloadProductList').append(tempSpan);
 		});
 		
 		gotoAboutUsPage();
+	}
+	
+	function downloadProdImage(thisData){
+		
 	}
 	
 	// Remaining
