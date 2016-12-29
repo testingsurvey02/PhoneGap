@@ -5361,10 +5361,10 @@ function successCBUpdateCustomerSyncDB(){
 		        	var idRemove='#remove'+id;
 			        console.log('Removed Div : ----- '+id+'----' +$('#container'+typeId).find(idRemove).html());
 			        $('#container'+typeId).find(idRemove).remove();
-			        if($('#container'+typeId).find('.confirmClass').length == 1){
+			        /*if($('#container'+typeId).find('.confirmClass').length == 1){
 			        	$('#container'+typeId+' #removeBackButton').remove();
 			        	$('#container'+typeId).append('<div class="removeBackButton"><button class="btn btn-primary st-bg-baby-pink ui-btn ui-shadow ui-corner-all" onclick="gotoProductPage();" >Back to Product Page</button></div>');
-			        }
+			        }*/
 		        }
 		       
 		        this.pre = now;
@@ -5498,12 +5498,12 @@ function successCBUpdateCustomerSyncDB(){
 			            	 console.log('Removed Div : ----- '+id+'----' +$('#progressBarDiv').find(idRemove).html());
 					       /* $('#progressBarDiv').find('#remove'+id).remove();*/
 					        $('#container'+typeId).find(idRemove).remove();
-					        if($('#container'+typeId).find('.confirmClass').length == 1){
-					        	/*gotoProductPage();*/
+					        /*if($('#container'+typeId).find('.confirmClass').length == 1){
+					        	gotoProductPage();
 					        	$('#container'+typeId+' #removeBackButton').remove();
 					        	
 					        	$('#container'+typeId).append('<div class="removeBackButton"><button class="btn btn-primary st-bg-baby-pink ui-btn ui-shadow ui-corner-all" onclick="gotoProductPage();" >Back to Product Page</button></div>');
-					        }
+					        }*/
 			            }
 			            this.pre = now;
 			        }
