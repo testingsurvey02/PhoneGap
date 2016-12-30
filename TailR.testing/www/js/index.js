@@ -4226,7 +4226,7 @@ function successCBUpdateCustomerSyncDB(){
 		var attrImagesData = '';
 		if(dataExist){
 			attrImagesData = '<p> Attribute Images Data Syncing </p>';
-			$('.appendStatusDiv').append(deleteRecordsDiv);
+			$('.appendStatusDiv').append(attrImagesData);
 		}else{
 			attrImagesData = '<p> Attribute Images Data First Time Syncing </p>';
 		}
