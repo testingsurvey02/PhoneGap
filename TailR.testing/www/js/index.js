@@ -1417,65 +1417,75 @@ function insertAttrImagesDetails(tx) {
 	currDateTimestamp=dateTimestamp();
 	tx.executeSql('CREATE TABLE IF NOT EXISTS attr_images (id integer primary key autoincrement, attr_id integer, server_img_id integer, name text, image text, status text, sort_order text, download_status integer, update_timestamp text)');
 	
-	jQuery.each(attributeImageJsonData, function(index,value) {
-		var server_img_id = value['id'];
-		var name = value['name'];
-		console.log('name --- '+name);
-		var attr_id = value['attr_id'];
-		console.log('attr_id --- '+attr_id);
-		var image = value['image'];
-		console.log('image --- '+image);
-		var image_status = value['status'];
-		console.log('image_status --- '+image_status);
-		var sort_order = value['sort_order'];
-		console.log('sort_order --- '+sort_order);
-		var downloadStatus = 0;
-		
-		var update_timestamp = currDateTimestamp;
-		
-		tx.executeSql('select * from attr_images where server_img_id ='+server_img_id ,[],function(tx,results){
-			var len = 0;
-			len = results.rows.length;
-			if(len > 0){
-				for (var i = 0; i < len; i++) {
-					var localDB_id = results.rows.item(i)['id'];
-					var localDB_server_img_id=results.rows.item(i)['server_img_id'];
-					var localDB_name=results.rows.item(i)['name'];
-					if(name != ''){
-						localDB_name = name;
-					}
-					var localDB_attr_id=results.rows.item(i)['attr_id'];
-					if(attr_id != ''){
-						localDB_attr_id = attr_id;
-					}
-					var local_DB_image = results.rows.item(i)['image'];
-					if(image != ''){
-						local_DB_image = image;
-					}
-					var local_DB_statusImage = results.rows.item(i)['status'];
-					if(image_status != ''){
-						local_DB_statusImage =  image_status;
-					}
-					var local_DB_sort_order = results.rows.item(i)['sort_order'];
-					if(sort_order != ''){
-						local_DB_sort_order = sort_order;
-					}
-					//local_DB_download_status = 0;
-					//console.log('update product_attributes');
-					tx.executeSql("UPDATE attr_images SET name = '" + localDB_name + "', attr_id = '" + localDB_attr_id + "', update_timestamp = '"+update_timestamp+"', image = "+local_DB_image+", status = '"+local_DB_statusImage+"', sort_order = '"+local_DB_sort_order+"', download_status = 0 WHERE id = " + localDB_id + "");
-				}
-				
-			}else{
-				//console.log('insert product_attributes');
-				tx.executeSql('INSERT INTO attr_images(attr_id, server_img_id, name, image, status, sort_order, download_status, update_timestamp) VALUES (?,?,?,?,?,?,?,?)',
-	   	    			[attr_id, server_img_id, name,image, image_status, sort_order, downloadStatus, update_timestamp], function(tx, res) {
-		   	        	console.log("Attribute Images Data insertId: " + res.insertId + " -- res.rowsAffected 1"+res.rowsAffected);
+	tx.executeSql('select * from attr_images ' ,[],function(tx,results){
+		var len = 0;
+		len = results.rows.length;
+		if(len > 0){
+			if(len < attributeImageJsonData.length){
+				jQuery.each(attributeImageJsonData, function(index,value) {
+					var server_img_id = value['id'];
+					var name = value['name'];
+					console.log('name --- '+name);
+					var attr_id = value['attr_id'];
+					console.log('attr_id --- '+attr_id);
+					var image = value['image'];
+					console.log('image --- '+image);
+					var image_status = value['status'];
+					console.log('image_status --- '+image_status);
+					var sort_order = value['sort_order'];
+					console.log('sort_order --- '+sort_order);
+					var downloadStatus = 0;
+					
+					var update_timestamp = currDateTimestamp;
+					
+					tx.executeSql('select * from attr_images where server_img_id ='+server_img_id ,[],function(tx,results){
+						var len = 0;
+						len = results.rows.length;
+						if(len > 0){
+							for (var i = 0; i < len; i++) {
+								var localDB_id = results.rows.item(i)['id'];
+								var localDB_server_img_id=results.rows.item(i)['server_img_id'];
+								var localDB_name=results.rows.item(i)['name'];
+								if(name != ''){
+									localDB_name = name;
+								}
+								var localDB_attr_id=results.rows.item(i)['attr_id'];
+								if(attr_id != ''){
+									localDB_attr_id = attr_id;
+								}
+								var local_DB_image = results.rows.item(i)['image'];
+								if(image != ''){
+									local_DB_image = image;
+								}
+								var local_DB_statusImage = results.rows.item(i)['status'];
+								if(image_status != ''){
+									local_DB_statusImage =  image_status;
+								}
+								var local_DB_sort_order = results.rows.item(i)['sort_order'];
+								if(sort_order != ''){
+									local_DB_sort_order = sort_order;
+								}
+								//local_DB_download_status = 0;
+								//console.log('update product_attributes');
+								//tx.executeSql("UPDATE attr_images SET name = '" + localDB_name + "', attr_id = '" + localDB_attr_id + "', update_timestamp = '"+update_timestamp+"', image = "+local_DB_image+", status = '"+local_DB_statusImage+"', sort_order = '"+local_DB_sort_order+"', download_status = 0 WHERE id = " + localDB_id + "");
+							}
+							
+						}else{
+							//console.log('insert product_attributes');
+							tx.executeSql('INSERT INTO attr_images(attr_id, server_img_id, name, image, status, sort_order, download_status, update_timestamp) VALUES (?,?,?,?,?,?,?,?)',
+				   	    			[attr_id, server_img_id, name,image, image_status, sort_order, downloadStatus, update_timestamp], function(tx, res) {
+					   	        	console.log("Attribute Images Data insertId: " + res.insertId + " -- res.rowsAffected 1"+res.rowsAffected);
+							});
+						}
+					});
+					
+					
 				});
 			}
-		});
-		
-		
+		}
 	});
+	
+	
 }
 
 function insertGalleryImagesDetails(tx) {
@@ -5841,7 +5851,7 @@ function successCBUpdateCustomerSyncDB(){
 		downloadFileValidatorFn(downloadFileUrl, folderAttrImages, image, optionId, attrId);
 		attrImageIndex++;
 	    // FIXME TODO Length increase 1000
-	    if (attrImageIndex<attrImagesArrSession.length+1000) {setTimeout(function(){customLoopForAttrImages(attrImageIndex);},500);}else{
+	    if (attrImageIndex<attrImagesArrSession.length) {setTimeout(function(){customLoopForAttrImages(attrImageIndex);},100);}else{
 	    	getAttrImagesDataFromDB();
 	    	$('.labelAttrImgloader').html('Completed');
 	    }
@@ -5920,7 +5930,7 @@ function successCBUpdateCustomerSyncDB(){
 		downloadFileValidatorFn(downloadFileUrl, folderGallImages, image, galleryId, prodId);
 		gallImgIndex++;
 	    // FIXME TODO Length increase 1000
-	    if (gallImgIndex<galleryImagesArrSession.length+1000) {setTimeout(function(){customLoopForGalleryImages(gallImgIndex);},500);}else{
+	    if (gallImgIndex<galleryImagesArrSession.length) {setTimeout(function(){customLoopForGalleryImages(gallImgIndex);},100);}else{
 	    	getGalleryImagesDataFromDB();
 	    }
 	}
