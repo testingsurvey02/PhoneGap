@@ -1536,6 +1536,8 @@ function insertGalleryImagesDetails(tx) {
 					});
 				});
 			}
+		}else{
+			alert('No data exist in server');
 		}
 	});
 }
@@ -1584,7 +1586,8 @@ function errorCBInsertAttrImagesDetails(err) {
 }
 
 function successCBInsertGalleryImagesDetails(){
-	
+	$('#downloadGalleryImg').show();	
+	$('.labelGalleryloader').html('Completed');
 }
 
 function errorCBInsertGalleryImagesDetails(err) {
