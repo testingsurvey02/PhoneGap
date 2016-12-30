@@ -1417,10 +1417,15 @@ function insertAttrImagesDetails(tx) {
 	jQuery.each(attributeImageJsonData, function(index,value) {
 		var server_img_id = value['id'];
 		var name = value['name'];
+		console.log('name --- '+name);
 		var attr_id = value['attr_id'];
+		console.log('attr_id --- '+attr_id);
 		var image = value['image'];
+		console.log('image --- '+image);
 		var image_status = value['status'];
+		console.log('image_status --- '+image_status);
 		var sort_order = value['sort_order'];
+		console.log('sort_order --- '+sort_order);
 		var downloadStatus = 0;
 		
 		var update_timestamp = currDateTimestamp;
