@@ -5728,13 +5728,13 @@ function successCBUpdateCustomerSyncDB(){
 			},errorCBAttrImagesListDB,successCBAttrImagesDownloadDB);
 	}
 	
-	function successCBAttrImagesDownloadDB{
+	function successCBAttrImagesDownloadDB(){
 		customLoopForAttrImages();
 	}
 	
 
 	var j = 0;
-	var folderImages = 'attribute';
+	var folderImages = 'attributes';
 	function customLoopForAttrImages() {
 	    console.log(j+"Delay Condition----optionImg");
 	    var image =  attrImagesArrSession[j].['image'];
