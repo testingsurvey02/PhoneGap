@@ -2886,6 +2886,7 @@ function successCBUpdateCustomerSyncDB(){
 		
 			connectionType=checkConnection();
 			//console.log('connectionType : ' +connectionType);
+			console.log(connectionType);
 			if(connectionType=="Unknown connection" || connectionType=="No network connection"){
 				//console.log('connectionType Inside : '+dataSyncTypeTailor);
 				if(type == dataSyncTypeTailor){
