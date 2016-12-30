@@ -5495,7 +5495,7 @@ function successCBUpdateCustomerSyncDB(){
 	var folderAndPath;
 	var downloadLinkGlobalTest;
 	// 2nd Step 
-	function downloadFileFn(URL, Folder_Name, File_Name, count, typeId) {
+	function downloadFileFn(URL, Folder_Name, File_Name, imageId, typeId) {
 		//step to request a file system 
 		window.requestFileSystem(LocalFileSystem.PERSISTENT, 0, fileSystemSuccess, fileSystemFail);
 		var uniqueId = '';
@@ -5513,7 +5513,7 @@ function successCBUpdateCustomerSyncDB(){
 			//var fp = rootdir.fullPath; // Returns Fulpath of local directory
 			folderAndPath = Folder_Name + '/' + File_Name;
 			var fileDataDirect = store + "/" + folderAndPath; // fullpath and name of the file which we want to give
-			uniqueId = Folder_Name+count;
+			uniqueId = Folder_Name+imageId;
 			// download function call
 			connectionType = checkConnection();
 			if(connectionType=="Unknown connection" || connectionType=="No network connection"){
@@ -5521,7 +5521,7 @@ function successCBUpdateCustomerSyncDB(){
 			}
 			else {
 				console.log('Internet connection : '+connectionType);
-				filetransferFn(download_link, fileDataDirect, File_Name, uniqueId, typeId);
+				filetransferFn(download_link, fileDataDirect, File_Name, uniqueId, typeId, Folder_Name, imageId);
 			}
 		}
 
@@ -5544,7 +5544,7 @@ function successCBUpdateCustomerSyncDB(){
 	// 3rd Step 
 	var removeProgressId = '';
 	var completedCountImg=0;
-	function filetransferFn(download_link, fp, File_Name, id, typeId) {
+	function filetransferFn(download_link, fp, File_Name, id, typeId, Folder_Name, imageId) {
 		var fileTransfer = new FileTransfer();
 		//console.log(fp);
 		// File download function with URL and local path
@@ -5563,6 +5563,12 @@ function successCBUpdateCustomerSyncDB(){
 				gotoProductPage();
 			} */
 			window.resolveLocalFileSystemURL(entry.toURL(), fileExist, fileNotExist);
+			
+			if(Folder_Name == 'attributes'){
+				changeStatusOfAttrImages(imageId);
+			}
+			
+			
 			//checkIfFileExists(entry.toURL());
 			//count = parseInt(count)+1;
 			
@@ -5753,6 +5759,32 @@ function successCBUpdateCustomerSyncDB(){
 		//totalAttrOptImages = parseInt(totalAttrOptImages) + 1;
 		downloadFileValidatorFn(downloadFileUrl, folderImages, image, optionId, attrId);
 	    j++;
-	    if (j<attrImagesArrSession.length) {setTimeout(function(){customLoopForAttrImages(j);},500);}
+	    if (j<attrImagesArrSession.length) {setTimeout(function(){customLoopForAttrImages(j);},500);}else{
+	    	getAttrImagesDataFromDB();
+	    }
 	}
+	
+	function changeStatusOfAttrImages(imageId){
+		db.transaction(	function (tx){
+			var len = 0;
+			// id, attr_id, server_img_id, name, image, status, sort_order, download_status, update_timestamp
+				tx.executeSql('select * from attr_images where server_img_id = '+imageId ,[],function(tx,results){
+						len = results.rows.length;
+						if(len>0){
+							tx.executeSql("UPDATE attr_images SET download_status = 1 WHERE server_img_id = " + imageId + "");
+						}
+					}, errorCB
+				);
+			},errorCBAttrImagesUpdateDB,successCBUpdateAttrImageDB);
+	}
+	
+	function successCBUpdateAttrImageDB(){
+		console.log('success updated');
+	}
+	
+	function errorCBAttrImagesUpdateDB(err){
+		console.log('errorCBAttrImagesUpdateDB : '+err.code);
+		console.log('errorCBAttrImagesUpdateDB : '+err.message);
+	}
+	
 	
