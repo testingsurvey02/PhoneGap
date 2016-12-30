@@ -3093,9 +3093,9 @@ function successCBUpdateCustomerSyncDB(){
 				subCategoryDiv += subCategoryTempDiv;
 			//}
 		});
-		categoryDiv+='<li class="float-right "><a href="#aboutUs-page">Home Page</a></li>';
-		categoryDiv+='<li class="float-right" onclick="orderPageHtmlButton();"> <a href="#"> Order Report </a> </li>';
-		categoryDiv+='<li class="float-right"><a href="#contactUs-page">Contact Us Page</a></li>';
+		categoryDiv+='<li class="float-right "><a href="#aboutUs-page"><i class="fa fa-home"></i></a></li>';
+		/*categoryDiv+='<li class="float-right" onclick="orderPageHtmlButton();"> <a href="#"> Order Report </a> </li>';
+		categoryDiv+='<li class="float-right"><a href="#contactUs-page">Contact Us Page</a></li>';*/
 		categoryDiv+='</ul></div>';
 		$('#mainPageId').empty();
 		$('#mainPageId').append(categoryDiv);
@@ -5792,7 +5792,6 @@ function successCBUpdateCustomerSyncDB(){
 		$('#downloadAttrImg').hide();
 		$('#downloadAttrsyn').prop("disabled",true);
 		$('.labelAttrloader').html('Loading...');
-		showModal();
 		getAttrImagesDataFromServer();
 	}
 
