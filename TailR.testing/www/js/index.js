@@ -5972,6 +5972,11 @@ function successCBUpdateCustomerSyncDB(){
 		customLoopForGalleryImages();
 	}
 	
+	function errorCBGalleryImagesListDB(err){
+		console.log('errorCBGalleryImagesListDB : '+err.code);
+		console.log('errorCBGalleryImagesListDB : '+err.message);
+	}
+	
 
 	var gallImgIndex = 0;
 	var folderGallImages = 'gallery';
