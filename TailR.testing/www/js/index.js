@@ -3245,7 +3245,7 @@ function successCBUpdateCustomerSyncDB(){
 	function getAttrImagesDataFromServer(){
 		var dataToSend = {};
 		dataToSend["secret_key"] = tailorDetailsSession.secret_key;
-		
+		console.log('dataToSend : '+dataToSend);
 		var apiCallUrl="http://tailorapp.tailorrani.com/api/attributes/attributeimagesJson"
 		connectionType=checkConnection();
 		if(connectionType=="Unknown connection" || connectionType=="No network connection"){
@@ -5712,7 +5712,7 @@ function successCBUpdateCustomerSyncDB(){
 	}
 	
 	function syncAttrImages(){
-		getAttributesDataFromServer();
+		getAttrImagesDataFromServer();
 	}
 
 	function getAttrImagesDataFromDB(){
