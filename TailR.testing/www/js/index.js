@@ -5737,9 +5737,9 @@ function successCBUpdateCustomerSyncDB(){
 	var folderImages = 'attributes';
 	function customLoopForAttrImages() {
 	    console.log(j+"Delay Condition----optionImg");
-	    var image =  attrImagesArrSession[j].['image'];
-	    var attrId = attrImagesArrSession[j].['attr_id'];
-	    var optionId = attrImagesArrSession[j].['server_img_id'];
+	    var image =  attrImagesArrSession[j]['image'];
+	    var attrId = attrImagesArrSession[j]['attr_id'];
+	    var optionId = attrImagesArrSession[j]['server_img_id'];
 	    var downloadFileUrl = attributeImageData + '/' + image;	
 		//totalAttrOptImages = parseInt(totalAttrOptImages) + 1;
 		downloadFileValidatorFn(downloadFileUrl, folderImages, image, optionId, attrId);
