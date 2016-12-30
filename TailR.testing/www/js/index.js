@@ -27,15 +27,11 @@ $( document ).on( "mobileinit", function() {
      $.mobile.toolbar.prototype.options.tapToggle = false;
 });
 
-$(document).delegate('.single-option', 'tap', function () {
-	console.log('Hi....single-option....Tap.......');
-});
-
 $(document).delegate('.single-option', 'taphold', function () {
-	console.log('Hi....taphold......single-option.....');
+	//console.log('Hi....taphold......single-option.....');
 	var optid = $(this).data('opt_id');
 	var optionsrc = $(this).data('optionsrc');
-    console.log('Download Images -- optid : '+ optid + 'optionsrc : '+optionsrc);
+    //console.log('Download Images -- optid : '+ optid + 'optionsrc : '+optionsrc);
 });
 
 var connectionType;
@@ -296,7 +292,7 @@ var app = {
 			window.localStorage["productimgflag"] = 0;
 		}
 		
-		loadDataFromServer();
+		//loadDataFromServer();
     },
 };
 
