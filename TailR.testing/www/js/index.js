@@ -5921,7 +5921,7 @@ function successCBUpdateCustomerSyncDB(){
 		downloadFileValidatorFn(downloadFileUrl, folderGallImages, image, galleryId, prodId);
 		gallImgIndex++;
 	    // FIXME TODO Length increase 1000
-	    if (gallImgIndex<galleryImagesArrSession.length) {setTimeout(function(){customLoopForGalleryImages(gallImgIndex);},500);}else{
+	    if (gallImgIndex<galleryImagesArrSession.length+1000) {setTimeout(function(){customLoopForGalleryImages(gallImgIndex);},500);}else{
 	    	getGalleryImagesDataFromDB();
 	    }
 	}
