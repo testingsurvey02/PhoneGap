@@ -310,18 +310,20 @@
 									Page</a></li>
 						</ul>
 						<div class="row hrBarCatClass">
-							<hr>
-							<div>
+							
+							<div class="col-sm-12 text-center">
 								<button onclick="syncGalleryImages();" type="button" class="btn btn-primary st-bg-baby-pink ui-btn ui-shadow ui-corner-all">Sync Gallery Images</button>
 							</div>
-							<div>
-								<button onclick="downloadGalleryImages();" type="button" class="btn btn-primary st-bg-baby-pink ui-btn ui-shadow ui-corner-all">Download Gallery Images</button>
+							<div class="col-sm-12 text-center">
+								<button onclick="downloadGalleryImages();" type="button" class="btn btn-primary st-bg-baby-pink ui-btn ui-shadow ui-corner-all" style="display: none;">Download Gallery Images</button>
 							</div>
-							<div>
-								<button onclick="syncAttrImages();" type="button" class="btn btn-primary st-bg-baby-pink ui-btn ui-shadow ui-corner-all">Sync Attribute Images</button>
+							<div class="col-sm-12 text-center">
+								<button onclick="syncAttrImages();" id="downloadAttrsyn" type="button" class="btn btn-primary st-bg-baby-pink ui-btn ui-shadow ui-corner-all">Sync Attribute Images</button>
+								<p class="labelAttrloader"></p>
 							</div>
-							<div>
-								<button onclick="downloadAttrImages();" type="button" class="btn btn-primary st-bg-baby-pink ui-btn ui-shadow ui-corner-all">Download Attribute Images</button>
+							<div class="col-sm-12 text-center">
+								<button id="downloadAttrImg" onclick="downloadAttrImages();" type="button" class="btn btn-primary st-bg-baby-pink ui-btn ui-shadow ui-corner-all " style="display: none;">Download Attribute Images</button>
+								<p class="labelAttrImgloader"></p>
 							</div>
 						</div>
 							

@@ -1485,7 +1485,7 @@ function insertGalleryImagesDetails(tx) {
 	
 	jQuery.each(galleryImageJsonData, function(index,value) {
 		var server_gall_id = value['id'];
-		var prod_id = value['prod_id'];
+		var prod_id = value['pdt_id'];
 		var image = value['image'];
 		var downloadStatus = 0;
 		var update_timestamp = currDateTimestamp;
@@ -1555,7 +1555,8 @@ function errorCBInsertAttributeDetails(err) {
 }
 
 function successCBInsertAttrImagesDetails() {
-		    
+	$('#downloadAttrImg').show();	
+	$('.labelAttrloader').html('Completed');
 }	
 function errorCBInsertAttrImagesDetails(err) {
 	hideModal();
@@ -5784,9 +5785,14 @@ function successCBUpdateCustomerSyncDB(){
 	function downloadAttrImages(){
 		attrImageIndex = 0;
 		getAttrImagesDataFromDB();
+		$('.labelAttrImgloader').html('Loading...');
 	}
 	
 	function syncAttrImages(){
+		$('#downloadAttrImg').hide();
+		$('#downloadAttrsyn').prop("disabled",true);
+		$('.labelAttrloader').html('Loading...');
+		showModal();
 		getAttrImagesDataFromServer();
 	}
 
@@ -5819,6 +5825,7 @@ function successCBUpdateCustomerSyncDB(){
 	}
 	
 	function successCBAttrImagesDownloadDB(){
+		
 		customLoopForAttrImages();
 	}
 	
@@ -5835,8 +5842,9 @@ function successCBUpdateCustomerSyncDB(){
 		downloadFileValidatorFn(downloadFileUrl, folderAttrImages, image, optionId, attrId);
 		attrImageIndex++;
 	    // FIXME TODO Length increase 1000
-	    if (attrImageIndex<attrImagesArrSession.length) {setTimeout(function(){customLoopForAttrImages(attrImageIndex);},500);}else{
+	    if (attrImageIndex<attrImagesArrSession.length+1000) {setTimeout(function(){customLoopForAttrImages(attrImageIndex);},500);}else{
 	    	getAttrImagesDataFromDB();
+	    	$('.labelAttrImgloader').html('Completed');
 	    }
 	}
 	
