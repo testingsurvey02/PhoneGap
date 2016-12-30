@@ -1494,8 +1494,15 @@ function errorCBAttrListDB(err) {
 }
 
 function successCBInsertAttributeDetails() {
-	getAttrImagesDataFromDB();
-	    
+	var measurementDiv = '';
+	if(dataExist){
+		measurementDiv = '<p> Measurement Data Syncing </p>';
+	}else{
+		measurementDiv = '<p> Measurement Data first time Syncing </p>';
+	}
+	
+	$('.appendStatusDiv').append(measurementDiv);
+	 getMeasurementsDataFromServer();
 }	
 function errorCBInsertAttributeDetails(err) {
 	hideModal();
