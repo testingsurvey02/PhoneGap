@@ -41,6 +41,7 @@ var attributeJsonData;
 var productJsonData;
 var measurementJsonData;
 var staticJsonData;
+var attributeImageJsonData;
 var updateCustomerDetailsForSavedData;
 var updateCustomerDetailsForUpdatedData;
 var updateOrderDetailsForSavedData;
@@ -1413,7 +1414,7 @@ function insertAttrImagesDetails(tx) {
 	currDateTimestamp=dateTimestamp();
 	tx.executeSql('CREATE TABLE IF NOT EXISTS attr_images (id integer primary key autoincrement, attr_id integer, server_img_id integer, name text, image text, status text, sort_order text, download_status integer, update_timestamp text)');
 	
-	jQuery.each(attributeJsonData, function(index,value) {
+	jQuery.each(attributeImageJsonData, function(index,value) {
 		var server_img_id = value['id'];
 		var name = value['name'];
 		var attr_id = value['attr_id'];
@@ -3262,7 +3263,7 @@ function successCBUpdateCustomerSyncDB(){
 	
 	function successCallbackAttrImagesFn(data){
 		var responseJson = $.parseJSON(JSON.stringify(data));
-		attrImagesData = responseJson["result"];
+		attributeImageJsonData = responseJson["result"];
 		var attributeImagesDiv = '';
 		if(dataExist){
 			attributeImagesDiv = '<p> Attribute Images Data Updating </p>';
