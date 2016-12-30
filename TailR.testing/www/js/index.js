@@ -28,10 +28,14 @@ $( document ).on( "mobileinit", function() {
 });
 
 $(document).delegate('.single-option', 'taphold', function () {
-	//console.log('Hi....taphold......single-option.....');
-	var optid = $(this).data('opt_id');
-	var optionsrc = $(this).data('optionsrc');
-    //console.log('Download Images -- optid : '+ optid + 'optionsrc : '+optionsrc);
+	console.log('Hi....taphold......single-option.....');
+	var isOK = confirm("Are you want to redownload the image?");
+	if(isOK){
+		var optid = $(this).data('opt_id');
+		var optionsrc = $(this).data('optionsrc');
+		var attrid = $(this).data('attrid');
+		console.log('Download Images -- optid : '+ optid + 'optionsrc : '+optionsrc);
+	}
 });
 
 var connectionType;
@@ -2895,9 +2899,9 @@ function successCBUpdateCustomerSyncDB(){
 						tx.executeSql('select count(*) as mycount from tailor_details ', [], function(tx, rs) {
 							 var recordCount = 0;
 					          recordCount = rs.rows.item(0).mycount;
-					          //console.log('connectionType Inside : '+recordCount);
+					          console.log('connectionType Inside : '+recordCount);
 					          if(parseInt(recordCount) > 0){
-					        	  //console.log('connectionType Inside : calling TailorDetails');
+					        	  console.log('connectionType Inside : calling TailorDetails');
 					        	  getTailorDetailsFromLocal();
 					          }else{
 					        	  hideModal();
