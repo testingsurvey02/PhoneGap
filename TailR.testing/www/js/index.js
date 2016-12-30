@@ -1481,6 +1481,8 @@ function insertAttrImagesDetails(tx) {
 					
 					
 				});
+			}else{
+				alert('No data exist in server');
 			}
 		}
 	});
