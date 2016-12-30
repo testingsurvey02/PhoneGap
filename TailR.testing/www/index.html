@@ -207,6 +207,12 @@
 												onclick="gotoDownloadImagePage();">Download Images
 												Report</button>
 										</div>
+										<div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
+											<button type="button"
+												class="btn btn-primary st-bg-baby-pink ui-btn ui-shadow ui-corner-all"
+												onclick="#contactUs-page">Contact Us
+												Report</button>
+										</div>
 									</div>
 								</div>
 							</div>
@@ -314,10 +320,12 @@
 						<div class="row hrBarCatClass">
 							
 							<div class="col-sm-12 text-center">
-								<button onclick="syncGalleryImages();" type="button" class="btn btn-primary st-bg-baby-pink ui-btn ui-shadow ui-corner-all">Sync Gallery Images</button>
+								<button onclick="syncGalleryImages();" id="downloadGallerySyn" type="button" class="btn btn-primary st-bg-baby-pink ui-btn ui-shadow ui-corner-all">Sync Gallery Images</button>
+								<p class="labelGalleryloader"></p>
 							</div>
 							<div class="col-sm-12 text-center">
-								<button onclick="downloadGalleryImages();" type="button" class="btn btn-primary st-bg-baby-pink ui-btn ui-shadow ui-corner-all" style="display: none;">Download Gallery Images</button>
+								<button id="downloadGalleryImg" onclick="downloadGalleryImages();" type="button" class="btn btn-primary st-bg-baby-pink ui-btn ui-shadow ui-corner-all" style="display: none;">Download Gallery Images</button>
+								<p class="labelGalleryImgloader"></p>
 							</div>
 							<div class="col-sm-12 text-center">
 								<button onclick="syncAttrImages();" id="downloadAttrsyn" type="button" class="btn btn-primary st-bg-baby-pink ui-btn ui-shadow ui-corner-all">Sync Attribute Images</button>
@@ -384,10 +392,6 @@
 									onclick="showMeasurementDiv()">Measurement</a></li>
 								<li class="backToHomePage float-right"><a
 									href="#aboutUs-page"><i class="fa fa-home"></i></a></li>
-								<li class="backToHomePage float-right"><a
-									href="#imageDownloadStatusPage">Image Download Page</a></li>
-								<!-- <li class="backToHomePage float-right"><a
-									href="#contactUs-page">Contact Us Page</a></li> -->
 							</ul>
 						</div>
 
@@ -446,7 +450,7 @@
 					src="img/product/product1.jpg" alt="Sample"></a>
 			</div>
 		</div>
-
+		
 
 
 		<!-- Measurement Page -->
@@ -469,8 +473,6 @@
 									onclick="showMeasurementDiv();">Measurement</a></li>
 								<li class="backToHomePage float-right"><a
 									href="#aboutUs-page"><i class="fa fa-home"></i></a></li>
-								<li class="float-right"><a
-									href="#imageDownloadStatusPage">Image Download Page</a></li>
 							</ul>
 
 						</div>
@@ -553,8 +555,6 @@
 									onclick="showMeasurementDiv();">Measurement</a></li>
 								<li class="backToHomePage float-right"><a
 									href="#product-page">Product Page</a></li>
-								<li class="float-right"><a
-									href="#imageDownloadStatusPage">Image Download Page</a></li>
 								<li class="float-right"><a href="#aboutUs-page"><i class="fa fa-home"></i></a></li>
 							</ul>
 						</div>

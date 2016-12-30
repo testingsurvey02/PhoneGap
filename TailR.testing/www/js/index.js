@@ -248,7 +248,7 @@ var app = {
         if(window.localStorage["gcmregistrationId"] === undefined ) {
 			window.localStorage["gcmregistrationId"] = "";
 		}
-		pushNotification = window.plugins.pushNotification;
+		/*pushNotification = window.plugins.pushNotification;
 		try{
         	pushNotification = window.plugins.pushNotification;
         	pushNotification.register(successHandler, errorHandler, {"senderID":"329763220550","ecb":"onNotification"});		// required!
@@ -257,7 +257,7 @@ var app = {
 			var txt="There was an error on this page.\n\n"; 
 			txt+="Error description: " + err.message + "\n\n"; 
 			console.log(txt); 
-		}
+		}*/
 		
         if(window.localStorage["appUrl"] === undefined ) {
         	window.localStorage["appUrl"] = '';
@@ -1420,7 +1420,7 @@ function insertAttrImagesDetails(tx) {
 	tx.executeSql('select * from attr_images ' ,[],function(tx,results){
 		var len = 0;
 		len = results.rows.length;
-		if(len > 0){
+		if(len >= 0){
 			if(len < attributeImageJsonData.length){
 				jQuery.each(attributeImageJsonData, function(index,value) {
 					var server_img_id = value['id'];
@@ -1495,40 +1495,48 @@ function insertGalleryImagesDetails(tx) {
 	currDateTimestamp=dateTimestamp();
 	tx.executeSql('CREATE TABLE IF NOT EXISTS gallery_images (id integer primary key autoincrement, prod_id integer, server_gall_id integer, image text, download_status integer, update_timestamp text)');
 	
-	jQuery.each(galleryImageJsonData, function(index,value) {
-		var server_gall_id = value['id'];
-		var prod_id = value['pdt_id'];
-		var image = value['image'];
-		var downloadStatus = 0;
-		var update_timestamp = currDateTimestamp;
-		
-		tx.executeSql('select * from gallery_images where server_gall_id ='+server_gall_id ,[],function(tx,results){
-			var len = 0;
-			len = results.rows.length;
-			if(len > 0){
-				for (var i = 0; i < len; i++) {
-					var localDB_id = results.rows.item(i)['id'];
-					var localDB_server_gall_id=results.rows.item(i)['server_gall_id'];
-					var localDB_attr_id=results.rows.item(i)['prod_id'];
-					if(prod_id != ''){
-						localDB_prod_id = prod_id;
-					}
-					var local_DB_image = results.rows.item(i)['image'];
-					if(image != ''){
-						local_DB_image = image;
-					}
-					tx.executeSql("UPDATE gallery_images SET image = '" + local_DB_image + "', prod_id = '" + localDB_prod_id + "', update_timestamp = '"+update_timestamp+"', download_status = 0 WHERE id = " + localDB_id + "");
-				}
-				
-			}else{
-				//console.log('insert product_attributes');
-				//id integer primary key autoincrement, prod_id integer, server_gall_id integer, image text, download_status integer, update_timestamp text
-				tx.executeSql('INSERT INTO attr_images(prod_id, server_gall_id, image, download_status, update_timestamp) VALUES (?,?,?,?,?)',
-	   	    			[prod_id, server_gall_id, image, downloadStatus, update_timestamp], function(tx, res) {
-		   	        	console.log("Gallery Images Data insertId: " + res.insertId + " -- res.rowsAffected 1"+res.rowsAffected);
+	tx.executeSql('select * from gallery_images ' ,[],function(tx,results){
+		var len = 0;
+		len = results.rows.length;
+		if(len >= 0){
+			if(len < galleryImageJsonData.length){
+				jQuery.each(galleryImageJsonData, function(index,value) {
+					var server_gall_id = value['id'];
+					var prod_id = value['pdt_id'];
+					var image = value['image'];
+					var downloadStatus = 0;
+					var update_timestamp = currDateTimestamp;
+					
+					tx.executeSql('select * from gallery_images where server_gall_id ='+server_gall_id ,[],function(tx,results){
+						var len = 0;
+						len = results.rows.length;
+						if(len > 0){
+							for (var i = 0; i < len; i++) {
+								var localDB_id = results.rows.item(i)['id'];
+								var localDB_server_gall_id=results.rows.item(i)['server_gall_id'];
+								var localDB_attr_id=results.rows.item(i)['prod_id'];
+								if(prod_id != ''){
+									localDB_prod_id = prod_id;
+								}
+								var local_DB_image = results.rows.item(i)['image'];
+								if(image != ''){
+									local_DB_image = image;
+								}
+								tx.executeSql("UPDATE gallery_images SET image = '" + local_DB_image + "', prod_id = '" + localDB_prod_id + "', update_timestamp = '"+update_timestamp+"', download_status = 0 WHERE id = " + localDB_id + "");
+							}
+							
+						}else{
+							//console.log('insert product_attributes');
+							//id integer primary key autoincrement, prod_id integer, server_gall_id integer, image text, download_status integer, update_timestamp text
+							tx.executeSql('INSERT INTO gallery_images(prod_id, server_gall_id, image, download_status, update_timestamp) VALUES (?,?,?,?,?)',
+				   	    			[prod_id, server_gall_id, image, downloadStatus, update_timestamp], function(tx, res) {
+					   	        	console.log("Gallery Images Data insertId: " + res.insertId + " -- res.rowsAffected 1"+res.rowsAffected);
+							});
+						}
+					});
 				});
 			}
-		});
+		}
 	});
 }
 
@@ -3313,7 +3321,7 @@ function successCBUpdateCustomerSyncDB(){
 				url: apiCallUrl,
 				data : dataToSend,
 				success: successCallbackAttrImagesFn,
-				error: commonErrorCallback
+				error: commonErrorAttrImagesCB
 			});
 		}
 		else{
@@ -3335,6 +3343,14 @@ function successCBUpdateCustomerSyncDB(){
 		//dataHasSyncSendReport('attributes_sync');
 	}
 	
+	function commonErrorAttrImagesCB(err){
+		console.log('commonErrorAttrImagesCB : '+err.code);
+		console.log('commonErrorAttrImagesCB : '+err.message);
+		$('#downloadAttrImg').hide();
+		$('#downloadAttrsyn').prop("disabled",false);
+		$('.labelAttrloader').html();
+	}
+	
 	function getGalleryImagesDataFromServer(){
 		var dataToSend = {};
 		dataToSend["secret_key"] = tailorDetailsSession.secret_key;
@@ -3349,7 +3365,7 @@ function successCBUpdateCustomerSyncDB(){
 				url: apiCallUrl,
 				data : dataToSend,
 				success: successCBGalleryImagesFn,
-				error: commonErrorCallback
+				error: commonErrorGalleryImagesCB
 			});
 		}
 		else{
@@ -3363,6 +3379,16 @@ function successCBUpdateCustomerSyncDB(){
 		db.transaction(insertGalleryImagesDetails, errorCBInsertGalleryImagesDetails, successCBInsertGalleryImagesDetails);
 		//dataHasSyncSendReport('attributes_sync');
 	}
+	
+	function commonErrorGalleryImagesCB(err){
+		console.log('commonErrorGalleryImagesCB : '+err.code);
+		console.log('commonErrorGalleryImagesCB : '+err.message);
+		$('#downloadGalleryImg').hide();
+		$('#downloadGallerySyn').prop("disabled",false);
+		$('.labelGalleryloader').html();
+	}
+	
+	
 	
 	
 	
@@ -4048,6 +4074,9 @@ function successCBUpdateCustomerSyncDB(){
 		var $selectedOptionDiv =$('.selMenu-bar');
 		var $galleryImagesList=$selectedOptionDiv.find('.single-option .attr-opt-hei-wid');
 		var srcOfOnClick = $(dataObj).find('.attr-opt-hei-wid').attr('src');
+		var optionId = $(dataObj).data('opt_id');
+		var image = $(dataObj).data('optionsrc');
+		var attrId = $(dataObj).data('attrid');
 		//var gallCldIndId = $(dataObj).data('childgalid');
 		//galleryIdToSave = gallCldIndId;
 		/*var gallName = $(dataObj).data('gallname');
@@ -4059,6 +4088,17 @@ function successCBUpdateCustomerSyncDB(){
 			$galleryImagesList.find('img').removeClass(activeClass);
 			$galleryImagesList.find('.gallCIndClassId'+gallCldIndId).addClass(activeClass);*/
 	}
+	
+	$(document).on("pagecreate","#selection-page",function(){
+		$("#popupPhotoLandscape .single-option").on("taphold",function(){
+			var optid = $(this).data('opt_id');
+			var optionsrc = $(this).data('optionsrc');
+		    alert('Download Images -- optid : '+ optid + 'optionsrc : '+optionsrc);
+		});     
+		$("#popupPhotoLandscape img").on("taphold",function(){
+			$(this).hide();
+		});
+	});
 	
 	function backButton(index){
 		if(index == 0){
@@ -5801,10 +5841,13 @@ function successCBUpdateCustomerSyncDB(){
 	}
 	
 	function syncAttrImages(){
-		$('#downloadAttrImg').hide();
-		$('#downloadAttrsyn').prop("disabled",true);
-		$('.labelAttrloader').html('Loading...');
-		getAttrImagesDataFromServer();
+		connectionType = checkConnection();
+		if(connectionType=="WiFi connection" || connectionType=="Cell 4G connection" || connectionType=="Cell 3G connection" || connectionType=="Cell 2G connection"){
+			$('#downloadAttrImg').hide();
+			$('#downloadAttrsyn').prop("disabled",true);
+			$('.labelAttrloader').html('Loading...');
+			getAttrImagesDataFromServer();
+		}
 	}
 
 	function getAttrImagesDataFromDB(){
@@ -5890,7 +5933,14 @@ function successCBUpdateCustomerSyncDB(){
 	}
 	
 	function syncGalleryImages(){
-		getGalleryImagesDataFromServer();
+		connectionType = checkConnection();
+		if(connectionType=="WiFi connection" || connectionType=="Cell 4G connection" || connectionType=="Cell 3G connection" || connectionType=="Cell 2G connection"){
+			$('#downloadGalleryImg').hide();
+			$('#downloadGallerySyn').prop("disabled",true);
+			$('.labelGalleryloader').html('Loading...');
+			getGalleryImagesDataFromServer();
+		}
+		
 	}
 
 	function getGalleryImagesDataFromDB(){
@@ -5934,6 +5984,7 @@ function successCBUpdateCustomerSyncDB(){
 	    // FIXME TODO Length increase 1000
 	    if (gallImgIndex<galleryImagesArrSession.length) {setTimeout(function(){customLoopForGalleryImages(gallImgIndex);},100);}else{
 	    	getGalleryImagesDataFromDB();
+	    	$('.labelGalleryImgloader').html('Completed');
 	    }
 	}
 	
