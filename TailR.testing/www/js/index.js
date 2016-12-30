@@ -55,6 +55,7 @@ var productDetailsArrSession = [];
 var attrDetailsArrSession = [];
 var measurementArrSession = [];
 var staticArrSession = [];
+var attrImagesArrSession = [];
 var measurementTypeId = '';
 var orderArrSession = [];
 var customerArrSession = [];
@@ -800,6 +801,7 @@ function initializeDB(tx) {
 	tx.executeSql('CREATE TABLE IF NOT EXISTS order_details(id integer primary key autoincrement, server_cat_id integer, cat_name text, server_prod_id integer, order_data text,update_timestamp text, server_prod_name text,customer_id integer, option_selected text, status_of_order text, gallery_id integer, gallery_name text, sync_date text, sync_status integer, order_server_id integer)');
 	tx.executeSql('CREATE TABLE IF NOT EXISTS tailor_details (id integer primary key autoincrement, server_td_id integer, first_name text, middle_name text, last_name text, business_title text, address1 text, address2 text, email text, contact1 text, contact2 text, secret_key text, tailor_status integer, city text, pincode text, state_id integer, country_id integer, state_name text, country_name text, update_timestamp text)');
 	tx.executeSql('CREATE TABLE IF NOT EXISTS static_details (id integer primary key autoincrement, server_sd_id integer, name text, identifier text, data text, update_timestamp text)');
+	tx.executeSql('CREATE TABLE IF NOT EXISTS attr_images (id integer primary key autoincrement, attr_id integer, server_img_id integer, name text, image text, status text, sort_order text, download_status integer, update_timestamp text)');
 }
 
 // Common Transaction success callback
@@ -1122,6 +1124,7 @@ function successCBCatListDB() {
 	var categoryAppendingRecordsDiv = '';
 	categoryAppendingRecordsDiv = '<p> Appending Category Records </p>';
 	$('.appendStatusDiv').append(categoryAppendingRecordsDiv);
+	
 	appendCatListDB(catArrSession, subCatArrSession);
 	getStaticListFromLocal();
 }	
@@ -1405,6 +1408,67 @@ function insertAttributesDetails(tx) {
 	});
 }
 
+function insertAttrImagesDetails(tx) {
+	var currDateTimestamp="";
+	currDateTimestamp=dateTimestamp();
+	tx.executeSql('CREATE TABLE IF NOT EXISTS attr_images (id integer primary key autoincrement, attr_id integer, server_img_id integer, name text, image text, status text, sort_order text, download_status integer, update_timestamp text)');
+	
+	jQuery.each(attributeJsonData, function(index,value) {
+		var server_img_id = value['id'];
+		var name = value['name'];
+		var attr_id = value['attr_id'];
+		var image = value['image'];
+		var image_status = value['status'];
+		var sort_order = value['sort_order'];
+		var downloadStatus = 0;
+		
+		var update_timestamp = currDateTimestamp;
+		
+		tx.executeSql('select * from attr_images where server_img_id ='+server_img_id ,[],function(tx,results){
+			var len = 0;
+			len = results.rows.length;
+			if(len > 0){
+				for (var i = 0; i < len; i++) {
+					var localDB_id = results.rows.item(i)['id'];
+					var localDB_server_img_id=results.rows.item(i)['server_img_id'];
+					var localDB_name=results.rows.item(i)['name'];
+					if(name != ''){
+						localDB_name = name;
+					}
+					var localDB_attr_id=results.rows.item(i)['attr_id'];
+					if(attr_id != ''){
+						localDB_attr_id = attr_id;
+					}
+					var local_DB_image = results.rows.item(i)['image'];
+					if(image != ''){
+						local_DB_image = image;
+					}
+					var local_DB_statusImage = results.rows.item(i)['status'];
+					if(image_status != ''){
+						local_DB_statusImage =  image_status;
+					}
+					var local_DB_sort_order = results.rows.item(i)['sort_order'];
+					if(sort_order != ''){
+						local_DB_sort_order = sort_order;
+					}
+					//local_DB_download_status = 0;
+					//console.log('update product_attributes');
+					tx.executeSql("UPDATE attr_images SET name = '" + localDB_name + "', attr_id = '" + localDB_attr_id + "', update_timestamp = '"+update_timestamp+"', image = "+local_DB_image+", status = '"+local_DB_statusImage+"', sort_order = '"+local_DB_sort_order+"', download_status = 0 WHERE id = " + localDB_id + "");
+				}
+				
+			}else{
+				//console.log('insert product_attributes');
+				tx.executeSql('INSERT INTO attr_images(attr_id, server_img_id, name, image, status, sort_order, download_status, update_timestamp) VALUES (?,?,?,?,?,?,?,?)',
+	   	    			[attr_id, server_img_id, name,image, image_status, sort_order, downloadStatus, update_timestamp], function(tx, res) {
+		   	        	console.log("Attribute Images Data insertId: " + res.insertId + " -- res.rowsAffected 1"+res.rowsAffected);
+				});
+			}
+		});
+		
+		
+	});
+}
+
 function successCBAttrListDB() {
 	connectionType=checkConnection();
 	
@@ -1439,6 +1503,23 @@ function errorCBInsertAttributeDetails(err) {
 	hideModal();
 	console.log("errorCBInsertAttributeDetails : "+err.message);
 }
+
+function successCBInsertAttrImagesDetails() {
+	if(dataExist){
+		var deleteRecordsDiv = '';
+		deleteRecordsDiv = '<p> Delete Data Syncing </p>';
+		getDataToDeleteInLocalDBFromServer();
+		$('.appendStatusDiv').append(deleteRecordsDiv);
+	}else{
+		getCategoriesListFromLocal();
+	}
+	    
+}	
+function errorCBInsertAttrImagesDetails(err) {
+	hideModal();
+	console.log("errorCBInsertAttributeDetails : "+err.message);
+}
+
 
 function successCBAttrLocalDB() {
 }	
@@ -1648,7 +1729,7 @@ function getStaticListFromLocal(){
 			tx.executeSql('select * from static_details ',[],function(tx,results){
 					len = results.rows.length;
 					if(len>0){
-						measurementArrSession = [];
+						staticArrSession = [];
 						for (var i = 0; i < len; i++) {
 							var jsonStaticObj={};
 							jsonStaticObj['id'] = results.rows.item(i)['id'];
@@ -1673,6 +1754,60 @@ function errorCBStaticListDB(err) {
 	hideModal();
 	console.log("errorCBStaticListDB : "+err.message);
 }
+
+function getAttrImagesListFromLocal(){
+	if(testingInBrowser){
+		var myArr= new Array();
+		var myObject = new Object();
+		myObject.id = 1;
+		myObject.server_sd_id = 1;
+		myObject.name = "Contact Details";
+		myObject.identifier = "contact_details";
+		myObject.data = "M\/s.Chariman Mensi Lifestyle Private Limited\r\nBasement A, # 96, 34th 'B' Cross, 16th Main, 4th 'T' Block, Jayanagar, Bangalore - 560 041\r\n9480941616\/91085222616\r\nEmail: meettailorrani@gmail.com";
+		myArr.push(myObject);
+		attrImagesArrSession=myArr;
+		
+		appendStaticData(attrImagesArrSession);
+		return;
+	}
+	
+	db.transaction(	function (tx){
+		var len = 0;
+		// id, attr_id, server_img_id, name, image, status, sort_order, download_status, update_timestamp
+			tx.executeSql('select * from attr_images ',[],function(tx,results){
+					len = results.rows.length;
+					if(len>0){
+						attrImagesArrSession = [];
+						for (var i = 0; i < len; i++) {
+							var jsonStaticObj={};
+							jsonStaticObj['id'] = results.rows.item(i)['id'];
+							jsonStaticObj['attr_id'] = results.rows.item(i)['attr_id'];
+							jsonStaticObj['server_img_id'] = results.rows.item(i)['server_img_id'];
+							jsonStaticObj['name'] = results.rows.item(i)['name'];
+							jsonStaticObj['image'] = results.rows.item(i)['image'];
+							jsonStaticObj['status'] = results.rows.item(i)['status'];
+							jsonStaticObj['sort_order'] = results.rows.item(i)['sort_order'];
+							jsonStaticObj['download_status'] = results.rows.item(i)['download_status'];
+							attrImagesArrSession.push(jsonStaticObj);
+						}
+					}
+				}, errorCB
+			);
+		},errorCBAttrImagesListDB,successCBAttrImagesListDB
+	);
+}
+
+function successCBAttrImagesListDB() {
+	appendStaticData(staticArrSession);
+	customLoopForAttrImages();
+}	
+
+function errorCBAttrImagesListDB(err) {
+	hideModal();
+	console.log("errorCBStaticListDB : "+err.message);
+}
+
+
 
 function getMeasumentListFromLocal(){
 	if(testingInBrowser){
@@ -3102,6 +3237,45 @@ function successCBUpdateCustomerSyncDB(){
 		//dataHasSyncSendReport('attributes_sync');
 	}
 	
+	function getAttrImagesDataFromServer(){
+		var dataToSend = {};
+		dataToSend["secret_key"] = tailorDetailsSession.secret_key;
+		
+		var apiCallUrl="http://tailorapp.tailorrani.com/api/attributes/attributeimagesJson"
+		connectionType=checkConnection();
+		if(connectionType=="Unknown connection" || connectionType=="No network connection"){
+			navigator.notification.alert(appRequiresWiFi,alertConfirm,appName,'Ok');
+		}
+		else if(connectionType=="WiFi connection" || connectionType=="Cell 4G connection" || connectionType=="Cell 3G connection" || connectionType=="Cell 2G connection"){
+			$.ajax({
+				type : ajaxCallPost,
+				url: apiCallUrl,
+				data : dataToSend,
+				success: successCallbackAttrImagesFn,
+				error: commonErrorCallback
+			});
+		}
+		else{
+			navigator.notification.alert(appRequiresWiFi,alertConfirm,appName,'Ok');
+		}
+	}
+	
+	function successCallbackAttrImagesFn(data){
+		var responseJson = $.parseJSON(JSON.stringify(data));
+		attrImagesData = responseJson["result"];
+		var attributeImagesDiv = '';
+		if(dataExist){
+			attributeImagesDiv = '<p> Attribute Images Data Updating </p>';
+		}else{
+			attributeImagesDiv = '<p> Attribute Images Data Inserting </p>';
+		}
+		$('.appendStatusDiv').append(attributeImagesDiv);
+		db.transaction(insertAttrImagesDetails, errorCBInsertAttrImagesDetails, successCBInsertAttrImagesDetails);
+		//dataHasSyncSendReport('attributes_sync');
+	}
+	
+	
+	
 	var prodImgCountInProg=0, prodImgCountDownloaded=0;
 	var productDownloadExist = false;
 	function downloadImagesOfProduct(prodArrDataToDownload){
@@ -4049,22 +4223,15 @@ function successCBUpdateCustomerSyncDB(){
 	}
 	
 	function successCBInsertStaticDetails() {
-		/*if(deleteRecordStatus == 0){*/
+		var attrImagesData = '';
 		if(dataExist){
-			var deleteRecordsDiv = '';
-			deleteRecordsDiv = '<p> Delete Data Syncing </p>';
-			getDataToDeleteInLocalDBFromServer();
+			attrImagesData = '<p> Attribute Images Data Syncing </p>';
 			$('.appendStatusDiv').append(deleteRecordsDiv);
 		}else{
-			getCategoriesListFromLocal();
+			attrImagesData = '<p> Attribute Images Data First Time Syncing </p>';
 		}
-		
-			
-			/*return false;
-		}else{*/
-		//getCategoriesListFromLocal();
-		//}
-		
+		$('.appendStatusDiv').append(attrImagesData);
+		getAttrImagesDataFromServer();
 	}	
 	function errorCBInsertStaticDetails(err) {
 		hideModal();
@@ -5529,4 +5696,54 @@ function successCBUpdateCustomerSyncDB(){
 	  // location.reload(); // Alternative
 	}
 	
+	function downloadAttrImages(){
+		getAttrImagesDataFromDB();
+	}
+
+	function getAttrImagesDataFromDB(){
+		db.transaction(	function (tx){
+			var len = 0;
+			// id, attr_id, server_img_id, name, image, status, sort_order, download_status, update_timestamp
+				tx.executeSql('select * from attr_images where download_status = 0 limit 50 ',[],function(tx,results){
+						len = results.rows.length;
+						if(len>0){
+							attrImagesArrSession = [];
+							for (var i = 0; i < len; i++) {
+								var jsonStaticObj={};
+								jsonStaticObj['id'] = results.rows.item(i)['id'];
+								jsonStaticObj['attr_id'] = results.rows.item(i)['attr_id'];
+								jsonStaticObj['server_img_id'] = results.rows.item(i)['server_img_id'];
+								jsonStaticObj['name'] = results.rows.item(i)['name'];
+								jsonStaticObj['image'] = results.rows.item(i)['image'];
+								jsonStaticObj['status'] = results.rows.item(i)['status'];
+								jsonStaticObj['sort_order'] = results.rows.item(i)['sort_order'];
+								jsonStaticObj['download_status'] = results.rows.item(i)['download_status'];
+								
+								
+								attrImagesArrSession.push(jsonStaticObj);
+							}
+						}
+					}, errorCB
+				);
+			},errorCBAttrImagesListDB,successCBAttrImagesDownloadDB
+	}
+	
+	function successCBAttrImagesDownloadDB{
+		customLoopForAttrImages();
+	}
+	
+
+	var j = 0;
+	var folderImages = 'attribute';
+	function customLoopForAttrImages() {
+	    console.log(j+"Delay Condition----optionImg");
+	    var image =  attrImagesArrSession[j].['image'];
+	    var attrId = attrImagesArrSession[j].['attr_id'];
+	    var optionId = attrImagesArrSession[j].['server_img_id'];
+	    var downloadFileUrl = attributeImageData + '/' + image;	
+		//totalAttrOptImages = parseInt(totalAttrOptImages) + 1;
+		downloadFileValidatorFn(downloadFileUrl, folderImages, image, optionId, attrId);
+	    j++;
+	    if (j<=attrImagesArrSession.length) {setTimeout(function(){customLoopForAttrImages(j);},1000+(1000*j));}
+	}
 	
