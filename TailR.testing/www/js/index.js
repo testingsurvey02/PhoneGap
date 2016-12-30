@@ -27,30 +27,15 @@ $( document ).on( "mobileinit", function() {
      $.mobile.toolbar.prototype.options.tapToggle = false;
 });
 
-$(document).delegate('#logoContainer', 'tap', function () {
-	console.log('Hi....logoContainer....Tap.......');
+$(document).delegate('.single-option', 'tap', function () {
+	console.log('Hi....single-option....Tap.......');
 });
 
 $(document).delegate('.single-option', 'taphold', function () {
-	console.log('Hi....taphold...........');
-});
-
-$(document).on("pagecreate","#selection-page",function(){
-	console.log('Hi....pagecreate...........');
-	$(".attr-option-div .single-option").on("taphold",function(){
-		var optid = $(this).data('opt_id');
-		var optionsrc = $(this).data('optionsrc');
-	    alert('Download Images -- optid : '+ optid + 'optionsrc : '+optionsrc);
-	});     
-});
-
-$( document ).on("pageinit", "#selection-page", function( event ) {
-	console.log('Hi...pageinit............');
-	$(".attr-option-div .single-option").on("taphold",function(){
-			var optid = $(this).data('opt_id');
-			var optionsrc = $(this).data('optionsrc');
-		    console.log('Download Images -- optid : '+ optid + 'optionsrc : '+optionsrc);
-		});  
+	console.log('Hi....taphold......single-option.....');
+	var optid = $(this).data('opt_id');
+	var optionsrc = $(this).data('optionsrc');
+    console.log('Download Images -- optid : '+ optid + 'optionsrc : '+optionsrc);
 });
 
 var connectionType;
