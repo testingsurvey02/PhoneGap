@@ -5753,6 +5753,6 @@ function successCBUpdateCustomerSyncDB(){
 		//totalAttrOptImages = parseInt(totalAttrOptImages) + 1;
 		downloadFileValidatorFn(downloadFileUrl, folderImages, image, optionId, attrId);
 	    j++;
-	    if (j<=attrImagesArrSession.length) {setTimeout(function(){customLoopForAttrImages(j);},500);}
+	    if (j<attrImagesArrSession.length) {setTimeout(function(){customLoopForAttrImages(j);},500);}
 	}
 	
