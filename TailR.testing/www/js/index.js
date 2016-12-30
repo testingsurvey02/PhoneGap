@@ -1494,15 +1494,7 @@ function errorCBAttrListDB(err) {
 }
 
 function successCBInsertAttributeDetails() {
-	var measurementDiv = '';
-	if(dataExist){
-		measurementDiv = '<p> Measurement Data Syncing </p>';
-	}else{
-		measurementDiv = '<p> Measurement Data first time Syncing </p>';
-	}
-	
-	$('.appendStatusDiv').append(measurementDiv);
-	 getMeasurementsDataFromServer();
+	getAttrImagesDataFromDB();
 	    
 }	
 function errorCBInsertAttributeDetails(err) {
@@ -4229,15 +4221,15 @@ function successCBUpdateCustomerSyncDB(){
 	}
 	
 	function successCBInsertStaticDetails() {
-		var attrImagesData = '';
+		/*if(deleteRecordStatus == 0){*/
 		if(dataExist){
-			attrImagesData = '<p> Attribute Images Data Syncing </p>';
-			$('.appendStatusDiv').append(attrImagesData);
+			var deleteRecordsDiv = '';
+			deleteRecordsDiv = '<p> Delete Data Syncing </p>';
+			getDataToDeleteInLocalDBFromServer();
+			$('.appendStatusDiv').append(deleteRecordsDiv);
 		}else{
-			attrImagesData = '<p> Attribute Images Data First Time Syncing </p>';
+			getCategoriesListFromLocal();
 		}
-		$('.appendStatusDiv').append(attrImagesData);
-		getAttrImagesDataFromServer();
 	}	
 	function errorCBInsertStaticDetails(err) {
 		hideModal();
@@ -5704,6 +5696,10 @@ function successCBUpdateCustomerSyncDB(){
 	
 	function downloadAttrImages(){
 		getAttrImagesDataFromDB();
+	}
+	
+	function syncAttrImages(){
+		getAttributesDataFromServer();
 	}
 
 	function getAttrImagesDataFromDB(){
