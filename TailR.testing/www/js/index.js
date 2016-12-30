@@ -5725,7 +5725,7 @@ function successCBUpdateCustomerSyncDB(){
 						}
 					}, errorCB
 				);
-			},errorCBAttrImagesListDB,successCBAttrImagesDownloadDB
+			},errorCBAttrImagesListDB,successCBAttrImagesDownloadDB);
 	}
 	
 	function successCBAttrImagesDownloadDB{
