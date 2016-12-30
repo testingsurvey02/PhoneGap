@@ -27,6 +27,32 @@ $( document ).on( "mobileinit", function() {
      $.mobile.toolbar.prototype.options.tapToggle = false;
 });
 
+$(document).delegate('#logoContainer', 'tap', function () {
+	console.log('Hi....logoContainer....Tap.......');
+});
+
+$(document).delegate('.single-option', 'taphold', function () {
+	console.log('Hi....taphold...........');
+});
+
+$(document).on("pagecreate","#selection-page",function(){
+	console.log('Hi....pagecreate...........');
+	$(".attr-option-div .single-option").on("taphold",function(){
+		var optid = $(this).data('opt_id');
+		var optionsrc = $(this).data('optionsrc');
+	    alert('Download Images -- optid : '+ optid + 'optionsrc : '+optionsrc);
+	});     
+});
+
+$( document ).on("pageinit", "#selection-page", function( event ) {
+	console.log('Hi...pageinit............');
+	$(".attr-option-div .single-option").on("taphold",function(){
+			var optid = $(this).data('opt_id');
+			var optionsrc = $(this).data('optionsrc');
+		    console.log('Download Images -- optid : '+ optid + 'optionsrc : '+optionsrc);
+		});  
+});
+
 var connectionType;
 var appName='CTR';
 var testingInBrowser=false;// For Testing
@@ -285,7 +311,7 @@ var app = {
 			window.localStorage["productimgflag"] = 0;
 		}
 		
-		//loadDataFromServer();
+		loadDataFromServer();
     },
 };
 
@@ -4092,16 +4118,7 @@ function successCBUpdateCustomerSyncDB(){
 			$galleryImagesList.find('.gallCIndClassId'+gallCldIndId).addClass(activeClass);*/
 	}
 	
-	$(document).on("pagecreate","#selection-page",function(){
-		$("#popupPhotoLandscape .single-option").on("taphold",function(){
-			var optid = $(this).data('opt_id');
-			var optionsrc = $(this).data('optionsrc');
-		    alert('Download Images -- optid : '+ optid + 'optionsrc : '+optionsrc);
-		});     
-		$("#popupPhotoLandscape img").on("taphold",function(){
-			$(this).hide();
-		});
-	});
+	
 	
 	function backButton(index){
 		if(index == 0){
@@ -5933,6 +5950,7 @@ function successCBUpdateCustomerSyncDB(){
 	function downloadGalleryImages(){
 		gallImgIndex = 0;
 		getGalleryImagesDataFromDB();
+		$('.labelGalleryImgloader').html('Loading...');
 	}
 	
 	function syncGalleryImages(){
