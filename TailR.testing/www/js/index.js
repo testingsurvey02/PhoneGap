@@ -1484,22 +1484,25 @@ function insertAttrImagesDetails(tx) {
 									localDB_attr_id = attr_id;
 								}
 								var local_DB_image = results.rows.item(i)['image'];
-								if(image != ''){
+								/*if(image != ''){
 									local_DB_image = image;
-								}
-								var local_DB_statusImage = results.rows.item(i)['status'];
+								}*/
+								/*var local_DB_statusImage = results.rows.item(i)['status'];
 								if(image_status != ''){
 									local_DB_statusImage =  image_status;
 								}
 								var local_DB_sort_order = results.rows.item(i)['sort_order'];
 								if(sort_order != ''){
 									local_DB_sort_order = sort_order;
-								}
-								//local_DB_download_status = 0;
+								}*/
+								local_DB_download_status = 0;
 								//console.log('update product_attributes');
+								if(image != local_DB_image){
+									local_DB_image = image;
+									tx.executeSql("UPDATE attr_images SET update_timestamp = '"+update_timestamp+"', image = "+local_DB_image+", download_status = 0 WHERE id = " + localDB_id + "");
+								}
 								//tx.executeSql("UPDATE attr_images SET name = '" + localDB_name + "', attr_id = '" + localDB_attr_id + "', update_timestamp = '"+update_timestamp+"', image = "+local_DB_image+", status = '"+local_DB_statusImage+"', sort_order = '"+local_DB_sort_order+"', download_status = 0 WHERE id = " + localDB_id + "");
 							}
-							
 						}else{
 							//console.log('insert product_attributes');
 							tx.executeSql('INSERT INTO attr_images(attr_id, server_img_id, name, image, status, sort_order, download_status, update_timestamp) VALUES (?,?,?,?,?,?,?,?)',
@@ -1545,13 +1548,17 @@ function insertGalleryImagesDetails(tx) {
 							for (var i = 0; i < len; i++) {
 								var localDB_id = results.rows.item(i)['id'];
 								var localDB_server_gall_id=results.rows.item(i)['server_gall_id'];
-								var localDB_attr_id=results.rows.item(i)['prod_id'];
+								/*var localDB_prod_id=results.rows.item(i)['prod_id'];
 								if(prod_id != ''){
 									localDB_prod_id = prod_id;
-								}
+								}*/
 								var local_DB_image = results.rows.item(i)['image'];
-								if(image != ''){
+								/*if(image != ''){
 									local_DB_image = image;
+								}*/
+								if(image != local_DB_image){
+									local_DB_image = image;
+									tx.executeSql("UPDATE gallery_images SET image = '" + local_DB_image + "', update_timestamp = '"+update_timestamp+"', download_status = 0 WHERE id = " + localDB_id + "");
 								}
 								//tx.executeSql("UPDATE gallery_images SET image = '" + local_DB_image + "', prod_id = '" + localDB_prod_id + "', update_timestamp = '"+update_timestamp+"', download_status = 0 WHERE id = " + localDB_id + "");
 							}
