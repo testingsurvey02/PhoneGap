@@ -41,20 +41,21 @@ $(document).delegate('.image-download', 'taphold', function () {
 			var urlLink;
 			//imagePath = localPath + ''
 			if(folderType == 'attributes'){
-				imageId = $(this).data('opt_id');
-				imageName = $(this).data('optionsrc');
-				parentId = $(this).data('attrid');
+				imageId = $(this).data('imgt_opt_id');
+				imageName = $(this).data('opt_img');
+				parentId = $(this).data('imgt_attrid');
 				//console.log('Download Images -- optid : '+ optid + ' optionsrc : '+optionsrc + ' attrid : '+attrid);
 				urlLink = attributeImageData + '/' + imageName;
 			}else if(folderType == 'gallery'){
 				parentId  = $(this).data('prod_id');
 				imageId  = $(this).data('childgalid');
 				imageName  = $(this).data('gallname');
+				//$('.product-img'+imageId).attr('src','');
 				//console.log('Download Images -- prod_id : '+ prod_id + 'galid : '+galid + ' gallname : '+gallname);
 				urlLink = productImageData + '/' + imageName;
 			}
 			downloadFileValidatorFn(urlLink, folderType, imageName, imageId, parentId,1);
-			$(this).attr('src',imagePath);
+			//$(this).attr('src',imagePath);
 		}
 	}
 });
@@ -3579,7 +3580,7 @@ function successCBUpdateCustomerSyncDB(){
 								var galleryImage = '<div class="col-xs-6 col-sm-4 col-md-4 col-lg-4 galleriesClass gallcatid'+server_cat_id+'" data-gall_id="'+gallery_id+'" data-cat_id="'+server_cat_id+'" '+
 										'data-prod_id="'+server_prod_id+'" data-pro_index="'+index+'" data-prod_name="'+prod_name+'" data-lid="'+local_db_id+'" onclick="getAttrImgFromServer(this)">';
 										
-								galleryImage+= '<img class="product-image" src="'+prodImage+'" style="width:250px; height:350px;" alt="'+prod_name+'" />'
+								galleryImage+= '<img class="product-image product-img'+gallery_id+'" src="'+prodImage+'" style="width:250px; height:350px;" alt="'+prod_name+'" />'
 								galleryImage+= '<p>'+prod_name+'</p>';
 								galleryImage+= '</div>';
 								
@@ -4077,7 +4078,7 @@ function successCBUpdateCustomerSyncDB(){
 								}
 								//var optionImages = 'img/attr'+index2+'.png'; // For Testing
 								//initToCheckTheFile(optionImg, attributeImageData);
-								var tempOptDiv = '<div class="col-xs-6 col-sm-2 col-md-2 col-lg-2 image-download single-option attrInd'+attributeForNextIndex+' optMenu-bar attrOpt'+server_attr_id+' div_opt_id'+optionId+'" data-folder_type="attributes" data-optname="'+optionName+'" data-attrindex="'+attributeForNextIndex+'" style="text-align: center;" data-optionsrc="'+optionImg+'" data-attrname="'+attr_name+'" onclick="selectedOptionFn(this);selectedOptionZoomFn(this)" data-opt_id="'+optionId+'" data-cat_id="'+catId+'" data-prod_id="'+prodId+'" data-attrid="'+server_attr_id+'" data-lid="'+attrId+'"><div class="box"><a href="#popupPhotoLandscape" data-rel="popup"	data-position-to="window" class="optionImageClass"><img class="attr-opt-hei-wid" src="'+optionImages+'" data-imgt_cat_id="'+catId+'" data-imgt_prod_id="'+prodId+'" data-imgt_attrid="'+server_attr_id+'"  data-imgt_opt_id="'+optionId+'" data-imgt_lid="'+attrId+'" alt="'+optionName+'"></div></div>';
+								var tempOptDiv = '<div class="col-xs-6 col-sm-2 col-md-2 col-lg-2 single-option attrInd'+attributeForNextIndex+' optMenu-bar attrOpt'+server_attr_id+' div_opt_id'+optionId+'" data-folder_type="attributes" data-optname="'+optionName+'" data-attrindex="'+attributeForNextIndex+'" style="text-align: center;" data-optionsrc="'+optionImg+'" data-attrname="'+attr_name+'" onclick="selectedOptionFn(this);selectedOptionZoomFn(this)" data-opt_id="'+optionId+'" data-cat_id="'+catId+'" data-prod_id="'+prodId+'" data-attrid="'+server_attr_id+'" data-lid="'+attrId+'"><div class="box"><a href="#popupPhotoLandscape" data-rel="popup"	data-position-to="window" class="optionImageClass"><img class="attr-opt-hei-wid image-download attrImageReset'+optionId+'" src="'+optionImages+'" data-imgt_cat_id="'+catId+'" data-imgt_prod_id="'+prodId+'" data-imgt_attrid="'+server_attr_id+'"  data-imgt_opt_id="'+optionId+'" data-opt_img="'+optionImg+'" data-imgt_lid="'+attrId+'" alt="'+optionName+'"></div></div>';
 								optionMainDiv += tempOptDiv;
 							});
 							 attributeDiv += tempAttrDiv;
@@ -5746,7 +5747,12 @@ function successCBUpdateCustomerSyncDB(){
 			//localPath = entry.toURL();
 			console.log("download toURL: " + entry.toURL());
 			if(downloadType == 1){
-				$('.gallCIndClassId'+imageId).attr('src',entry.toURL());
+				if(Folder_Name == 'gallery'){
+					$('.gallCIndClassId'+imageId).attr('src',entry.toURL());
+					$('.product-img'+imageId).attr('src',entry.toURL());
+				}else{
+					$('.attrImageReset'+imageId).attr('src',entry.toURL());
+				}
 			}
 			//updateProgress(100, id);
 			/* $('#remove'+File_Name).remove();
