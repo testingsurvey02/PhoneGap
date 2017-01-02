@@ -3029,6 +3029,17 @@ function successCBUpdateCustomerSyncDB(){
 		insertAndUpdateDataFromServer(dataSyncTypeTailor);
 	}
 	
+	function updateFunctionCalling(){
+		connectionType = checkConnection();
+		if(connectionType=="WiFi connection" || connectionType=="Cell 4G connection" || connectionType=="Cell 3G connection" || connectionType=="Cell 2G connection"){
+			$('.appendStatusDiv').empty();
+			checkCategoryInLocalDB();
+		}else{
+			alert('Please connect your Internet.');
+		}
+		
+	}
+	
 	function checkCategoryInLocalDB(){
 		
 		//getCountByTableName("category");
