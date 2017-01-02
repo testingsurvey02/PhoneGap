@@ -824,7 +824,7 @@ function closeDatabase() {
 }
 // InitializeDB the database 
 function initializeDB(tx) {
-	tx.executeSql('CREATE TABLE IF NOT EXISTS category(id integer primary key autoincrement, server_cat_id integer, parent_id integer,name text,update_timestamp text, description text, catImage text, catStatus integer, children text)');
+	tx.executeSql('CREATE TABLE IF NOT EXISTS category(id integer primary key autoincrement, server_cat_id integer, parent_id integer,name text,update_timestamp text, description text, catImage text, catStatus integer, children text, sort_order text)');
 	tx.executeSql('CREATE TABLE IF NOT EXISTS product_details (id integer primary key autoincrement, server_prod_id integer, name text, description text, update_timestamp text, measurement_typeid integer, status integer, attribute_details text, gallery text, category text)');
 	tx.executeSql('CREATE TABLE IF NOT EXISTS product_attributes (id integer primary key autoincrement, server_attr_id integer, name text, identifier text, status integer, backend_name text, update_timestamp text, option text)');
 	tx.executeSql('CREATE TABLE IF NOT EXISTS measurement_details (id integer primary key autoincrement, name text, server_measurement_id integer, status integer, update_timestamp text, group_data text)');
@@ -983,7 +983,7 @@ function insertCategories(arrData) {
 	db.transaction(function(tx) {
 		var currDateTimestamp="";
 		currDateTimestamp=dateTimestamp();
-		tx.executeSql('CREATE TABLE IF NOT EXISTS category(id integer primary key autoincrement, server_cat_id integer, parent_id integer,name text,update_timestamp text, description text, catImage text, catStatus integer, children text)');
+		tx.executeSql('CREATE TABLE IF NOT EXISTS category(id integer primary key autoincrement, server_cat_id integer, parent_id integer,name text,update_timestamp text, description text, catImage text, catStatus integer, children text, sort_order text)');
 		
 		jQuery.each(arrData, function(index,value) {
 			var server_cat_id = value['id'];
@@ -995,6 +995,7 @@ function insertCategories(arrData) {
 			var update_timestamp=currDateTimestamp;
 			var childrenArrString = '';
 			var childrenArr = value.children;    
+			var sort_order = value['sort_order'];
 			var childExist = '0';
 			if(childrenArr != ''){
 				childExist = '1';
@@ -1010,6 +1011,7 @@ function insertCategories(arrData) {
 						var localDB_server_cat_id=results.rows.item(i)['server_cat_id'];
 						var localDB_parent_id=results.rows.item(i)['parent_id'];
 						var localDB_name=results.rows.item(i)['name'];
+						var localDB_sortOrder = results.rows.item(i)['sort_order'];
 						//console.log('localDB_server_cat_id : '+ localDB_server_cat_id);
 						//console.log('localDB_name : '+ localDB_name);
 						if(name != ''){
@@ -1027,13 +1029,16 @@ function insertCategories(arrData) {
 						if(catImage != ''){
 							localDB_catImage = catImage;
 						}
+						//if(sort_order != ''){
+							localDB_sortOrder = sort_order;
+						//}
 						//console.log('update');
-						tx.executeSql("UPDATE category SET name = '" + localDB_name + "', description = '" + localDB_description + "', update_timestamp = '"+update_timestamp+"', catImage ='"+localDB_catImage+"', catStatus ='"+localDB_catStatus+"' WHERE id = " + localDB_id + "");
+						tx.executeSql("UPDATE category SET name = '" + localDB_name + "', description = '" + localDB_description + "', update_timestamp = '"+update_timestamp+"', catImage ='"+localDB_catImage+"', catStatus ='"+localDB_catStatus+"', sort_order = '"+localDB_sortOrder+"' WHERE id = " + localDB_id + "");
 					}
 				}else{
 					//console.log('insert');
-					tx.executeSql('INSERT INTO category(server_cat_id, parent_id, name, update_timestamp, description, catImage, catStatus, children) VALUES (?,?,?,?,?,?,?,?)',
-							[server_cat_id, parent_id, name, update_timestamp,description, catImage, catStatus, childExist], function(tx, res) {
+					tx.executeSql('INSERT INTO category(server_cat_id, parent_id, name, update_timestamp, description, catImage, catStatus, children, sort_order) VALUES (?,?,?,?,?,?,?,?,?)',
+							[server_cat_id, parent_id, name, update_timestamp,description, catImage, catStatus, childExist, sort_order], function(tx, res) {
 					//console.log(' Parent Category ');
 				});
 				}
@@ -1047,6 +1052,7 @@ function insertCategories(arrData) {
 					var description_child = value1.description;
 					var catImage_child = value1["image"];
 					var catStatus_child = value1["status"];
+					var sort_order_child = value1['sort_order']; 
 			
 					tx.executeSql('select * from category where server_cat_id ='+server_cat_id_child ,[],function(tx,results){
 						var len = 0;
@@ -1075,13 +1081,15 @@ function insertCategories(arrData) {
 								if(catStatus_child != ''){
 									localDB_catStatus = catStatus_child;
 								}
+								var localDB_sort_order = results.rows.item(i)['sort_order'];
+								localDB_sort_order = sort_order_child;
 								//console.log('update Child');
-								tx.executeSql("UPDATE category SET name = '" + localDB_name + "', description = '" + localDB_description + "', update_timestamp = '"+update_timestamp+"', catImage ='"+localDB_catImage+"', catStatus ='"+localDB_catStatus+"', parent_id = "+localDB_parent_id+" WHERE id = " + localDB_id + "");
+								tx.executeSql("UPDATE category SET name = '" + localDB_name + "', description = '" + localDB_description + "', update_timestamp = '"+update_timestamp+"', catImage ='"+localDB_catImage+"', catStatus ='"+localDB_catStatus+"', parent_id = "+localDB_parent_id+", sort_order = '"+localDB_sort_order+"' WHERE id = " + localDB_id + "");
 							}
 						}else{
 							//console.log('insert Child');
-							tx.executeSql('INSERT INTO category(server_cat_id, parent_id, name, update_timestamp, description, catImage, catStatus, children) VALUES (?,?,?,?,?,?,?,?)',
-									[server_cat_id_child, parent_id_child, name_child, update_timestamp,description_child, catImage_child, catStatus_child, childrenArrString], function(tx, res) {
+							tx.executeSql('INSERT INTO category(server_cat_id, parent_id, name, update_timestamp, description, catImage, catStatus, children, sort_order) VALUES (?,?,?,?,?,?,?,?,?)',
+									[server_cat_id_child, parent_id_child, name_child, update_timestamp,description_child, catImage_child, catStatus_child, childrenArrString, sort_order_child], function(tx, res) {
 								//alert(server_cat_id_child, parent_id_child, name_child);
 								//console.log(' Child Category ');
 							});	
@@ -1126,7 +1134,7 @@ function getCategoriesListFromLocal(){
 	$('.appendStatusDiv').append(categoryRecordsDiv);
 	db.transaction(	function (tx){
 		//console.log('getCategoriesListFromLocal');
-			tx.executeSql('select * from category',[],function(tx,results){
+			tx.executeSql('select * from category ORDER BY sort_order ASC',[],function(tx,results){
 					var len = results.rows.length;
 					if(len>0){
 						catArrSession=[];
@@ -1139,6 +1147,7 @@ function getCategoriesListFromLocal(){
 							jsonObj.name=results.rows.item(i)['name'];
 							jsonObj.description=results.rows.item(i)['description'];
 							jsonObj.children=results.rows.item(i)['children'];
+							jsonObj.sort_order = results.rows.item(i)['sort_order'];
 							
 							if(jsonObj.parent_id !=''){
 								subCatArrSession.push(jsonObj);
@@ -2854,7 +2863,7 @@ function successCBUpdateCustomerSyncDB(){
 	    	if(tablename == 'tailor_details'){
 	    		tx.executeSql('CREATE TABLE IF NOT EXISTS tailor_details (id integer primary key autoincrement, server_td_id integer, first_name text, middle_name text, last_name text, business_title text, address1 text, address2 text, email text, contact1 text, contact2 text, secret_key text, tailor_status integer, city text, pincode text, state_id integer, country_id integer, state_name text, country_name text, update_timestamp text)');
 	    	}else if(tablename == 'category'){
-	    		tx.executeSql('CREATE TABLE IF NOT EXISTS category(id integer primary key autoincrement, server_cat_id integer, parent_id integer,name text,update_timestamp text, description text, catImage text, catStatus integer, children text)');
+	    		tx.executeSql('CREATE TABLE IF NOT EXISTS category(id integer primary key autoincrement, server_cat_id integer, parent_id integer,name text,update_timestamp text, description text, catImage text, catStatus integer, children text, sort_order text)');
 	    	}
 	    	
 	        tx.executeSql('select count(*) as mycount from '+tablename+' ', [], function(tx, rs) {
@@ -2941,7 +2950,7 @@ function successCBUpdateCustomerSyncDB(){
 					
 				}else if(type == dataSyncTypeCategory){
 					db.transaction(function(tx) {
-						tx.executeSql('CREATE TABLE IF NOT EXISTS category(id integer primary key autoincrement, server_cat_id integer, parent_id integer,name text,update_timestamp text, description text, catImage text, catStatus integer, children text)');
+						tx.executeSql('CREATE TABLE IF NOT EXISTS category(id integer primary key autoincrement, server_cat_id integer, parent_id integer,name text,update_timestamp text, description text, catImage text, catStatus integer, children text, sort_order text)');
 						tx.executeSql('select count(*) as mycount from tailor_details ', [], function(tx, rs) {
 							var recordCount = 0;
 							recordCount = rs.rows.item(0).mycount;
@@ -2982,7 +2991,7 @@ function successCBUpdateCustomerSyncDB(){
 					});
 				}else if(type == dataSyncTypeCategory){
 					db.transaction(function(tx) {
-						tx.executeSql('CREATE TABLE IF NOT EXISTS category(id integer primary key autoincrement, server_cat_id integer, parent_id integer,name text,update_timestamp text, description text, catImage text, catStatus integer, children text)');
+						tx.executeSql('CREATE TABLE IF NOT EXISTS category(id integer primary key autoincrement, server_cat_id integer, parent_id integer,name text,update_timestamp text, description text, catImage text, catStatus integer, children text, sort_order text)');
 						tx.executeSql('select count(*) as mycount from category ', [], function(tx, rs) {
 							var categoryDiv = '';
 							 var recordCount = 0;
