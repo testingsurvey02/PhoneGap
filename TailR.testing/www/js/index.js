@@ -41,9 +41,9 @@ $(document).delegate('.image-download', 'taphold', function () {
 			var urlLink;
 			//imagePath = localPath + ''
 			if(folderType == 'attributes'){
-				imageId = $(this).find('src').data('imgt_opt_id');
-				imageName = $(this).find('src').data('opt_img');
-				parentId = $(this).find('src').data('imgt_attrid');
+				imageId = $(this).data('imgt_opt_id');
+				imageName = $(this).data('opt_img');
+				parentId = $(this).data('imgt_attrid');
 				//console.log('Download Images -- optid : '+ optid + ' optionsrc : '+optionsrc + ' attrid : '+attrid);
 				urlLink = attributeImageData + '/' + imageName;
 			}else if(folderType == 'gallery'){
@@ -4078,7 +4078,7 @@ function successCBUpdateCustomerSyncDB(){
 								}
 								//var optionImages = 'img/attr'+index2+'.png'; // For Testing
 								//initToCheckTheFile(optionImg, attributeImageData);
-								var tempOptDiv = '<div class="col-xs-6 col-sm-2 col-md-2 col-lg-2 single-option attrInd'+attributeForNextIndex+' optMenu-bar attrOpt'+server_attr_id+' div_opt_id'+optionId+'" data-folder_type="attributes" data-optname="'+optionName+'" data-attrindex="'+attributeForNextIndex+'" style="text-align: center;" data-optionsrc="'+optionImg+'" data-attrname="'+attr_name+'" onclick="selectedOptionFn(this);selectedOptionZoomFn(this)" data-opt_id="'+optionId+'" data-cat_id="'+catId+'" data-prod_id="'+prodId+'" data-attrid="'+server_attr_id+'" data-lid="'+attrId+'"><div class="box"><a href="#popupPhotoLandscape" data-rel="popup"	data-position-to="window" class="optionImageClass" data-folder_type="attributes"><img class="attr-opt-hei-wid image-download attrImageReset'+optionId+'" src="'+optionImages+'" data-imgt_cat_id="'+catId+'" data-imgt_prod_id="'+prodId+'" data-imgt_attrid="'+server_attr_id+'"  data-imgt_opt_id="'+optionId+'" data-opt_img="'+optionImg+'" data-imgt_lid="'+attrId+'" alt="'+optionName+'"></div></div>';
+								var tempOptDiv = '<div class="col-xs-6 col-sm-2 col-md-2 col-lg-2 single-option attrInd'+attributeForNextIndex+' optMenu-bar attrOpt'+server_attr_id+' div_opt_id'+optionId+'" data-folder_type="attributes" data-optname="'+optionName+'" data-attrindex="'+attributeForNextIndex+'" style="text-align: center;" data-optionsrc="'+optionImg+'" data-attrname="'+attr_name+'" onclick="selectedOptionFn(this);selectedOptionZoomFn(this)" data-opt_id="'+optionId+'" data-cat_id="'+catId+'" data-prod_id="'+prodId+'" data-attrid="'+server_attr_id+'" data-lid="'+attrId+'"><div class="box"><a href="#popupPhotoLandscape" data-rel="popup"	data-position-to="window" class="optionImageClass image-download"  src="'+optionImages+'" data-imgt_attrid="'+server_attr_id+'"  data-imgt_opt_id="'+optionId+'" data-opt_img="'+optionImg+'" data-folder_type="attributes"><img class="attr-opt-hei-wid image-download attrImageReset'+optionId+'" src="'+optionImages+'" data-imgt_cat_id="'+catId+'" data-imgt_prod_id="'+prodId+'" data-imgt_attrid="'+server_attr_id+'"  data-imgt_opt_id="'+optionId+'" data-opt_img="'+optionImg+'" data-imgt_lid="'+attrId+'" alt="'+optionName+'"></div></div>';
 								optionMainDiv += tempOptDiv;
 							});
 							 attributeDiv += tempAttrDiv;
