@@ -1529,6 +1529,7 @@ function insertGalleryImagesDetails(tx) {
 		var len = 0;
 		len = results.rows.length;
 		if(len >= 0){
+			console.log(len + " len < galleryImageJsonData.length " + galleryImageJsonData.length);
 			if(len < galleryImageJsonData.length){
 				jQuery.each(galleryImageJsonData, function(index,value) {
 					var server_gall_id = value['id'];
@@ -1552,7 +1553,7 @@ function insertGalleryImagesDetails(tx) {
 								if(image != ''){
 									local_DB_image = image;
 								}
-								tx.executeSql("UPDATE gallery_images SET image = '" + local_DB_image + "', prod_id = '" + localDB_prod_id + "', update_timestamp = '"+update_timestamp+"', download_status = 0 WHERE id = " + localDB_id + "");
+								//tx.executeSql("UPDATE gallery_images SET image = '" + local_DB_image + "', prod_id = '" + localDB_prod_id + "', update_timestamp = '"+update_timestamp+"', download_status = 0 WHERE id = " + localDB_id + "");
 							}
 							
 						}else{
