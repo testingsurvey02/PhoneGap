@@ -3576,7 +3576,9 @@ function successCBUpdateCustomerSyncDB(){
 		/*if(connectionType=="WiFi connection" || connectionType=="Cell 4G connection" || connectionType=="Cell 3G connection" || connectionType=="Cell 2G connection"){
 			gotoAboutUsPage();
 		}*/
-		//getAttributeListFromLocal();
+		if(connectionType=="Unknown connection" || connectionType=="No network connection"){
+			getAttributeListFromLocal();
+		}
 	}
 	
 	function getAttrImgFromServer(thisData){
