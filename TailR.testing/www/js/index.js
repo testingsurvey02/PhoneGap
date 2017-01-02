@@ -29,12 +29,11 @@ $( document ).on( "mobileinit", function() {
 
 $(document).delegate('.image-download', 'taphold', function () {
 	console.log('Hi....taphold......single-option.....');
-	var thisObjImg = $(this).find('img');
-	var imagePath = thisObjImg.attr('src');
+	var imagePath =  $(this).attr('src');
 	if(connectionType=="WiFi connection" || connectionType=="Cell 4G connection" || connectionType=="Cell 3G connection" || connectionType=="Cell 2G connection"){
 		var isOK = confirm("Are you want to redownload the image?");
 		if(isOK){
-			thisObjImg.attr('src', '');
+			$(this).attr('src', '');
 			var folderType = $(this).data('folder_type');
 			var imageId;
 			var imageName;
@@ -55,7 +54,7 @@ $(document).delegate('.image-download', 'taphold', function () {
 				urlLink = productImageData + '/' + imageName;
 			}
 			downloadFileValidatorFn(urlLink, folderType, imageName, imageId, parentId);
-			thisObjImg.attr('src',imagePath);
+			$(this).attr('src',imagePath);
 		}
 	}
 });
