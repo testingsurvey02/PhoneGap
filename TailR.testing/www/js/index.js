@@ -41,13 +41,13 @@ $(document).delegate('.image-download', 'taphold', function () {
 				imageId = $(this).data('opt_id');
 				imageName = $(this).data('optionsrc');
 				parentId = $(this).data('attrid');
-				console.log('Download Images -- optid : '+ optid + ' optionsrc : '+optionsrc + ' attrid : '+attrid);
+				//console.log('Download Images -- optid : '+ optid + ' optionsrc : '+optionsrc + ' attrid : '+attrid);
 				urlLink = attributeImageData + '/' + imageName;
 			}else if(folderType == 'gallery'){
 				imageId  = $(this).data('prod_id');
 				imageName  = $(this).data('childgalid');
 				parentId  = $(this).data('gallname');
-				console.log('Download Images -- prod_id : '+ prod_id + 'galid : '+galid + ' gallname : '+gallname);
+				//console.log('Download Images -- prod_id : '+ prod_id + 'galid : '+galid + ' gallname : '+gallname);
 				urlLink = productImageData + '/' + imageName;
 			}
 			downloadFileValidatorFn(urlLink, folderType, imageName, imageId, parentId);
