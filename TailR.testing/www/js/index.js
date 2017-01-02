@@ -521,6 +521,10 @@ function gotoDownloadImagePage(){
 	$.mobile.changePage('#imageDownloadStatusPage','slide');
 }
 
+function gotoContactUsPage(){
+	$.mobile.changePage('#contactUs-page','slide');
+}
+
 function gotoOrderPageDiv(){
 	$('#prodHtmlName').val('');
 	$('#prodHtmlId').val('');
