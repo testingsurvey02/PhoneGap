@@ -1565,9 +1565,9 @@ function insertGalleryImagesDetails(tx) {
 						}
 					});
 				});
+			}else{
+				alert('No data exist in server');
 			}
-		}else{
-			alert('No data exist in server');
 		}
 	});
 }
