@@ -3561,7 +3561,9 @@ function successCBUpdateCustomerSyncDB(){
 		$("#mainPageId").find('.product-list').append(mainPageGallery);
 		$('#mainPageId .product-list').find('.galleriesClass').hide();
 		//$('.product-selection-details-div').empty();
-		
+		if(connectionType=="WiFi connection" || connectionType=="Cell 4G connection" || connectionType=="Cell 3G connection" || connectionType=="Cell 2G connection"){
+			gotoAboutUsPage();
+		}
 		//getAttributeListFromLocal();
 	}
 	
