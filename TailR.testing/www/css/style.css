@@ -190,3 +190,17 @@ img.product-image{}
 	width: 120px;
 	/* height: 120px */
 }
+.contactUsbutton-class {
+    padding: 50px;
+}
+
+.contactUsbutton-class h1{
+	font-size: 24px;
+    font-weight: bold;
+    margin-bottom: 20px;
+}
+
+.contactUsbutton-class .appendContactDetails {
+    font-size: 18px;
+    margin-bottom: 25px;
+}
