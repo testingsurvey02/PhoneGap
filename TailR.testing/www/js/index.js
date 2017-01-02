@@ -27,14 +27,24 @@ $( document ).on( "mobileinit", function() {
      $.mobile.toolbar.prototype.options.tapToggle = false;
 });
 
-$(document).delegate('.single-option', 'taphold', function () {
+$(document).delegate('.image-download', 'taphold', function () {
 	console.log('Hi....taphold......single-option.....');
-	var isOK = confirm("Are you want to redownload the image?");
-	if(isOK){
-		var optid = $(this).data('opt_id');
-		var optionsrc = $(this).data('optionsrc');
-		var attrid = $(this).data('attrid');
-		console.log('Download Images -- optid : '+ optid + 'optionsrc : '+optionsrc);
+	if(connectionType=="WiFi connection" || connectionType=="Cell 4G connection" || connectionType=="Cell 3G connection" || connectionType=="Cell 2G connection"){
+		var isOK = confirm("Are you want to redownload the image?");
+		if(isOK){
+			var folderType = $(this).data('folder_type');
+			if(folderType == 'attributes'){
+				var optid = $(this).data('opt_id');
+				var optionsrc = $(this).data('optionsrc');
+				var attrid = $(this).data('attrid');
+				console.log('Download Images -- optid : '+ optid + ' optionsrc : '+optionsrc + ' attrid : '+attrid);
+			}else if(folderType == 'gallery'){
+				var prod_id  = $(this).data('prod_id');
+				var galid  = $(this).data('childgalid');
+				var gallname  = $(this).data('gallname');
+				console.log('Download Images -- prod_id : '+ prod_id + 'galid : '+galid + ' gallname : '+gallname);
+			}
+		}
 	}
 });
 
@@ -951,6 +961,7 @@ function getTailorDetailsFromLocal(){
 }
 
 function successCBTailorDetailsListDB() {
+	console.log('Tailor Details successfully got');
 	deleteRecordStatus = 0;
 	checkCategoryInLocalDB();
 }	
@@ -1128,6 +1139,7 @@ function getCategoriesListFromLocal(){
 								catArrSession.push(jsonObj);
 							}
 						}
+						console.log('Category successfully got');
 					}
 				}, errorCB
 			);
@@ -1141,7 +1153,7 @@ function successCBCatListDB() {
 	$('.appendStatusDiv').append(categoryAppendingRecordsDiv);
 	
 	appendCatListDB(catArrSession, subCatArrSession);
-	getStaticListFromLocal();
+	//getStaticListFromLocal();
 }	
 
 function errorCBCatListDB(err) {
@@ -2892,7 +2904,7 @@ function successCBUpdateCustomerSyncDB(){
 			//console.log('connectionType : ' +connectionType);
 			console.log(connectionType);
 			if(connectionType=="Unknown connection" || connectionType=="No network connection"){
-				//console.log('connectionType Inside : '+dataSyncTypeTailor);
+				console.log('connectionType Inside : '+dataSyncTypeTailor);
 				if(type == dataSyncTypeTailor){
 					db.transaction(function(tx) {
 						tx.executeSql('CREATE TABLE IF NOT EXISTS tailor_details (id integer primary key autoincrement, server_td_id integer, first_name text, middle_name text, last_name text, business_title text, address1 text, address2 text, email text, contact1 text, contact2 text, secret_key text, tailor_status integer, city text, pincode text, state_id integer, country_id integer, state_name text, country_name text, update_timestamp text)');
@@ -2917,9 +2929,9 @@ function successCBUpdateCustomerSyncDB(){
 						tx.executeSql('select count(*) as mycount from tailor_details ', [], function(tx, rs) {
 							var recordCount = 0;
 							recordCount = rs.rows.item(0).mycount;
-							//console.log('connectionType Inside : '+recordCount);
+							console.log('connectionType Inside : '+recordCount);
 							if(parseInt(recordCount) > 0){
-								//console.log('connectionType Inside : calling TailorDetails');
+								console.log('connectionType Inside : calling TailorDetails');
 								getCategoriesListFromLocal();
 							}else{
 					        	  hideModal();
@@ -3145,6 +3157,12 @@ function successCBUpdateCustomerSyncDB(){
 		
 		getProductsListFromLocal();
 		getStaticListFromLocal();
+		
+		connectionType = checkConnection();
+		if(connectionType=="Unknown connection" || connectionType=="No network connection"){
+			gotoAboutUsPage();
+		}
+		
 		//getAttributeListFromLocal();
 		//gotoProductPage();
 		//getOrderListFromLocalDB();
@@ -3770,7 +3788,7 @@ function successCBUpdateCustomerSyncDB(){
 								$prodSelDetailsDiv.find('.galleryImageClass img').attr("src", prodImageSrc);
 								activeClass="active";
 							}
-							var liObj='<li class="childGalleryClass"><img src="'+prodImageSrc+'" data-childgalid="'+galId+'" data-gallname="'+image+'" class="'+activeClass+' gallCIndClassId'+galId+'" style="width: 200px;" onclick="changeGallInAttMeaCusFn(this)"></li>';
+							var liObj='<li class="childGalleryClass"><img src="'+prodImageSrc+'" data-prod_id="'+server_prod_id+'" data-childgalid="'+galId+'"  data-folder_type="gallery" data-gallname="'+image+'" class="'+activeClass+' gallCIndClassId'+galId+' image-download" style="width: 200px;" onclick="changeGallInAttMeaCusFn(this)"></li>';
 							$galleryImagesList.append(liObj);
 						});
 					}
@@ -4020,7 +4038,7 @@ function successCBUpdateCustomerSyncDB(){
 								}
 								//var optionImages = 'img/attr'+index2+'.png'; // For Testing
 								//initToCheckTheFile(optionImg, attributeImageData);
-								var tempOptDiv = '<div class="col-xs-6 col-sm-2 col-md-2 col-lg-2 single-option attrInd'+attributeForNextIndex+' optMenu-bar attrOpt'+server_attr_id+' div_opt_id'+optionId+'" data-optname="'+optionName+'" data-attrindex="'+attributeForNextIndex+'" style="text-align: center;" data-optionsrc="'+optionImg+'" data-attrname="'+attr_name+'" onclick="selectedOptionFn(this);selectedOptionZoomFn(this)" data-opt_id="'+optionId+'" data-cat_id="'+catId+'" data-prod_id="'+prodId+'" data-attrid="'+server_attr_id+'" data-lid="'+attrId+'"><div class="box"><a href="#popupPhotoLandscape" data-rel="popup"	data-position-to="window" class="optionImageClass"><img class="attr-opt-hei-wid" src="'+optionImages+'" data-imgt_cat_id="'+catId+'" data-imgt_prod_id="'+prodId+'" data-imgt_attrid="'+server_attr_id+'"  data-imgt_opt_id="'+optionId+'" data-imgt_lid="'+attrId+'" alt="'+optionName+'"></div></div>';
+								var tempOptDiv = '<div class="col-xs-6 col-sm-2 col-md-2 col-lg-2 image-download single-option attrInd'+attributeForNextIndex+' optMenu-bar attrOpt'+server_attr_id+' div_opt_id'+optionId+'" data-folder_type="attributes" data-optname="'+optionName+'" data-attrindex="'+attributeForNextIndex+'" style="text-align: center;" data-optionsrc="'+optionImg+'" data-attrname="'+attr_name+'" onclick="selectedOptionFn(this);selectedOptionZoomFn(this)" data-opt_id="'+optionId+'" data-cat_id="'+catId+'" data-prod_id="'+prodId+'" data-attrid="'+server_attr_id+'" data-lid="'+attrId+'"><div class="box"><a href="#popupPhotoLandscape" data-rel="popup"	data-position-to="window" class="optionImageClass"><img class="attr-opt-hei-wid" src="'+optionImages+'" data-imgt_cat_id="'+catId+'" data-imgt_prod_id="'+prodId+'" data-imgt_attrid="'+server_attr_id+'"  data-imgt_opt_id="'+optionId+'" data-imgt_lid="'+attrId+'" alt="'+optionName+'"></div></div>';
 								optionMainDiv += tempOptDiv;
 							});
 							 attributeDiv += tempAttrDiv;
