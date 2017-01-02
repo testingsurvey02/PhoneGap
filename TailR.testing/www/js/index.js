@@ -39,7 +39,7 @@ $(document).delegate('.image-download', 'taphold', function () {
 			var imageName;
 			var parentId;
 			var urlLink;
-			imagePath = localPath + ''
+			//imagePath = localPath + ''
 			if(folderType == 'attributes'){
 				imageId = $(this).data('opt_id');
 				imageName = $(this).data('optionsrc');
@@ -53,7 +53,7 @@ $(document).delegate('.image-download', 'taphold', function () {
 				//console.log('Download Images -- prod_id : '+ prod_id + 'galid : '+galid + ' gallname : '+gallname);
 				urlLink = productImageData + '/' + imageName;
 			}
-			downloadFileValidatorFn(urlLink, folderType, imageName, imageId, parentId);
+			downloadFileValidatorFn(urlLink, folderType, imageName, imageId, parentId,1);
 			$(this).attr('src',imagePath);
 		}
 	}
@@ -3286,7 +3286,7 @@ function successCBUpdateCustomerSyncDB(){
 						(function(ind) {
 						       setTimeout(function(){
 						           console.log(ind);
-						           downloadFileValidatorFn(downloadFileUrl, folder, image, gallery_id, thisId);
+						           downloadFileValidatorFn(downloadFileUrl, folder, image, gallery_id, thisId,0);
 						           if(ind === galleryObj.length){
 						        	  
 						        	   console.log('It was the last one2');
@@ -3521,7 +3521,7 @@ function successCBUpdateCustomerSyncDB(){
 										console.log("$('#progressBarDiv').find('.confirmClass').length == 0 : " +$('#progressBarDiv').text());
 										productDownloadExist = true;
 										console.log("productDownloadExist : " +productDownloadExist);
-										downloadFileValidatorFn(downloadFileUrl, folder, image, gallery_id);
+										downloadFileValidatorFn(downloadFileUrl, folder, image, gallery_id,0);
 									}
 								);
 						});
@@ -3743,7 +3743,7 @@ function successCBUpdateCustomerSyncDB(){
 	    console.log(j+"Delay Condition----optionImg");
 	   
 		//totalAttrOptImages = parseInt(totalAttrOptImages) + 1;
-		downloadFileValidatorFn(downloadFileUrl, folder, optionImg, optionId, server_prod_id);
+		downloadFileValidatorFn(downloadFileUrl, folder, optionImg, optionId, server_prod_id,0);
 	    j++;
 	    if (j<=len) {setTimeout(function(){customLoop(j);},1000);}
 	}
@@ -3904,7 +3904,7 @@ function successCBUpdateCustomerSyncDB(){
 					var optionImg = value2['image'];
 					//downloadFile(optionId, optionImg, 'attrOption');
 					var downloadFileUrl = attributeImageData + '/' + optionImg;
-					downloadFileValidatorFn(downloadFileUrl, folder, optionImg, optionId);
+					downloadFileValidatorFn(downloadFileUrl, folder, optionImg, optionId,0);
 				});
 			}
 		});
@@ -3998,7 +3998,7 @@ function successCBUpdateCustomerSyncDB(){
 													totalAttrOptImages = parseInt(totalAttrOptImages) + 1;
 													
 													var optionName = value2['name'];
-													downloadFileValidatorFn(downloadFileUrl, folder, optionImg, optionId);
+													downloadFileValidatorFn(downloadFileUrl, folder, optionImg, optionId,0);
 												}
 											);
 											/*
@@ -5663,7 +5663,7 @@ function successCBUpdateCustomerSyncDB(){
 	}
 	
 	//First step check parameters mismatch and checking network connection if available call    download function
-	function downloadFileValidatorFn(URL, Folder_Name, File_Name, type, typeId) {
+	function downloadFileValidatorFn(URL, Folder_Name, File_Name, type, typeId, downloadType) {
 		//Parameters mismatch check
 		if (URL == null && Folder_Name == null && File_Name == null) {
 			return;
@@ -5675,7 +5675,7 @@ function successCBUpdateCustomerSyncDB(){
 				alert('Please check the internet connection or internet is very slow.');
 			}
 			else {
-				downloadFileFn(URL, Folder_Name, File_Name, type, typeId); //If available download function call
+				downloadFileFn(URL, Folder_Name, File_Name, type, typeId, downloadType); //If available download function call
 			}
 		}
 	}
@@ -5683,7 +5683,7 @@ function successCBUpdateCustomerSyncDB(){
 	var folderAndPath;
 	var downloadLinkGlobalTest;
 	// 2nd Step 
-	function downloadFileFn(URL, Folder_Name, File_Name, imageId, typeId) {
+	function downloadFileFn(URL, Folder_Name, File_Name, imageId, typeId, downloadType) {
 		//step to request a file system 
 		window.requestFileSystem(LocalFileSystem.PERSISTENT, 0, fileSystemSuccess, fileSystemFail);
 		var uniqueId = '';
@@ -5709,7 +5709,7 @@ function successCBUpdateCustomerSyncDB(){
 			}
 			else {
 				console.log('Internet connection : '+connectionType);
-				filetransferFn(download_link, fileDataDirect, File_Name, uniqueId, typeId, Folder_Name, imageId);
+				filetransferFn(download_link, fileDataDirect, File_Name, uniqueId, typeId, Folder_Name, imageId, downloadType);
 			}
 		}
 
@@ -5732,7 +5732,7 @@ function successCBUpdateCustomerSyncDB(){
 	// 3rd Step 
 	var removeProgressId = '';
 	var completedCountImg=0;
-	function filetransferFn(download_link, fp, File_Name, id, typeId, Folder_Name, imageId) {
+	function filetransferFn(download_link, fp, File_Name, id, typeId, Folder_Name, imageId, downloadType) {
 		var fileTransfer = new FileTransfer();
 		//console.log(fp);
 		// File download function with URL and local path
@@ -5745,6 +5745,9 @@ function successCBUpdateCustomerSyncDB(){
 				function (entry) {
 			//localPath = entry.toURL();
 			console.log("download toURL: " + entry.toURL());
+			if(downloadType == 1){
+				$('.gallCIndClassId'+imageId).attr('src',entry.toURL());
+			}
 			//updateProgress(100, id);
 			/* $('#remove'+File_Name).remove();
 			if($('#progressBarDiv > div' ).lenght==0){
