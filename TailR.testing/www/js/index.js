@@ -2937,7 +2937,7 @@ function successCBUpdateCustomerSyncDB(){
 					        	  getTailorDetailsFromLocal();
 					          }else{
 					        	  hideModal();
-					        	  alert('Please connect the internet.');
+					        	  alert('Please connect the Internet.');
 					          }
 						});
 					});
@@ -2955,7 +2955,7 @@ function successCBUpdateCustomerSyncDB(){
 								getCategoriesListFromLocal();
 							}else{
 					        	  hideModal();
-					        	  alert('Please connect the internet.');
+					        	  alert('Please connect the Internet.');
 							}
 						});
 					});
@@ -3035,7 +3035,7 @@ function successCBUpdateCustomerSyncDB(){
 			$('.appendStatusDiv').empty();
 			checkTailorDetailsInLocalDB();
 		}else{
-			alert('Please connect your Internet.');
+			alert('Please connect the Internet.');
 		}
 		
 	}
@@ -5903,7 +5903,7 @@ function successCBUpdateCustomerSyncDB(){
 			$('.labelAttrloader').html('Loading...');
 			getAttrImagesDataFromServer();
 		}else{
-			alert('Please connect the internet');
+			alert('Please connect the Internet.');
 		}
 	}
 
@@ -6009,7 +6009,7 @@ function successCBUpdateCustomerSyncDB(){
 			$('.labelGalleryloader').html('Loading...');
 			getGalleryImagesDataFromServer();
 		}else{
-			alert('Please connect the internet');
+			alert('Please connect the Internet.');
 		}
 	}
 
