@@ -5750,7 +5750,7 @@ function successCBUpdateCustomerSyncDB(){
 				if(Folder_Name == 'gallery'){
 					$('.gallCIndClassId'+imageId).attr('src',entry.toURL());
 					$('.product-img'+imageId).attr('src',entry.toURL());
-				}else{
+				}else if(Folder_Name == 'attributes'){
 					$('.attrImageReset'+imageId).attr('src',entry.toURL());
 				}
 			}
@@ -5973,7 +5973,7 @@ function successCBUpdateCustomerSyncDB(){
 		    var optionId = attrImagesArrSession[attrImageIndex]['server_img_id'];
 		    var downloadFileUrl = attributeImageData + '/' + image;	
 			//totalAttrOptImages = parseInt(totalAttrOptImages) + 1;
-			downloadFileValidatorFn(downloadFileUrl, folderAttrImages, image, optionId, attrId);
+			downloadFileValidatorFn(downloadFileUrl, folderAttrImages, image, optionId, attrId,0);
 			attrImageIndex++;
 		    // FIXME TODO Length increase 1000
 		    if (attrImageIndex<attrImagesArrSession.length) {setTimeout(function(){customLoopForAttrImages(attrImageIndex);},100);}else{
@@ -6073,7 +6073,7 @@ function successCBUpdateCustomerSyncDB(){
 		    var galleryId = galleryImagesArrSession[gallImgIndex]['server_gall_id'];
 		    var downloadFileUrl = productImageData + '/' + image;	
 			//totalAttrOptImages = parseInt(totalAttrOptImages) + 1;
-			downloadFileValidatorFn(downloadFileUrl, folderGallImages, image, galleryId, prodId);
+			downloadFileValidatorFn(downloadFileUrl, folderGallImages, image, galleryId, prodId, 0);
 			gallImgIndex++;
 		    // FIXME TODO Length increase 1000
 		    if (gallImgIndex<galleryImagesArrSession.length) {setTimeout(function(){customLoopForGalleryImages(gallImgIndex);},100);}else{
