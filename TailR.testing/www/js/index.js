@@ -33,17 +33,24 @@ $(document).delegate('.image-download', 'taphold', function () {
 		var isOK = confirm("Are you want to redownload the image?");
 		if(isOK){
 			var folderType = $(this).data('folder_type');
+			var imageId;
+			var imageName;
+			var parentId;
+			var urlLink;
 			if(folderType == 'attributes'){
-				var optid = $(this).data('opt_id');
-				var optionsrc = $(this).data('optionsrc');
-				var attrid = $(this).data('attrid');
+				imageId = $(this).data('opt_id');
+				imageName = $(this).data('optionsrc');
+				parentId = $(this).data('attrid');
 				console.log('Download Images -- optid : '+ optid + ' optionsrc : '+optionsrc + ' attrid : '+attrid);
+				urlLink = attributeImageData + '/' + imageName;
 			}else if(folderType == 'gallery'){
-				var prod_id  = $(this).data('prod_id');
-				var galid  = $(this).data('childgalid');
-				var gallname  = $(this).data('gallname');
+				imageId  = $(this).data('prod_id');
+				imageName  = $(this).data('childgalid');
+				parentId  = $(this).data('gallname');
 				console.log('Download Images -- prod_id : '+ prod_id + 'galid : '+galid + ' gallname : '+gallname);
+				urlLink = productImageData + '/' + imageName;
 			}
+			downloadFileValidatorFn(urlLink, folderType, imageName, imageId, parentId);
 		}
 	}
 });
@@ -3381,7 +3388,7 @@ function successCBUpdateCustomerSyncDB(){
 		console.log('commonErrorAttrImagesCB : '+err.message);
 		$('#downloadAttrImg').hide();
 		$('#downloadAttrsyn').prop("disabled",false);
-		$('.labelAttrloader').html();
+		$('.labelAttrloader').html('Some issue occur Please try again..');
 	}
 	
 	function getGalleryImagesDataFromServer(){
@@ -3418,12 +3425,8 @@ function successCBUpdateCustomerSyncDB(){
 		console.log('commonErrorGalleryImagesCB : '+err.message);
 		$('#downloadGalleryImg').hide();
 		$('#downloadGallerySyn').prop("disabled",false);
-		$('.labelGalleryloader').html();
+		$('.labelGalleryloader').html('Some issue occur Please try again..');
 	}
-	
-	
-	
-	
 	
 	var prodImgCountInProg=0, prodImgCountDownloaded=0;
 	var productDownloadExist = false;
