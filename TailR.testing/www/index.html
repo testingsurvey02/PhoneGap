@@ -20,7 +20,7 @@
 <link rel="stylesheet" type="text/css" href="css/index.css" />
 <link rel="stylesheet" type="text/css" href="css/style.css" />
 <link rel="stylesheet" type="text/css" href="css/flexboxgrid.min.css" />
-<!--         <link rel="stylesheet" href="libs/jqm-datebox-1.4.5.css" /> -->
+        <link rel="stylesheet" href="libs/jqm-datebox-1.4.5.css" />
 <link rel="stylesheet" href="css/fontawesome/css/font-awesome.min.css" />
 <script type="text/javascript" src="libs/fastclick.min.js"></script>
 <script type="text/javascript" src="phonegap.js"></script>
@@ -28,7 +28,7 @@
 <script type="text/javascript" src="libs/PushNotification.js"></script>
 <script type="text/javascript"
 	src="libs/jQueryMobile/jquery.mobile-1.4.5.min.js"></script>
-<!-- 		<script src="libs/jqm-datebox-1.4.5.js"></script> -->
+		<script src="libs/jqm-datebox-1.4.5.js"></script>
 <script type="text/javascript" src="js/index.js"></script>
 
 <script type="text/javascript">
@@ -658,13 +658,13 @@
 												</tr>
 												<tr>
 													<td style="width: 30%;">Order Date</td>
-													<td><input type="text" id="orderDateInput"
-														name="orderDateInput" data-role="date" class="form-control" /></td>
+													<td><input type="date" id="orderDateInput"
+														name="orderDateInput" data-role="datebox" class="form-control" data-options='{"mode": "datebox", "overrideDateFormat": "%m/%d/%Y"}'/></td>
 												</tr>
 												<tr>
 													<td style="width: 30%;">Order Delivery Date</td>
-													<td><input type="text" id="orderDeliveryDateInput"
-														name="orderDeliveryDateInput" data-role="date" class="form-control" /></td>
+													<td><input type="date" id="orderDeliveryDateInput"
+														name="orderDeliveryDateInput" data-role="datebox" class="form-control"  data-options='{"mode": "datebox", "overrideDateFormat": "%m/%d/%Y"}'/></td>
 												</tr>
 											</table>
 										</div>
@@ -852,13 +852,13 @@
 										</tr>
 										<tr>
 											<td style="width: 30%;">Order Date</td>
-											<td><input type="text" id="orderDateOrderInput"
-												name="orderDateOrderInput" data-role="date" class="form-control" /></td>
+											<td><input type="date" id="orderDateOrderInput"
+												name="orderDateOrderInput" data-role="datebox" class="form-control"  data-options='{"mode": "datebox", "overrideDateFormat": "%m/%d/%Y"}'/></td>
 										</tr>
 										<tr>
 											<td style="width: 30%;">Order Delivery Date</td>
-											<td><input type="text" id="orderDeliveryDateOrderInput"
-												name="orderDeliveryDateOrderInput" data-role="date" class="form-control" /></td>
+											<td><input type="date" id="orderDeliveryDateOrderInput"
+												name="orderDeliveryDateOrderInput" data-role="datebox" class="form-control"  data-options='{"mode": "datebox", "overrideDateFormat": "%m/%d/%Y"}'/></td>
 										</tr>
 									</table>
 								</div>
