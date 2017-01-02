@@ -5902,6 +5902,8 @@ function successCBUpdateCustomerSyncDB(){
 			$('#downloadAttrsyn').prop("disabled",true);
 			$('.labelAttrloader').html('Loading...');
 			getAttrImagesDataFromServer();
+		}else{
+			alert('Please connect the internet');
 		}
 	}
 
@@ -6006,8 +6008,9 @@ function successCBUpdateCustomerSyncDB(){
 			$('#downloadGallerySyn').prop("disabled",true);
 			$('.labelGalleryloader').html('Loading...');
 			getGalleryImagesDataFromServer();
+		}else{
+			alert('Please connect the internet');
 		}
-		
 	}
 
 	function getGalleryImagesDataFromDB(){
