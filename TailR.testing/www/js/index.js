@@ -4175,6 +4175,9 @@ function successCBUpdateCustomerSyncDB(){
 			$('.back-button').attr('disabled','disabled');
 			//$('.back-button"]').prop('disabled', true);
 			//$('.back-button').attr();
+		}else{
+			var indexForBack = parseInt(index) - 1;
+			$('.back-button').attr('onclick','backButton("'+indexForBack+'")');
 		}
 		var attrId = $('.main_attr_ind'+index).data('attrid');
 		$('.galleryTag').hide();
