@@ -1,10 +1,13 @@
 // For Testing in Browser
 /*
 $(function() {
-	//getTailorDetailsDataFromServer();
-	//getCategoriesDataFromServer();
-	//getProductDataFromServer();
-	//getAttributesDataFromServer();
+	if(testingInternet){
+		getTailorDetailsDataFromServer();
+		getCategoriesDataFromServer();
+		getProductDataFromServer();
+		getAttributesDataFromServer();
+	}
+	getTailorDetailsFromLocal();
 	loadDataFromServer();
 });
 
@@ -63,6 +66,7 @@ $(document).delegate('.image-download', 'taphold', function () {
 var connectionType;
 var appName='CTR';
 var testingInBrowser=false;// For Testing
+var testingInternet = false;
 var loginUserId;
 var dataIsFromServer = 0;
 var measurementTypeDiv = 0;
@@ -425,7 +429,11 @@ function onBackKeyDown() {
 
 function checkConnection() {
 	if(testingInBrowser){
-		connectionType="WiFi connection";//For Testing
+		if(testingInternet){
+			connectionType="WiFi connection";//For Testing
+		}else{
+			connectionType="Unknown connection";//For Testing
+		}
 		return connectionType;
 	}
 	
@@ -1325,7 +1333,7 @@ function getProductsListFromLocal(){
 		myObject.prod_description = "Fabric: Cotton Linen Blend Slim Fit, Full Sleeve Collar Type: Regular Pattern: Checkered Set of 1";
 		myObject.measurement_typeid = "1";
 		myObject.prod_status = "1";
-		myObject.attribute_details = '[{"id":59,"pdt_id":"1","attr_id":"1","created_at":"2016-11-21 06:02:58","updated_at":"2016-11-21 06:02:58"}, {"id":59,"pdt_id":"1","attr_id":"2","created_at":"2016-11-21 06:02:58","updated_at":"2016-11-21 06:02:58"}]';
+		myObject.attribute_details = '[{"id":59,"pdt_id":"1","attr_id":"1","created_at":"2016-11-21 06:02:58","updated_at":"2016-11-21 06:02:58"}, {"id":59,"pdt_id":"1","attr_id":"2","created_at":"2016-11-21 06:02:58","updated_at":"2016-11-21 06:02:58"},{"id":59,"pdt_id":"1","attr_id":"1","created_at":"2016-11-21 06:02:58","updated_at":"2016-11-21 06:02:58"}, {"id":59,"pdt_id":"1","attr_id":"2","created_at":"2016-11-21 06:02:58","updated_at":"2016-11-21 06:02:58"},{"id":59,"pdt_id":"1","attr_id":"4","created_at":"2016-11-21 06:02:58","updated_at":"2016-11-21 06:02:58"}, {"id":59,"pdt_id":"1","attr_id":"3","created_at":"2016-11-21 06:02:58","updated_at":"2016-11-21 06:02:58"}]';
 		myObject.category = '[{"id":40,"pdt_id":"1","cat_id":"1","created_at":"2016-11-21 06:02:58","updated_at":"2016-11-21 06:02:58"}]';
 		myObject.gallery = '[{"id":9,"pdt_id":"1","image":"product_5_582ea8c053c3b.jpg","created_at":"2016-11-18 07:07:44","updated_at":"2016-11-18 07:07:44"}]';
 			
@@ -1338,7 +1346,7 @@ function getProductsListFromLocal(){
 		myObject.prod_description = "Fabric: Woolan Blend Slim Fit Checkered Set of 1";
 		myObject.measurement_typeid = "1";
 		myObject.prod_status = "1";
-		myObject.attribute_details = '[{"id":59,"pdt_id":"2","attr_id":"3","created_at":"2016-11-21 06:02:58","updated_at":"2016-11-21 06:02:58"}, {"id":59,"pdt_id":"2","attr_id":"4","created_at":"2016-11-21 06:02:58","updated_at":"2016-11-21 06:02:58"}]';
+		myObject.attribute_details = '[{"id":59,"pdt_id":"2","attr_id":"3","created_at":"2016-11-21 06:02:58","updated_at":"2016-11-21 06:02:58"}, {"id":59,"pdt_id":"2","attr_id":"4","created_at":"2016-11-21 06:02:58","updated_at":"2016-11-21 06:02:58"},{"id":59,"pdt_id":"2","attr_id":"2","created_at":"2016-11-21 06:02:58","updated_at":"2016-11-21 06:02:58"}, {"id":59,"pdt_id":"2","attr_id":"1","created_at":"2016-11-21 06:02:58","updated_at":"2016-11-21 06:02:58"}]';
 		myObject.category = '[{"id":40,"pdt_id":"2","cat_id":"3","created_at":"2016-11-21 06:02:58","updated_at":"2016-11-21 06:02:58"}]';
 		myObject.gallery = '[{"id":8,"pdt_id":"2","image":"product_5_582ea8c053c3b.jpg","created_at":"2016-11-18 07:07:44","updated_at":"2016-11-18 07:07:44"}]';
 			
@@ -2418,18 +2426,35 @@ function getOrderListFromLocalDB(){
 		myObject.server_prod_name = 'Shirt';
 		myObject.update_timestamp = '12-11-2016 13:15:15';
 		myObject.status_of_order = 'Completed';
+		myObject.order_date = '12-11-2016 13:15:15';
+		myObject.order_delivery_date = '18-11-2016 13:15:15'
 		myObject.customer_id = 1;
 		myArr.push(myObject);
 		
 		var myObject = new Object();
-		myObject.id = 1;
+		myObject.id = 2;
 		myObject.server_cat_id = 1;
 		myObject.server_prod_id = 3;
 		myObject.order_data = '[{"measPKId":18, "measName":"RoundNeck", "inputValue":"25"},{"measPKId":19, "measName":"VShape", "inputValue":"30"},{"measPKId":20, "measName":"Chest", "inputValue":"45"},{"measPKId":21, "measName":"Arms", "inputValue":"20"}]';
 		myObject.server_prod_name = 'T-Shirt';
 		myObject.update_timestamp = '12-11-2016 13:15:15';
 		myObject.status_of_order = 'InProgress';
-			myObject.customer_id = 1;
+		myObject.order_date = '12-11-2016 13:15:15';
+		myObject.order_delivery_date = '18-11-2016 13:15:15'
+		myObject.customer_id = 1;
+		myArr.push(myObject);
+		
+		var myObject = new Object();
+		myObject.id = 3;
+		myObject.server_cat_id = 1;
+		myObject.server_prod_id = 3;
+		myObject.order_data = '[{"measPKId":18, "measName":"RoundNeck", "inputValue":"25"},{"measPKId":19, "measName":"VShape", "inputValue":"30"},{"measPKId":20, "measName":"Chest", "inputValue":"45"},{"measPKId":21, "measName":"Arms", "inputValue":"20"}]';
+		myObject.server_prod_name = 'T-Shirt';
+		myObject.update_timestamp = '12-11-2016 13:15:15';
+		myObject.status_of_order = 'InProgress';
+		myObject.order_date = '12-11-2016 13:15:15';
+		myObject.order_delivery_date = '18-11-2016 13:15:15'
+		myObject.customer_id = 2;
 		myArr.push(myObject);
 		
 		orderArrSession=myArr;
@@ -2543,7 +2568,8 @@ function getCustomerListFromLocalDB(){
 		var myObject1 = new Object();
 		myObject1.id = 1;
 		myObject1.name = 'KRISHNA';
-		myObject1.price = 150;
+		myObject1.total_price = 150;
+		myObject1.balance_price = 100;
 		myObject1.contact_number = '9999999999';
 		myObject1.address_details = 'bangalore';
 		myObject1.update_timestamp = '';
@@ -2552,9 +2578,10 @@ function getCustomerListFromLocalDB(){
 		var myObject2 = new Object();
 		myObject2.id = 2;
 		myObject2.name = 'Ramesh';
-		myObject2.price = 180;
-		myObject1.contact_number = '8888888888';
-		myObject1.address_details = 'Mysore';
+		myObject2.total_price = 300;
+		myObject2.balance_price = 100;
+		myObject2.contact_number = '8888888888';
+		myObject2.address_details = 'Mysore';
 		myObject2.update_timestamp = '12-11-2016 13:15:15';
 		myArr.push(myObject2);
 				
@@ -4851,7 +4878,8 @@ function successCBUpdateCustomerSyncDB(){
 				var customer_id = value['customer_id'];
 				var arr = update_timestamp.split('_');
 				var tableRow = '';
-				tableRow += '<tr><td>'+order_id+'</td>';
+				//tableRow += '<tr><td>'+order_id+'</td>';
+				tableRow += '<tr>';
 				var customerExist = false;
 				var customerName = '';
 				var contactNumber = '';
@@ -4860,11 +4888,13 @@ function successCBUpdateCustomerSyncDB(){
 				var sync_date_customer = '';
 				var sync_status_customer = 0;
 				var customer_server_id;
+				var balancePrice = '';
 				jQuery.each(customerArrData, function(indexObj,valueObj) {
 					if(parseInt(customer_id) == parseInt(valueObj['id'])){
 						customerName = valueObj['name'];
 						contactNumber = valueObj['contact_number'];
 						total_price = valueObj['total_price'];
+						balancePrice = valueObj['balance_price'];
 						customer_server_id = valueObj['cust_server_id'];
 						//name, total_price, advance_price, balance_price, update_timestamp, contact_number, email_id, country, state, city, pincode, address_one, address_two, sync_date
 						emailId = valueObj['email_id'];
@@ -4872,8 +4902,8 @@ function successCBUpdateCustomerSyncDB(){
 						sync_status_customer = valueObj['sync_status'];
 						//console.log('sync_date_customer  ' +sync_date_customer); // For Testing
 						//console.log('sync_status_customer ' +sync_status_customer); // For Testing
-						tableRow += '<td>'+customerName+'</td>';
-						tableRow += '<td>'+contactNumber+'</td>';
+						tableRow += '<td>'+customerName+'<br/>('+contactNumber+') </td>';
+						tableRow += '<td>'+total_price+' / '+balancePrice+'</td>';
 						customerExist = true;
 					}
 				});
@@ -4881,8 +4911,8 @@ function successCBUpdateCustomerSyncDB(){
 					tableRow += '<td> &nbsp;</td>';
 					tableRow += '<td> &nbsp;</td>';
 				}
-				tableRow += '<td> '+server_prod_name+' </td>';
-				tableRow += '<td> '+arr[0]+' </td>';
+				tableRow += '<td> '+order_date+' </td>';
+				tableRow += '<td> '+order_delivery_date+' </td>';
 				tableRow += '<td> '+status_of_order+' </td>';
 				tableRow += '<td> <button type="button" class="btn btn-primary st-bg-baby-pink ui-btn ui-shadow ui-corner-all" onclick="viewOrderDetailsByOrderId( ' + order_id + ' );">Edit</button> </td></tr>';
 				//console.log('Index file Calling server to send data Order customer.'); // For Testing
