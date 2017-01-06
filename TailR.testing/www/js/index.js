@@ -2476,7 +2476,7 @@ function getOrderListFromLocalDB(){
 	db.transaction(	function (tx){
 		tx.executeSql('CREATE TABLE IF NOT EXISTS order_details(id integer primary key autoincrement, server_cat_id integer, cat_name text, server_prod_id integer, order_data text,update_timestamp text, server_prod_name text,customer_id integer, option_selected text, status_of_order text, gallery_id integer, gallery_name text, sync_date text, sync_status integer, order_server_id integer, order_date text, order_delivery_date text, is_deleted integer)');
 		var len = 0;
-			tx.executeSql('select * from order_details ORDER BY id DESC ',[],function(tx,results){
+			tx.executeSql('select * from order_details where is_deleted = 1 ORDER BY id DESC ',[],function(tx,results){
 					len = results.rows.length;
 					if(len>0){
 						orderArrSession = [];
@@ -5102,6 +5102,7 @@ function successCBUpdateCustomerSyncDB(){
 			currDateTimestamp=dateTimestamp();
 			tx.executeSql("UPDATE order_details SET update_timestamp='"+currDateTimestamp+"', is_deleted=0  WHERE id="+orderId+"");
 		});
+		orderPageHtmlButton();
 	}
 	
 	function viewOrderDetailsByOrderId(ordId){
