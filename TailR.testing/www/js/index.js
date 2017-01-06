@@ -2407,7 +2407,7 @@ function successCBInsertOrderDetails() {
 	if(testingInBrowser){
 		takeCustomerDetailsFn();
 	}else{
-		alert('Order is successfully completed.');
+		//alert('Order is successfully completed.');
 		getOrderListFromLocalDB();
 	}
 }	
@@ -5097,7 +5097,7 @@ function successCBUpdateCustomerSyncDB(){
 	}
 	
 	function deleteOrder(orderId){
-		var isOK = confirm("Are you really want to delete?");
+		var isOK = confirm("Are you sure want to delete the order. If you delete it will delete permanently?");
 		if(isOK)
 		{
 			db.transaction(function(tx) {
