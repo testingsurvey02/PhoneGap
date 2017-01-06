@@ -2737,6 +2737,7 @@ function errorCBUpdateOrderDB(err){
 
 function successCBUpdateOrderDB(){
 	// console.log('successfully updated.');
+	orderPageHtmlButton();
 }
 
 function updateCustomerDetailsSyncDB(customerObject){
@@ -5322,7 +5323,7 @@ function successCBUpdateCustomerSyncDB(){
 		});*/
 		//showModal();
 		//console.log('dataIsFromServer : '+dataIsFromServer);
-		orderPageHtmlButton();
+		//orderPageHtmlButton();
 		//gotoProductPage();
 		updateCustomerDetailsInLocalDB(customerDetailsJson);
 		
