@@ -5097,12 +5097,16 @@ function successCBUpdateCustomerSyncDB(){
 	}
 	
 	function deleteOrder(orderId){
-		db.transaction(function(tx) {
-			var currDateTimestamp="";
-			currDateTimestamp=dateTimestamp();
-			tx.executeSql("UPDATE order_details SET update_timestamp='"+currDateTimestamp+"', is_deleted=0  WHERE id="+orderId+"");
-		});
-		orderPageHtmlButton();
+		var isOK = confirm("Are you really want to delete?");
+		if(isOK)
+		{
+			db.transaction(function(tx) {
+				var currDateTimestamp="";
+				currDateTimestamp=dateTimestamp();
+				tx.executeSql("UPDATE order_details SET update_timestamp='"+currDateTimestamp+"', is_deleted=0  WHERE id="+orderId+"");
+			});
+			orderPageHtmlButton();
+		}
 	}
 	
 	function viewOrderDetailsByOrderId(ordId){
