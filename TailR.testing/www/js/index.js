@@ -522,7 +522,17 @@ function gotoMeasurementPageDiv(){
 }
 
 function gotoCustomerPageDiv(){
-	
+	$('#totalPriceInput').val('');
+	$('#customerNameInput').val('');
+	$('#contactNumberInput').val('');
+	$('#emailIdInput').val('');
+	$('#address1Input').val('');
+	$('#address2Input').val('');
+	$('#stateInput').val('');
+	$('#cityInput').val('');
+	$('#pincodeInput').val('');
+	$('#orderDateInput').val('');
+	$('#orderDeliveryDateInput').val('');
 	$.mobile.changePage('#customer-confirmation-page','slide');
 }
 
