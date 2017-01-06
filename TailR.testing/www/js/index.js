@@ -5372,7 +5372,7 @@ function successCBUpdateCustomerSyncDB(){
 		var appurltemps="http://tailorapp.tailorrani.com/api/customers/storejson"
 		connectionType=checkConnection();
 		if(connectionType=="Unknown connection" || connectionType=="No network connection"){
-			navigator.notification.alert(appRequiresWiFi,alertConfirm,appName,'Ok');
+			//navigator.notification.alert(appRequiresWiFi,alertConfirm,appName,'Ok');
 		}
 		else if(connectionType=="WiFi connection" || connectionType=="Cell 4G connection" || connectionType=="Cell 3G connection" || connectionType=="Cell 2G connection"){
 			$.ajax({
@@ -5384,7 +5384,7 @@ function successCBUpdateCustomerSyncDB(){
 			});
 		}
 		else{
-			navigator.notification.alert(appRequiresWiFi,alertConfirm,appName,'Ok');
+			//navigator.notification.alert(appRequiresWiFi,alertConfirm,appName,'Ok');
 		}
 	}
 	
@@ -5436,7 +5436,7 @@ function successCBUpdateCustomerSyncDB(){
 		var appurltemps="http://tailorapp.tailorrani.com/api/customers/updateJson"
 		connectionType=checkConnection();
 		if(connectionType=="Unknown connection" || connectionType=="No network connection"){
-			navigator.notification.alert(appRequiresWiFi,alertConfirm,appName,'Ok');
+			//navigator.notification.alert(appRequiresWiFi,alertConfirm,appName,'Ok');
 		}
 		else if(connectionType=="WiFi connection" || connectionType=="Cell 4G connection" || connectionType=="Cell 3G connection" || connectionType=="Cell 2G connection"){
 			$.ajax({
@@ -5448,7 +5448,7 @@ function successCBUpdateCustomerSyncDB(){
 			});
 		}
 		else{
-			navigator.notification.alert(appRequiresWiFi,alertConfirm,appName,'Ok');
+			//navigator.notification.alert(appRequiresWiFi,alertConfirm,appName,'Ok');
 		}
 	}
 	
@@ -5514,7 +5514,7 @@ function successCBUpdateCustomerSyncDB(){
 		var appurltemps="http://tailorapp.tailorrani.com/api/orders/storejson"
 		connectionType=checkConnection();
 		if(connectionType=="Unknown connection" || connectionType=="No network connection"){
-			navigator.notification.alert(appRequiresWiFi,alertConfirm,appName,'Ok');
+			//navigator.notification.alert(appRequiresWiFi,alertConfirm,appName,'Ok');
 		}
 		else if(connectionType=="WiFi connection" || connectionType=="Cell 4G connection" || connectionType=="Cell 3G connection" || connectionType=="Cell 2G connection"){
 			$.ajax({
@@ -5526,7 +5526,7 @@ function successCBUpdateCustomerSyncDB(){
 			});
 		}
 		else{
-			navigator.notification.alert(appRequiresWiFi,alertConfirm,appName,'Ok');
+			//navigator.notification.alert(appRequiresWiFi,alertConfirm,appName,'Ok');
 		}
 	}
 	
@@ -5619,7 +5619,7 @@ function successCBUpdateCustomerSyncDB(){
 		var appurltemps="http://tailorapp.tailorrani.com/api/orders/updateJson"
 		connectionType=checkConnection();
 		if(connectionType=="Unknown connection" || connectionType=="No network connection"){
-			navigator.notification.alert(appRequiresWiFi,alertConfirm,appName,'Ok');
+			//navigator.notification.alert(appRequiresWiFi,alertConfirm,appName,'Ok');
 		}
 		else if(connectionType=="WiFi connection" || connectionType=="Cell 4G connection" || connectionType=="Cell 3G connection" || connectionType=="Cell 2G connection"){
 			$.ajax({
@@ -5631,7 +5631,7 @@ function successCBUpdateCustomerSyncDB(){
 			});
 		}
 		else{
-			navigator.notification.alert(appRequiresWiFi,alertConfirm,appName,'Ok');
+			//navigator.notification.alert(appRequiresWiFi,alertConfirm,appName,'Ok');
 		}
 	}
 	
