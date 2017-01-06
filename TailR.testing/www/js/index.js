@@ -5097,7 +5097,7 @@ function successCBUpdateCustomerSyncDB(){
 	}
 	
 	function deleteOrder(orderId){
-		var isOK = confirm("Are you sure want to delete the order. If you delete it will delete permanently?");
+		var isOK = confirm("Are you sure you want to delete this order?");
 		if(isOK)
 		{
 			db.transaction(function(tx) {
