@@ -5392,7 +5392,7 @@ function successCBUpdateCustomerSyncDB(){
 				url: appurltemps,
 				data : dataToSend,
 				success: successCBCustomerDetailsSaveFn,
-				error: commonErrorCallback
+				error: errorFromServer
 			});
 		}
 		else{
@@ -5456,7 +5456,7 @@ function successCBUpdateCustomerSyncDB(){
 				url: appurltemps,
 				data : dataToSend,
 				success: successCBCustomerDetailsUpdateFn,
-				error: commonErrorCallback
+				error: errorFromServer
 			});
 		}
 		else{
@@ -5534,7 +5534,7 @@ function successCBUpdateCustomerSyncDB(){
 				url: appurltemps,
 				data : dataToSend,
 				success: successCBOrderDetailsSaveFn,
-				error: commonErrorCallback
+				error: errorFromServer
 			});
 		}
 		else{
@@ -5639,12 +5639,16 @@ function successCBUpdateCustomerSyncDB(){
 				url: appurltemps,
 				data : dataToSend,
 				success: successCBOrderDetailsUpdatedFn,
-				error: commonErrorCallback
+				error: errorFromServer
 			});
 		}
 		else{
 			//navigator.notification.alert(appRequiresWiFi,alertConfirm,appName,'Ok');
 		}
+	}
+	
+	function errorFromServer(data){
+		console.log(appRequiresWiFi);
 	}
 	
 	function successCBOrderDetailsUpdatedFn(data){
