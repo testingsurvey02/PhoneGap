@@ -846,7 +846,7 @@ function initializeDB(tx) {
 	tx.executeSql('CREATE TABLE IF NOT EXISTS product_attributes (id integer primary key autoincrement, server_attr_id integer, name text, identifier text, status integer, backend_name text, update_timestamp text, option text)');
 	tx.executeSql('CREATE TABLE IF NOT EXISTS measurement_details (id integer primary key autoincrement, name text, server_measurement_id integer, status integer, update_timestamp text, group_data text)');
 	tx.executeSql('CREATE TABLE IF NOT EXISTS customer_details (id integer primary key autoincrement,name text, total_price text, advance_price text, balance_price text, update_timestamp text, contact_number text, email_id text, country text, state text, city text, pincode text, address_one text, address_two text, sync_date text, sync_status integer, cust_server_id integer)');
-	tx.executeSql('CREATE TABLE IF NOT EXISTS order_details(id integer primary key autoincrement, server_cat_id integer, cat_name text, server_prod_id integer, order_data text,update_timestamp text, server_prod_name text,customer_id integer, option_selected text, status_of_order text, gallery_id integer, gallery_name text, sync_date text, sync_status integer, order_server_id integer, order_date text, order_delivery_date text)');
+	tx.executeSql('CREATE TABLE IF NOT EXISTS order_details(id integer primary key autoincrement, server_cat_id integer, cat_name text, server_prod_id integer, order_data text,update_timestamp text, server_prod_name text,customer_id integer, option_selected text, status_of_order text, gallery_id integer, gallery_name text, sync_date text, sync_status integer, order_server_id integer, order_date text, order_delivery_date text, is_deleted integer)');
 	tx.executeSql('CREATE TABLE IF NOT EXISTS tailor_details (id integer primary key autoincrement, server_td_id integer, first_name text, middle_name text, last_name text, business_title text, address1 text, address2 text, email text, contact1 text, contact2 text, secret_key text, tailor_status integer, city text, pincode text, state_id integer, country_id integer, state_name text, country_name text, update_timestamp text)');
 	tx.executeSql('CREATE TABLE IF NOT EXISTS static_details (id integer primary key autoincrement, server_sd_id integer, name text, identifier text, data text, update_timestamp text)');
 	tx.executeSql('CREATE TABLE IF NOT EXISTS attr_images (id integer primary key autoincrement, attr_id integer, server_img_id integer, name text, image text, status text, sort_order text, download_status integer, update_timestamp text)');
@@ -2366,11 +2366,12 @@ function insertOrderDetails(){
 	var currDateTimestamp="";
 	var syncStatus = 0;
 	var order_server_id = 0;
+	var is_deleted = 1;
 	currDateTimestamp=dateTimestamp();
 	if(newOrderId == '' || newOrderId == undefined){
 		db.transaction(function(tx) {
 			
-			tx.executeSql('CREATE TABLE IF NOT EXISTS order_details(id integer primary key autoincrement, server_cat_id integer, cat_name text, server_prod_id integer, order_data text,update_timestamp text, server_prod_name text,customer_id integer, option_selected text, status_of_order text, gallery_id integer, gallery_name text, sync_date text, sync_status integer, order_server_id integer, order_date text, order_delivery_date text)');
+			tx.executeSql('CREATE TABLE IF NOT EXISTS order_details(id integer primary key autoincrement, server_cat_id integer, cat_name text, server_prod_id integer, order_data text,update_timestamp text, server_prod_name text,customer_id integer, option_selected text, status_of_order text, gallery_id integer, gallery_name text, sync_date text, sync_status integer, order_server_id integer, order_date text, order_delivery_date text, is_deleted integer)');
 			
 				var server_cat_id = categoryHtmlId;
 				var server_prod_id = productHTMLId;
@@ -2382,8 +2383,8 @@ function insertOrderDetails(){
 				var status_of_order = 'Pending';
 				var syncOrderDate = '';
 				
-				tx.executeSql('INSERT INTO order_details(server_cat_id, cat_name, server_prod_id, order_data, update_timestamp, server_prod_name, customer_id, option_selected, status_of_order, gallery_id, gallery_name, sync_date, sync_status, order_server_id, order_date, order_delivery_date) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)',
-							[server_cat_id, catNameInputId, server_prod_id, order_data, update_timestamp,server_prod_name, customer_id, optionIdsWithArrays, status_of_order, galleryIdToSave, galleryNameToSave, syncOrderDate, syncStatus,order_server_id, orderDate, orderDeliveryDate], function(tx, res) {
+				tx.executeSql('INSERT INTO order_details(server_cat_id, cat_name, server_prod_id, order_data, update_timestamp, server_prod_name, customer_id, option_selected, status_of_order, gallery_id, gallery_name, sync_date, sync_status, order_server_id, order_date, order_delivery_date, is_deleted) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)',
+							[server_cat_id, catNameInputId, server_prod_id, order_data, update_timestamp,server_prod_name, customer_id, optionIdsWithArrays, status_of_order, galleryIdToSave, galleryNameToSave, syncOrderDate, syncStatus,order_server_id, orderDate, orderDeliveryDate, is_deleted], function(tx, res) {
 					//alert("Order Data insertId: " + res.insertId + " -- res.rowsAffected 1"+res.rowsAffected);
 					$('#newOrderId').val(res.insertId);
 				});
@@ -2463,7 +2464,7 @@ function getOrderListFromLocalDB(){
 	}
 	
 	db.transaction(	function (tx){
-		tx.executeSql('CREATE TABLE IF NOT EXISTS order_details(id integer primary key autoincrement, server_cat_id integer, cat_name text, server_prod_id integer, order_data text,update_timestamp text, server_prod_name text,customer_id integer, option_selected text, status_of_order text, gallery_id integer, gallery_name text, sync_date text, sync_status integer, order_server_id integer, order_date text, order_delivery_date text)');
+		tx.executeSql('CREATE TABLE IF NOT EXISTS order_details(id integer primary key autoincrement, server_cat_id integer, cat_name text, server_prod_id integer, order_data text,update_timestamp text, server_prod_name text,customer_id integer, option_selected text, status_of_order text, gallery_id integer, gallery_name text, sync_date text, sync_status integer, order_server_id integer, order_date text, order_delivery_date text, is_deleted integer)');
 		var len = 0;
 			tx.executeSql('select * from order_details ORDER BY id DESC ',[],function(tx,results){
 					len = results.rows.length;
@@ -2487,7 +2488,8 @@ function getOrderListFromLocalDB(){
 							jsonOrderDataObj['sync_status'] = results.rows.item(i)['sync_status'];
 							jsonOrderDataObj['order_server_id'] = results.rows.item(i)['order_server_id'];
 							jsonOrderDataObj['order_date'] = results.rows.item(i)['order_date'];
-							jsonOrderDataObj['order_delivery_date'] = results.rows.item(i)['order_delivery_date']
+							jsonOrderDataObj['order_delivery_date'] = results.rows.item(i)['order_delivery_date'];
+							jsonOrderDataObj['is_deleted'] = results.rows.item(i)['is_deleted'];
 							
 							orderArrSession.push(jsonOrderDataObj);
 						}
@@ -2689,8 +2691,11 @@ function successCBUpdateCustomerDB(){
 function updateOrderDetailsInLocalDB(orderJson){
 	var orderId = orderJson['orderId'];
 	var measurementData = JSON.stringify(orderJson['measurementData']);
+	
 	var order_date = orderJson['order_date'];
 	var order_delivery_date = orderJson['order_delivery_date'];
+	console.log(order_date);
+	console.log(order_delivery_date);
 	//console.log('measurementData '+measurementData);
 	
 	var currDateTimestamp = dateTimestamp();
@@ -4867,6 +4872,8 @@ function successCBUpdateCustomerSyncDB(){
 				var update_timestamp = value['update_timestamp'];
 				var status_of_order = value['status_of_order'];
 				var option_selected = value['option_selected'];
+				var is_deleted = value['is_deleted'];
+				console.log(is_deleted);
 				//console.log('option_selected --------- '+option_selected); // For Testing
 				var sync_date_order = value['sync_date'];
 				var sync_status_order = value['sync_status'];
@@ -4894,6 +4901,12 @@ function successCBUpdateCustomerSyncDB(){
 						customerName = valueObj['name'];
 						contactNumber = valueObj['contact_number'];
 						total_price = valueObj['total_price'];
+						if(total_price == ''){
+							total_price = 0;
+						}
+						if(balancePrice == ''){
+							balancePrice = 0;
+						}
 						balancePrice = valueObj['balance_price'];
 						customer_server_id = valueObj['cust_server_id'];
 						//name, total_price, advance_price, balance_price, update_timestamp, contact_number, email_id, country, state, city, pincode, address_one, address_two, sync_date
@@ -4902,7 +4915,7 @@ function successCBUpdateCustomerSyncDB(){
 						sync_status_customer = valueObj['sync_status'];
 						//console.log('sync_date_customer  ' +sync_date_customer); // For Testing
 						//console.log('sync_status_customer ' +sync_status_customer); // For Testing
-						tableRow += '<td>'+customerName+'<br/>('+contactNumber+') </td>';
+						tableRow += '<td>'+customerName+'<br/>'+contactNumber+' </td>';
 						tableRow += '<td>'+total_price+' / '+balancePrice+'</td>';
 						customerExist = true;
 					}
@@ -4914,7 +4927,8 @@ function successCBUpdateCustomerSyncDB(){
 				tableRow += '<td> '+order_date+' </td>';
 				tableRow += '<td> '+order_delivery_date+' </td>';
 				tableRow += '<td> '+status_of_order+' </td>';
-				tableRow += '<td> <button type="button" class="btn btn-primary st-bg-baby-pink ui-btn ui-shadow ui-corner-all" onclick="viewOrderDetailsByOrderId( ' + order_id + ' );">Edit</button> </td></tr>';
+				tableRow += '<td> <button type="button" class="btn btn-primary st-bg-baby-pink ui-btn ui-shadow ui-corner-all" onclick="viewOrderDetailsByOrderId( ' + order_id + ' );">Edit</button>'
+						+' <button type="button" class="btn btn-primary st-bg-baby-pink ui-btn ui-shadow ui-corner-all" onclick="deleteOrder( ' + order_id + ' );">Delete</button></td></tr>';
 				//console.log('Index file Calling server to send data Order customer.'); // For Testing
 				connectionType=checkConnection();
 				if(testingInBrowser){
@@ -4932,7 +4946,7 @@ function successCBUpdateCustomerSyncDB(){
 							dataToSendCustomer["customer_id"] = customer_id;
 							dataToSendCustomer["contact"] = contactNumber;
 							dataToSendCustomer["email"] = emailId;
-							dataToSendCustomer["status"] = 1;
+							dataToSendCustomer["status"] = is_deleted;
 							//dataToSendCustomer["sync_date"] = sync_date_customer;
 							//dataToSendCustomer["sync_status"] = sync_status_customer;
 							
@@ -4954,7 +4968,7 @@ function successCBUpdateCustomerSyncDB(){
 							dataToSendOrder["customer_id"] = customer_id;
 							dataToSendOrder["order_id"] = order_id;
 							dataToSendOrder["order_price"] = total_price;
-							dataToSendOrder["status"] = 1;
+							dataToSendOrder["status"] = is_deleted;
 							dataToSendOrder["order_attributes"] = $.parseJSON(JSON.stringify(option_selected));
 							dataToSendOrder["order_measurements"] = $.parseJSON(JSON.stringify(order_data));
 							dataToSendOrder["product_name"] = server_prod_name;
@@ -5041,8 +5055,9 @@ function successCBUpdateCustomerSyncDB(){
 						}
 					});*/
 				}
-				
-				tableRowMain += tableRow;
+				if(is_deleted != 0){
+					tableRowMain += tableRow;
+				}
 			});
 			
 		}else{
@@ -5068,6 +5083,14 @@ function successCBUpdateCustomerSyncDB(){
 			callServerToUpdateOrdDetailsIndex = 0;
 			//sendDataToServerStatus = true;
 		}
+	}
+	
+	function deleteOrder(orderId){
+		db.transaction(function(tx) {
+			var currDateTimestamp="";
+			currDateTimestamp=dateTimestamp();
+			tx.executeSql("UPDATE order_details SET update_timestamp='"+currDateTimestamp+"', is_deleted=0  WHERE id="+orderId+"");
+		});
 	}
 	
 	function viewOrderDetailsByOrderId(ordId){
