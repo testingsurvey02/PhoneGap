@@ -2531,7 +2531,7 @@ function takeCustomerDetailsFn(){
 	var customerName = $('#customerNameInput').val();
 	var totalPriceInput = $('#totalPriceInput').val();
 	var advancePriceInput = '';
-	var balancePriceInput = '';
+	var balancePriceInput = $('#balancePriceInput').val();
 	var contactNumber = $('#contactNumberInput').val();
 	var address1Input = $('#address1Input').val();
 	var address2Input = $('#address2Input').val();
