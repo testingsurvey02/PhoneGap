@@ -65,6 +65,7 @@ $(document).delegate('.image-download', 'taphold', function () {
 
 var connectionType;
 var appName='CTR';
+var appUrlMain = 'http://tailorapp.tailorrani.com/';
 var testingInBrowser=false;// For Testing
 var testingInternet = false;
 var syncTailorDetails = false;
@@ -962,10 +963,15 @@ function getTailorDetailsFromLocal(){
 		tailorDetailsObj.update_timestamp = "1";
 		tailorDetailsObj.enable_img_download = "true";
 		tailorDetailsSession = tailorDetailsObj;
+		var firstName = tailorDetailsSession.first_name;
+		var lastName = tailorDetailsSession.last_name;
+		var middleName = tailorDetailsSession.middle_name;
+		$('#tailorFullName').text(firstName +' '+ lastName +' '+ middleName);
+		var tailorSecretKey = tailorDetailsSession.secret_key;
+		$('#tailorSecretKey').text(tailorSecretKey);
 		if(tailorDetailsSession.enable_img_download == "0"){
 			$('#downloadEnable').show();
 		}else{
-			console.log(tailorDetailsSession.enable_img_download);
 			$('#downloadEnable').hide();
 		}
 		getCategoriesListFromLocal();
@@ -1012,6 +1018,12 @@ function getTailorDetailsFromLocal(){
 }
 
 function successCBTailorDetailsListDB() {
+	var firstName = tailorDetailsSession.first_name;
+	var lastName = tailorDetailsSession.last_name;
+	var middleName = tailorDetailsSession.middle_name;
+	$('#tailorFullName').text(firstName +' '+ lastName +' '+ middleName);
+	var tailorSecretKey = tailorDetailsSession.secret_key;
+	$('#tailorSecretKey').text(tailorSecretKey);
 	connectionType = checkConnection();
 	if(connectionType=="WiFi connection" || connectionType=="Cell 4G connection" || connectionType=="Cell 3G connection" || connectionType=="Cell 2G connection"){
 		if(syncTailorDetails == false){
@@ -3151,15 +3163,15 @@ function successCBUpdateCustomerSyncDB(){
 	}
 	
 	
-	var productImageData = 'http:\/\/tailorapp.tailorrani.com\/images\/Products\/product_image';
-	var attributeImageData = 'http:\/\/tailorapp.tailorrani.com\/images\/Attributes\/attribute_image';
+	var productImageData = appUrlMain + 'images\/Products\/product_image';
+	var attributeImageData = appUrlMain + 'images\/Attributes\/attribute_image';
 	var localPath = 'file:///data/data/com.stavyah.tailorrani/files/';
 
 	function getCategoriesDataFromServer(){
 		var dataToSend = {};
 		dataToSend["secret_key"] = tailorDetailsSession.secret_key;
 		dataToSend["uuid"] = mobileUUID;
-		var apiCallUrl="http://tailorapp.tailorrani.com/api/categories/categoriesJson"
+		var apiCallUrl = appUrlMain + "api/categories/categoriesJson"
 		connectionType=checkConnection();
 		if(connectionType=="Unknown connection" || connectionType=="No network connection"){
 			navigator.notification.alert(appRequiresWiFi,alertConfirm,appName,'Ok');
@@ -3180,17 +3192,20 @@ function successCBUpdateCustomerSyncDB(){
 
 	function successCBServerCatFn(data){
 		var responseJson = $.parseJSON(JSON.stringify(data));
-		categoriesJsonData = responseJson["result"];
-		// FIXME CHECK JSON DATAv
-		var categoryDiv = '';
-		if(dataExist){
-			categoryDiv = '<p> Updating Category Data </p>';
+		if(responseJson['error'] == true){
+			alert(responseJson['message']);
 		}else{
-			categoryDiv = '<p> Inserting Category Data </p>';
+			categoriesJsonData = responseJson["result"];
+			// FIXME CHECK JSON DATAv
+			var categoryDiv = '';
+			if(dataExist){
+				categoryDiv = '<p> Updating Category Data </p>';
+			}else{
+				categoryDiv = '<p> Inserting Category Data </p>';
+			}
+			$('.appendStatusDiv').append(categoryDiv);
+			insertCategories(categoriesJsonData);
 		}
-		$('.appendStatusDiv').append(categoryDiv);
-		insertCategories(categoriesJsonData);
-		
 	}
 	
 	function dataHasSyncSendReport(type){
@@ -3198,7 +3213,7 @@ function successCBUpdateCustomerSyncDB(){
 		dataToSend["secret_key"] = tailorDetailsSession.secret_key;
 		dataToSend["sync_type"] = type;
 		dataToSend["uuid"] = mobileUUID;
-		var apiCallUrl="http://tailorapp.tailorrani.com/api/tailors/syncupdateJson"
+		var apiCallUrl = appUrlMain + "api/tailors/syncupdateJson"
 		connectionType=checkConnection();
 		if(connectionType=="Unknown connection" || connectionType=="No network connection"){
 			navigator.notification.alert(appRequiresWiFi,alertConfirm,appName,'Ok');
@@ -3218,6 +3233,10 @@ function successCBUpdateCustomerSyncDB(){
 	}
 	
 	function successCBServerSyncFn(data){
+		var responseJson = $.parseJSON(JSON.stringify(data));
+		if(responseJson['error'] == true){
+			alert(responseJson['message']);
+		}
 		//console.log('successCBServerSyncFn : '+ data);
 	}
 	
@@ -3397,7 +3416,7 @@ function successCBUpdateCustomerSyncDB(){
 		var dataToSend = {};
 		dataToSend["secret_key"] = tailorDetailsSession.secret_key;
 		dataToSend["uuid"] = mobileUUID;
-		var apiCallUrl="http://tailorapp.tailorrani.com/api/products/productsJson"
+		var apiCallUrl = appUrlMain + "api/products/productsJson"
 		connectionType=checkConnection();
 		if(connectionType=="Unknown connection" || connectionType=="No network connection"){
 			navigator.notification.alert(appRequiresWiFi,alertConfirm,appName,'Ok');
@@ -3418,25 +3437,29 @@ function successCBUpdateCustomerSyncDB(){
 
 	function successCBServerProductFn(data){
 		var responseJson = $.parseJSON(JSON.stringify(data));
-		productJsonData = responseJson["result"];
-		productImageData = responseJson['image_url'];
-		// FIXME CHECK JSON DATA
-		var productDiv = '';
-		if(dataExist){
-			productDiv = '<p> Product Data Updating Records </p>';
+		if(responseJson['error'] == true){
+			alert(responseJson['message']);
 		}else{
-			productDiv = '<p> Product Data Inserting </p>';
+			productJsonData = responseJson["result"];
+			productImageData = responseJson['image_url'];
+			// FIXME CHECK JSON DATA
+			var productDiv = '';
+			if(dataExist){
+				productDiv = '<p> Product Data Updating Records </p>';
+			}else{
+				productDiv = '<p> Product Data Inserting </p>';
+			}
+			$('.appendStatusDiv').append(productDiv);
+			db.transaction(insertProductDetails, errorCBInsertProductDetails, successCBInsertProductDetails);
+			//
 		}
-		$('.appendStatusDiv').append(productDiv);
-		db.transaction(insertProductDetails, errorCBInsertProductDetails, successCBInsertProductDetails);
-		//
 	}
 	
 	function getAttributesDataFromServer(){
 		var dataToSend = {};
 		dataToSend["secret_key"] = tailorDetailsSession.secret_key;
 		dataToSend["uuid"] = mobileUUID;
-		var apiCallUrl="http://tailorapp.tailorrani.com/api/attributes/attributesJson"
+		var apiCallUrl = appUrlMain + "api/attributes/attributesJson"
 		connectionType=checkConnection();
 		if(connectionType=="Unknown connection" || connectionType=="No network connection"){
 			navigator.notification.alert(appRequiresWiFi,alertConfirm,appName,'Ok');
@@ -3457,25 +3480,29 @@ function successCBUpdateCustomerSyncDB(){
 
 	function successCallbackAttributesFn(data){
 		var responseJson = $.parseJSON(JSON.stringify(data));
-		attributeJsonData = responseJson["result"];
-		attributeImageData = responseJson['image_url'];
-		// FIXME CHECK JSON DATA
-		var attributeDiv = '';
-		if(dataExist){
-			attributeDiv = '<p> Attribute Data Updating </p>';
+		if(responseJson['error'] == true){
+			alert(responseJson['message']);
 		}else{
-			attributeDiv = '<p> Attribute Data Inserting </p>';
+			attributeJsonData = responseJson["result"];
+			attributeImageData = responseJson['image_url'];
+			// FIXME CHECK JSON DATA
+			var attributeDiv = '';
+			if(dataExist){
+				attributeDiv = '<p> Attribute Data Updating </p>';
+			}else{
+				attributeDiv = '<p> Attribute Data Inserting </p>';
+			}
+			$('.appendStatusDiv').append(attributeDiv);
+			db.transaction(insertAttributesDetails, errorCBInsertAttributeDetails, successCBInsertAttributeDetails);
+			//
 		}
-		$('.appendStatusDiv').append(attributeDiv);
-		db.transaction(insertAttributesDetails, errorCBInsertAttributeDetails, successCBInsertAttributeDetails);
-		//
 	}
 	
 	function getAttrImagesDataFromServer(){
 		var dataToSend = {};
 		dataToSend["secret_key"] = tailorDetailsSession.secret_key;
 		dataToSend["uuid"] = mobileUUID;
-		var apiCallUrl="http://tailorapp.tailorrani.com/api/attributes/attributeimagesJson"
+		var apiCallUrl = appUrlMain+ "api/attributes/attributeimagesJson"
 		connectionType=checkConnection();
 		if(connectionType=="Unknown connection" || connectionType=="No network connection"){
 			navigator.notification.alert(appRequiresWiFi,alertConfirm,appName,'Ok');
@@ -3496,16 +3523,20 @@ function successCBUpdateCustomerSyncDB(){
 	
 	function successCallbackAttrImagesFn(data){
 		var responseJson = $.parseJSON(JSON.stringify(data));
-		attributeImageJsonData = responseJson["result"];
-		var attributeImagesDiv = '';
-		if(dataExist){
-			attributeImagesDiv = '<p> Attribute Images Data Updating </p>';
+		if(responseJson['error'] == true){
+			alert(responseJson['message']);
 		}else{
-			attributeImagesDiv = '<p> Attribute Images Data Inserting </p>';
+			attributeImageJsonData = responseJson["result"];
+			var attributeImagesDiv = '';
+			if(dataExist){
+				attributeImagesDiv = '<p> Attribute Images Data Updating </p>';
+			}else{
+				attributeImagesDiv = '<p> Attribute Images Data Inserting </p>';
+			}
+			$('.appendStatusDiv').append(attributeImagesDiv);
+			db.transaction(insertAttrImagesDetails, errorCBInsertAttrImagesDetails, successCBInsertAttrImagesDetails);
 		}
-		$('.appendStatusDiv').append(attributeImagesDiv);
-		db.transaction(insertAttrImagesDetails, errorCBInsertAttrImagesDetails, successCBInsertAttrImagesDetails);
-		//dataHasSyncSendReport('attributes_sync');
+		
 	}
 	
 	function commonErrorAttrImagesCB(err){
@@ -3520,7 +3551,7 @@ function successCBUpdateCustomerSyncDB(){
 		var dataToSend = {};
 		dataToSend["secret_key"] = tailorDetailsSession.secret_key;
 		dataToSend["uuid"] = mobileUUID;
-		var apiCallUrl="http://tailorapp.tailorrani.com/api/products/productsimagesJson"
+		var apiCallUrl = appUrlMain + "api/products/productsimagesJson"
 		connectionType=checkConnection();
 		if(connectionType=="Unknown connection" || connectionType=="No network connection"){
 			navigator.notification.alert(appRequiresWiFi,alertConfirm,appName,'Ok');
@@ -3541,9 +3572,12 @@ function successCBUpdateCustomerSyncDB(){
 	
 	function successCBGalleryImagesFn(data){
 		var responseJson = $.parseJSON(JSON.stringify(data));
-		galleryImageJsonData = responseJson["result"];
-		db.transaction(insertGalleryImagesDetails, errorCBInsertGalleryImagesDetails, successCBInsertGalleryImagesDetails);
-		//dataHasSyncSendReport('attributes_sync');
+		if(responseJson['error'] == true){
+			alert(responseJson['message']);
+		}else{
+			galleryImageJsonData = responseJson["result"];
+			db.transaction(insertGalleryImagesDetails, errorCBInsertGalleryImagesDetails, successCBInsertGalleryImagesDetails);
+		}
 	}
 	
 	function commonErrorGalleryImagesCB(err){
@@ -4419,7 +4453,7 @@ function successCBUpdateCustomerSyncDB(){
 		var dataToSend = {};
 		dataToSend["secret_key"] = tailorDetailsSession.secret_key;
 		dataToSend["uuid"] = mobileUUID;
-		var apiCallUrl="http://tailorapp.tailorrani.com/api/measurements/measurementsJson"
+		var apiCallUrl = appUrlMain + "api/measurements/measurementsJson"
 		connectionType=checkConnection();
 		if(connectionType=="Unknown connection" || connectionType=="No network connection"){
 			navigator.notification.alert(appRequiresWiFi,alertConfirm,appName,'Ok');
@@ -4440,17 +4474,22 @@ function successCBUpdateCustomerSyncDB(){
 
 	function successCBMeasurementsFn(data){
 		var responseJson = $.parseJSON(JSON.stringify(data));
-		measurementJsonData = responseJson["result"];
-		// FIXME CHECK JSON DATA
-		var measurementDiv = '';
-		if(dataExist){
-			measurementDiv = '<p> Measurement Data Updating </p>';
+		if(responseJson['error'] == true){
+			alert(responseJson['message']);
 		}else{
-			measurementDiv = '<p> Measurement Data Inserting </p>';
+			measurementJsonData = responseJson["result"];
+			// FIXME CHECK JSON DATA
+			var measurementDiv = '';
+			if(dataExist){
+				measurementDiv = '<p> Measurement Data Updating </p>';
+			}else{
+				measurementDiv = '<p> Measurement Data Inserting </p>';
+			}
+			$('.appendStatusDiv').append(measurementDiv);
+			db.transaction(insertMeasurementsDetails, errorCBInsertMeasurementDetails, successCBInsertMeasurementDetails);
+			//
 		}
-		$('.appendStatusDiv').append(measurementDiv);
-		db.transaction(insertMeasurementsDetails, errorCBInsertMeasurementDetails, successCBInsertMeasurementDetails);
-		//
+		
 	}
 	
 	function successCBInsertMeasurementDetails() {
@@ -4481,7 +4520,7 @@ function successCBUpdateCustomerSyncDB(){
 		var dataToSend = {};
 		dataToSend["secret_key"] = tailorDetailsSession.secret_key;
 		dataToSend["uuid"] = mobileUUID;
-		var apiCallUrl="http://tailorapp.tailorrani.com/api/static/staticJson"
+		var apiCallUrl=appUrlMain+ "api/static/staticJson"
 		connectionType=checkConnection();
 		if(connectionType=="Unknown connection" || connectionType=="No network connection"){
 			navigator.notification.alert(appRequiresWiFi,alertConfirm,appName,'Ok');
@@ -4502,16 +4541,20 @@ function successCBUpdateCustomerSyncDB(){
 
 	function successCBStaticFn(data){
 		var responseJson = $.parseJSON(JSON.stringify(data));
-		staticJsonData = responseJson["result"];
-		// FIXME CHECK JSON DATA
-		var staticDiv = '';
-		if(dataExist){
-			staticDiv = '<p> Static Data Updating </p>';
+		if(responseJson['error'] == true){
+			alert(responseJson['message']);
 		}else{
-			staticDiv = '<p> Static Data Inserting </p>';
+			staticJsonData = responseJson["result"];
+			// FIXME CHECK JSON DATA
+			var staticDiv = '';
+			if(dataExist){
+				staticDiv = '<p> Static Data Updating </p>';
+			}else{
+				staticDiv = '<p> Static Data Inserting </p>';
+			}
+			$('.appendStatusDiv').append(staticDiv);
+			db.transaction(insertStaticDetails, errorCBInsertStaticDetails, successCBInsertStaticDetails);
 		}
-		$('.appendStatusDiv').append(staticDiv);
-		db.transaction(insertStaticDetails, errorCBInsertStaticDetails, successCBInsertStaticDetails);
 	}
 	
 	function successCBInsertStaticDetails() {
@@ -4535,7 +4578,7 @@ function successCBUpdateCustomerSyncDB(){
 		var dataToSend = {};
 		dataToSend["secret_key"] = tailorDetailsSession.secret_key;
 		dataToSend["uuid"] = mobileUUID;
-		var apiCallUrl="http://tailorapp.tailorrani.com/api/deleted/deletedinfoJson"
+		var apiCallUrl=appUrlMain+"api/deleted/deletedinfoJson"
 		connectionType=checkConnection();
 		if(connectionType=="Unknown connection" || connectionType=="No network connection"){
 			navigator.notification.alert(appRequiresWiFi,alertConfirm,appName,'Ok');
@@ -4557,13 +4600,17 @@ function successCBUpdateCustomerSyncDB(){
 	function successCBDeleteInDBFromServerFn(data){
 		deleteRecordStatus = 1;
 		var responseJson = $.parseJSON(JSON.stringify(data));
-		deleteRecordsInLocalDBJsonData = responseJson["result"];
-		var deleteRecordsDiv = '';
-		if(dataExist){
-			deleteRecordsDiv = '<p> Delete Records started deleting in local </p>';
+		if(responseJson['error'] == true){
+			alert(responseJson['message']);
+		}else{
+			deleteRecordsInLocalDBJsonData = responseJson["result"];
+			var deleteRecordsDiv = '';
+			if(dataExist){
+				deleteRecordsDiv = '<p> Delete Records started deleting in local </p>';
+			}
+			$('.appendStatusDiv').append(deleteRecordsDiv);
+			deleteRecordsFromLocalDB();
 		}
-		$('.appendStatusDiv').append(deleteRecordsDiv);
-		deleteRecordsFromLocalDB();
 	}
 	
 	function errorCBDeleteInDBServerFn(err){
@@ -4643,7 +4690,7 @@ function successCBUpdateCustomerSyncDB(){
 		var dataToSend = {};
 		dataToSend["secret_key"] = loginUserId;
 		dataToSend["uuid"] = mobileUUID;
-		var apiCallUrl="http://tailorapp.tailorrani.com/api/tailors/tailorinfoJson"
+		var apiCallUrl=appUrlMain+"api/tailors/tailorinfoJson"
 		connectionType=checkConnection();
 		if(connectionType=="Unknown connection" || connectionType=="No network connection"){
 			navigator.notification.alert(appRequiresWiFi,alertConfirm,appName,'Ok');
@@ -4665,12 +4712,15 @@ function successCBUpdateCustomerSyncDB(){
 	function successCBTailorDetailsFn(data){
 		//console.log(data); // For Testing
 		var responseJson = $.parseJSON(JSON.stringify(data));
-		
-		tailorDetailsJsonData = responseJson["result"];
-		//alert('dataparse : '+$.parseJSON(tailorDetailsJsonData));
-		//alert('tailorDetailsJsonData : '+tailorDetailsJsonData);
-		// FIXME CHECK JSON DATA
-		db.transaction(insertTailorDetailsDetails, errorCBInsertTailorDetailsDetails, successCBInsertTailorDetailsDetails);
+		if(responseJson['error'] == true){
+			alert(responseJson['message']);
+		}else{
+			tailorDetailsJsonData = responseJson["result"];
+			//alert('dataparse : '+$.parseJSON(tailorDetailsJsonData));
+			//alert('tailorDetailsJsonData : '+tailorDetailsJsonData);
+			// FIXME CHECK JSON DATA
+			db.transaction(insertTailorDetailsDetails, errorCBInsertTailorDetailsDetails, successCBInsertTailorDetailsDetails);
+		}
 	}
 	
 	function successCBInsertTailorDetailsDetails() {
@@ -5052,9 +5102,9 @@ function successCBUpdateCustomerSyncDB(){
 					
 					/*var appurltempsCustomer = '';
 					if(sync_date_customer == '' && sync_status_customer == 0){
-						appurltempsCustomer="http://tailorapp.tailorrani.com/api/customers/storejson"
+						appurltempsCustomer=appUrlMain+"api/customers/storejson"
 					}else if(sync_date_customer != '' && sync_status_customer == 2){
-						appurltempsCustomer="http://tailorapp.tailorrani.com/api/customers/updateJson"
+						appurltempsCustomer=appUrlMain+"api/customers/updateJson"
 					}
 					$.ajax({
 						type : ajaxCallPost,
@@ -5085,9 +5135,9 @@ function successCBUpdateCustomerSyncDB(){
 					
 					/*var appUrlOrder = '';
 					if(sync_date_order == '' && sync_status_order == 0){
-						appUrlOrder="http://tailorapp.tailorrani.com/api/orders/storejson"
+						appUrlOrder=appUrlMain+"api/orders/storejson"
 					}else if(sync_date_order != '' && sync_status_order == 2){
-						appUrlOrder="http://tailorapp.tailorrani.com/api/orders/updateJson"
+						appUrlOrder=appUrlMain+"api/orders/updateJson"
 					}
 					$.ajax({
 						type : ajaxCallPost,
@@ -5433,7 +5483,7 @@ function successCBUpdateCustomerSyncDB(){
 		dataToSend["customers"] = JSON.stringify(sendCustomerDataToSaveInServer);
 		//console.log(sendCustomerDataToSaveInServer); // For Testing
 		//console.log(dataToSend); // For Testing
-		var appurltemps="http://tailorapp.tailorrani.com/api/customers/storejson"
+		var appurltemps=appUrlMain+"api/customers/storejson"
 		connectionType=checkConnection();
 		if(connectionType=="Unknown connection" || connectionType=="No network connection"){
 			//navigator.notification.alert(appRequiresWiFi,alertConfirm,appName,'Ok');
@@ -5455,13 +5505,16 @@ function successCBUpdateCustomerSyncDB(){
 	function successCBCustomerDetailsSaveFn(data){
 		//console.log(data); // For Testing
 		var responseJson = $.parseJSON(JSON.stringify(data));
-		
-		updateCustomerDetailsForSavedData = responseJson;
-		//alert('dataparse : '+$.parseJSON(tailorDetailsJsonData));
-		//alert('tailorDetailsJsonData : '+tailorDetailsJsonData);
-		// FIXME CHECK JSON DATA
-		db.transaction(updateCustomerDetailsForSaveFn, errorCBCustomerDetails, successCBCustomerDetailsLBSaveFn);
-		//dataHasSyncSendReport('customers_sync');
+		if(responseJson['error'] == true){
+			alert(responseJson['message']);
+		}else{
+			updateCustomerDetailsForSavedData = responseJson;
+			//alert('dataparse : '+$.parseJSON(tailorDetailsJsonData));
+			//alert('tailorDetailsJsonData : '+tailorDetailsJsonData);
+			// FIXME CHECK JSON DATA
+			db.transaction(updateCustomerDetailsForSaveFn, errorCBCustomerDetails, successCBCustomerDetailsLBSaveFn);
+			
+		}
 	}
 	
 	function updateCustomerDetailsForSaveFn(tx) {
@@ -5498,7 +5551,7 @@ function successCBUpdateCustomerSyncDB(){
 		dataToSend["uuid"] = mobileUUID;
 		dataToSend["customers"] = JSON.stringify(sendCustomerDataToUpdateInServer);
 		
-		var appurltemps="http://tailorapp.tailorrani.com/api/customers/updateJson"
+		var appurltemps=appUrlMain+"api/customers/updateJson"
 		connectionType=checkConnection();
 		if(connectionType=="Unknown connection" || connectionType=="No network connection"){
 			//navigator.notification.alert(appRequiresWiFi,alertConfirm,appName,'Ok');
@@ -5520,14 +5573,16 @@ function successCBUpdateCustomerSyncDB(){
 	function successCBCustomerDetailsUpdateFn(data){
 		//console.log(data); // For Testing
 		var responseJson = $.parseJSON(JSON.stringify(data));
-		
-		updateCustomerDetailsForUpdatedData = responseJson;
-		//alert('dataparse : '+$.parseJSON(tailorDetailsJsonData));
-		//alert('tailorDetailsJsonData : '+tailorDetailsJsonData);
-		// FIXME CHECK JSON DATA
-		console.log();
-		db.transaction(updateCustomerDetailsForUpdateFn, errorCBCustomerDetails, successCBCustomerDetailsLBUpdateFn);
-		//dataHasSyncSendReport('customers_sync');
+		if(responseJson['error'] == true){
+			alert(responseJson['message']);
+		}else{
+			updateCustomerDetailsForUpdatedData = responseJson;
+			//alert('dataparse : '+$.parseJSON(tailorDetailsJsonData));
+			//alert('tailorDetailsJsonData : '+tailorDetailsJsonData);
+			// FIXME CHECK JSON DATA
+			console.log();
+			db.transaction(updateCustomerDetailsForUpdateFn, errorCBCustomerDetails, successCBCustomerDetailsLBUpdateFn);
+		}
 	}
 	
 	function errorCBCustomerDetails(err){
@@ -5539,12 +5594,14 @@ function successCBUpdateCustomerSyncDB(){
 	function successCBCustomerDetailsLBSaveFn(){
 		//console.log('successCBCustomerDetailsLBSaveFn'); // For Testing
 		sendCustomerDataToSaveInServer = [];
+		dataHasSyncSendReport('customers_sync');
 		sendDataToServer();
 	}
 	
 	function successCBCustomerDetailsLBUpdateFn(){
 		//console.log('successCBCustomerDetailsLBUpdateFn');  // For Testing
 		sendCustomerDataToUpdateInServer = [];
+		dataHasSyncSendReport('customers_sync');
 		sendDataToServer();
 	}
 	
@@ -5577,7 +5634,7 @@ function successCBUpdateCustomerSyncDB(){
 		dataToSend["uuid"] = mobileUUID;
 		dataToSend["orders"] = JSON.stringify(sendOrderDataToSaveInServer);
 		//console.log(dataToSend); // For Testing
-		var appurltemps="http://tailorapp.tailorrani.com/api/orders/storejson"
+		var appurltemps=appUrlMain+"api/orders/storejson"
 		connectionType=checkConnection();
 		if(connectionType=="Unknown connection" || connectionType=="No network connection"){
 			//navigator.notification.alert(appRequiresWiFi,alertConfirm,appName,'Ok');
@@ -5599,13 +5656,16 @@ function successCBUpdateCustomerSyncDB(){
 	function successCBOrderDetailsSaveFn(data){
 		//console.log(data); // For Testing
 		var responseJson = $.parseJSON(JSON.stringify(data));
-		
-		updateOrderDetailsForSavedData = responseJson;
-		//alert('dataparse : '+$.parseJSON(tailorDetailsJsonData));
-		//alert('tailorDetailsJsonData : '+tailorDetailsJsonData);
-		// FIXME CHECK JSON DATA
-		db.transaction(updateOrderDetailsForSavedFn, errorCBOrderDetails, successCBOrderDetailsForSavedFn);
-		//dataHasSyncSendReport('orders_sync');
+		if(responseJson['error'] == true){
+			alert(responseJson['message']);
+		}else{
+			updateOrderDetailsForSavedData = responseJson;
+			//alert('dataparse : '+$.parseJSON(tailorDetailsJsonData));
+			//alert('tailorDetailsJsonData : '+tailorDetailsJsonData);
+			// FIXME CHECK JSON DATA
+			db.transaction(updateOrderDetailsForSavedFn, errorCBOrderDetails, successCBOrderDetailsForSavedFn);
+			
+		}
 	}
 	
 	function errorCBOrderDetails(err){
@@ -5617,12 +5677,14 @@ function successCBUpdateCustomerSyncDB(){
 	function successCBOrderDetailsForSavedFn(){
 		//console.log('successCBOrderDetailsForSavedFn');
 		sendOrderDataToSaveInServer = [];
+		dataHasSyncSendReport('orders_sync');
 		sendDataToServer();
 	}
 	
 	function successCBOrderDetailsForUpdateFn(){
 		//console.log('successCBOrderDetailsForUpdateFn');
 		sendOrderDataToUpdateInServer = [];
+		dataHasSyncSendReport('orders_sync');
 		sendDataToServer();
 	}
 	
@@ -5683,7 +5745,7 @@ function successCBUpdateCustomerSyncDB(){
 		dataToSend["order_attributes"] = selectedOptionMain;
 		dataToSend["order_measurements"] = orderTakenDetails;
 		dataToSend["product_name"] = $('#prodHtmlName').val();*/
-		var appurltemps="http://tailorapp.tailorrani.com/api/orders/updateJson"
+		var appurltemps=appUrlMain+"api/orders/updateJson"
 		connectionType=checkConnection();
 		if(connectionType=="Unknown connection" || connectionType=="No network connection"){
 			//navigator.notification.alert(appRequiresWiFi,alertConfirm,appName,'Ok');
@@ -5709,13 +5771,16 @@ function successCBUpdateCustomerSyncDB(){
 	function successCBOrderDetailsUpdatedFn(data){
 		//console.log(data); // For Testing
 		var responseJson = $.parseJSON(JSON.stringify(data));
-		
-		updateOrderDetailsForUpdatedData = responseJson;
-		//alert('dataparse : '+$.parseJSON(tailorDetailsJsonData));
-		//alert('tailorDetailsJsonData : '+tailorDetailsJsonData);
-		// FIXME CHECK JSON DATA
-		db.transaction(updateOrderDetailsForUpdatedFn, errorCBOrderDetails, successCBOrderDetailsForUpdateFn);
-		//dataHasSyncSendReport('orders_sync');
+		if(responseJson['error'] == true){
+			alert(responseJson['message']);
+		}else{
+			updateOrderDetailsForUpdatedData = responseJson;
+			//alert('dataparse : '+$.parseJSON(tailorDetailsJsonData));
+			//alert('tailorDetailsJsonData : '+tailorDetailsJsonData);
+			// FIXME CHECK JSON DATA
+			db.transaction(updateOrderDetailsForUpdatedFn, errorCBOrderDetails, successCBOrderDetailsForUpdateFn);
+			
+		}
 	}
 	
 	function updateOrderDetailsForUpdatedFn(tx) {
@@ -5806,7 +5871,7 @@ function successCBUpdateCustomerSyncDB(){
 	
 	function downloadFileTestFn(type) {
 		var File_Name='product_5_582ea8c053c3b.jpg';
-		var URL='http://tailorapp.tailorrani.com/images\/Products\/product_image' + '/' + File_Name;
+		var URL=appUrlMain+'images\/Products\/product_image' + '/' + File_Name;
 		var Folder_Name="galleryTest";
 		downloadFileValidatorFn(URL, Folder_Name, File_Name, type);
 	}
