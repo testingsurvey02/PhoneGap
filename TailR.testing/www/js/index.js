@@ -961,10 +961,10 @@ function getTailorDetailsFromLocal(){
 		tailorDetailsObj.enable_img_download = "true";
 		tailorDetailsSession = tailorDetailsObj;
 		if(tailorDetailsSession.enable_img_download == "0"){
-			$('#downloadEnable').prop("disabled",false);
+			$('#downloadEnable').show();
 		}else{
 			console.log(tailorDetailsSession.enable_img_download);
-			$('#downloadEnable').prop("disabled",true);
+			$('#downloadEnable').hide();
 		}
 		getCategoriesListFromLocal();
 		return;
@@ -1018,9 +1018,9 @@ function successCBTailorDetailsListDB() {
 			syncTailorDetails = true;
 		}else{
 			if(tailorDetailsSession.enable_img_download == "0"){
-				$('#downloadEnable').prop("disabled",false);
+				$('#downloadEnable').show();
 			}else{
-				$('#downloadEnable').prop("disabled",true);
+				$('#downloadEnable').hide();
 			}
 			console.log('Tailor Details successfully got');
 			deleteRecordStatus = 0;
@@ -3272,10 +3272,10 @@ function successCBUpdateCustomerSyncDB(){
 		$('#mainPageId').empty();
 		$('#mainPageId').append(categoryDiv);
 		$('#mainPageId').append(subCategoryDiv);
-		$('#mainPageId').append('<div class="row hrBarCatClass"> <hr></div>');
+		//$('#mainPageId').append('<div class="row hrBarCatClass"></div>');
 		$('#mainPageId').append('<div class="row product-list">	</div>');
-		$('#mainPageId .product-list').append('<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 text-align-class homePageViewLogoClass">	<div class="box"><div class="row"><div class="col-lg-12 col-md-12 col-sm-12 col-xs-12"><img alt="logo" src="img/tailorrani_logo.png"></div></div></div></div>');
-		$('#mainPageId .product-list').append("<div class='col-lg-12 col-md-12 col-sm-12 col-xs-12 text-align-class viewTextHomePageViewClass'> <div class='box'>	<div class='row'><div class='col-lg-12 col-md-12 col-sm-12 col-xs-12'><h3>About Tailor Rani</h3><p>We provide tailoring services at your finger tips and door steps with quality, affordability in all aspects. We provide measure to made services to the customers. It perfectly fits.We are Makers of Custom Handmade Tailored Dresses. We understand 'You cannot tailor make the situation in life, but you can tailor-make the attitudes and dress to fit those every occassions'.</p>	</div> </div></div>	</div>");
+		$('#mainPageId .product-list').append('<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 text-align-class homePageViewLogoClass">	<div class="box"><div class="row"><div class="col-lg-12 col-md-12 col-sm-12 col-xs-12"><img alt="logo" src="img/Background1.png"></div></div></div></div>');
+		//$('#mainPageId .product-list').append("<div class='col-lg-12 col-md-12 col-sm-12 col-xs-12 text-align-class viewTextHomePageViewClass'> <div class='box'>	<div class='row'><div class='col-lg-12 col-md-12 col-sm-12 col-xs-12'><h3>About Tailor Rani</h3><p>We provide tailoring services at your finger tips and door steps with quality, affordability in all aspects. We provide measure to made services to the customers. It perfectly fits.We are Makers of Custom Handmade Tailored Dresses. We understand 'You cannot tailor make the situation in life, but you can tailor-make the attitudes and dress to fit those every occassions'.</p>	</div> </div></div>	</div>");
 		//$( categoryDiv ).insertBefore( "#mainPageId .hrBarCatClass" );
 		//$( subCategoryDiv ).insertBefore( "#mainPageId .hrBarCatClass" );
 		$('#mainPageId').find('.sub-menu').hide();
