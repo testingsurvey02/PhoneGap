@@ -4642,7 +4642,7 @@ function successCBUpdateCustomerSyncDB(){
 				url: apiCallUrl,
 				data : dataToSend,
 				success: successCBTailorDetailsFn,
-				error: commonErrorCallback
+				error: commonErrorCBTailorFn
 			});
 		}
 		else{
@@ -4659,6 +4659,12 @@ function successCBUpdateCustomerSyncDB(){
 		//alert('tailorDetailsJsonData : '+tailorDetailsJsonData);
 		// FIXME CHECK JSON DATA
 		db.transaction(insertTailorDetailsDetails, errorCBInsertTailorDetailsDetails, successCBInsertTailorDetailsDetails);
+	}
+	
+	function commonErrorCBTailorFn(err){
+	    hideModal();
+		var responseData = $.parseJSON(JSON.stringify(err));
+		alert(responseData);
 	}
 	
 	function successCBInsertTailorDetailsDetails() {
