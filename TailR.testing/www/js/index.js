@@ -1,5 +1,5 @@
 // For Testing in Browser
-/*
+
 $(function() {
 	if(testingInternet){
 		getTailorDetailsDataFromServer();
@@ -11,7 +11,7 @@ $(function() {
 	loadDataFromServer();
 });
 
-*/
+
 $( document ).on( "mobileinit", function() {
     // Make your jQuery Mobile framework configuration changes here!
 	 $.support.cors = true;
@@ -65,10 +65,10 @@ $(document).delegate('.image-download', 'taphold', function () {
 
 var connectionType;
 var appName='CTR';
-var testingInBrowser=false;// For Testing
+var testingInBrowser=true;// For Testing
 var testingInternet = false;
 var loginUserId;
-var dataIsFromServer = 0;
+var dataIsFromServer = 1;
 var measurementTypeDiv = 0;
 var orderMeasurementDiv = 0;
 var customerTypeDiv = 0;
@@ -857,7 +857,7 @@ function initializeDB(tx) {
 	tx.executeSql('CREATE TABLE IF NOT EXISTS measurement_details (id integer primary key autoincrement, name text, server_measurement_id integer, status integer, update_timestamp text, group_data text)');
 	tx.executeSql('CREATE TABLE IF NOT EXISTS customer_details (id integer primary key autoincrement,name text, total_price text, advance_price text, balance_price text, update_timestamp text, contact_number text, email_id text, country text, state text, city text, pincode text, address_one text, address_two text, sync_date text, sync_status integer, cust_server_id integer)');
 	tx.executeSql('CREATE TABLE IF NOT EXISTS order_details(id integer primary key autoincrement, server_cat_id integer, cat_name text, server_prod_id integer, order_data text,update_timestamp text, server_prod_name text,customer_id integer, option_selected text, status_of_order text, gallery_id integer, gallery_name text, sync_date text, sync_status integer, order_server_id integer, order_date text, order_delivery_date text, is_deleted integer)');
-	tx.executeSql('CREATE TABLE IF NOT EXISTS tailor_details (id integer primary key autoincrement, server_td_id integer, first_name text, middle_name text, last_name text, business_title text, address1 text, address2 text, email text, contact1 text, contact2 text, secret_key text, tailor_status integer, city text, pincode text, state_id integer, country_id integer, state_name text, country_name text, update_timestamp text)');
+	tx.executeSql('CREATE TABLE IF NOT EXISTS tailor_details (id integer primary key autoincrement, server_td_id integer, first_name text, middle_name text, last_name text, business_title text, address1 text, address2 text, email text, contact1 text, contact2 text, secret_key text, tailor_status integer, city text, pincode text, state_id integer, country_id integer, state_name text, country_name text, update_timestamp text, enable_img_download text)');
 	tx.executeSql('CREATE TABLE IF NOT EXISTS static_details (id integer primary key autoincrement, server_sd_id integer, name text, identifier text, data text, update_timestamp text)');
 	tx.executeSql('CREATE TABLE IF NOT EXISTS attr_images (id integer primary key autoincrement, attr_id integer, server_img_id integer, name text, image text, status text, sort_order text, download_status integer, update_timestamp text)');
 	tx.executeSql('CREATE TABLE IF NOT EXISTS gallery_images (id integer primary key autoincrement, prod_id integer, server_gall_id integer, image text, download_status integer, update_timestamp text)');
@@ -897,34 +897,41 @@ function errorCB(err) {
 function insertTailorDetailsDetails(tx) {
 	var currDateTimestamp="";
 	currDateTimestamp=dateTimestamp();
-	tx.executeSql('CREATE TABLE IF NOT EXISTS tailor_details (id integer primary key autoincrement, server_td_id integer, first_name text, middle_name text, last_name text, business_title text, address1 text, address2 text, email text, contact1 text, contact2 text, secret_key text, tailor_status integer, city text, pincode text, state_id integer, country_id integer, state_name text, country_name text, update_timestamp text)');
+	tx.executeSql('CREATE TABLE IF NOT EXISTS tailor_details (id integer primary key autoincrement, server_td_id integer, first_name text, middle_name text, last_name text, business_title text, address1 text, address2 text, email text, contact1 text, contact2 text, secret_key text, tailor_status integer, city text, pincode text, state_id integer, country_id integer, state_name text, country_name text, update_timestamp text, enable_img_download text)');
 	//console.log('insertTailorDetailsDetails tailorDetailsJsonData '+tailorDetailsJsonData);	
 	var jsonTempData = tailorDetailsJsonData;
-		var tailor_details_id = jsonTempData["id"];
-		var first_name = jsonTempData["first_name"];
-		var last_name = jsonTempData["last_name"];
-		var middle_name = jsonTempData["middle_name"];
-		var business_title = jsonTempData["business_title"];
-		var address1 = jsonTempData["address1"];
-		var address2 = jsonTempData["address2"];
-		var tailemail = jsonTempData["email"];
-		var contact1 = jsonTempData["contact1"];
-		var contact2 = jsonTempData["contact2"];
-		var secret_key = jsonTempData["secret_key"];
-		var tailor_status = jsonTempData["status"];
-		var city = jsonTempData["city"];
-		var pincode = jsonTempData["pincode"];
-		var state_id = jsonTempData["state_id"];
-		var country_id = jsonTempData["country_id"];
-		var state_name = jsonTempData["state_name"];
-		var country_name = jsonTempData["country_name"];
-		var update_timestamp = currDateTimestamp;
-		
-		tx.executeSql('INSERT INTO tailor_details(server_td_id, first_name, middle_name, last_name, business_title, address1, address2, email, contact1, contact2, secret_key, tailor_status, city, pincode, state_id, country_id, state_name, country_name, update_timestamp) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)',
-   	    			[tailor_details_id, first_name,last_name, middle_name, business_title, address1, address2, tailemail, contact1, contact2, secret_key, tailor_status, city, pincode, state_id, country_id, state_name, country_name, update_timestamp], function(tx, res) {
-	   	         //console.log("Tailor Details Data insertId: " + res.insertId + " -- res.rowsAffected 1"+res.rowsAffected);
-  	    });
+	var tailor_details_id = jsonTempData["id"];
+	var first_name = jsonTempData["first_name"];
+	var last_name = jsonTempData["last_name"];
+	var middle_name = jsonTempData["middle_name"];
+	var business_title = jsonTempData["business_title"];
+	var address1 = jsonTempData["address1"];
+	var address2 = jsonTempData["address2"];
+	var tailemail = jsonTempData["email"];
+	var contact1 = jsonTempData["contact1"];
+	var contact2 = jsonTempData["contact2"];
+	var secret_key = jsonTempData["secret_key"];
+	var tailor_status = jsonTempData["status"];
+	var city = jsonTempData["city"];
+	var pincode = jsonTempData["pincode"];
+	var state_id = jsonTempData["state_id"];
+	var country_id = jsonTempData["country_id"];
+	var state_name = jsonTempData["state_name"];
+	var country_name = jsonTempData["country_name"];
+	var enable_img_download = jsonTempData['enable_img_download']
+	var update_timestamp = currDateTimestamp;
 	
+	tx.executeSql('select * from tailor_details' ,[],function(tx,results){
+		var len = 0;
+		len = results.rows.length;
+		if(len > 0){
+			tx.executeSql("UPDATE tailor_details SET enable_img_download = '" + enable_img_download + "', update_timestamp = '"+update_timestamp+"' WHERE server_td_id = " + tailor_details_id + "");
+		}else{
+			tx.executeSql('INSERT INTO tailor_details(server_td_id, first_name, middle_name, last_name, business_title, address1, address2, email, contact1, contact2, secret_key, tailor_status, city, pincode, state_id, country_id, state_name, country_name, update_timestamp, enable_img_download) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)',
+   	    			[tailor_details_id, first_name,last_name, middle_name, business_title, address1, address2, tailemail, contact1, contact2, secret_key, tailor_status, city, pincode, state_id, country_id, state_name, country_name, update_timestamp, enable_img_download], function(tx, res) {
+			});
+		}
+	});
 }
 
 function getTailorDetailsFromLocal(){
@@ -950,14 +957,22 @@ function getTailorDetailsFromLocal(){
 		tailorDetailsObj.state_name = "Maharastra";
 		tailorDetailsObj.country_name = "India";
 		tailorDetailsObj.update_timestamp = "1";
+		tailorDetailsObj.enable_img_download = "true";
 		tailorDetailsSession = tailorDetailsObj;
-		
+		console.log('tailorDetailsSession : '+tailorDetailsSession);
+		console.log('tailorDetailsSession downloadEnable : '+tailorDetailsSession.enable_img_download);
+		if(tailorDetailsSession.enable_img_download == "true" || tailorDetailsSession.enable_img_download == true){
+			$('#downloadEnable').prop("disabled",false);
+		}else{
+			console.log(tailorDetailsSession.enable_img_download);
+			$('#downloadEnable').prop("disabled",true);
+		}
 		getCategoriesListFromLocal();
 		return;
 	}
 	
 	db.transaction(	function (tx){
-		tx.executeSql('CREATE TABLE IF NOT EXISTS tailor_details (id integer primary key autoincrement, server_td_id integer, first_name text, middle_name text, last_name text, business_title text, address1 text, address2 text, email text, contact1 text, contact2 text, secret_key text, tailor_status integer, city text, pincode text, state_id integer, country_id integer, state_name text, country_name text, update_timestamp text)');
+		tx.executeSql('CREATE TABLE IF NOT EXISTS tailor_details (id integer primary key autoincrement, server_td_id integer, first_name text, middle_name text, last_name text, business_title text, address1 text, address2 text, email text, contact1 text, contact2 text, secret_key text, tailor_status integer, city text, pincode text, state_id integer, country_id integer, state_name text, country_name text, update_timestamp text, enable_img_download text)');
 		var len = 0;
 			tx.executeSql('select * from tailor_details ',[],function(tx,results){
 					len = results.rows.length;
@@ -985,6 +1000,7 @@ function getTailorDetailsFromLocal(){
 							tailorDetailsObj.state_name = results.rows.item(i)['state_name'];
 							tailorDetailsObj.country_name = results.rows.item(i)['country_name'];
 							tailorDetailsObj.update_timestamp = results.rows.item(i)['update_timestamp'];
+							tailorDetailsObj.enable_img_download = results.rows.item(i)['enable_img_download'];
 							tailorDetailsSession = tailorDetailsObj;
 						}
 					}
@@ -995,6 +1011,11 @@ function getTailorDetailsFromLocal(){
 }
 
 function successCBTailorDetailsListDB() {
+	if(tailorDetailsSession.enable_img_download == "true" || tailorDetailsSession.enable_img_download == true){
+		$('#downloadEnable').prop("disabled",false);
+	}else{
+		$('#downloadEnable').prop("disabled",true);
+	}
 	console.log('Tailor Details successfully got');
 	deleteRecordStatus = 0;
 	checkCategoryInLocalDB();
@@ -1131,6 +1152,7 @@ function insertCategories(arrData) {
 
 function successCBInsertCategories() {
 	//console.log(' category Successfully Inserted ');
+	dataHasSyncSendReport('categories_sync');
 	var productDiv = '';
 	if(dataExist){
 		productDiv = '<p> Product Data Syncing </p>';
@@ -1312,6 +1334,7 @@ function errorCBProdLocalDB(err) {
 }
 
 function successCBInsertProductDetails() {
+	dataHasSyncSendReport('products_sync');
 	var attributeDiv = '';
 	window.localStorage["productimgflag"] = 0;
 	if(dataExist){
@@ -1630,6 +1653,7 @@ function errorCBAttrListDB(err) {
 }
 
 function successCBInsertAttributeDetails() {
+	dataHasSyncSendReport('attributes_sync');
 	var measurementDiv = '';
 	if(dataExist){
 		measurementDiv = '<p> Measurement Data Syncing </p>';
@@ -2128,6 +2152,7 @@ function deleteChildArraysByMethods(){
 	}else if(needToDeleteInJSonArrayMeasuGroup.length == 0 && needToDeleteInJsonArrayProductGall.length == 0 && 
 			needToDeleteInJsonArrayAttrOptions.length == 0 && needToDeleteInJSonArrayMeasurements.length == 0){
 		if(callCategoryFunctionIndex == 0){
+			dataHasSyncSendReport('deleted_sync');
 			getCategoriesListFromLocal();
 			callCategoryFunctionIndex ++;
 			var deleteRecordsDiv = '';
@@ -2914,7 +2939,7 @@ function successCBUpdateCustomerSyncDB(){
 	   // console.log(tablename);
 	    db.transaction(function(tx) {
 	    	if(tablename == 'tailor_details'){
-	    		tx.executeSql('CREATE TABLE IF NOT EXISTS tailor_details (id integer primary key autoincrement, server_td_id integer, first_name text, middle_name text, last_name text, business_title text, address1 text, address2 text, email text, contact1 text, contact2 text, secret_key text, tailor_status integer, city text, pincode text, state_id integer, country_id integer, state_name text, country_name text, update_timestamp text)');
+	    		tx.executeSql('CREATE TABLE IF NOT EXISTS tailor_details (id integer primary key autoincrement, server_td_id integer, first_name text, middle_name text, last_name text, business_title text, address1 text, address2 text, email text, contact1 text, contact2 text, secret_key text, tailor_status integer, city text, pincode text, state_id integer, country_id integer, state_name text, country_name text, update_timestamp text, enable_img_download text)');
 	    	}else if(tablename == 'category'){
 	    		tx.executeSql('CREATE TABLE IF NOT EXISTS category(id integer primary key autoincrement, server_cat_id integer, parent_id integer,name text,update_timestamp text, description text, catImage text, catStatus integer, children text, sort_order text)');
 	    	}
@@ -2926,7 +2951,8 @@ function successCBUpdateCustomerSyncDB(){
 	          if(parseInt(recordCount) > 0){
 	        	  if(tablename == 'tailor_details'){
 	        		  //console.log('getTailorDetailsFromLocal');
-	        		  getTailorDetailsFromLocal();
+	        		  //getTailorDetailsFromLocal();
+	        		  getTailorDetailsDataFromServer();
 	        	  }else if(tablename == 'category'){
 	        		  //console.log('getCategoriesListFromLocal');
 	        		  getCategoriesListFromLocal();
@@ -2985,7 +3011,7 @@ function successCBUpdateCustomerSyncDB(){
 				console.log('connectionType Inside : '+dataSyncTypeTailor);
 				if(type == dataSyncTypeTailor){
 					db.transaction(function(tx) {
-						tx.executeSql('CREATE TABLE IF NOT EXISTS tailor_details (id integer primary key autoincrement, server_td_id integer, first_name text, middle_name text, last_name text, business_title text, address1 text, address2 text, email text, contact1 text, contact2 text, secret_key text, tailor_status integer, city text, pincode text, state_id integer, country_id integer, state_name text, country_name text, update_timestamp text)');
+						tx.executeSql('CREATE TABLE IF NOT EXISTS tailor_details (id integer primary key autoincrement, server_td_id integer, first_name text, middle_name text, last_name text, business_title text, address1 text, address2 text, email text, contact1 text, contact2 text, secret_key text, tailor_status integer, city text, pincode text, state_id integer, country_id integer, state_name text, country_name text, update_timestamp text, enable_img_download text)');
 						tx.executeSql('select count(*) as mycount from tailor_details ', [], function(tx, rs) {
 							 var recordCount = 0;
 					          recordCount = rs.rows.item(0).mycount;
@@ -3022,7 +3048,7 @@ function successCBUpdateCustomerSyncDB(){
 			else if(connectionType=="WiFi connection" || connectionType=="Cell 4G connection" || connectionType=="Cell 3G connection" || connectionType=="Cell 2G connection"){
 				if(type == dataSyncTypeTailor){
 					db.transaction(function(tx) {
-						tx.executeSql('CREATE TABLE IF NOT EXISTS tailor_details (id integer primary key autoincrement, server_td_id integer, first_name text, middle_name text, last_name text, business_title text, address1 text, address2 text, email text, contact1 text, contact2 text, secret_key text, tailor_status integer, city text, pincode text, state_id integer, country_id integer, state_name text, country_name text, update_timestamp text)');
+						tx.executeSql('CREATE TABLE IF NOT EXISTS tailor_details (id integer primary key autoincrement, server_td_id integer, first_name text, middle_name text, last_name text, business_title text, address1 text, address2 text, email text, contact1 text, contact2 text, secret_key text, tailor_status integer, city text, pincode text, state_id integer, country_id integer, state_name text, country_name text, update_timestamp text, enable_img_download text)');
 						tx.executeSql('select count(*) as mycount from tailor_details ', [], function(tx, rs) {
 							 var recordCount = 0;
 					          recordCount = rs.rows.item(0).mycount;
@@ -3151,7 +3177,7 @@ function successCBUpdateCustomerSyncDB(){
 		}
 		$('.appendStatusDiv').append(categoryDiv);
 		insertCategories(categoriesJsonData);
-		//dataHasSyncSendReport('categories_sync');
+		
 	}
 	
 	function dataHasSyncSendReport(type){
@@ -3388,7 +3414,7 @@ function successCBUpdateCustomerSyncDB(){
 		}
 		$('.appendStatusDiv').append(productDiv);
 		db.transaction(insertProductDetails, errorCBInsertProductDetails, successCBInsertProductDetails);
-		//dataHasSyncSendReport('products_sync');
+		//
 	}
 	
 	function getAttributesDataFromServer(){
@@ -3426,7 +3452,7 @@ function successCBUpdateCustomerSyncDB(){
 		}
 		$('.appendStatusDiv').append(attributeDiv);
 		db.transaction(insertAttributesDetails, errorCBInsertAttributeDetails, successCBInsertAttributeDetails);
-		//dataHasSyncSendReport('attributes_sync');
+		//
 	}
 	
 	function getAttrImagesDataFromServer(){
@@ -4405,11 +4431,12 @@ function successCBUpdateCustomerSyncDB(){
 		}
 		$('.appendStatusDiv').append(measurementDiv);
 		db.transaction(insertMeasurementsDetails, errorCBInsertMeasurementDetails, successCBInsertMeasurementDetails);
-		//dataHasSyncSendReport('measurements_sync');
+		//
 	}
 	
 	function successCBInsertMeasurementDetails() {
 		/*if(deleteRecordStatus == 0){*/
+		dataHasSyncSendReport('measurements_sync');
 		var staticDiv = '';
 		if(dataExist){
 			staticDiv = '<p> Static Data Syncing </p>';
@@ -4465,7 +4492,6 @@ function successCBUpdateCustomerSyncDB(){
 		}
 		$('.appendStatusDiv').append(staticDiv);
 		db.transaction(insertStaticDetails, errorCBInsertStaticDetails, successCBInsertStaticDetails);
-		//dataHasSyncSendReport('measurements_sync');
 	}
 	
 	function successCBInsertStaticDetails() {
@@ -4517,7 +4543,6 @@ function successCBUpdateCustomerSyncDB(){
 		}
 		$('.appendStatusDiv').append(deleteRecordsDiv);
 		deleteRecordsFromLocalDB();
-		//dataHasSyncSendReport('deleted_sync');
 	}
 	
 	function errorCBDeleteInDBServerFn(err){
