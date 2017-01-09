@@ -67,6 +67,7 @@ var connectionType;
 var appName='CTR';
 var testingInBrowser=false;// For Testing
 var testingInternet = false;
+var syncTailorDetails = false;
 var loginUserId;
 var dataIsFromServer = 0;
 var measurementTypeDiv = 0;
@@ -900,7 +901,6 @@ function insertTailorDetailsDetails(tx) {
 	tx.executeSql('CREATE TABLE IF NOT EXISTS tailor_details (id integer primary key autoincrement, server_td_id integer, first_name text, middle_name text, last_name text, business_title text, address1 text, address2 text, email text, contact1 text, contact2 text, secret_key text, tailor_status integer, city text, pincode text, state_id integer, country_id integer, state_name text, country_name text, update_timestamp text, enable_img_download text)');
 	//console.log('insertTailorDetailsDetails tailorDetailsJsonData '+tailorDetailsJsonData);	
 	var jsonTempData = tailorDetailsJsonData;
-	console.log(jsonTempData);
 	var tailor_details_id = jsonTempData["id"];
 	var first_name = jsonTempData["first_name"];
 	var last_name = jsonTempData["last_name"];
@@ -1013,6 +1013,14 @@ function getTailorDetailsFromLocal(){
 }
 
 function successCBTailorDetailsListDB() {
+	connectionType = checkConnection();
+	if(connectionType=="WiFi connection" || connectionType=="Cell 4G connection" || connectionType=="Cell 3G connection" || connectionType=="Cell 2G connection"){
+		if(syncTailorDetails == false){
+			loginUserId = tailorDetailsSession.secret_key;
+			getTailorDetailsDataFromServer();
+			syncTailorDetails = true;
+		}
+	}
 	if(tailorDetailsSession.enable_img_download == "0"){
 		$('#downloadEnable').prop("disabled",false);
 	}else{
@@ -3055,8 +3063,7 @@ function successCBUpdateCustomerSyncDB(){
 							 var recordCount = 0;
 					          recordCount = rs.rows.item(0).mycount;
 					          if(parseInt(recordCount) > 0){
-					        	  getTailorDetailsDataFromServer();
-					        	  //getTailorDetailsFromLocal();
+					        	  getTailorDetailsFromLocal();
 					          }else{
 					        	  loginUserId = $('#username').val();
 					        	  //console.log('Test LOGIN ID : '+loginUserId);
