@@ -918,7 +918,8 @@ function insertTailorDetailsDetails(tx) {
 	var country_id = jsonTempData["country_id"];
 	var state_name = jsonTempData["state_name"];
 	var country_name = jsonTempData["country_name"];
-	var enable_img_download = jsonTempData['enable_img_download']
+	var enable_img_download = jsonTempData['enable_img_download'];
+	console.log("enable_img_download  -- jsonTempData['enable_img_download'] : "+ jsonTempData['enable_img_download']);
 	var update_timestamp = currDateTimestamp;
 	
 	tx.executeSql('select * from tailor_details' ,[],function(tx,results){
