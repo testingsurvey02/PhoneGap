@@ -284,6 +284,7 @@ var app = {
     onDeviceReady: function() {
         document.addEventListener("backbutton", onBackKeyDown, false);
         mobileUUID = device.uuid;
+        console.log(mobileUUID);
         if(window.localStorage["gcmregistrationId"] === undefined ) {
 			window.localStorage["gcmregistrationId"] = "";
 		}
