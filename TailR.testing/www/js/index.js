@@ -1011,7 +1011,7 @@ function getTailorDetailsFromLocal(){
 }
 
 function successCBTailorDetailsListDB() {
-	if(tailorDetailsSession.enable_img_download == "true" || tailorDetailsSession.enable_img_download == true){
+	if(tailorDetailsSession.enable_img_download == "0"){
 		$('#downloadEnable').prop("disabled",false);
 	}else{
 		$('#downloadEnable').prop("disabled",true);
