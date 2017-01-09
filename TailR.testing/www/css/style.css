@@ -213,7 +213,7 @@ img.product-image{}
 .homePageViewLogoClass{
 	  background-color: black;
     margin: 0;
-    padding: 30px !important;
+    padding: 30px 30px 100px!important;
 }
 .homePageViewLogoClass img{
 	width: 100%;
