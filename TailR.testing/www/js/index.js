@@ -961,7 +961,7 @@ function getTailorDetailsFromLocal(){
 		tailorDetailsSession = tailorDetailsObj;
 		console.log('tailorDetailsSession : '+tailorDetailsSession);
 		console.log('tailorDetailsSession downloadEnable : '+tailorDetailsSession.enable_img_download);
-		if(tailorDetailsSession.enable_img_download == "true" || tailorDetailsSession.enable_img_download == true){
+		if(tailorDetailsSession.enable_img_download == "0"){
 			$('#downloadEnable').prop("disabled",false);
 		}else{
 			console.log(tailorDetailsSession.enable_img_download);
