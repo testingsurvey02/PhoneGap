@@ -3019,7 +3019,7 @@ function successCBUpdateCustomerSyncDB(){
 					          console.log('connectionType Inside : '+recordCount);
 					          if(parseInt(recordCount) > 0){
 					        	  console.log('connectionType Inside : calling TailorDetails');
-					        	  getTailorDetailsFromLocal();
+					        	  //getTailorDetailsFromLocal();
 					          }else{
 					        	  hideModal();
 					        	  alert('Please connect the Internet.');
@@ -3054,7 +3054,8 @@ function successCBUpdateCustomerSyncDB(){
 							 var recordCount = 0;
 					          recordCount = rs.rows.item(0).mycount;
 					          if(parseInt(recordCount) > 0){
-					        	  getTailorDetailsFromLocal();
+					        	  getTailorDetailsDataFromServer();
+					        	  //getTailorDetailsFromLocal();
 					          }else{
 					        	  loginUserId = $('#username').val();
 					        	  //console.log('Test LOGIN ID : '+loginUserId);
