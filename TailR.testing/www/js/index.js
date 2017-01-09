@@ -127,6 +127,7 @@ var totalAttrOptImages = 0;
 var downloadedAttrOptImages = 0;
 var notDownloadedAttrOptImages = 0;
 var dataExist = false;
+var mobileUUID = '';
 
 var rightPanelObj = '<div id="menu-wrapper">'+
 							'<div class="menu-title">'+
@@ -282,7 +283,7 @@ var app = {
     // Phonegap is now ready...
     onDeviceReady: function() {
         document.addEventListener("backbutton", onBackKeyDown, false);
-        
+        mobileUUID = device.uuid;
         if(window.localStorage["gcmregistrationId"] === undefined ) {
 			window.localStorage["gcmregistrationId"] = "";
 		}
@@ -3156,6 +3157,7 @@ function successCBUpdateCustomerSyncDB(){
 	function getCategoriesDataFromServer(){
 		var dataToSend = {};
 		dataToSend["secret_key"] = tailorDetailsSession.secret_key;
+		dataToSend["uuid"] = mobileUUID;
 		var apiCallUrl="http://tailorapp.tailorrani.com/api/categories/categoriesJson"
 		connectionType=checkConnection();
 		if(connectionType=="Unknown connection" || connectionType=="No network connection"){
@@ -3194,6 +3196,7 @@ function successCBUpdateCustomerSyncDB(){
 		var dataToSend = {};
 		dataToSend["secret_key"] = tailorDetailsSession.secret_key;
 		dataToSend["sync_type"] = type;
+		dataToSend["uuid"] = mobileUUID;
 		var apiCallUrl="http://tailorapp.tailorrani.com/api/tailors/syncupdateJson"
 		connectionType=checkConnection();
 		if(connectionType=="Unknown connection" || connectionType=="No network connection"){
@@ -3392,6 +3395,7 @@ function successCBUpdateCustomerSyncDB(){
 	function getProductDataFromServer(){
 		var dataToSend = {};
 		dataToSend["secret_key"] = tailorDetailsSession.secret_key;
+		dataToSend["uuid"] = mobileUUID;
 		var apiCallUrl="http://tailorapp.tailorrani.com/api/products/productsJson"
 		connectionType=checkConnection();
 		if(connectionType=="Unknown connection" || connectionType=="No network connection"){
@@ -3430,6 +3434,7 @@ function successCBUpdateCustomerSyncDB(){
 	function getAttributesDataFromServer(){
 		var dataToSend = {};
 		dataToSend["secret_key"] = tailorDetailsSession.secret_key;
+		dataToSend["uuid"] = mobileUUID;
 		var apiCallUrl="http://tailorapp.tailorrani.com/api/attributes/attributesJson"
 		connectionType=checkConnection();
 		if(connectionType=="Unknown connection" || connectionType=="No network connection"){
@@ -3468,6 +3473,7 @@ function successCBUpdateCustomerSyncDB(){
 	function getAttrImagesDataFromServer(){
 		var dataToSend = {};
 		dataToSend["secret_key"] = tailorDetailsSession.secret_key;
+		dataToSend["uuid"] = mobileUUID;
 		var apiCallUrl="http://tailorapp.tailorrani.com/api/attributes/attributeimagesJson"
 		connectionType=checkConnection();
 		if(connectionType=="Unknown connection" || connectionType=="No network connection"){
@@ -3512,6 +3518,7 @@ function successCBUpdateCustomerSyncDB(){
 	function getGalleryImagesDataFromServer(){
 		var dataToSend = {};
 		dataToSend["secret_key"] = tailorDetailsSession.secret_key;
+		dataToSend["uuid"] = mobileUUID;
 		var apiCallUrl="http://tailorapp.tailorrani.com/api/products/productsimagesJson"
 		connectionType=checkConnection();
 		if(connectionType=="Unknown connection" || connectionType=="No network connection"){
@@ -4410,6 +4417,7 @@ function successCBUpdateCustomerSyncDB(){
 	function getMeasurementsDataFromServer(){
 		var dataToSend = {};
 		dataToSend["secret_key"] = tailorDetailsSession.secret_key;
+		dataToSend["uuid"] = mobileUUID;
 		var apiCallUrl="http://tailorapp.tailorrani.com/api/measurements/measurementsJson"
 		connectionType=checkConnection();
 		if(connectionType=="Unknown connection" || connectionType=="No network connection"){
@@ -4471,6 +4479,7 @@ function successCBUpdateCustomerSyncDB(){
 	function getStaticDataFromServer(){
 		var dataToSend = {};
 		dataToSend["secret_key"] = tailorDetailsSession.secret_key;
+		dataToSend["uuid"] = mobileUUID;
 		var apiCallUrl="http://tailorapp.tailorrani.com/api/static/staticJson"
 		connectionType=checkConnection();
 		if(connectionType=="Unknown connection" || connectionType=="No network connection"){
@@ -4524,6 +4533,7 @@ function successCBUpdateCustomerSyncDB(){
 	function getDataToDeleteInLocalDBFromServer(){
 		var dataToSend = {};
 		dataToSend["secret_key"] = tailorDetailsSession.secret_key;
+		dataToSend["uuid"] = mobileUUID;
 		var apiCallUrl="http://tailorapp.tailorrani.com/api/deleted/deletedinfoJson"
 		connectionType=checkConnection();
 		if(connectionType=="Unknown connection" || connectionType=="No network connection"){
@@ -4631,7 +4641,7 @@ function successCBUpdateCustomerSyncDB(){
 	function getTailorDetailsDataFromServer(){
 		var dataToSend = {};
 		dataToSend["secret_key"] = loginUserId;
-		console.log(dataToSend);
+		dataToSend["uuid"] = mobileUUID;
 		var apiCallUrl="http://tailorapp.tailorrani.com/api/tailors/tailorinfoJson"
 		connectionType=checkConnection();
 		if(connectionType=="Unknown connection" || connectionType=="No network connection"){
@@ -5418,6 +5428,7 @@ function successCBUpdateCustomerSyncDB(){
 		var dataToSend = {};
 		dataToSend["secret_key"] = tailorDetailsSession.secret_key;
 		dataToSend["tailor_id"] = tailorDetailsSession.tailor_details_id;
+		dataToSend["uuid"] = mobileUUID;
 		dataToSend["customers"] = JSON.stringify(sendCustomerDataToSaveInServer);
 		//console.log(sendCustomerDataToSaveInServer); // For Testing
 		//console.log(dataToSend); // For Testing
@@ -5483,6 +5494,7 @@ function successCBUpdateCustomerSyncDB(){
 		
 		dataToSend["secret_key"] = tailorDetailsSession.secret_key;
 		dataToSend["tailor_id"] = tailorDetailsSession.tailor_details_id;
+		dataToSend["uuid"] = mobileUUID;
 		dataToSend["customers"] = JSON.stringify(sendCustomerDataToUpdateInServer);
 		
 		var appurltemps="http://tailorapp.tailorrani.com/api/customers/updateJson"
@@ -5561,6 +5573,7 @@ function successCBUpdateCustomerSyncDB(){
 		
 		dataToSend["secret_key"] = tailorDetailsSession.secret_key;
 		dataToSend["tailor_id"] = tailorDetailsSession.tailor_details_id;
+		dataToSend["uuid"] = mobileUUID;
 		dataToSend["orders"] = JSON.stringify(sendOrderDataToSaveInServer);
 		//console.log(dataToSend); // For Testing
 		var appurltemps="http://tailorapp.tailorrani.com/api/orders/storejson"
@@ -5657,6 +5670,7 @@ function successCBUpdateCustomerSyncDB(){
     	
     	dataToSend["secret_key"] = tailorDetailsSession.secret_key;
 		dataToSend["tailor_id"] = tailorDetailsSession.tailor_details_id;
+		dataToSend["uuid"] = mobileUUID;
 		dataToSend["orders"] = JSON.stringify(sendOrderDataToUpdateInServer);
 		//console.log('sendOrderDetailsToUpdateInServer data '+sendOrderDataToUpdateInServer); // For Testing
 		//console.log('dataToSend Order '+JSON.stringify(dataToSend)); // For Testing
