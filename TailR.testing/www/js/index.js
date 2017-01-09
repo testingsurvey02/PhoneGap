@@ -4631,6 +4631,7 @@ function successCBUpdateCustomerSyncDB(){
 	function getTailorDetailsDataFromServer(){
 		var dataToSend = {};
 		dataToSend["secret_key"] = loginUserId;
+		console.log(dataToSend);
 		var apiCallUrl="http://tailorapp.tailorrani.com/api/tailors/tailorinfoJson"
 		connectionType=checkConnection();
 		if(connectionType=="Unknown connection" || connectionType=="No network connection"){
@@ -4642,7 +4643,7 @@ function successCBUpdateCustomerSyncDB(){
 				url: apiCallUrl,
 				data : dataToSend,
 				success: successCBTailorDetailsFn,
-				error: commonErrorCBTailorFn
+				error: commonErrorCallback
 			});
 		}
 		else{
@@ -4659,12 +4660,6 @@ function successCBUpdateCustomerSyncDB(){
 		//alert('tailorDetailsJsonData : '+tailorDetailsJsonData);
 		// FIXME CHECK JSON DATA
 		db.transaction(insertTailorDetailsDetails, errorCBInsertTailorDetailsDetails, successCBInsertTailorDetailsDetails);
-	}
-	
-	function commonErrorCBTailorFn(err){
-	    hideModal();
-		var responseData = $.parseJSON(JSON.stringify(err));
-		alert(responseData);
 	}
 	
 	function successCBInsertTailorDetailsDetails() {
