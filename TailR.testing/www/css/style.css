@@ -186,6 +186,9 @@ img.product-image{}
 .text-align-class{
 	text-align: center;
 }
+.text-align-right{
+	text-align: right;
+}
 .append-edit-page-option{
 	width: 120px;
 	/* height: 120px */
