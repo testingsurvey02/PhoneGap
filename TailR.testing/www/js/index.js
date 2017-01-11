@@ -1,5 +1,5 @@
 // For Testing in Browser
-
+/*
 $(function() {
 	if(testingInternet){
 		getTailorDetailsDataFromServer();
@@ -11,7 +11,7 @@ $(function() {
 	loadDataFromServer();
 });
 
-
+*/
 $( document ).on( "mobileinit", function() {
     // Make your jQuery Mobile framework configuration changes here!
 	 $.support.cors = true;
@@ -66,11 +66,11 @@ $(document).delegate('.image-download', 'taphold', function () {
 var connectionType;
 var appName='CTR';
 var appUrlMain = 'http://tailorapp.tailorrani.com/';
-var testingInBrowser=true;// For Testing
+var testingInBrowser=false;// For Testing
 var testingInternet = false;
 var syncTailorDetails = false;
 var loginUserId;
-var dataIsFromServer = 1;
+var dataIsFromServer = 0;
 var measurementTypeDiv = 0;
 var orderMeasurementDiv = 0;
 var customerTypeDiv = 0;
