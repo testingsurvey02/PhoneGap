@@ -65,7 +65,7 @@ $(document).delegate('.image-download', 'taphold', function () {
 
 var connectionType;
 var appName='CTR';
-var appUrlMain = 'http://tailorapp.tailorrani.com/';
+var appUrlMain = 'http://tailor.craftiapp.com/';
 var testingInBrowser=false;// For Testing
 var testingInternet = false;
 var syncTailorDetails = false;
@@ -4716,6 +4716,7 @@ function successCBUpdateCustomerSyncDB(){
 		var responseJson = $.parseJSON(JSON.stringify(data));
 		if(responseJson['error'] == true){
 			alert(responseJson['message']);
+			return false;
 		}else{
 			tailorDetailsJsonData = responseJson["result"];
 			//alert('dataparse : '+$.parseJSON(tailorDetailsJsonData));
