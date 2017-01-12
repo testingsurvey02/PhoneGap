@@ -4716,6 +4716,7 @@ function successCBUpdateCustomerSyncDB(){
 		var responseJson = $.parseJSON(JSON.stringify(data));
 		if(responseJson['error'] == true){
 			alert(responseJson['message']);
+			hideModal();
 			return false;
 		}else{
 			tailorDetailsJsonData = responseJson["result"];
