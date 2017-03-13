@@ -64,7 +64,7 @@ $(document).delegate('.image-download', 'taphold', function () {
 });
 
 var connectionType;
-var appName='TailorRani';
+var appName='CTR';
 var appUrlMain = 'http://tailor.craftiapp.com/';
 var testingInBrowser=false;// For Testing
 var testingInternet = false;
@@ -505,6 +505,9 @@ function loginFn(){
 
 function gotoLoginPage(){
 	$.mobile.changePage('#login-page','slide');
+	$("#login-page").on("pageshow" , function() {
+		 $('#login-page').scrollTop(0);
+	 });
 	return false;
 }
 
@@ -514,12 +517,18 @@ function gotoAboutUsPage(){
 	optionImageFullName=[];
 	optionImageName=[];
 	attrNameArray = [];
+	/*$('html,body').animate({
+        scrollTop: $("#aboutUs-page").offset().top},
+        'slow');*/
 	$.mobile.changePage('#aboutUs-page','slide');
+	$("#aboutUs-page").on("pageshow" , function() {
+		 $('#aboutUs-page').scrollTop(0);
+	 });
 }
 
 function cancelOrderAboutUsPage(){
 	navigator.notification.confirm(
-            ("Are you really want to cancel the order?"), // message
+            ("Are you sure you want to cancel the order?"), // message
             callAboutUsPage, // callback
             appName, // title
             'YES,NO' // buttonName
@@ -534,11 +543,14 @@ function callAboutUsPage(button){
 
 function gotoStatusReportPage(){
 	$.mobile.changePage('#status-report-page', 'slide');
+	$("#status-report-page").on("pageshow" , function() {
+		 $('#status-report-page').scrollTop(0);
+	 });
 }
 
 function cancelOrderProductPage() {
     navigator.notification.confirm(
-            ("Are you really want to cancel the order?"), // message
+    		("Are you sure you want to cancel the order?"), // message
             callProductPage, // callback
             appName, // title
             'YES,NO' // buttonName
@@ -559,15 +571,23 @@ function gotoProductPage(){
 	optionImageName=[];
 	attrNameArray = [];
 	$.mobile.changePage('#product-page','slide');
+	$("#product-page").on("pageshow" , function() {
+		 $('#product-page').scrollTop(0);
+	 });
 }
 
 function gotoAttributePageDiv(){
 	$.mobile.changePage('#selection-page','slide');
+	$("#selection-page").on("pageshow" , function() {
+		 $('#selection-page').scrollTop(0);
+	 });
 }
 
 function gotoMeasurementPageDiv(){
-	
 	$.mobile.changePage('#measurement-page','slide');
+	 $("#measurement-page").on("pageshow" , function() {
+		 $('#measurement-page').scrollTop(0);
+	 });
 }
 
 function gotoCustomerPageDiv(){
@@ -583,10 +603,16 @@ function gotoCustomerPageDiv(){
 	$('#orderDateInput').val('');
 	$('#orderDeliveryDateInput').val('');
 	$.mobile.changePage('#customer-confirmation-page','slide');
+	$("#customer-confirmation-page").on("pageshow" , function() {
+		 $('#customer-confirmation-page').scrollTop(0);
+	 });
 }
 
 function gotoViewOrderDetails(){
 	$.mobile.changePage('#view-order-details','slide');
+	$("#view-order-details").on("pageshow" , function() {
+		 $('#view-order-details').scrollTop(0);
+	 });
 }
 
 function gotoDownloadImagePage(){
@@ -608,6 +634,9 @@ function gotoOrderPageDiv(){
 	$('#contactNumberInput').val('');
 	$('#addressInput').val('');
 	$.mobile.changePage('#order-report-page','slide');
+	$("#order-report-page").on("pageshow" , function() {
+		 $('#order-report-page').scrollTop(0);
+	 });
 }
 
 
