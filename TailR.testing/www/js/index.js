@@ -64,7 +64,7 @@ $(document).delegate('.image-download', 'taphold', function () {
 });
 
 var connectionType;
-var appName='CTR';
+var appName='TailorRani';
 var appUrlMain = 'http://tailor.craftiapp.com/';
 var testingInBrowser=false;// For Testing
 var testingInternet = false;
@@ -308,7 +308,8 @@ var app = {
         	//checkPreAuth();
         }	
         
-        $('#versionId').text(AppVersion.version);
+        $('#versionLoginId').text(AppVersion.version);
+        $('#versionHomeId').text(AppVersion.version);
         
         //console.log("DB CALL");
         db = window.sqlitePlugin.openDatabase({name: "tailorrani.db", location: 2});
@@ -508,14 +509,55 @@ function gotoLoginPage(){
 }
 
 function gotoAboutUsPage(){
+	attributeArrayToSave=[];
+	optionArrayToSave=[];
+	optionImageFullName=[];
+	optionImageName=[];
+	attrNameArray = [];
 	$.mobile.changePage('#aboutUs-page','slide');
+}
+
+function cancelOrderAboutUsPage(){
+	navigator.notification.confirm(
+            ("Are you really want to cancel the order?"), // message
+            callAboutUsPage, // callback
+            appName, // title
+            'YES,NO' // buttonName
+    );
+}
+
+function callAboutUsPage(button){
+	if(button=="1" || button==1){
+		gotoAboutUsPage();
+    }
 }
 
 function gotoStatusReportPage(){
 	$.mobile.changePage('#status-report-page', 'slide');
 }
 
+function cancelOrderProductPage() {
+    navigator.notification.confirm(
+            ("Are you really want to cancel the order?"), // message
+            callProductPage, // callback
+            appName, // title
+            'YES,NO' // buttonName
+    );
+}
+
+//Call exit function
+function callProductPage(button){
+    if(button=="1" || button==1){
+    	gotoProductPage();
+    }
+}
+
 function gotoProductPage(){
+	attributeArrayToSave=[];
+	optionArrayToSave=[];
+	optionImageFullName=[];
+	optionImageName=[];
+	attrNameArray = [];
 	$.mobile.changePage('#product-page','slide');
 }
 
@@ -524,6 +566,7 @@ function gotoAttributePageDiv(){
 }
 
 function gotoMeasurementPageDiv(){
+	
 	$.mobile.changePage('#measurement-page','slide');
 }
 
@@ -954,7 +997,7 @@ function getTailorDetailsFromLocal(){
 		tailorDetailsObj.tailemail = "emailId@email.com";
 		tailorDetailsObj.contact1 = "9999999999";
 		tailorDetailsObj.contact2 = "9999999999";
-		tailorDetailsObj.secret_key = "4TPD6PI91";
+		tailorDetailsObj.secret_key = "dev12345";
 		tailorDetailsObj.tailor_status = 1;
 		tailorDetailsObj.city = "Bangalore";
 		tailorDetailsObj.pincode = "789456";
@@ -2891,6 +2934,7 @@ function successCBUpdateCustomerSyncDB(){
 		if(responseJson.status==404){
 		     navigator.notification.alert(appRequiresWiFi,alertConfirm,appName,'Ok');
 		}
+		gotoLoginPage();
 	}
 	
 	function commonPageSuccessCallback(data){
@@ -3085,6 +3129,7 @@ function successCBUpdateCustomerSyncDB(){
 					        	  //console.log('Test LOGIN ID : '+loginUserId);
 					        	  if(loginUserId == undefined || loginUserId == ''){
 					        		  hideModal();
+					        		  //alert('Please reset the tailor details, If he is the existing User.');
 					        		  gotoLoginPage();
 					      		  }else if(loginUserId != undefined){
 					      			  if(loginUserId != ''){
@@ -3299,7 +3344,7 @@ function successCBUpdateCustomerSyncDB(){
 		$('#mainPageId').append(subCategoryDiv);
 		//$('#mainPageId').append('<div class="row hrBarCatClass"></div>');
 		$('#mainPageId').append('<div class="row product-list">	</div>');
-		$('#mainPageId .product-list').append('<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 text-align-class homePageViewLogoClass">	<div class="box"><div class="row"><div class="col-lg-12 col-md-12 col-sm-12 col-xs-12"><img alt="logo" src="img/Background1.png"></div></div></div></div>');
+		$('#mainPageId .product-list').append('<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 text-align-class homePageViewLogoClass" style="max-height:500px;">	<div class="box"><div class="row"><div class="col-lg-12 col-md-12 col-sm-12 col-xs-12"><img alt="logo" src="img/Background2.png"></div></div></div></div>');
 		//$('#mainPageId .product-list').append("<div class='col-lg-12 col-md-12 col-sm-12 col-xs-12 text-align-class viewTextHomePageViewClass'> <div class='box'>	<div class='row'><div class='col-lg-12 col-md-12 col-sm-12 col-xs-12'><h3>About Tailor Rani</h3><p>We provide tailoring services at your finger tips and door steps with quality, affordability in all aspects. We provide measure to made services to the customers. It perfectly fits.We are Makers of Custom Handmade Tailored Dresses. We understand 'You cannot tailor make the situation in life, but you can tailor-make the attitudes and dress to fit those every occassions'.</p>	</div> </div></div>	</div>");
 		//$( categoryDiv ).insertBefore( "#mainPageId .hrBarCatClass" );
 		//$( subCategoryDiv ).insertBefore( "#mainPageId .hrBarCatClass" );
@@ -3706,7 +3751,7 @@ function successCBUpdateCustomerSyncDB(){
 								//var prodImage = localPath + "/" + 'gallery'+ '/' + image; // For Production
 								//var prodImage = 'img/product'+indexObj+'.jpg'; // For Testing
 								var server_cat_id = valueCat['cat_id'];
-								var galleryImage = '<div class="col-xs-6 col-sm-4 col-md-4 col-lg-4 galleriesClass gallcatid'+server_cat_id+'" data-gall_id="'+gallery_id+'" data-cat_id="'+server_cat_id+'" '+
+								var galleryImage = '<div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 galleriesClass gallcatid'+server_cat_id+'" data-gall_id="'+gallery_id+'" data-cat_id="'+server_cat_id+'" '+
 										'data-prod_id="'+server_prod_id+'" data-pro_index="'+index+'" data-prod_name="'+prod_name+'" data-lid="'+local_db_id+'" onclick="getAttrImgFromServer(this)">';
 										
 								galleryImage+= '<img class="product-image product-img'+gallery_id+'" src="'+prodImage+'" style="width:250px; height:350px;" alt="'+prod_name+'" />'
@@ -4207,7 +4252,7 @@ function successCBUpdateCustomerSyncDB(){
 								}
 								//var optionImages = 'img/attr'+index2+'.png'; // For Testing
 								//initToCheckTheFile(optionImg, attributeImageData);
-								var tempOptDiv = '<div class="col-xs-6 col-sm-2 col-md-2 col-lg-2 single-option attrInd'+attributeForNextIndex+' optMenu-bar attrOpt'+server_attr_id+' div_opt_id'+optionId+'" data-folder_type="attributes" data-optname="'+optionName+'" data-attrindex="'+attributeForNextIndex+'" style="text-align: center;" data-optionsrc="'+optionImg+'" data-attrname="'+attr_name+'" onclick="selectedOptionFn(this);selectedOptionZoomFn(this)" data-opt_id="'+optionId+'" data-cat_id="'+catId+'" data-prod_id="'+prodId+'" data-attrid="'+server_attr_id+'" data-lid="'+attrId+'"><div class="box"><a href="#popupPhotoLandscape" data-rel="popup"	data-position-to="window" class="optionImageClass image-download"  src="'+optionImages+'" data-imgt_attrid="'+server_attr_id+'"  data-imgt_opt_id="'+optionId+'" data-opt_img="'+optionImg+'" data-folder_type="attributes"><img class="attr-opt-hei-wid attrImageReset'+optionId+'" src="'+optionImages+'" data-imgt_cat_id="'+catId+'" data-imgt_prod_id="'+prodId+'" data-imgt_attrid="'+server_attr_id+'"  data-imgt_opt_id="'+optionId+'" data-opt_img="'+optionImg+'" data-imgt_lid="'+attrId+'" alt="'+optionName+'"></div></div>';
+								var tempOptDiv = '<div class="col-xs-2 col-sm-2 col-md-2 col-lg-2 single-option attrInd'+attributeForNextIndex+' optMenu-bar attrOpt'+server_attr_id+' div_opt_id'+optionId+'" data-folder_type="attributes" data-optname="'+optionName+'" data-attrindex="'+attributeForNextIndex+'" style="text-align: center;" data-optionsrc="'+optionImg+'" data-attrname="'+attr_name+'" onclick="selectedOptionFn(this);selectedOptionZoomFn(this)" data-opt_id="'+optionId+'" data-cat_id="'+catId+'" data-prod_id="'+prodId+'" data-attrid="'+server_attr_id+'" data-lid="'+attrId+'"><div class="box"><a href="#popupPhotoLandscape" data-rel="popup"	data-position-to="window" class="optionImageClass image-download"  src="'+optionImages+'" data-imgt_attrid="'+server_attr_id+'"  data-imgt_opt_id="'+optionId+'" data-opt_img="'+optionImg+'" data-folder_type="attributes"><img class="attr-opt-hei-wid attrImageReset'+optionId+'" src="'+optionImages+'" data-imgt_cat_id="'+catId+'" data-imgt_prod_id="'+prodId+'" data-imgt_attrid="'+server_attr_id+'"  data-imgt_opt_id="'+optionId+'" data-opt_img="'+optionImg+'" data-imgt_lid="'+attrId+'" alt="'+optionName+'"></div></div>';
 								optionMainDiv += tempOptDiv;
 							});
 							 attributeDiv += tempAttrDiv;
@@ -4367,6 +4412,7 @@ function successCBUpdateCustomerSyncDB(){
 			optionImageFullName=[];
 			optionImageName=[];
 			attrNameArray = [];
+			$('.div_opt_id'+optId).removeClass('active');
 			var thisParent=$(thisData).parents('.attr-option-div').find('.active');
 			$(thisParent).each(function(i){
 				optionArrayToSave.push(parseInt($(this).data('opt_id')));
@@ -4375,8 +4421,8 @@ function successCBUpdateCustomerSyncDB(){
 				optionImageFullName.push($(this).data('optionsrc'));
 				attrNameArray.push($(this).data('attrname'));
 			});
-			$(thisData).removeClass('active');
-			$('#customerConfirmationPageId .customerFieldsToAppendSelected .div_opt_id'+optId).remove();
+			//$(thisData).removeClass('active');
+			$('#customerConfirmationPageId .hrClassForOptions .div_opt_id'+optId).remove();
 		}else{
 			optionArrayToSave.push(optId);
 	    	attributeArrayToSave.push(attrId);
