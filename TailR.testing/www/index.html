@@ -14,7 +14,7 @@
 <meta http-equiv="Content-Security-Policy"
 	content="default-src *; script-src * 'unsafe-eval' 'unsafe-inline'; connect-src *; img-src *; style-src * 'unsafe-inline' ; media-src *;">
 
-<title>Tailorrani</title>
+<title>CTR</title>
 <link rel="stylesheet"
 	href="libs/jQueryMobile/jquery.mobile-1.4.5.min.css">
 <link rel="stylesheet" type="text/css" href="css/index.css" />
@@ -245,6 +245,9 @@
 												class="btn btn-primary st-bg-baby-pink ui-btn ui-shadow ui-corner-all"
 												onclick="updateFunctionCalling();">Update</button>
 										</div>
+										<!-- <a type="button" href="#" data-ajax="false" data-role="button"
+												class="btn btn-primary st-bg-baby-pink ui-btn ui-shadow ui-corner-all"
+												onclick="$('#aboutUs-page').scrollTop(0); return false;">Top</a> -->
 									</div>
 								</div>
 							</div>
@@ -421,9 +424,9 @@
 									id="measurementSelPg"><a href="#"
 									onclick="showMeasurementDiv()">Measurement</a></li>
 								<li class="backToHomePage float-right"><a
-									href="#" onclick="gotoProductPage();"><i class="fa fa-arrow-left"></i></a></li>
+									href="#" onclick="cancelOrderProductPage();"><i class="fa fa-arrow-left"></i></a></li>
 								<li class="backToHomePage float-right"><a
-									href="#aboutUs-page"><i class="fa fa-home"></i></a></li>
+									href="#" onclick="cancelOrderAboutUsPage();"><i class="fa fa-home"></i></a></li>
 							</ul>
 						</div>
 
@@ -581,6 +584,9 @@
 									</form>
 								</div>
 							</div>
+							<!-- <a type="button" href="#" data-ajax="false" data-role="button"
+												class="btn btn-primary st-bg-baby-pink ui-btn ui-shadow ui-corner-all"
+												onclick="$('#measurement-page').scrollTop(0);">Top</a> -->
 						</div>
 					</div>
 				</div>
@@ -871,7 +877,7 @@
 							<li>
 								<h3 style="color: white;">View Order Details</h3>
 							</li>							
-							<li class="float-right "><a href="#aboutUs-page"><i class="fa fa-home"></i></a></li>
+							<li class="float-right "><a href="#" onclick="gotoAboutUsPage();"><i class="fa fa-home"></i></a></li>
 							
 						</ul>
 						<!-- </div> -->
