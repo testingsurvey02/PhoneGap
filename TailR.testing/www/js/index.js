@@ -1999,7 +1999,7 @@ function insertOrderDetailsFromServer(tx) {
 				
 			}else{
 				tx.executeSql('INSERT INTO order_details(id, order_server_id, customer_id, server_prod_name, status_of_order, order_data, option_selected, sync_status, update_timestamp, is_deleted) VALUES (?,?,?,?,?,?,?,?,?,?)',
-	   	    			[order_id, order_server_id,customer_id, product_name, order_data, status_of_order, option_selected, 1, update_timestamp,1], function(tx, res) {
+	   	    			[order_id, order_server_id,customer_id, product_name, status_of_order, order_data, option_selected, 1, update_timestamp,1], function(tx, res) {
 					console.log("order_details Data insertId: " + res.insertId + " -- res.rowsAffected 1"+res.rowsAffected);
 				});
 				
