@@ -64,7 +64,7 @@ $(document).delegate('.image-download', 'taphold', function () {
 });
 
 var connectionType;
-var appName='CTR';
+var appName='TailorRani';
 var appUrlMain = 'http://tailor.craftiapp.com/';
 var testingInBrowser=false;// For Testing
 var testingInternet = false;
@@ -82,12 +82,14 @@ var measurementJsonData;
 var staticJsonData;
 var attributeImageJsonData;
 var galleryImageJsonData;
+var orderDataFromServer;
+var customerDataFromServer;
 var updateCustomerDetailsForSavedData;
 var updateCustomerDetailsForUpdatedData;
 var updateOrderDetailsForSavedData;
 var updateOrderDetailsForUpdatedData;
 var needUpdate = false;
-
+var syncCustomerOrderDetails = false;
 var measurementTypeId = 0;
 //Variables Declarations
 var catArrSession=[];
@@ -1973,6 +1975,81 @@ function insertStaticDetails(tx) {
 	});
 }
 
+function insertOrderDetailsFromServer(tx) {
+	var currDateTimestamp="";
+	currDateTimestamp=dateTimestamp();
+	tx.executeSql('CREATE TABLE IF NOT EXISTS order_details(id integer primary key autoincrement, server_cat_id integer, cat_name text, server_prod_id integer, order_data text,update_timestamp text, server_prod_name text,customer_id integer, option_selected text, status_of_order text, gallery_id integer, gallery_name text, sync_date text, sync_status integer, order_server_id integer, order_date text, order_delivery_date text, is_deleted integer)');
+	
+	jQuery.each(orderDataFromServer, function(index,value) {
+		
+		var order_server_id = value["id"];
+		var order_id = value["order_id"];
+		var customer_id = value["customer_id"];
+		var product_name = value["product_name"];
+		var order_price = value['order_price'];
+		var status_of_order = value['status'];
+		var option_selected = value['order_attributes'];
+		var order_data = value['order_measurements'];
+		var update_timestamp = value['updated_at'];
+		
+		tx.executeSql('select * from order_details where id ='+order_id ,[],function(tx,results){
+			var len = 0;
+			len = results.rows.length;
+			if(len > 0){
+				
+			}else{
+				//console.log('INSERT static_details');
+				tx.executeSql('INSERT INTO order_details(id, order_server_id, customer_id, server_prod_name, status_of_order, order_data, option_selected, sync_status, update_timestamp) VALUES (?,?,?,?,?,?,?,?,?)',
+	   	    			[order_id, order_server_id,customer_id, product_name, order_data, status_of_order, option_selected, 1, update_timestamp], function(tx, res) {
+					console.log("order_details Data insertId: " + res.insertId + " -- res.rowsAffected 1"+res.rowsAffected);
+				});
+				
+				tx.executeSql('select * from customer_details where id ='+customer_id ,[],function(tx,results){
+					len = results.rows.length;
+					if(len>0){
+						var total_price = '';
+						for (var i = 0; i < len; i++) {
+							total_price = results.rows.item(0)['total_price'];
+						}
+						tx.executeSql("UPDATE customer_details SET sync_status= 1, total_price='"+total_price+"' WHERE id=" + customer_id + "");
+					}
+				});
+			}
+		});
+		
+		
+	});
+}
+
+function insertCustomerDetailsFromServer(tx){
+	var currDateTimestamp="";
+	currDateTimestamp=dateTimestamp();
+	tx.executeSql('CREATE TABLE IF NOT EXISTS customer_details (id integer primary key autoincrement,name text, total_price text, advance_price text, balance_price text, update_timestamp text, contact_number text, email_id text, country text, state text, city text, pincode text, address_one text, address_two text, sync_date text, sync_status integer, cust_server_id integer)');
+	jQuery.each(customerDataFromServer, function(index,value) {
+		var customer_server_id = value["id"];
+		var customer_id = value["customer_id"];
+		var name = value["name"];
+		var contact = value['contact'];
+		var email = value['email'];
+		var status = value['status'];
+		var updated_at = value['updated_at'];
+		
+		
+		tx.executeSql('select * from customer_details where id ='+customer_id ,[],function(tx,results){
+			var len = 0;
+			len = results.rows.length;
+			if(len > 0){
+				
+			}else{
+				tx.executeSql('INSERT INTO customer_details(id, cust_server_id, name, contact_number, email_id, sync_status, update_timestamp) VALUES (?,?,?,?,?,?,?)',
+		    			[customer_id, customer_server_id,name, contact, email, 1, updated_at], function(tx, res) {
+					console.log("customer_details Data insertId: " + res.insertId + " -- res.rowsAffected 1"+res.rowsAffected);
+				});
+			}
+		});
+	});
+}
+
 function getStaticListFromLocal(){
 	if(testingInBrowser){
 		var myArr= new Array();
@@ -3163,6 +3240,7 @@ function successCBUpdateCustomerSyncDB(){
 					      		  }else if(loginUserId != undefined){
 					      			  if(loginUserId != ''){
 					      				  getTailorDetailsDataFromServer();
+					      				  syncCustomerOrderDetails = true;
 					      			  }
 					      		  }
 					          }
@@ -4644,6 +4722,9 @@ function successCBUpdateCustomerSyncDB(){
 		}else{
 			getCategoriesListFromLocal();
 		}
+		if(syncCustomerOrderDetails){
+			getCustomerDetailsDataFromServer();
+		}
 	}	
 	function errorCBInsertStaticDetails(err) {
 		hideModal();
@@ -4651,6 +4732,108 @@ function successCBUpdateCustomerSyncDB(){
 		console.log("errorCBInsertStaticDetails"+err.message);
 	}
 	
+	function getCustomerDetailsDataFromServer(){
+		var dataToSend = {};
+		dataToSend["secret_key"] = tailorDetailsSession.secret_key;
+		dataToSend["uuid"] = mobileUUID;
+		var apiCallUrl=appUrlMain+ "api/customers/sendJson"
+		connectionType=checkConnection();
+		if(connectionType=="Unknown connection" || connectionType=="No network connection"){
+			navigator.notification.alert(appRequiresWiFi,alertConfirm,appName,'Ok');
+		}
+		else if(connectionType=="WiFi connection" || connectionType=="Cell 4G connection" || connectionType=="Cell 3G connection" || connectionType=="Cell 2G connection"){
+			$.ajax({
+				type : ajaxCallPost,
+				url: apiCallUrl,
+				data : dataToSend,
+				success: successCBCustomerDetailsFromServerFn,
+				error: commonErrorCallback
+			});
+		}
+		else{
+			navigator.notification.alert(appRequiresWiFi,alertConfirm,appName,'Ok');
+		}
+	}
+	
+	function successCBCustomerDetailsFromServerFn(data){
+		var responseJson = $.parseJSON(JSON.stringify(data));
+		if(responseJson['error'] == true){
+			alert(responseJson['message']);
+		}else{
+			customerDataFromServer = responseJson["order_details"];
+			// FIXME CHECK JSON DATA
+			var staticDiv = '';
+			staticDiv = '<p> Customer Details Data Inserting </p>';
+			$('.appendStatusDiv').append(staticDiv);
+			db.transaction(insertCustomerDetailsFromServer, errorCBInsertCustomerFromServer, successCBInsertCustomerFromServer);
+		}
+	}
+	
+	function successCBInsertCustomerFromServer() {
+		/*if(deleteRecordStatus == 0){*/
+		if(dataExist){
+			var recordsDiv = '';
+			recordsDiv = '<p> Order Details Data Syncing </p>';
+			getOrderDetailsDataFromServer();
+			$('.appendStatusDiv').append(recordsDiv);
+		}else{
+			getCategoriesListFromLocal();
+		}
+		
+	}	
+	function errorCBInsertCustomerFromServer(err) {
+		hideModal();
+		console.log("errorCBInsertCustomerFromServer: "+err.code);
+		console.log("errorCBInsertCustomerFromServer: "+err.message);
+	}
+	
+	function getOrderDetailsDataFromServer(){
+		var dataToSend = {};
+		dataToSend["secret_key"] = tailorDetailsSession.secret_key;
+		dataToSend["uuid"] = mobileUUID;
+		var apiCallUrl=appUrlMain+ "api/customers/sendJson"
+		connectionType=checkConnection();
+		if(connectionType=="Unknown connection" || connectionType=="No network connection"){
+			navigator.notification.alert(appRequiresWiFi,alertConfirm,appName,'Ok');
+		}
+		else if(connectionType=="WiFi connection" || connectionType=="Cell 4G connection" || connectionType=="Cell 3G connection" || connectionType=="Cell 2G connection"){
+			$.ajax({
+				type : ajaxCallPost,
+				url: apiCallUrl,
+				data : dataToSend,
+				success: successCBOrderDetailsFromServerFn,
+				error: commonErrorCallback
+			});
+		}
+		else{
+			navigator.notification.alert(appRequiresWiFi,alertConfirm,appName,'Ok');
+		}
+	}
+	
+	function successCBOrderDetailsFromServerFn(data){
+		var responseJson = $.parseJSON(JSON.stringify(data));
+		if(responseJson['error'] == true){
+			alert(responseJson['message']);
+		}else{
+			orderDataFromServer = responseJson["order_details"];
+			// FIXME CHECK JSON DATA
+			var recordsDiv = '';
+			recordsDiv = '<p> Order Details Data Inserting </p>';
+			$('.appendStatusDiv').append(recordsDiv);
+			db.transaction(insertOrderDetailsFromServer, errorCBInsertOrderFromServer, successCBInsertOrderFromServer);
+		}
+	}
+	
+	function successCBInsertOrderFromServer() {
+		/*if(deleteRecordStatus == 0){*/
+		console.log('Successfully Completed Order and Customer Details');
+	}	
+	function errorCBInsertOrderFromServer(err) {
+		hideModal();
+		console.log("errorCBInsertOrderFromServer: "+err.code);
+		console.log("errorCBInsertOrderFromServer: "+err.message);
+	}
+
 	function getDataToDeleteInLocalDBFromServer(){
 		var dataToSend = {};
 		dataToSend["secret_key"] = tailorDetailsSession.secret_key;
