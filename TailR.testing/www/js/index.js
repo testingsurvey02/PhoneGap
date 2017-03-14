@@ -4790,7 +4790,7 @@ function successCBUpdateCustomerSyncDB(){
 		var dataToSend = {};
 		dataToSend["secret_key"] = tailorDetailsSession.secret_key;
 		dataToSend["uuid"] = mobileUUID;
-		var apiCallUrl=appUrlMain+ "api/customers/sendJson"
+		var apiCallUrl=appUrlMain+ "api/orders/sendJson"
 		connectionType=checkConnection();
 		if(connectionType=="Unknown connection" || connectionType=="No network connection"){
 			navigator.notification.alert(appRequiresWiFi,alertConfirm,appName,'Ok');
