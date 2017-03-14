@@ -2680,6 +2680,7 @@ function getOrderListFromLocalDB(){
 	db.transaction(	function (tx){
 		tx.executeSql('CREATE TABLE IF NOT EXISTS order_details(id integer primary key autoincrement, server_cat_id integer, cat_name text, server_prod_id integer, order_data text,update_timestamp text, server_prod_name text,customer_id integer, option_selected text, status_of_order text, gallery_id integer, gallery_name text, sync_date text, sync_status integer, order_server_id integer, order_date text, order_delivery_date text, is_deleted integer)');
 		var len = 0;
+		orderArrSession = [];
 			tx.executeSql('select * from order_details where is_deleted = 1 ORDER BY id DESC ',[],function(tx,results){
 					len = results.rows.length;
 					if(len>0){
@@ -2810,6 +2811,7 @@ function getCustomerListFromLocalDB(){
 		tx.executeSql('CREATE TABLE IF NOT EXISTS customer_details (id integer primary key autoincrement,name text, total_price text, advance_price text, balance_price text, update_timestamp text, contact_number text, email_id text, country text, state text, city text, pincode text, address_one text, address_two text, sync_date text, sync_status integer, cust_server_id integer, is_deleted integer)');
 		var len = 0;
 		//name, price, update_timestamp
+		customerArrSession = [];
 			tx.executeSql('select * from customer_details where is_deleted = 1 ORDER BY id DESC ',[],function(tx,results){
 					len = results.rows.length;
 					if(len>0){
@@ -5345,11 +5347,10 @@ function successCBUpdateCustomerSyncDB(){
 							dataToSendOrder["customer_id"] = customer_id;
 							dataToSendOrder["order_id"] = order_id;
 							dataToSendOrder["order_price"] = total_price;
-							if(status_of_order == 'Pending'){
-								dataToSendOrder["status"] = 1;
-							}else{
+							dataToSendOrder["status"] = is_deleted;
+							/*}else{
 								dataToSendOrder["status"] = 2;
-							}
+							}*/
 							dataToSendOrder["order_attributes"] = $.parseJSON(JSON.stringify(option_selected));
 							dataToSendOrder["order_measurements"] = $.parseJSON(JSON.stringify(order_data));
 							dataToSendOrder["product_name"] = server_prod_name;
@@ -5471,7 +5472,6 @@ function successCBUpdateCustomerSyncDB(){
 		if(isOK)
 		{
 			var currDateTimestamp="";
-			alert(orderId+' '+ customerId);
 			currDateTimestamp=dateTimestamp();
 			db.transaction(	function (tx){
 				tx.executeSql('select * from customer_details where id ='+customerId ,[],function(tx,results){
