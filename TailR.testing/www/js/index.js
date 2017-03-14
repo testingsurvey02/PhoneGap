@@ -5229,8 +5229,6 @@ function successCBUpdateCustomerSyncDB(){
 		$('#priceInput').val('');
 		$('#contactNumberInput').val('');
 		$('#addressInput').val('');*/
-		alert(orderArrData);
-		alert(customerArrData);
 		$('#orderReportPageId').find('table tbody').empty();
 		var tableRowMain = '';
 		if(orderArrData != ''){
