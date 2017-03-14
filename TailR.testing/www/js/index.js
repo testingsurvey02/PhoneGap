@@ -4760,7 +4760,7 @@ function successCBUpdateCustomerSyncDB(){
 		if(responseJson['error'] == true){
 			alert(responseJson['message']);
 		}else{
-			customerDataFromServer = responseJson["order_details"];
+			customerDataFromServer = responseJson["customer_details"];
 			// FIXME CHECK JSON DATA
 			var staticDiv = '';
 			staticDiv = '<p> Customer Details Data Inserting </p>';
