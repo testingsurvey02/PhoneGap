@@ -2004,7 +2004,7 @@ function insertOrderDetailsFromServer(tx) {
 				tx.executeSql("UPDATE order_details SET update_timestamp='"+currDateTimestamp+"', sync_status= 1, is_deleted="+value['status']+"  WHERE id=" + order_id + "");
 			}else{
 				tx.executeSql('INSERT INTO order_details(id, order_server_id, customer_id, server_prod_name, status_of_order, order_data, option_selected, sync_status, update_timestamp, is_deleted) VALUES (?,?,?,?,?,?,?,?,?,?)',
-	   	    			[order_id, order_server_id,customer_id, product_name, status_of_order, order_data, option_selected, 1, update_timestamp,status_of_order], function(tx, res) {
+	   	    			[order_id, order_server_id,customer_id, product_name, status_of_order, order_data, option_selected, 1, update_timestamp,value['status']], function(tx, res) {
 					console.log("order_details Data insertId: " + res.insertId + " -- res.rowsAffected 1"+res.rowsAffected);
 				});
 				
@@ -2046,7 +2046,7 @@ function insertCustomerDetailsFromServer(tx){
 				tx.executeSql("UPDATE customer_details SET update_timestamp='"+currDateTimestamp+"', sync_status= 1, is_deleted="+value['status']+"  WHERE id=" + customer_id + "");
 			}else{
 				tx.executeSql('INSERT INTO customer_details(id, cust_server_id, name, contact_number, email_id, sync_status, update_timestamp, is_deleted) VALUES (?,?,?,?,?,?,?,?)',
-		    			[customer_id, customer_server_id,name, contact, email, 1, updated_at, 1], function(tx, res) {
+		    			[customer_id, customer_server_id,name, contact, email, 1, updated_at, status], function(tx, res) {
 					console.log("customer_details Data insertId: " + res.insertId + " -- res.rowsAffected 1"+res.rowsAffected);
 				});
 			}
