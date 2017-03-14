@@ -1988,6 +1988,11 @@ function insertOrderDetailsFromServer(tx) {
 		var product_name = value["product_name"];
 		var order_price = value['order_price'];
 		var status_of_order = value['status'];
+		if(status_of_order == 1){
+			status_of_order = 'Pending';
+		}else{
+			status_of_order = 'completed';
+		}
 		var option_selected = value['order_attributes'];
 		var order_data = value['order_measurements'];
 		var update_timestamp = value['updated_at'];
@@ -5338,7 +5343,11 @@ function successCBUpdateCustomerSyncDB(){
 							dataToSendOrder["customer_id"] = customer_id;
 							dataToSendOrder["order_id"] = order_id;
 							dataToSendOrder["order_price"] = total_price;
-							dataToSendOrder["status"] = is_deleted;
+							if(status_of_order == 'Pending'){
+								dataToSendOrder["status"] = 1;
+							}else{
+								dataToSendOrder["status"] = 2;
+							}
 							dataToSendOrder["order_attributes"] = $.parseJSON(JSON.stringify(option_selected));
 							dataToSendOrder["order_measurements"] = $.parseJSON(JSON.stringify(order_data));
 							dataToSendOrder["product_name"] = server_prod_name;
