@@ -2033,11 +2033,9 @@ function insertCustomerDetailsFromServer(tx){
 		var status = value['status'];
 		var updated_at = value['updated_at'];
 		
-		
 		tx.executeSql('select * from customer_details where id ='+customer_id ,[],function(tx,results){
 			var len = 0;
 			len = results.rows.length;
-			alert(len);
 			if(len > 0){
 				console.log('record already exist : '+name);
 			}else{
