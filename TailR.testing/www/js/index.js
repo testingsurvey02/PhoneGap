@@ -5227,6 +5227,8 @@ function successCBUpdateCustomerSyncDB(){
 		$('#priceInput').val('');
 		$('#contactNumberInput').val('');
 		$('#addressInput').val('');*/
+		alert(orderArrData);
+		alert(customerArrData);
 		$('#orderReportPageId').find('table tbody').empty();
 		var tableRowMain = '';
 		if(orderArrData != ''){
@@ -5468,42 +5470,61 @@ function successCBUpdateCustomerSyncDB(){
 		var isOK = confirm("Are you sure you want to delete this order?");
 		if(isOK)
 		{
-				var currDateTimestamp="";
-				currDateTimestamp=dateTimestamp();
-				db.transaction(	function (tx){
-					tx.executeSql('select * from customer_details where id ='+customerId ,[],function(tx,results){
-						var len = 0;
-						len = results.rows.length;
-						if(len > 0){
-							for (var i = 0; i < len; i++) {
-								var syncStatus = results.rows.item(0)['sync_status'];
-								var syncDate = results.rows.item(0)['sync_date'];
-								if(syncDate != ''){
-									tx.executeSql("UPDATE customer_details SET update_timestamp='"+currDateTimestamp+"', sync_status= 2, is_deleted=0  WHERE id=" + customerId + "");
-								}else{
-									tx.executeSql("UPDATE customer_details SET update_timestamp='"+currDateTimestamp+"', sync_status= 0, is_deleted=0  WHERE id=" + customerId + "");
-								}
+			var currDateTimestamp="";
+			alert(orderId+' '+ customerId);
+			currDateTimestamp=dateTimestamp();
+			db.transaction(	function (tx){
+				tx.executeSql('select * from customer_details where id ='+customerId ,[],function(tx,results){
+					var len = 0;
+					len = results.rows.length;
+					if(len > 0){
+						for (var i = 0; i < len; i++) {
+							var syncStatus = results.rows.item(0)['sync_status'];
+							var syncDate = results.rows.item(0)['sync_date'];
+							if(syncDate != ''){
+								tx.executeSql("UPDATE customer_details SET update_timestamp='"+currDateTimestamp+"', sync_status= 2, is_deleted=0  WHERE id=" + customerId + "");
+							}else{
+								tx.executeSql("UPDATE customer_details SET update_timestamp='"+currDateTimestamp+"', sync_status= 0, is_deleted=0  WHERE id=" + customerId + "");
 							}
 						}
-					});
-					tx.executeSql('select * from order_details where id ='+orderId ,[],function(tx,results){
-						var len = 0;
-						len = results.rows.length;
-						if(len > 0){
-							for (var i = 0; i < len; i++) {
-								var syncStatus = results.rows.item(0)['sync_status'];
-								var syncDate = results.rows.item(0)['sync_date'];
-								if(syncDate != ''){
-									tx.executeSql("UPDATE order_details SET update_timestamp='"+currDateTimestamp+"', sync_status= 2, is_deleted=0  WHERE id="+orderId+"");
-								}else{
-									tx.executeSql("UPDATE order_details SET update_timestamp='"+currDateTimestamp+"', sync_status= 0, is_deleted=0  WHERE id="+orderId+"");
-								}
+					}
+				},errorCBDeletingCustomerDB);
+				tx.executeSql('select * from order_details where id ='+orderId ,[],function(tx,results){
+					var len = 0;
+					len = results.rows.length;
+					if(len > 0){
+						for (var i = 0; i < len; i++) {
+							var syncStatus = results.rows.item(0)['sync_status'];
+							var syncDate = results.rows.item(0)['sync_date'];
+							if(syncDate != ''){
+								tx.executeSql("UPDATE order_details SET update_timestamp='"+currDateTimestamp+"', sync_status= 2, is_deleted=0  WHERE id="+orderId+"");
+							}else{
+								tx.executeSql("UPDATE order_details SET update_timestamp='"+currDateTimestamp+"', sync_status= 0, is_deleted=0  WHERE id="+orderId+"");
 							}
 						}
-					});
-				});
-			orderPageHtmlButton();
+					}
+				},errorCBDeletingOrderDB);
+			},errorCBDeletingOrderCustDB,successCBDeletingOrderCustDB);
 		}
+	}
+	
+	function errorCBDeletingCustomerDB(err){
+		console.log('errorCBDeletingCustomerDB : '+err.code);
+		console.log('errorCBDeletingCustomerDB : '+err.message);
+	}
+	
+	function errorCBDeletingOrderDB(err){
+		console.log('errorCBDeletingOrderDB : '+err.code);
+		console.log('errorCBDeletingOrderDB : '+err.message);
+	}
+
+	function errorCBDeletingOrderCustDB(err){
+		console.log('errorCBDeletingOrderCustDB : '+err.code);
+		console.log('errorCBDeletingOrderCustDB : '+err.message);
+	}
+
+	function successCBDeletingOrderCustDB(){
+		orderPageHtmlButton();
 	}
 	
 	function viewOrderDetailsByOrderId(ordId){
