@@ -4769,10 +4769,11 @@ function successCBUpdateCustomerSyncDB(){
 	
 	function successCBInsertCustomerFromServer() {
 		/*if(deleteRecordStatus == 0){*/
+		getOrderDetailsDataFromServer();
 		if(dataExist){
 			var recordsDiv = '';
 			recordsDiv = '<p> Order Details Data Syncing </p>';
-			getOrderDetailsDataFromServer();
+			
 			$('.appendStatusDiv').append(recordsDiv);
 		}else{
 			getCategoriesListFromLocal();
@@ -4814,6 +4815,7 @@ function successCBUpdateCustomerSyncDB(){
 			alert(responseJson['message']);
 		}else{
 			orderDataFromServer = responseJson["order_details"];
+			alert(orderDataFromServer);
 			// FIXME CHECK JSON DATA
 			var recordsDiv = '';
 			recordsDiv = '<p> Order Details Data Inserting </p>';
