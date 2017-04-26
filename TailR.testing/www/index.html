@@ -1,1097 +1,754 @@
 <!DOCTYPE html>
 <html>
-<head>
+    <head>
 <!--         <meta http-equiv="Content-Security-Policy" content="default-src 'self' data: gap: https://ssl.gstatic.com 'unsafe-eval'; style-src 'self' 'unsafe-inline'; media-src *; connect-src *"> -->
 <!--         <meta http-equiv="Content-Security-Policy" content="default-src 'self' data: gap: https://ssl.gstatic.com 'unsafe-eval'; style-src 'self' 'unsafe-inline'; media-src *; connect-src *"> -->
+        
+        <meta charset="utf-8" />    
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+            
+        <meta name="format-detection" content="telephone=no" />
+        <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width, target-densitydpi=medium-dpi" />
+        
+        
+        <meta http-equiv="Content-Security-Policy" content="default-src *; script-src * 'unsafe-eval' 'unsafe-inline'; connect-src *; img-src *; style-src * 'unsafe-inline' ; media-src *;">
 
-<meta charset="utf-8" />
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-
-<meta name="format-detection" content="telephone=no" />
-<meta name="viewport"
-	content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width, target-densitydpi=medium-dpi" />
-
-<meta http-equiv="Content-Security-Policy"
-	content="default-src *; script-src * 'unsafe-eval' 'unsafe-inline'; connect-src *; img-src *; style-src * 'unsafe-inline' ; media-src *;">
-
-<title>CTR</title>
-<link rel="stylesheet"
-	href="libs/jQueryMobile/jquery.mobile-1.4.5.min.css">
-<link rel="stylesheet" type="text/css" href="css/index.css" />
-<link rel="stylesheet" type="text/css" href="css/style.css" />
-<link rel="stylesheet" type="text/css" href="css/flexboxgrid.min.css" />
-        <link rel="stylesheet" href="libs/jqm-datebox-1.4.5.css" />
-<link rel="stylesheet" href="css/fontawesome/css/font-awesome.min.css" />
-<script type="text/javascript" src="libs/fastclick.min.js"></script>
-<script type="text/javascript" src="phonegap.js"></script>
-<script type="text/javascript" src="libs/jquery.min.js"></script>
-<script type="text/javascript" src="libs/PushNotification.js"></script>
-<script type="text/javascript"
-	src="libs/jQueryMobile/jquery.mobile-1.4.5.min.js"></script>
+		<title>EDIT</title>
+        <link rel="stylesheet"  href="libs/jQueryMobile/jquery.mobile-1.4.5.min.css">
+        <link rel="stylesheet" type="text/css" href="css/index.css" />
+        <link rel="stylesheet" type="text/css" href="css/style.css" />
+<!--         <link rel="stylesheet" href="libs/jqm-datebox-1.4.5.css" /> -->
+        <link rel="stylesheet" href="css/fontawesome/css/font-awesome.min.css" />
+        <script type="text/javascript" src="libs/fastclick.min.js"></script>
+        <script type="text/javascript" src="phonegap.js"></script>
+        <script type="text/javascript" src="libs/jquery.min.js"></script>
+        <script type="text/javascript" src="libs/PushNotification.js"></script>
+        <script type="text/javascript" src="libs/jQueryMobile/jquery.mobile-1.4.5.min.js"></script>
 		<script src="libs/jqm-datebox-1.4.5.js"></script>
-<script type="text/javascript" src="js/index.js"></script>
-
-<script type="text/javascript">
-	app.initialize();
-</script>
-
-</head>
-
-<body>
-
-	<div id="app">
-		<!-- Login Page -->
-		<div id="login-page" data-role="page" class="login-page">
-			<div data-role="content">
-				<div class="login-box">
-					<div id="logoContainer" class="centerText text-align-class"
-						style="padding: 20px;">
-						<img style="width: 250px" src="img/tailorrani_logo.png" id="logo" />
-						<br /> <br />
-					</div>
-
-					<div class="">
-						<form id="loginForm" action="">
-
-							<div class="">
-								<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-									<div class="box">
-										<div class="row">
-											<div
-												class="text-align-class col-xs-offset-3 col-xs-6 col-sm-offset-3 col-sm-6 col-md-offset-3 col-md-6 col-lg-offset-3 col-lg-6">
-												<label for="username">Username</label>
-											</div>
-
-										</div>
-									</div>
-								</div>
-								<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-									<div class="box">
-										<div class="row">
-											<div
-												class="col-xs-offset-3 col-xs-6 col-sm-offset-3 col-sm-6 col-md-offset-3 col-md-6 col-lg-offset-3 col-lg-6">
-												<input name="username" id="username" placeholder="Username"
-													maxlength="20" required="required" type="text">
-											</div>
-											<!-- <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-												<button type="button" value="Login" id="submitButton" class="btn btn-primary st-bg-baby-pink ui-btn ui-shadow ui-corner-all"
-														data-theme="a" onclick="loginFn();" > Login </button>
-											</div> -->
-										</div>
-									</div>
-								</div>
-								<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-									<div class="box">
-										<div class="row">
-											<div
-												class="col-xs-offset-3 col-xs-6 col-sm-offset-3 col-sm-6 col-md-offset-3 col-md-6 col-lg-offset-3 col-lg-6">
-												<button type="button" value="Login" id="submitButton"
-													class="btn btn-primary st-bg-baby-pink ui-btn ui-shadow ui-corner-all"
-													data-theme="a" onclick="loginFn();">Login</button>
-											</div>
-										</div>
-									</div>
-								</div>
-
-							</div>
-							<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" style="text-align: center;">
-								<p><strong>Version</strong> <span id="versionLoginId"></span></p>
-								<p style="margin: 0 0 15px;">
-									Copyright© 2017 crafti tailorrani app - Powered by M/s.Chariman Mensi
-									Lifestyle Private Limited. All Rights Reserved. 
-									<br>
-									Terms
-									& Conditions : Please refer website 
-									<a href="www.craftiapp.com"
-										style="color: black !important;">www.craftiapp.com</a>
-								</p>
-
-							</div>
-							<!-- <div class="input-field">
-								<label for="password">Password </label> <input type="password"
-									name="password" id="password" placeholder="Password"
-									autocomplete="off" required />
-							</div> -->
-							<!-- <input type="button" value="Login" id="submitButton" data-theme="a" /> -->
-
-						</form>
-					</div>
-				</div>
-			</div>
-		</div>
+        <script type="text/javascript" src="js/index.js"></script>
+         <!-- jquery.ajax-cross-origin.min.js  -->
+        <!-- <script type="text/javascript" src="libs/jquery.ajax-cross-origin.min.js"></script> -->
+        <!-- Sparkline  -->
+	    <script type="text/javascript" src="libs/sparkline/jquery.sparkline.min.js" ></script>
+        <script type="text/javascript">
+            app.initialize();
+        </script>
+    </head>
+	<body>
 		
-		<div id="status-report-page" data-role="page">
-
-			<div class="st-background">
-				<div data-role="content">
-
-					<div id="statusReportPageId" class="width-app">
-
-						<div class="row hrBarCatClass">
-							<hr>
+        <div id="app">
+        	
+        	<div  id="login-page" data-role="page" class="login-page">
+                <div data-role="content">
+					<div  class="login-box">
+						<div id="logoContainer" class="centerText">
+							<img src="img/logo.png" id="logo"  />
+								 <br/> <br/>
 						</div>
-
-						<div class="row aboutUsbutton-class width-app">
-							<div
-								class="col-lg-12 col-md-12 col-sm-12 col-xs-12 text-align-class">
-								<div class="box">
-									<div class="row">
-										<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-											<img alt="logo" src="img/tailorrani_logo.png">
-										</div>
-									</div>
+						<div class="form-container schoolCodeContainer" id="schoolCodeContainer">
+							<form  id="schoolCodeForm" action="">
+								<div class="input-field">
+									<label for="schoolCode">Institute Code</label>
+									<input type="text" name="schoolCode" id="schoolCode" placeholder="Institute Code Code" maxlength="20" required />
 								</div>
-							</div>
-							<div
-								class="col-lg-12 col-md-12 col-sm-12 col-xs-12 text-align-class">
-								<div class="box">
-									<div class="row">
-										<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 appendStatusDiv">
-										</div>
-									</div>
-								</div>
-							</div>
-							<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" id="buttonToGo" style="display: none;">
-								<div class="box">
-									<div class="row">
-										<div class="col-lg-3 col-md-3 col-sm-3"></div>
-										<div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
-											<button type="button"
-												class="btn btn-primary st-bg-baby-pink ui-btn ui-shadow ui-corner-all"
-												onclick="gotoProductPage();">Product Page</button>
-										</div>
-										<div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
-											<button type="button"
-												class="btn btn-primary st-bg-baby-pink ui-btn ui-shadow ui-corner-all"
-												onclick="orderPageHtmlButton(); return false;">Order
-												Report</button>
-										</div>
-									</div>
-								</div>
-							</div>
-						</div>
-					</div>
-
-				</div>
-			</div>
-		</div>
-
-		<!-- About Us Page -->
-		<div id="aboutUs-page" data-role="page">
-
-			<div class="st-background">
-				<div data-role="content">
-
-					<div id="aboutUsPageId" class="width-app">
-
-						<!-- <div class="row hrBarCatClass">
-							<hr>
-						</div> -->
-
-						<div class="row aboutUsbutton-class">
-							<div
-								class="col-lg-12 col-md-12 col-sm-12 col-xs-12 text-align-class">
-								<div class="box">
-									<div class="row">
-										<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-											<img alt="logo" src="img/home-Page.png" style="width:100%">
-										</div>
-									</div>
-								</div>
-							</div>
-							
-							<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-								<div class="box">
-									<div class="row">
-										<div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
-										</div>
-										<div class="col-lg-4 col-md-4 col-sm-4 col-xs-12 text-align-class">
-											<strong> UserName : </strong> <span id="tailorFullName"></span><br/>
-											<strong> v</strong> <span id="versionHomeId"></span>
-										</div>
-										<!-- <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12 text-align-class">
-											<strong> Version : </strong> <span id="versionId"></span>
-										</div> -->
-									</div>
-								</div>
-							</div>
-							
-							<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-								<div class="box">
-									<div class="row">
-										<div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
-											<button type="button"
-												class="btn btn-primary st-bg-baby-pink ui-btn ui-shadow ui-corner-all"
-												onclick="gotoProductPage();">Products </button>
-										</div>
-										<div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
-											<button type="button"
-												class="btn btn-primary st-bg-baby-pink ui-btn ui-shadow ui-corner-all"
-												onclick="orderPageHtmlButton(); return false;">Orders</button>
-										</div>
-										<div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
-											<button type="button"
-												class="btn btn-primary st-bg-baby-pink ui-btn ui-shadow ui-corner-all"
-												onclick="gotoContactUsPage();">Contact Us</button>
-										</div>
-										<div class="col-lg-4 col-md-4 col-sm-4">
-										</div>
-										<div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
-											<button type="button"
-												class="btn btn-primary st-bg-baby-pink ui-btn ui-shadow ui-corner-all"
-												onclick="gotoDownloadImagePage();" id="downloadEnable">Download Images</button>
-										
-											<button type="button"
-												class="btn btn-primary st-bg-baby-pink ui-btn ui-shadow ui-corner-all"
-												onclick="updateFunctionCalling();">Update</button>
-										</div>
-										<!-- <a type="button" href="#" data-ajax="false" data-role="button"
-												class="btn btn-primary st-bg-baby-pink ui-btn ui-shadow ui-corner-all"
-												onclick="$('#aboutUs-page').scrollTop(0); return false;">Top</a> -->
-									</div>
-								</div>
-							</div>
-							<div
-								class="col-lg-12 col-md-12 col-sm-12 col-xs-12 text-align-class">
-								<div class="box">
-									<div class="row">
-										<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-											<h3 style="margin:0;"> * * * </h3>
-											<p style="margin:0 0 15px;">Copyright© 2017 crafti tailorrani app - Powered by M/s.Chariman Mensi Lifestyle Private Limited. All Rights Reserved.
-											<br>Terms & Conditions : Please refer website <a href="www.craftiapp.com" style="color: black !important;">www.craftiapp.com</a></p>
-										</div>
-									</div>
-								</div>
-							</div>
-
-							
-						</div>
-					</div>
-
-				</div>
-			</div>
-		</div>
-		
-		<div id="contactUs-page" data-role="page">
-
-			<div class="st-background">
-				<div data-role="content">
-
-					<div id="contactUsPageId" class="width-app">
-
-						<div class="row hrBarCatClass">
-							<hr>
-						</div>
-
-						<div class="row contactUsbutton-class">
-							<div
-								class="col-lg-12 col-md-12 col-sm-12 col-xs-12 text-align-class">
-								<div class="box">
-									<div class="row">
-										<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-											<h1>Contact Us</h1>
-										</div>
-									</div>
-								</div>
-							</div>
-							<div
-								class="col-lg-12 col-md-12 col-sm-12 col-xs-12 text-align-class">
-								<div class="box">
-									<div class="row">
-										<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 appendContactDetails">
-											
-										</div>
-									</div>
-								</div>
-							</div>
-							<br/>
-							<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-								<div class="box">
-									<div class="row">
-										<div class="col-lg-3 col-md-3 col-sm-3 col-xs-12"></div>
-										
-										<div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
-											<button type="button"
-												class="btn btn-primary st-bg-baby-pink ui-btn ui-shadow ui-corner-all"
-												onclick="gotoAboutUsPage();">Home Page</button>
-										</div>
-										<!-- <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
-											<button type="button"
-												class="btn btn-primary st-bg-baby-pink ui-btn ui-shadow ui-corner-all"
-												onclick="orderPageHtmlButton(); return false;">Orders</button>
-										</div> -->
-										<!-- <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
-											<button type="button"
-												class="btn btn-primary st-bg-baby-pink ui-btn ui-shadow ui-corner-all"
-												onclick="#contactUs-page return false;">Contact Us</button>
-										</div> -->
-									</div>
-								</div>
-							</div>
-						</div>
-					</div>
-
-				</div>
-			</div>
-		</div>
-		
-		<!-- Image Download Status Page -->
-		<div id="imageDownloadStatusPage" data-role="page">
-
-			<div class="st-background">
-				<div data-role="content">
-
-					<div id="imageDownloadStatusPageId" class="width-app">
-						<ul class="topnav main-menu-ul" id="main-menu-ul"
-							style="margin-bottom: 65px;">
-							<li>
-								<h3 style="color: white;">Image Download Page</h3>
-							</li>
-							<li class="float-right "><a href="#aboutUs-page"><i class="fa fa-home"></i></a></li>
-							
-						</ul>
-						<div class="row hrBarCatClass">
-							
-							<div class="col-sm-12 text-center">
-								<button onclick="syncGalleryImages();" id="downloadGallerySyn" type="button" class="btn btn-primary st-bg-baby-pink ui-btn ui-shadow ui-corner-all">Sync Gallery Images</button>
-								<p class="labelGalleryloader"></p>
-							</div>
-							<div class="col-sm-12 text-center">
-								<button id="downloadGalleryImg" onclick="downloadGalleryImages();" type="button" class="btn btn-primary st-bg-baby-pink ui-btn ui-shadow ui-corner-all" style="display: none;">Download Gallery Images</button>
-								<p class="labelGalleryImgloader"></p>
-							</div>
-							<div class="col-sm-12 text-center">
-								<button onclick="syncAttrImages();" id="downloadAttrsyn" type="button" class="btn btn-primary st-bg-baby-pink ui-btn ui-shadow ui-corner-all">Sync Attribute Images</button>
-								<p class="labelAttrloader"></p>
-							</div>
-							<div class="col-sm-12 text-center">
-								<button id="downloadAttrImg" onclick="downloadAttrImages();" type="button" class="btn btn-primary st-bg-baby-pink ui-btn ui-shadow ui-corner-all " style="display: none;">Download Attribute Images</button>
-								<p class="labelAttrImgloader"></p>
-							</div>
-						</div>
-							
-						<div class="row width-app">
-							<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 text-align-class downloadProductList">
 								
-							</div>
-						</div>
-					</div>
-
-				</div>
-			</div>
-		</div>
-
-		<!-- Product Page -->
-		<div id="product-page" data-role="page">
-
-			<div class="st-background">
-				<div data-role="content">
-
-					<div id="mainPageId" class="width-app">
-
-						<div class="row hrBarCatClass width-app">
-							<hr>
-						</div>
-
-						<div class="row product-list width-app"></div>
-					</div>
-
-				</div>
-			</div>
-		</div>
-
-
-		<!-- Selection Page -->
-
-		<div id="selection-page" data-role="page">
-
-			<div class="st-background">
-				<div data-role="content">
-					<div id="selectionPageId">
-						<input type="hidden" id="prodHtmlName" name="prodHtmlName" /> <input
-							type="hidden" id="categoryHtmlId" name="categoryHtmlId" /> <input
-							type="hidden" id="prodHtmlId" name="prodHtmlId" /> <input
-							type="hidden" id="newOrderId" name="newOrderId" />
-
-						<div class="row selection-menu selection-menu-div"
-							id="selection-menu-div">
-
-							<ul class="topnav selection-menu-ul" id="main-menu-ul">
-								<li class="galleryDivTag" data-submenuid="galleryDivTag"
-									id="galleryDivTag"><a href="#"
-									onclick="showGalleryDivTag()">Gallery</a></li>
-								<li class="measurementDivShow" data-submenuid="measurementSelPg"
-									id="measurementSelPg"><a href="#"
-									onclick="showMeasurementDiv()">Measurement</a></li>
-								<li class="backToHomePage float-right"><a
-									href="#" onclick="cancelOrderProductPage();"><i class="fa fa-arrow-left"></i></a></li>
-								<li class="backToHomePage float-right"><a
-									href="#" onclick="cancelOrderAboutUsPage();"><i class="fa fa-home"></i></a></li>
-							</ul>
-						</div>
-
-						<div class="row">
-							<hr>
-						</div>
-
-						<div class="row">
-							<div
-								class="col-xs-12 col-sm-12 col-md-12 col-lg-12 selection-page-leftpane galleryTag width-app"
-								style="display: none;">
-								<div class="box product-selection-details-div">
-									<p class="product-name">Sample</p>
-									<div class="box">
-										<div class="row">
-											<div class="col-xs-6 col-sm-8 col-md-8 col-lg-8">
-												<ol class="gallery-images-list"
-													style="margin-bottom: 40px; padding: 0px 5px;">
-													<li><img src="img/product/product1.jpg" alt="Sample"
-														class="active"></li>
-												</ol>
-											</div>
-											<div class="col-xs-6 col-sm-4 col-md-4 col-lg-4">
-												<a class="galleryImageClass"> <img
-													class="imageAppendSelMea" src="img/product/product1.jpg"
-													alt="Sample">
-												</a>
-											</div>
-										</div>
-									</div>
-									<!-- <div class="box">
-            							<div class="row">
-                							
-										</div>
-									</div> -->
+								<input type="button" class="submit" value="Submit" id="getSchoolInfoSubmitBtn" data-theme="a" onclick="getSchoolInfo();" />
+								<!-- onclick="getSchoolInfo();" -->
+							</form>
+						</div>						
+						<div class="form-container loginFormContainer" style="display: none;">
+							<form  id="loginForm" action="">
+								<div class="input-field">
+									<label for="username">Institute Code - 
+										<a href="#" class="schoolCodeLabelLink" onclick="changeSchoolCode();">
+											<span class="schoolCodeLabel"></span> <i class="fa fa-pencil fw"> </i>
+										</a>
+									</label>
 								</div>
-							</div>
-
-							<div
-								class="col-xs-12 col-sm-12 col-md-12 col-lg-12 selection-page-rightpane attributeTag selection-page-options-div width-app">
-								<div class="box appendButton width-app">
-									<div class="row attr-option-div width-app"></div>
+								<div class="input-field">
+									<label for="username">Username</label>
+									<input type="text" name="username" id="username" placeholder="Username" maxlength="20" required />
 								</div>
-							</div>
-						</div>
+								<div class="input-field">
+									<label for="password">Password </label>
+									<input type="password" name="password" id="password" placeholder="Password" autocomplete="off" required />
+								</div>
+								<!-- <input type="submit" value="Login" id="submitButton" data-theme="a" /> -->
+								<input type="button" value="Login" id="submitButton" data-theme="a" onclick="handleLogin();" />
+								<!-- onclick="handleLogin();" -->
+							</form>
+						</div>	
 					</div>
-				</div>
-			</div>
-
-			<div data-role="popup" id="popupPhotoLandscape"
-				class="product-image-div-landscape photopopup"
-				data-overlay-theme="a" data-corners="false" data-tolerance="30,15">
-				<a href="#" data-rel="back"
-					class="ui-btn ui-corner-all ui-shadow ui-btn-a ui-icon-delete ui-btn-icon-notext ui-btn-right">Close</a><a
-					href="#"> <img class="imageAppendSelMea"
-					src="img/product/product1.jpg" alt="Sample"></a>
-			</div>
-		</div>
-		
-
-
-		<!-- Measurement Page -->
-
-		<div id="measurement-page" data-role="page">
-
-			<div class="st-background">
-				<div data-role="content">
-					<div id="measurementPageId">
-
-						<div
-							class="row measurement-menu selection-menu selection-menu-div"
-							id="selection-menu-div">
-							<ul class="topnav selection-menu-ul" id="main-menu-ul">
-								<li class="galleryDivTag" data-submenuid="galleryDivTag"
-									id="galleryDivTag"><a href="#"
-									onclick="showGalleryDivTag();">Gallery</a></li>
-								<li class="measurementDivShow" data-submenuid="measurementSelPg"
-									id="measurementSelPg"><a href="#"
-									onclick="showMeasurementDiv();">Measurement</a></li>
-								<li class="backToHomePage float-right"><a
-									href="#" onclick="cancelOrderProductPage();"><i class="fa fa-arrow-left"></i></a></li>
-								<li class="backToHomePage float-right"><a
-									href="#" onclick="cancelOrderAboutUsPage();"><i class="fa fa-home"></i></a></li>
-							</ul>
-
-						</div>
-						<!-- <div class="backButton" data-submenuid="backButtonSelPg" id="backButtonSelPg">
-							<button type="button" onclick="gotoAttributePageDiv()">Back</button>
-						</div> -->
-						<div class="row">
-							<hr>
-						</div>
-
-						<div class="row">
-							<!-- <div
-								class="col-xs-12 col-sm-12 col-md-12 col-lg-12 selection-page-leftpane galleryTag"
-								style="display: none;">
-								<div class="box product-selection-details-div">
-									<p class="product-name">Sample</p>
-									<div class="product-image-div">
-										<img class="imageAppendSelMea" src="img/product/product1.jpg" alt="Sample" >
-									</div>
-									<a href="#popupPhotoLandscape2" data-rel="popup"
-										data-position-to="window"
-										class="galleryImageClass">
-										<img
-										class="imageAppendSelMea float-left" src="img/product/product1.jpg"
-										alt="Sample">
-									</a>
-									<ol class="gallery-images-list" style="margin-bottom: 40px;">
-										<li><img src="img/product/product1.jpg" alt="Sample" class="active" ></li>
-									</ol>
-								</div>
-							</div> -->
+                </div>
+            </div>
+            
+			<div id="home-page" data-role="page">
+				<div data-role="header" data-id="header" id="header" data-position="fixed" class="ui-header app-header-section">
+                    <h1>Home</h1>
+                </div>
+                
+				<div class="st-background">
+					<div data-role="content">
+						
+						<div id="student_homepage" class="home-dashboard display-none">
+							<section id="#" class="mb-stuent-sm-info user-compact-info">
+									<div class="mb-student-photo"><img src="img/avatars/avatar-male.png" /></div>
+									<p class="mb-student-name">----</p>
+									<ul class="mb-student-more-info">
+										<li class="user-id">ID:<span></span></li>
+										<li class="user-id-other">Adm No: <span>--</span></li>
+										<li class="gender">M/F:<span>--</span></li>
+										<li class="age">Age:<span>--</span></li>
+									</ul>
+									<ul class="mb-student-links">
+										<li><a href="#"  rel="mb-student-profile" class="current"><span class="icon icon1"></span></a></li>
+										<li><a href="#" rel="mb-student-assignment"><span class="icon icon2"></span></a></li>
+										<li><a href="#" rel="mb-student-communication"><span class="icon icon3"></span></a></li>
+									</ul>
+							</section>
 							
-							<div
-								class="col-xs-12 col-sm-12 col-md-12 col-lg-12 selection-page-leftpane galleryTag width-app"
-								style="display: none;">
-								<div class="box product-selection-details-div">
-									<p class="product-name">Sample</p>
-									<div class="box">
-										<div class="row">
-											<div class="col-xs-6 col-sm-8 col-md-8 col-lg-8">
-												<ol class="gallery-images-list"
-													style="margin-bottom: 40px; padding: 0px 5px;">
-													<li><img src="img/product/product1.jpg" alt="Sample"
-														class="active"></li>
-												</ol>
-											</div>
-											<div class="col-xs-6 col-sm-4 col-md-4 col-lg-4">
-												<a class="galleryImageClass"> <img
-													class="imageAppendSelMea" src="img/product/product1.jpg"
-													alt="Sample">
-												</a>
-											</div>
-										</div>
-									</div>
-									<!-- <div class="box">
-            							<div class="row">
-                							
-										</div>
-									</div> -->
-								</div>
-							</div>
-
-							<div
-								class="col-xs-12 col-sm-12 col-md-12 col-lg-12 selection-page-rightpane attributeTag">
-								<div class="box">
-
-									<form id="measurementForm">
-										<div
-											class="row measurement-InputFields measurement-input-fields-div">
-
-										</div>
-									</form>
-								</div>
-							</div>
-							<!-- <a type="button" href="#" data-ajax="false" data-role="button"
-												class="btn btn-primary st-bg-baby-pink ui-btn ui-shadow ui-corner-all"
-												onclick="$('#measurement-page').scrollTop(0);">Top</a> -->
-						</div>
-					</div>
-				</div>
-			</div>
-			<!-- <div data-role="popup"
-				id="popupPhotoLandscape2"
-				class="product-image-div-landscape photopopup" data-overlay-theme="a" data-corners="false"
-				data-tolerance="30,15">
-				<a href="#" data-rel="back"
-					class="ui-btn ui-corner-all ui-shadow ui-btn-a ui-icon-delete ui-btn-icon-notext ui-btn-right">Close</a><a
-					href="#">
-					<img class="imageAppendSelMea"
-					src="img/product/product1.jpg" alt="Sample"></a>
-			</div> -->
-		</div>
-
-
-		<!-- Customer Confirmation Page -->
-
-		<div id="customer-confirmation-page" data-role="page">
-
-			<div class="st-background">
-				<div data-role="content">
-					<div id="customerConfirmationPageId">
-
-						<div
-							class="row customerConfirmation-menu selection-menu selection-menu-div"
-							id="selection-menu-div">
-
-							<ul class="topnav selection-menu-ul" id="main-menu-ul">
-								<li class="galleryDivTag" data-submenuid="galleryDivTag"
-									id="galleryDivTag"><a href="#"
-									onclick="showGalleryDivTag();">Gallery</a></li>
-								<li class="measurementDivShow" data-submenuid="measurementSelPg"
-									id="measurementSelPg"><a href="#"
-									onclick="showMeasurementDiv();">Measurement</a></li>
-								<li class="backToHomePage float-right"><a
-									href="#" onclick="cancelOrderProductPage();"><i class="fa fa-arrow-left"></i></a></li>
-								<li class="float-right"><a href="#" onclick="cancelOrderAboutUsPage();"><i class="fa fa-home"></i></a></li>
-							</ul>
-						</div>
-						<!-- <div class="backButton" data-submenuid="backButtonSelPg" id="backButtonSelPg">
-									<button type="button" onclick="gotoMeasurementPageDiv()">Back</button>
-						</div> -->
-
-						<div class="row">
-							<hr>
-						</div>
-
-						<div class="row">
-							<!-- <div
-								class="col-xs-12 col-sm-12 col-md-12 col-lg-12 selection-page-leftpane galleryTag"
-								style="display: none;">
-								<div class="box product-selection-details-div">
-									<p class="product-name">Sample</p>
-									<div class="product-image-div">
-										<img class="imageAppendSelMea" src="img/product/product1.jpg" alt="Sample" >
-									</div>
-									
-									<a href="#popupPhotoLandscape1" data-rel="popup"
-										data-position-to="window"
-										class="galleryImageClass">
-										<img
-										class="imageAppendSelMea float-left" src="img/product/product1.jpg"
-										alt="Sample">
-									</a>
-									
-									<ol class="gallery-images-list" style="margin-bottom: 40px;">
-										<li><img src="img/product/product1.jpg" alt="Sample" class="active" ></li>
-									</ol>
-								</div>
-							</div> -->
+							<section id="" class="mb-student-profile mb-student-tab-content user-detailed-info">
 							
-							<div
-								class="col-xs-12 col-sm-12 col-md-12 col-lg-12 selection-page-leftpane galleryTag width-app"
-								style="display: none;">
-								<div class="box product-selection-details-div">
-									<p class="product-name">Sample</p>
-									<div class="box">
-										<div class="row">
-											<div class="col-xs-6 col-sm-8 col-md-8 col-lg-8">
-												<ol class="gallery-images-list"
-													style="margin-bottom: 40px; padding: 0px 5px;">
-													<li><img src="img/product/product1.jpg" alt="Sample"
-														class="active"></li>
-												</ol>
-											</div>
-											<div class="col-xs-6 col-sm-4 col-md-4 col-lg-4">
-												<a class="galleryImageClass"> <img
-													class="imageAppendSelMea" src="img/product/product1.jpg"
-													alt="Sample">
-												</a>
-											</div>
-										</div>
-									</div>
-									<!-- <div class="box">
-            							<div class="row">
-                							
-										</div>
-									</div> -->
+								<div class="student-profile-title user-contact-info-title" onclick="studentProfileTitleClick(this);">
+									<span class="icon"></span>
+									<p>Contact Details </p>
+									<span class="view-more-arrow"></span>
 								</div>
-							</div>
-
-							<div
-								class="col-xs-12 col-sm-12 col-md-12 col-lg-12 selection-page-rightpane attributeTag measurement-input-fields-div">
-								<div class="box">
-									<div class="row hrClassForOptions width-app"
-											style="margin-top: 15px;"></div>
-											
-									<div class="row width-app"></div>
-											
-									<input type="hidden" id="customerIdInput"
-										name="customerIdInput" /> <input type="hidden"
-										id="catNameInput" name="catNameInput" />
-									<div class="row customerFieldsToAppendSelected"
-										style="width: 100%; padding: 0px 10px;">
-										<div class="table-padding-order">
-											<table>
-												<tr>
-													<td style="width: 30%;">Customer Name</td>
-													<td><input type="text" id="customerNameInput"
-														name="customerNameInput" class="form-control" /></td>
-												</tr>
-												<tr>
-													<td style="width: 30%;">Total Price</td>
-													<td><input type="text" id="totalPriceInput"
-														name="totalPriceInput" class="form-control" /></td>
-												</tr>
-												<tr>
-													<td style="width: 30%;">Balance Price</td>
-													<td><input type="text" id="balancePriceInput"
-														name="balancePriceInput" class="form-control" /></td>
-												</tr>
-												<!-- <tr><td>Advance Amount</td><td><input type="text" id="advancePriceInput" name="advancePriceInput" class="form-control"/></td></tr>
-												<tr><td>Balance Amount</td><td><input type="text" id="balancePriceInput" name="balancePriceInput" class="form-control"/></td></tr> -->
-												<tr>
-													<td style="width: 30%;">Contact Number</td>
-													<td><input type="text" id="contactNumberInput"
-														name="contactNumberInput" class="form-control" /></td>
-												</tr>
-												<tr>
-													<td style="width: 30%;">Email Id</td>
-													<td><input type="text" id="emailIdInput"
-														name="emailIdInput" class="form-control" /></td>
-												</tr>
-												<tr>
-													<td style="width: 30%;">Address Line 1</td>
-													<td><textarea id="address1Input" name="address1Input"
-															class="form-control" rows="3" cols="1000"> </textarea></td>
-												</tr>
-												<tr>
-													<td style="width: 30%;">Address Line 2</td>
-													<td><textarea id="address2Input" name="address2Input"
-															class="form-control" rows="3" cols="1000"> </textarea></td>
-												</tr>
-												<!-- <tr><td>Country</td><td><input type="text" id="countryInput" name="countryInput" class="form-control"/></td></tr> -->
-												<tr>
-													<td style="width: 30%;">State</td>
-													<td><input type="text" id="stateInput"
-														name="stateInput" class="form-control" /></td>
-												</tr>
-												<tr>
-													<td style="width: 30%;">City</td>
-													<td><input type="text" id="cityInput" name="cityInput"
-														class="form-control" /></td>
-												</tr>
-												<tr>
-													<td style="width: 30%;">Pin code</td>
-													<td><input type="text" id="pincodeInput"
-														name="pincodeInput" class="form-control" /></td>
-												</tr>
-												<tr>
-													<td style="width: 30%;">Order Date</td>
-													<td>
-														<input type="text"
-															data-mini="true" data-role="datebox" id="orderDateInput" name="orderDateInput"
-															readonly="readonly"
-															data-options='{"mode": "calbox", "overrideDateFormat": "%d-%m-%Y"}'>
-													</td>
-												</tr>
-												<tr>
-													<td style="width: 30%;">Order Delivery Date</td>
-													<td>
-														<input type="text"
-															data-mini="true" data-role="datebox" id="orderDeliveryDateInput" name="orderDeliveryDateInput"
-															readonly="readonly"
-															data-options='{"mode": "calbox", "overrideDateFormat": "%d-%m-%Y"}'>
-												</tr>
-											</table>
-										</div>
-
+								
+								<div class="student-profile-content user-contact-info-content">
+									<div class="user-contact-info">
+										<span class="address-info line-break-span"><i class="fa fa-map-marker fa-fw"></i><span>---- </span></span>
+										<span class="mobile-info line-break-span"><i class="fa fa-phone fa-fw"></i><span>----</span></span>
+										<span class="email-info line-break-span"><i class="fa fa-envelope-o fa-fw"></i><span>----</span></span>
 									</div>
-									<div class="row width-app"></div>
-									<!-- <div class="row width-app">
-										<div class="box table-container"> -->
-									<div class="" style="padding: 10px 40px;" >
-									<div class="table-container table-padding-order">
-											<label>Measurement Details</label>
-											<table class="table">
-												<tbody class="appendMeasuOrderList">
-
-												</tbody>
-											</table>
-										</div>
-									</div>
-
-									<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-										<button type="button" name="takeCustomerDetails"
-											id="takeCustomerDetails" onclick="takeCustomerDetailsFn()"
-											class="btn st-bg-baby-pink">Submit</button>
-									</div>
-
 								</div>
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
-			<!-- <div data-role="popup"
-				id="popupPhotoLandscape1"
-				class="product-image-div-landscape photopopup" data-overlay-theme="a" data-corners="false"
-				data-tolerance="30,15">
-				<a href="#" data-rel="back"
-					class="ui-btn ui-corner-all ui-shadow ui-btn-a ui-icon-delete ui-btn-icon-notext ui-btn-right">Close</a><a
-					href="#">
-					<img class="imageAppendSelMea"
-					src="img/product/product1.jpg" alt="Sample"></a>
-			</div> -->
-		</div>
-
-
-		<!-- Order Report Page -->
-
-		<div id="order-report-page" data-role="page">
-
-			<div class="st-background">
-				<div data-role="content">
-
-					<div id="orderReportPageId">
-						<div class="row order-report-menu">
-							<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12"
-								style="width: 100%">
-								<ul class="topnav main-menu-ul" id="main-menu-ul"
-									style="margin-bottom: 65px;">
-									<li>
-										<h3 style="color: white;">Order Report</h3>
-									</li>
-									<li class="float-right "><a href="#aboutUs-page"><i class="fa fa-home"></i></a></li>									
-									
-								</ul>
-								<div class="table-padding-order">
-									<table class="table table-hover table-striped table-bordered"
-										border="1">
-										<thead>
-											<tr>
-												<!-- <th>Id</th> -->
-												<th style="width: 30%">Customer Details</th>
-												<th class="width-th">Price</th>
-												<th style="width: 12%">Order Date</th>
-												<th style="width: 12%">Delivery Date</th>
-												<th style="width: 12%">Status</th>
-												<th class="width-th-first-last">Action</th>
-											</tr>
-										</thead>
+								
+								<div class="student-profile-title user-parent-info-title mini" onclick="studentProfileTitleClick(this);">
+									<span class="icon icon1"></span>
+									<p>Parent Detail</p>
+									<span class="view-more-arrow"></span>
+								</div>
+								<div class="student-profile-content user-parent-info-content" style="display: none;">
+									<div class="user-contact-info">
+										<span class="parent-name line-break-span"><i class="fa fa-user fa-fw"></i><span>----</span></span>
+										<span class="parent-mobile line-break-span"><i class="fa fa-phone fa-fw"></i><span>----</span></span>
+										<span class="parent-email line-break-span"><i class="fa fa-envelope-o fa-fw"></i><span>----</span></span>
+									</div>
+								</div>
+								
+								<div class="student-profile-title user-award-info-title mini" onclick="studentProfileTitleClick(this);">
+									<span class="icon icon2"></span>
+									<p>Awards</p>
+									<span class="view-more-arrow"></span>
+								</div>
+								<div class="student-profile-content user-award-info-content" style="display: none;">
+									<div class="user-data-info">
+										<span class="line-break-span">
+											<i class="fa fa-info-circle fa-fw"></i>
+											<span>No awards gained yet, just Belive You Can.</span>
+										</span>
+									</div>
+								</div>
+								
+								<div class="student-profile-title mini" onclick="studentProfileTitleClick(this);">
+									<span class="icon icon3"></span>
+									<p>Attendance and Discipline</p>
+									<span class="view-more-arrow"></span>
+								</div>
+								<div class="student-profile-content" style="display: none;">
+									<p class="heading">Attendance: <span id="monthWithYear">2016</span> </p>
+									<p>
+											<span class="dynamicSparkbar"></span>
+									</p>
+									 
+									 <table class="leave-description-table table table-hover table-striped table-bordered" id="leaveDescription">
 										<tbody>
-
+										<!-- 
+				                     		<tr>
+						                 		<td class="date">
+						                 			06-Jan
+						                 		</td>
+						                 		<td class="reason">	
+						                 			&nbsp; <strong>NO REASONS</strong>
+						                 		</td>
+				                 				<td class="approve-type red">
+						                 			&nbsp; Not Approved
+						                 		</td>
+					                		</tr>
+					                		 -->
 										</tbody>
 									</table>
+<!-- 									<img src="img/st_icons/student-behaviour.png"/> -->
 								</div>
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
-
-		<div id="view-order-details" data-role="page">
-
-			<div class="st-background">
-				<div data-role="content">
-
-					<div id="view-order-details-Page">
-						<!-- <div class="row " > -->
-						<!-- <div class="row"
-								style="width: 100%"> -->
-						<ul class="topnav main-menu-ul" id="main-menu-ul"
-							style="margin-bottom: 20px;">
-							<li>
-								<h3 style="color: white;">View Order Details</h3>
-							</li>							
-							<li class="float-right "><a href="#" onclick="gotoAboutUsPage();"><i class="fa fa-home"></i></a></li>
-							
-						</ul>
-						<!-- </div> -->
-						<!-- <h3>
-							<label>View Order Details</label>
-						</h3> -->
-
-						<form id="measurementForm">
-							<div id="appendOptionInEditPage" style="padding: 10px 40px;">
 								
-							</div>
-							<div class="customerFieldsAfterOrder" style="padding: 10px 40px;">
-
-								<div class="">
-								<label>Product Name : <span id="productNameToView">ABCCC</span></label>
-								</div>
-
-								<div class="table-padding-order table-padding-order-Customer">
-									<input type="hidden" id="orderViewId" name="orderViewId">
-									<input type="hidden" id="customerViewId" name="customerViewId">
-									
-									<table class="table table-hover table-striped table-bordered"
-										border="1">
-										
-										<tr>
-											<td style="width: 30%;">Customer Name</td>
-											<td><input type="text" id="customerNameOrderInput"
-												name="customerNameOrderInput" class="form-control" /></td>
-										</tr>
-										<tr>
-											<td style="width: 30%;">Price</td>
-											<td><input type="text" id="totalPriceOrderInput"
-												name="totalPriceOrderInput" class="form-control" /></td>
-										</tr>
-										<tr>
-											<td style="width: 30%;">Balance Amount</td>
-											<td><input type="text" id="balancePriceOrderInput"
-												name="balancePriceInput" class="form-control" /></td>
-										</tr>
-										<tr>
-											<td style="width: 30%;">Contact Number</td>
-											<td><input type="text" id="contactNumberOrderInput"
-												name="contactNumberOrderInput" class="form-control" /></td>
-										</tr>
-										<tr>
-											<td style="width: 30%;">Email Id</td>
-											<td><input type="text" id="emailIdOrderInput"
-												name="emailIdOrderInput" class="form-control" /></td>
-										</tr>
-										<tr>
-											<td style="width: 30%;">Address Line 1</td>
-											<td><textarea id="address1OrderInput"
-													name="address1OrderInput" class="form-control" rows="3"
-													cols="1000"> </textarea></td>
-										</tr>
-										<tr>
-											<td style="width: 30%;">Address Line 2</td>
-											<td><textarea id="address2OrderInput"
-													name="address2OrderInput" class="form-control" rows="3"
-													cols="1000"> </textarea></td>
-										</tr>
-										<tr>
-											<td style="width: 30%;">State</td>
-											<td><input type="text" id="stateOrderInput"
-												name="stateOrderInput" class="form-control" /></td>
-										</tr>
-										<tr>
-											<td style="width: 30%;">City</td>
-											<td><input type="text" id="cityOrderInput"
-												name="cityOrderInput" class="form-control" /></td>
-										</tr>
-										<tr>
-											<td style="width: 30%;">Pin code</td>
-											<td><input type="text" id="pincodeOrderInput"
-												name="pincodeOrderInput" class="form-control" /></td>
-										</tr>
-										<tr>
-											<td style="width: 30%;">Order Status</td>
-											<td><input type="text" id="orderStatusIdInput"
-														name="orderStatusIdInput" class="form-control" >
-													</td>
-										</tr>
-										<tr>
-											<td style="width: 30%;">Order Date</td>
-											<td>
-												<input type="text"
-															data-mini="true" data-role="datebox" id="orderDateOrderInput" name="orderDateOrderInput"
-															readonly="readonly"
-															data-options='{"mode": "calbox", "overrideDateFormat": "%d-%m-%Y"}'>
-											</td>
-										</tr>
-										<tr>
-											<td style="width: 30%;">Order Delivery Date</td>
-											<td>
-												<input type="text"
-															data-mini="true" data-role="datebox" id="orderDeliveryDateOrderInput" name="orderDeliveryDateOrderInput"
-															readonly="readonly"
-															data-options='{"mode": "calbox", "overrideDateFormat": "%d-%m-%Y"}'>
-											</td>
-										</tr>
-									</table>
-								</div>
-
-							</div>
+							</section>
 							
-							<div class="row width-app" style="margin-top: 15px;"></div>
-														
-							<div class="" style="padding: 10px 40px;" >
-								<div class="table-container table-padding-order">
-									<label>Measurement Details</label>
+							<section id="" class="mb-student-assignment mb-student-tab-content" style="display:none;">
+									<ul class="mb-student-assignment-dashboard">
+										<li class="highlighte">
+											<div class="dashboard-content">
+												<a href="#"  rel="mb-st-assignment-list">
+													<span class="st-assign-status">10</span>
+													<p>Assignment</p>
+												</a>
+												<span></span>
+											</div>
+										</li>
+										<li class="">
+											<div class="dashboard-content">
+												<a href="#" rel="mb-st-assignment-completed">
+													<span class="st-assign-status">10</span>
+													<p>Completed</p>
+												</a>
+												<span></span>
+											</div>
+										</li>
+										<li class="">
+											<div class="dashboard-content">
+												<a href="#" rel="mb-st-assignment-pending">
+													<span class="st-assign-status">10</span>
+													<p>Pending</p>
+												</a>
+												<span></span>
+											</div>
+										</li>
+										<li class="" style="display: none;">
+											<div class="dashboard-content">
+												<img src="img/st_icons/assignment-list.png" />
+											</div>
+										</li>		
+									</ul>
 									
-									<table class="table table-hover table-striped table-bordered"
-										border="1">
+									<div id="" class="mb-st-assignment-list mb-assignment-tab-content">
+										<ul class="st-assigment">
+											<li>
+												<i class="fa fa-dot-circle-o status-circle"></i>
+												<div class="st-assign-detail">
+													<span class="assign-arrow"></span>
+														<div class="assign-header">
+															<span class="sub-name">Subject:Basic Design</span>
+															<span class="assign-date">Posted On 29 Apr 2015</span>
+														</div>
+														<p class="assign-title">True, but it is meant for designing on their platform, which has these types: Floating action <a href="" class="assign-attachment"><i class="fa fa-paperclip"></i></a></p>
+														<div class="st-assign-more-info">
+															<span class="teacher-name">By : Teacher Name  </span>
+															<span class="submit-date">Due on 31 Apr 2015  </span>
+															<span class="submit-status">Status : Done</span>
+														</div>
+												</div>
+											</li>
+											<li>
+												<i class="fa fa-dot-circle-o status-circle status-completed"></i>
+												<div class="st-assign-detail">
+													<span class="assign-arrow"></span>
+														<div class="assign-header">
+															<span class="sub-name">Subject:Basic Design</span>
+															<span class="assign-date">Posted On 29 Apr 2015</span>
+														</div>
+														<p class="assign-title">True, but it is meant for designing on their platform, which has these types: Floating action <a href="" class="assign-attachment"><i class="fa fa-paperclip"></i></a></p>
+														<div class="st-assign-more-info">
+															<span class="teacher-name">By : Teacher Name  </span>
+															<span class="submit-date">Due on 31 Apr 2015  </span>
+															<span class="submit-status">Status : Done</span>
+														</div>
+												</div>
+											</li>
+											<li>
+												<i class="fa fa-dot-circle-o status-circle status-pending"></i>
+												<div class="st-assign-detail">
+													<span class="assign-arrow"></span>
+														<div class="assign-header">
+															<span class="sub-name">Subject:Basic Design</span>
+															<span class="assign-date">Posted On 29 Apr 2015</span>
+														</div>
+														<p class="assign-title">True, but it is meant for designing on their platform, which has these types: Floating action <a href="" class="assign-attachment"><i class="fa fa-paperclip"></i></a></p>
+														<div class="st-assign-more-info">
+															<span class="teacher-name">By : Teacher Name  </span>
+															<span class="submit-date">Due on 31 Apr 2015  </span>
+															<span class="submit-status">Status : Done</span>
+														</div>
+												</div>
+											</li>
+										</ul>
 										
-										<tbody class="appendMeasuOrderCustomerList">
-											<!-- <tr>
-												<td>abc</td>
-												<td>cde</td>
-											</tr> -->
-										</tbody>
-									</table>
-								</div>
-							</div>
+										<div class="assign-search display-none">
+											<textarea></textarea><button type="button" class="btn btn-primary">SEARCH</button>
+										</div>
+									</div>
+								
+									<div id="" class="mb-st-common-list mb-st-assignment-completed mb-assignment-tab-content" style="display:none;">
+										<ul class="st-assigment">
+											<li>
+												<i class="fa fa-dot-circle-o status-circle"></i>
+												<div class="st-assign-detail">
+													<span class="assign-arrow"></span>
+														<div class="assign-header">
+															<span class="sub-name">Subject:Basic Design</span>
+															<span class="assign-date">Posted On 29 Apr 2015</span>
+														</div>
+														<p class="assign-title">True, but it is meant for designing on their platform, which has these types: Floating action <a href="" class="assign-attachment"><i class="fa fa-paperclip"></i></a></p>
+														<div class="st-assign-more-info">
+															<span class="teacher-name">By : Teacher Name  </span>
+															<span class="submit-date">Due on 31 Apr 2015  </span>
+															<span class="submit-status">Status : Done</span>
+														</div>
+												</div>
+											</li>
+											<li>
+												<i class="fa fa-dot-circle-o status-circle status-completed"></i>
+												<div class="st-assign-detail">
+													<span class="assign-arrow"></span>
+														<div class="assign-header">
+															<span class="sub-name">Subject:Basic Design</span>
+															<span class="assign-date">Posted On 29 Apr 2015</span>
+														</div>
+														<p class="assign-title">True, but it is meant for designing on their platform, which has these types: Floating action <a href="" class="assign-attachment"><i class="fa fa-paperclip"></i></a></p>
+														<div class="st-assign-more-info">
+															<span class="teacher-name">By : Teacher Name  </span>
+															<span class="submit-date">Due on 31 Apr 2015  </span>
+															<span class="submit-status">Status : Done</span>
+														</div>
+												</div>
+											</li>
+											<li>
+												<i class="fa fa-dot-circle-o status-circle status-pending"></i>
+												<div class="st-assign-detail">
+													<span class="assign-arrow"></span>
+														<div class="assign-header">
+															<span class="sub-name">Subject:Basic Design</span>
+															<span class="assign-date">Posted On 29 Apr 2015</span>
+														</div>
+														<p class="assign-title">True, but it is meant for designing on their platform, which has these types: Floating action <a href="" class="assign-attachment"><i class="fa fa-paperclip"></i></a></p>
+														<div class="st-assign-more-info">
+															<span class="teacher-name">By : Teacher Name  </span>
+															<span class="submit-date">Due on 31 Apr 2015  </span>
+															<span class="submit-status">Status : Done</span>
+														</div>
+												</div>
+											</li>
+										</ul>
+										<div class="assign-search display-none">
+											<textarea></textarea><button type="button" class="btn btn-primary">SEARCH</button>
+										</div>
+									</div>
+								
+									<div id="" class="mb-st-common-list mb-st-assignment-pending mb-assignment-tab-content" style="display:none;">
+										<ul class="st-assigment">
+											<li>
+												<i class="fa fa-dot-circle-o status-circle"></i>
+												<div class="st-assign-detail">
+													<span class="assign-arrow"></span>
+														<div class="assign-header">
+															<span class="sub-name">Subject:Basic Design</span>
+															<span class="assign-date">Posted On 29 Apr 2015</span>
+														</div>
+														<p class="assign-title">True, but it is meant for designing on their platform, which has these types: Floating action <a href="" class="assign-attachment"><i class="fa fa-paperclip"></i></a></p>
+														<div class="st-assign-more-info">
+															<span class="teacher-name">By : Teacher Name  </span>
+															<span class="submit-date">Due on 31 Apr 2015  </span>
+															<span class="submit-status">Status : Done</span>
+														</div>
+												</div>
+											</li>
+											<li>
+												<i class="fa fa-dot-circle-o status-circle status-completed"></i>
+												<div class="st-assign-detail">
+													<span class="assign-arrow"></span>
+														<div class="assign-header">
+															<span class="sub-name">Subject:Basic Design</span>
+															<span class="assign-date">Posted On 29 Apr 2015</span>
+														</div>
+														<p class="assign-title">True, but it is meant for designing on their platform, which has these types: Floating action <a href="" class="assign-attachment"><i class="fa fa-paperclip"></i></a></p>
+														<div class="st-assign-more-info">
+															<span class="teacher-name">By : Teacher Name  </span>
+															<span class="submit-date">Due on 31 Apr 2015  </span>
+															<span class="submit-status">Status : Done</span>
+														</div>
+												</div>
+											</li>
+											<li>
+												<i class="fa fa-dot-circle-o status-circle status-pending"></i>
+												<div class="st-assign-detail">
+													<span class="assign-arrow"></span>
+														<div class="assign-header">
+															<span class="sub-name">Subject:Basic Design</span>
+															<span class="assign-date">Posted On 29 Apr 2015</span>
+														</div>
+														<p class="assign-title">True, but it is meant for designing on their platform, which has these types: Floating action <a href="" class="assign-attachment"><i class="fa fa-paperclip"></i></a></p>
+														<div class="st-assign-more-info">
+															<span class="teacher-name">By : Teacher Name  </span>
+															<span class="submit-date">Due on 31 Apr 2015  </span>
+															<span class="submit-status">Status : Done</span>
+														</div>
+												</div>
+											</li>
+										</ul>
+										<div class="assign-search display-none">
+											<textarea></textarea><button type="button" class="btn btn-primary">SEARCH</button>
+										</div>
+									</div>
+								
+							</section>
 							
-							<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-								<button type="button" name="takeOrderCustomerDetails"
-									id="takeOrderCustomerDetails"
-									onclick="updateCustomerOrderDetails()"
-									class="btn st-bg-baby-pink">Submit</button>
-							</div>
-						</form>
-						<!-- </div> -->
+							<section id="#" class="mb-student-communication all-chats mb-student-tab-content" style="display:none;">
+								<div class="page_content" id="allChatsDiv" > 
+									<ul class="features_list_detailed all-chats-ul" >
+								  
+										<li onclick="loadChat();">
+											<div>
+												<div class="feat_small_icon">
+													<i class="fa fa-bell-o"></i>
+												</div>
+												<div class="feat_small_details">
+													<h5>Profile Photo Updated</h5>
+													<a href="#" class="ui-link">Update your pic instantly.</a>
+												</div>
+											
+												<div class="view_more">
+													<a href="#" class="ui-link-more">
+														<i class="fa fa-angle-double-right right-link"></i>
+													</a>
+												</div>
+											</div>	
+											<div class="time_detail">
+												<span class="time_sub">Time:00:00</span>
+												<span class="sub_person">By:Person Name</span>
+											</div>
+										</li> 
+									</ul>
+								</div>
+							</section>
+						</div>
+						
+						<div id="staff_homepage" class="home-dashboard display-none">
+							<div class="user-data"></div>
+							<div class="dynamic-data"></div>
+							<div class="other-data"></div>
+						</div>
 					</div>
 				</div>
 			</div>
-		</div>
-
-
-		<div id="notification-page" data-role="page">
-
-			<div data-role="content" class="more_content">
-				<div class="common-page-tab-heading bottom-border">Notifications</div>
-				<div class="page_content">
-					<ul class="features_list_detailed"></ul>
+			
+			
+			<div id="chat-page" data-role="page">
+                <div data-role="header" data-id="header" id="header" data-position="fixed" class="ui-header app-header-section">
+                	<h1>Chat</h1>
+                </div>
+                <div data-role="content" class="more_content" >   
+					<section id="oneToOneChatSection" class="mb-student-communication mb-student-tab-content"  style="display:none;">
+						<input type="hidden" class="eventId" />
+						<ul class="chat">
+							
+							<li class="msg-in">
+								<span class="avatar"><span></span><img src="img/avatars/avatar-male.png" alt=""></span>
+								<div class="message">
+									<div class="msg-txt">
+										<span class="arrow"></span>
+										<p class="msg-body">No data</p>
+									</div>
+									<div class="msg-detail">
+										<span class="st-sender name"></span>
+										<span class="st-sender msg-date pull-right"><i class="fa fa-clock-o"></i></span>
+									</div>
+								</div>							
+							</li>
+						</ul>
+					</section>
+				</div>
+				
+				<div data-role="footer" data-position="fixed" class="msg-send-conatiner">
+					<div id="navbar" data-role="navbar">
+                        <ul>
+                            <li>
+                            	<div class="msg-send">
+									<textarea class="commentBox"></textarea>
+									<button type="button" class="btn btn-primary" onclick="addCommentDetails();">SEND</button>
+								</div>
+                            </li>
+                        </ul>
+                    </div>
 				</div>
 			</div>
-		</div>
-
-		<div id="common-list-page" data-role="page">
-
-			<div data-role="content">
-				<div id="dynamicDataMain" class="dynamic-data-main">
-					<div class="dynamic-data-heading bottom-border"></div>
-
-					<div class="data-div">
-						<ul class="user_list_detailed mb-student-attendance-list"></ul>
+            
+            <div id="notification-page" data-role="page">
+                <div data-role="header" data-id="header" id="header" data-position="fixed" class="ui-header app-header-section">
+                	<h1>Notifications</h1>
+                </div>
+                <div data-role="content" class="more_content" >       
+                	<div class="common-page-tab-heading bottom-border">Notifications</div>         	
+					<div class="page_content"> 
+						<ul class="features_list_detailed"></ul>
 					</div>
+	          	</div>					     
+            </div>
+          
+            <div id="user-profile-page" data-role="page">
+                <div data-role="header" data-id="header" id="header" data-position="fixed" class="ui-header app-header-section">
+					<div class="ui-btn-left">
+						<!-- Back Button -->
+						<a href="#" data-rel="back" class="ui-btn ui-corner-all ui-icon-back ui-btn-icon-notext">Back</a>
+						&nbsp;
+						<!-- Menu Button -->
+						<a href="#leftPanel" class="ui-btn ui-corner-all ui-icon-bars ui-btn-icon-notext" title="Menu"></a>
+					</div>
+                    <h1>Profile</h1>
+					<a href="#rightPanel" class="ui-btn ui-corner-all ui-icon-gear ui-btn-icon-notext ui-btn-right"  title="Setting"> </a>
+                </div>
+                <div data-role="content" >                	
+					<div class="" >
+                		
+					</div>
+                </div>
+            </div>
+            
+            <div id="stan-students-list-page" data-role="page">
+                <div data-role="header" data-id="header" id="header" data-position="fixed" class="ui-header app-header-section">
+                    <h1></h1>
+                </div>
+                <div data-role="content" >   
+                	<div class="stan-div-students-details"> 
+    					<div class="page-tab-heading common-page-tab-heading bottom-border"></div>
+    					
+    					<div>
+							<ul class="user_list_detailed mb-student-attendance-list" id="markAttendanceUl" data-filter="true" data-filter-placeholder="Search.."></ul>
+						</div>	
+					</div>
+                </div>
+            </div>
+            
+            <div id="take-attendance-page" data-role="page">
+                <div data-role="header" data-id="header" id="header" data-position="fixed" class="ui-header app-header-section">
+                    <h1></h1>
+                </div>
+                <div data-role="content" >   
+                	<div class="stan-div-students-details"> 
+    					<div class="page-tab-heading common-page-tab-heading bottom-border"></div>
+    					<div class="attendance-date-div common-page-tab-heading bottom-border"></div>
+    					<div>
+							<ul class="user_list_detailed mb-student-attendance-list" id="markAttendanceUl" data-filter="true" data-filter-placeholder="Search.."></ul>
+						</div>	
+					</div>
+                </div>
+                <div data-role="footer" data-position="fixed">
+					<div id="navbar" data-role="navbar">
+                        <ul>
+                            <li><a id="saveUpdateStudAttendanceBtn" href="#" onclick="saveUpdateStudAttendance();" data-icon="" data-theme="b" class="app-link active" style="color: black;">Submit Attendance</a></li>
+                        </ul>
+                    </div>
 				</div>
-			</div>
-		</div>
-
-		<div id="data-entry" data-role="page">
-
-			<div data-role="content" id="addLogTimeContent">
-				<div>
-					<form id="dataEntryForm">
-						<div class="ui-field-contain">
-							<label for="Date">Date </label> <input type="text"
-								data-mini="true" data-role="datebox" id="logDate" name="logDate"
-								readonly="readonly"
-								data-options='{"mode": "calbox", "overrideDateFormat": "%Y-%m-%d"}'>
-						</div>
-
-						<div class="ui-field-contain time-input-div">
-							<label for="Time">Time</label> <input type="text"
-								data-mini="true" data-role="datebox" id="logTime" name="logTime"
-								readonly="readonly"
-								data-options='{"mode": "durationflipbox","overrideDurationOrder":["h","i"] ,"overrideDurationFormat": " %Dl:%DM "}'>
-						</div>
-
-						<div class="ui-field-contain">
-							<label for="Comment">Comment </label>
-							<textarea cols="" rows="4" name="logComment" id="logComment"
-								style="width: 65% !important;"></textarea>
-						</div>
-
-						<div class="ui-field-contain">
-							<label for="selectInput">selectInput </label> <select
-								name="selectInput" id="selectInput" data-mini="true">
-								<option value="1">1</option>
-								<option value="2">2</option>
-								<option value="3">3</option>
-								<option value="4">4</option>
-							</select>
-						</div>
-
-						<div class="ui-grid-a">
-							<div class="ui-block-a">
-								<input type="button" id="submitData" value="submit" />
-							</div>
-							<div class="ui-block-b">
-								<input type="button" id="nackBtn" value="Back" />
-							</div>
-						</div>
-					</form>
-				</div>
-			</div>
-		</div>
-
-	</div>
-
-<!-- 	<div id="progressBarDiv" style="display: none;">
-		<progress id="progressBarTag" value="" max="100" style="display: none;"></progress>
-	</div>
-	 -->
-</body>
+            </div>
+            
+            <div id="common-user-list-page" data-role="page">
+                <div data-role="header" data-id="header" id="header" data-position="fixed" class="ui-header app-header-section">
+                    <h1></h1>
+                </div>
+                <div data-role="content" >   
+                	<div class="common-user-list-details"> 
+    					<div class="page-tab-heading common-page-tab-heading bottom-border"></div>
+    					<div>
+							<ul class="user_list_detailed mb-student-attendance-list" id="" data-filter="true" data-filter-placeholder="Search.."></ul>
+						</div>	
+					</div>
+                </div>
+            </div>
+            
+            <div id="change-password-page" data-role="page">
+                <div data-role="header" data-id="header" id="header" data-position="fixed" class="ui-header app-header-section">
+                    <h1>Change Password</h1>
+                </div>
+                <div data-role="content" >                	
+					<div class="" >
+                		Change Password
+					</div>
+                </div>
+            </div>
+			
+			<div id="common-page" data-role="page">
+                <div data-role="header" data-id="header" id="header" data-position="fixed" class="ui-header app-header-section">
+                    <h1 class="common-page-heading"></h1>
+                </div>
+                
+                <div data-role="content" >
+                	<div id="commonTab1" class="common-page-tab1" >
+                			<div class="common-page-tab-heading bottom-border"></div>
+							
+							<div class="mb-st-assignment-list mb-assignment-tab-content" id="">
+								<ul class="st-assigment"></ul>
+							</div>	
+							
+						    <div class="table-main-div">
+						    	<ul class="st-assigment"></ul>
+								<!-- 
+								<div class="table-div">
+								    <div class="date-time-details">
+								        Date:<span class="">2015-10-13</span>
+								        <span class="pull-right">1:03 hrs</span>
+								    </div>
+								    <div class="general-details">
+								         <div class="ui-grid-a my-breakpoint">
+								             <div class="ui-block-a">
+								                <div class="name">Book Name 101: A Guide to Modern and Contemporary Indian Artists</div>
+								             </div>
+								            <div class="ui-block-b text-align-right">
+								               <span class="link-custom-spam">
+								                 <a href="#">View</a>
+								               </span>
+								            </div>
+								         </div>
+								         <div class="more-details-main ">
+								              <div class="text-align-right">
+								                  <a class="link" href="#" onclick="moreDetails(this);">Show Details</a>
+								              </div>
+								              <div style="display: none;" class="more-details moreDetailsDiv12">
+								                     <p class="other-details">Other: <span>Other Details.</span></p>
+								               </div>
+								          </div>
+								      </div>
+								  </div>         
+								      -->        
+ 							</div>
+					</div>
+                </div>
+            </div>
+            
+            <div id="common-list-page" data-role="page">
+                <div data-role="header" data-id="header" id="header" data-position="fixed" class="ui-header app-header-section">
+                    <h1 class="common-page-heading"></h1>
+                </div>
+                
+                <div data-role="content" >
+                	<div id="dynamicDataMain" class="dynamic-data-main" >
+                			<div class="dynamic-data-heading bottom-border"></div>
+							
+						    <div class="data-div">
+						    	<ul class="user_list_detailed mb-student-attendance-list"></ul>
+ 							</div>
+					</div>
+                </div>
+            </div>
+            
+            <div id="show-my-subjects" data-role="page">
+                <div data-role="header" data-id="header" id="header" data-position="fixed" class="ui-header app-header-section">
+                    <h1 class="page-heading"></h1>
+                </div>
+                
+                <div data-role="content" >
+                	<div id="dynamicDataMain" class="dynamic-data-main" >
+                			<div class="dynamic-data-heading common-page-tab-heading bottom-border"></div>
+							
+						    <div class="data-div"></div>
+					</div>
+                </div>
+            </div>
+            
+            <div id="show-homework-data" data-role="page">
+                <div data-role="header" data-id="header" id="header" data-position="fixed" class="ui-header app-header-section">
+                    <h1 class="page-heading"></h1>
+                </div>
+                
+                <div data-role="content" >
+                	<div id="dynamicDataMain" class="dynamic-data-main" >
+                			<div class="dynamic-data-heading common-page-tab-heading bottom-border"></div>
+                			<div class="dynamic-date-div common-page-tab-heading bottom-border"></div>
+							
+						    <div class="data-div"></div>
+					</div>
+                </div>
+            </div>
+            
+            <div id="data-entry-homework" data-role="page">
+                <div data-role="header" data-id="header" id="header" data-position="fixed" class="ui-header app-header-section">
+                    <h1>Homework</h1>
+                </div>
+                
+                <div data-role="content" id="data-entry-homework-content">
+                    <div>
+                    	<form id="dataEntryHomeworkForm">
+		                    <div class="common-page-tab-heading bottom-border">
+		                    	Class:<span class="curr-class">5 A </span>
+		                    </div>
+		                    <div class="show-data">
+							    <label for="">Assign Date:Today </label>
+		                    </div>
+		                    
+		                    <input type="hidden" name="studhwId" id="studhwId" value="" ></input>
+		                    <input type="hidden" name="staffSelectedSDID" id="staffSelectedSDID" value=""></input>
+		                    
+		                    <div class="ui-field-contain">
+							    <label for="">Submission After(in days) </label>
+							    <input type="number" name="subAfterInDays" id="subAfterInDays" value="1" required ></input>
+		                    </div>
+		                    
+		                    <div class="ui-field-contain">
+		                    	<label for="selectSubject">Subject</label>
+		                    	<select name="selectSubject" id="selectSubject" data-mini="true" required>                    
+		                        </select>
+		                    </div> 
+		                    
+		                    <div class="ui-field-contain">
+							    <label for="Comment">Homework Text </label>
+							    <textarea cols="" rows="4" name="homeworkText" id="homeworkText" required ></textarea>
+		                    </div>     
+		                    
+		                    <div class="ui-grid-a">
+		                    	<a href="#" data-icon="" data-theme="b" class="app-link active ui-link ui-btn ui-btn-b" 
+						      		onclick="saveUpdateHomeworkData();" style="color: black;">Submit
+						      	</a>
+						    </div>
+						</form>	    
+                	</div>
+                	
+                </div>	
+				
+            </div>
+			
+            <div id="data-entry" data-role="page">
+                <div data-role="header" data-id="header" id="header" data-position="fixed" class="ui-header app-header-section">
+                    <h1>Data Entry</h1>
+                </div>
+                
+                <div data-role="content" id="addLogTimeContent">
+                    <div>
+                    	<form id="dataEntryForm">
+		                    <div class="ui-field-contain">
+							    <label for="Date">Date </label>
+							    <input type="text" data-mini="true" data-role="datebox" id="logDate" name="logDate" readonly="readonly"
+							    	data-options='{"mode": "calbox", "overrideDateFormat": "%Y-%m-%d"}' >
+		                    </div>
+		                    
+		                     <div class="ui-field-contain time-input-div">	
+								<label for="Time">Time</label>
+		                    	<input type="text" data-mini="true" data-role="datebox" id="logTime" name="logTime" readonly="readonly"
+							    	data-options='{"mode": "durationflipbox","overrideDurationOrder":["h","i"] ,"overrideDurationFormat": " %Dl:%DM "}' >
+		                    </div>
+		                    
+		                    <div class="ui-field-contain">
+							    <label for="Comment">Comment </label>
+							    <textarea cols="" rows="4" name="logComment" id="logComment" style="width: 65% !important;"></textarea>
+		                    </div>     
+		                    
+		                    <div class="ui-field-contain">
+		                    	<label for="selectInput">selectInput </label>
+		                    	<select name="selectInput" id="selectInput" data-mini="true" >                    
+		                    		<option value="1">1</option>
+		                            <option value="2">2</option>
+		                            <option value="3">3</option>
+		                            <option value="4">4</option>
+		                        </select>
+		                    </div> 
+		                    
+		                    <div class="ui-grid-a">
+						      <div class="ui-block-a" ><input type="button" id="submitData" value="submit" /></div>
+						      <div class="ui-block-b" ><input type="button" id="nackBtn" value="Back" /></div>
+						    </div>
+						</form>	    
+                	</div>
+                	
+                </div>	
+				
+            </div>
+            
+        </div>
+		
+    </body>
 </html>
