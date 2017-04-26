@@ -1,15 +1,15 @@
 <?xml version='1.0' encoding='utf-8'?>
-<widget id="com.stavyah.tailorranitesting" 
-version="1.1.6"
-versionCode = "17" 
+<widget id="com.stavyah.edit" 
+version="1.0.8"
+versionCode = "9" 
 xmlns="http://www.w3.org/ns/widgets" 
 xmlns:gap   = "http://phonegap.com/ns/1.0" 
 xmlns:cdv="http://cordova.apache.org/ns/1.0">
-    <name>Tailorrani</name>
+    <name>EDIT-IMS</name>
     <description>
-        An application for TailorRani Web Application.
+        An application for EDIT Web App for Parents, Students and Teachers.
     </description>
-    <author email="mangesh@stavyah.com" href="http://www.stavyah.com">
+    <author email="mangesh@stavyah.com" href="http://www.edit-ims.com">
         Stavyah Technologies LLP
     </author>
     
@@ -21,26 +21,27 @@ xmlns:cdv="http://cordova.apache.org/ns/1.0">
     <preference name="SplashScreen" value="screen" />
 	<preference name="SplashScreenDelay" value="3000" />
 	<preference name="FadeSplashScreen" value="false"/>
-	<preference name="AndroidPersistentFileLocation" value="Internal" />
-	<preference name="orientation" value="landscape"/>
-	<!-- <preference name="iosPersistentFileLocation" value="Library" /> -->
-	<!-- <preference name="BackupWebStorage" value="none" /> -->
-	<!-- Avoid iCloud backup -->
-	<!-- <gap:plugin name="org.apache.cordova.splashscreen"/> -->
+    
+  	<gap:plugin name="org.apache.cordova.splashscreen"/>
   	
-  	<plugin name="cordova-plugin-whitelist" spec="1.3.0" source="npm" />
-	<plugin name="cordova-plugin-splashscreen" source="npm" spec="4.0.0" />
-	<plugin name="cordova-plugin-network-information" source="npm" spec="1.3.0" />
-	<plugin name="cordova-plugin-file" source="npm" spec="4.3.0" />
-	<plugin name="cordova-plugin-file-transfer" source="npm" spec="1.6.0" />
-	<plugin name="cordova-plugin-device" source="npm" spec="1.1.4"/>
-	<plugin name="cordova-plugin-appversion" source="npm" spec="1.0.0"/>
-	
+  	<plugin name="cordova-plugin-whitelist" spec="1.3.1" source="npm" />
 	<plugin name="cordova-sqlite-evcore-extbuild-free" source="npm" spec="0.8.2" />
 	<plugin name="cordova-plugin-dialogs" source="npm" spec="1.3.0" />
-	<!-- <plugin name="phonegap-plugin-push" source="npm" spec="2.0.0-rc2" /> -->
-	<plugin name="cordova-plugin-pause-resume-download" source="npm" spec="1.5.5"/>
+	<plugin name="cordova-plugin-network-information" source="npm" spec="1.3.0" />
+	<plugin name="cordova-plugin-splashscreen" spec="4.0.2" source="npm" />
+	<!-- <plugin name="com.phonegap.plugins.pushplugin" spec="2.4.0" source="pgb" /> -->
+	<plugin name="ktekosi-phonegap-plugin-push" source="npm"  spec="1.8.0">
+        <variable name="SENDER_ID" value="329763220550" />
+    </plugin>
+	  	
+	<!-- 
+	<plugin name="io.litehelpers.cordova.sqlite" source="pgb" spec="0.7.10" />
+	<plugin name="org.apache.cordova.dialogs" source="pgb" spec="0.2.10" />
+	<plugin name="org.apache.cordova.network-information" source="pgb" spec="0.2.12" />
+	 -->
 	
+	<!--     <access origin="*" /> -->
+    <!-- New Addition 04Feb216 8:20pm -->
     <access origin="*"/>
     <allow-navigation href="*" />
     
@@ -56,12 +57,35 @@ xmlns:cdv="http://cordova.apache.org/ns/1.0">
     <platform name="android">
         <allow-intent href="market:*" />
         <preference name="android-minSdkVersion" value="14"/> 
- 		<preference name="android-targetSdkVersion" value="25"/>
+ 		<preference name="android-targetSdkVersion" value="22"/>
  		
  		<!-- Icons By Resolutions -->
- 		<icon src="res/android/app_icon_ldpi.png" qualifier="ldpi" />
-        <icon src="res/android/app_icon_mdpi.png" qualifier="mdpi" />
-        <icon src="res/android/app_icon_hdpi.png" qualifier="hdpi" />
-        <icon src="res/android/app_icon_xhdpi.png" qualifier="xhdpi" />
+ 		<icon src="res/android/app_icon_ldpi.png" platform="android" qualifier="ldpi" />
+        <icon src="res/android/app_icon_mdpi.png" platform="android" qualifier="mdpi" />
+        <icon src="res/android/app_icon_hdpi.png" platform="android" qualifier="hdpi" />
+        <icon src="res/android/app_icon_xhdpi.png" platform="android" qualifier="xhdpi" />
+ 		
+ 		<!-- Splash Screen By Resolutions -->
+ 		<splash  src="res/android/splash_land_hdpi.png" platform="android" qualifier="land-hdpi" />
+ 		<splash  src="res/android/splash_land_ldpi.png" platform="android" qualifier="land-ldpi" />
+        <splash  src="res/android/splash_land_mdpi.png" platform="android" qualifier="land-mdpi" />
+        <splash  src="res/android/splash_land_xhdpi.png" platform="android" qualifier="land-xhdpi" />
+        
+        <splash  src="res/android/splash_port_hdpi.png" platform="android" qualifier="port-hdpi" />
+ 		<splash  src="res/android/splash_port_ldpi.png" platform="android" qualifier="port-ldpi" />
+        <splash  src="res/android/splash_port_mdpi.png" platform="android" qualifier="port-mdpi" />
+        <splash  src="res/android/splash_port_xhdpi.png" platform="android" qualifier="port-xhdpi" />
+         
+        <splash src="res/android/splash_default.png" />
+         <!-- 
+        <icon src="res/app_icon.png"/>
+         -->
+         
     </platform>
+    <!-- 
+    <platform name="ios">
+        <allow-intent href="itms:*" />
+        <allow-intent href="itms-apps:*" />
+    </platform>
+     -->
 </widget>
